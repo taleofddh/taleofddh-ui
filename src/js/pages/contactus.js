@@ -25,7 +25,7 @@ function ContactUs(props) {
                         <div className="contactuscontainer">
                             <div className="fieldcontainer">
                                 <p className="contactus"><label>Want to get in touch?</label></p>
-                                <p className="contactus"><label>Please use the form below or you can email us at <a href="mailto:helpdesk@taleofddh.in" target="blank">helpdesk@taleofddh.in</a></label></p>
+                                <p className="contactus"><label>Please use the form below or you can email us at <a href="mailto:helpdesk@taleofddh.com" target="blank">helpdesk@taleofddh.com</a></label></p>
                             </div>
                         </div>
                         <Enquiry api={api} type="GEQ" source={source} />

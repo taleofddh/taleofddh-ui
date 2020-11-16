@@ -7,10 +7,7 @@
     "url": "git@github.com:devadyuti/taleofddh-ui.git"
   },
   "keywords": [
-    "rest",
-    "hateoas",
-    "spring",
-    "data",
+    "web",
     "react"
   ],
   "author": "Devadyuti Das",

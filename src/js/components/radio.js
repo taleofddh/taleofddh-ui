@@ -1,7 +1,5 @@
-'use strict';
-
+import React from 'react';
 import PropTypes from 'prop-types';
-const React = require('react');
 import '../../scss/components/radio.scss'
 import {useState} from "react";
 

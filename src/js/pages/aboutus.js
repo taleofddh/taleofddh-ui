@@ -48,7 +48,7 @@ function AboutUs(props) {
 function Story(props) {
     let image =
         <div className="storyimage">
-            <img src={'https://media.taleofddh.in/images/' + source + '/' + props.story.image} />
+            <img src={'https://media.taleofddh.com/images/' + source + '/' + props.story.image} />
         </div>
 
     let text =

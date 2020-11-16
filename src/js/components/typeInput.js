@@ -1,7 +1,5 @@
-'use strict';
-
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import '../../scss/components/typeinput.scss'
 
 function TypeInput(props) {

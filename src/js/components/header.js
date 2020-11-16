@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {NavLink, Link} from "react-router-dom";
 import {getSessionCookie, getSessionStorage} from "../common/session";
@@ -82,7 +80,7 @@ function Header(props) {
                 <div className="header">
                     <div className="serveaselogo">
                         <NavLink to="/">
-                            <img src="/images/taleofddh-banner.png" />
+                            <img src="images/taleofddh-banner.png" />
                         </NavLink>
                     </div>
                     <div className="signin">

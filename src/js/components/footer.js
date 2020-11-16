@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { useState } from 'react';
 import {NavLink, Link} from "react-router-dom";
 import '../../scss/components/footer.scss'
@@ -39,7 +37,7 @@ function Footer(props) {
                         <a href="https://www.linkedin.com/in/devadyuti-das-48955012/" target="_blank"><img src="/images/icon-linkedin.png" className="socialmediapiccontrol" alt="LinkedIn" /></a>
                     </div>
                     <div className="copyright">
-                        &copy; 2020 taleofddh.in All rights reserved.
+                        &copy; 2020 taleofddh.com All rights reserved.
                     </div>
                     <div className="copyright">
                         Release v3.0.0
