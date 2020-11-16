@@ -1,0 +1,9 @@
+export const ADD_ARTICLE = 'ADD_ARTICLE';
+export const BASIC_ACTION = 'BASIC_ACTION';
+export const FETCH_COUNTRY_SERVEASES = 'FETCH_COUNTRY_CODES';
+export const ADD_COUNTRY_CODE = 'ADD_COUNTRY_CODE';
+export const FETCH_CATEGORY = 'FETCH_CATEGORY';
+export const FUNNY_QUOTE_URL = 'https://www.brainyquote.com/link/quotefu.js';
+export const GEOLOCATION_URL = 'https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/';
+export const GTAG_TRACKING_ID = 'UA-180309778-1';
+export const MEDIA_HOST = 'https://taleofddh.s3-eu-west-1.amazonaws.com/';

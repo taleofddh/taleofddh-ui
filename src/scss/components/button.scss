@@ -1,0 +1,33 @@
+@import "../common/common";
+
+.button {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    border: 1px solid $color-crete;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    background-color: $color-atlantis;
+    background-image: linear-gradient(to right, $color-crete , $color-atlantis);
+    color: $color-white;
+    font-family: Open Sans, Sans-Serif;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 15px;
+    >span {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+    .playdown {
+        background-color: $color-white-dark;
+        color: $color-abbey;
+        opacity: 0.8;
+    }
+}
+

@@ -1,0 +1,86 @@
+@import "../common/common";
+
+.thumbnailframe {
+    border: 0px solid $color-tan;
+    width: 100%;
+    height: auto;
+    position: relative;
+    background-color: $color-transparent;
+    padding: 5px 0px 0px;
+    float: left;
+}
+
+.thumbnailgroup {
+    margin-top: 5px;
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+}
+
+.thumbnailitem {
+    background-color: $color-atlantis;
+    padding: 10px;
+    width: calc(25% - 40px);
+    margin: 0px 10px 10px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+
+.thumbnail {
+    display: block;
+    min-height: 200px;
+}
+
+.thumbnailpiccontrol {
+    width: 200px;
+    height: 200px;
+}
+
+.thumbnaulheader {
+    color: $color-white;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0px;
+    position: relative;
+    margin-top: 0px;
+    top: 150px;
+    font-size: 1.2rem;
+}
+
+@media screen and (max-width: 800px) {
+    /* comes into effect for screens between 321 and 480 pixels (inclusive) */
+    .categoryquotegroup {
+        width: 80%;
+        margin-left: 10%;
+    }
+    .categoryquotepiccontrol {
+        width: 45px;
+        height: 45px;
+    }
+    .categoryquoteheader {
+        font-size: 0.85rem;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    .thumbnailgroup {
+        width: 90%;
+        margin-left: 5%;
+    }
+    .thumbnailpiccontrol {
+        width: 150px;
+        height: 150px;
+    }
+}
