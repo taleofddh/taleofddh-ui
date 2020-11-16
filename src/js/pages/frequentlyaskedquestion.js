@@ -8,7 +8,7 @@ import {useApi, useFetch} from '../common/hook'
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import 'scss/pages/frequentlyaskedquestion.scss';
+import '../../scss/pages/frequentlyaskedquestion.scss';
 
 const pagetitle = 'Frequently Asked Questions'
 const source = 'frequently-asked-questions';

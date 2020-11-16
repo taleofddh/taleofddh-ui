@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import 'scss/components/label.scss'
+import '../../scss/components/label.scss'
 
 function Label(props) {
 

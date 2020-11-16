@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import 'scss/components/select.scss';
+import '../../scss/components/select.scss';
 
 function Select(props) {
     const [focused, setFocused] = useState(false);

@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import PropTypes from "prop-types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {ruler} from "../common/common";
-import 'scss/components/tile.scss';
+import '../../scss/components/tile.scss';
 
 function Tile(props) {
     const [focused, setFocused] = useState(false);

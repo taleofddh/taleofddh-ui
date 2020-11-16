@@ -5,7 +5,7 @@ import {NavLink, Link} from "react-router-dom";
 import {getSessionCookie, getSessionStorage} from "../common/session";
 import Icon from "../common/icon";
 import FunnyQuote from "./funnyquote";
-import 'scss/components/header.scss'
+import '../../scss/components/header.scss'
 
 function Header(props) {
     let count = 0;

@@ -2,7 +2,7 @@
 
 import React, {useState } from 'react';
 import PropTypes from 'prop-types';
-import 'scss/components/textarea.scss'
+import '../../scss/components/textarea.scss'
 
 function TextArea(props) {
     const [focused, setFocused] = useState(false);

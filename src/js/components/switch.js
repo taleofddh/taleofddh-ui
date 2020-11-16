@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import ReactSwitch from 'react-switch';
-import 'scss/components/switch.scss'
+import '../../scss/components/switch.scss'
 
 function Switch(props) {
     const [checked, setChecked] = useState(!!props.initialState);

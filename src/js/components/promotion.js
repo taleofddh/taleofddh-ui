@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import Title from "./title";
 import {useApi, useFetch} from "../common/hook";
 import Loader from "./loader";
-import 'scss/components/slider.scss';
+import '../../scss/components/slider.scss';
 
 function Promotion(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');

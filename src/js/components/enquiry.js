@@ -9,8 +9,8 @@ import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import TextArea from "../components/textarea";
 import Button from "../components/button";
-import 'scss/components/enquiry.scss';
-import 'scss/components/popup.scss';
+import '../../scss/components/enquiry.scss';
+import '../../scss/components/popup.scss';
 
 function Enquiry(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');

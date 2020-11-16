@@ -4,7 +4,7 @@ import React from "react";
 import {useRequest} from "../common/hook";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import 'scss/pages/acknowledgement.scss';
+import '../../scss/pages/acknowledgement.scss';
 
 function Acknowledgement(props) {
     const [data, loading] = useRequest(

@@ -7,7 +7,7 @@ import {useFetch} from "../common/hook";
 import {getQuoteOfTheDay} from "../common/common";
 import {FUNNY_QUOTE_URL} from "../common/constants";
 import Loader from './loader';
-import 'scss/components/header.scss'
+import '../../scss/components/header.scss'
 
 function FunnyQuote(props) {
     const [funnyQuote, funnyQuoteLoading] = useFetch(FUNNY_QUOTE_URL, 'funnyQuote');

@@ -7,7 +7,7 @@ import {useApi, useFetch} from '../common/hook'
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import 'scss/pages/privacypolicy.scss';
+import '../../scss/pages/privacypolicy.scss';
 
 const pagetitle = 'Privacy Policy';
 const source = 'privacy-policy';

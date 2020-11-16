@@ -9,7 +9,7 @@ import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import Thumbnail from "../components/thumbnail";
-import 'scss/pages/album.scss';
+import '../../scss/pages/album.scss';
 
 const pagetitle = 'Album'
 const source = 'album';

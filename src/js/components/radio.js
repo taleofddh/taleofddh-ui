@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 const React = require('react');
-import 'scss/components/radio.scss'
+import '../../scss/components/radio.scss'
 import {useState} from "react";
 
 function Radio(props) {

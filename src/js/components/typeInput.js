@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import 'scss/components/typeinput.scss'
+import '../../scss/components/typeinput.scss'
 
 function TypeInput(props) {
     const [focused, setFocused] = useState(false);

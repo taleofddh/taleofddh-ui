@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import Collapse, { Panel } from 'rc-collapse';
-import 'scss/components/collapsetext.scss';
+import '../../scss/components/collapsetext.scss';
 
 const arrowPath = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88' +
     '.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.' +

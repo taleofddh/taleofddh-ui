@@ -6,7 +6,7 @@ import Button from "./button";
 import Label from "./label";
 import Radio from "./radio";
 import SubscriptionAcknowledgement from "./subscriptionacknowledgement";
-import 'scss/components/stayconnected.scss';
+import '../../scss/components/stayconnected.scss';
 
 function StayConnected(props) {
     let additionalQueryValues = [];

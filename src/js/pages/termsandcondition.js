@@ -7,7 +7,7 @@ import {useApi, useFetch} from '../common/hook'
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import 'scss/pages/termsandcondition.scss';
+import '../../scss/pages/termsandcondition.scss';
 
 const pagetitle = 'Terms & Conditions';
 const source = 'terms-conditions';

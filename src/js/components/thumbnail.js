@@ -5,7 +5,7 @@ import 'react-app-polyfill/stable';
 import React from 'react';
 import { MEDIA_HOST} from "../common/constants";
 import {useApi, useFetch, useMediaQuery} from "../common/hook";
-import 'scss/components/thumbnail.scss';
+import '../../scss/components/thumbnail.scss';
 
 function Thumbnail(props) {
 

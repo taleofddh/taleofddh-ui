@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import 'scss/components/checkbox.scss'
+import '../../scss/components/checkbox.scss'
 
 function CheckBox(props) {
     const [focused, setFocused] = useState(false);

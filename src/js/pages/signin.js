@@ -7,7 +7,7 @@ import {useApi} from "../common/hook";
 import Title from "../components/title";
 import MetaTag from "../components/metatag";
 import Login from "../components/login";
-import 'scss/pages/signin.scss';
+import '../../scss/pages/signin.scss';
 
 const pagetitle = 'Sign in';
 const source = 'sign-in';

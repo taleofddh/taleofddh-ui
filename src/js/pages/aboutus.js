@@ -8,7 +8,7 @@ import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import StayConnected from "../components/stayconnected";
-import 'scss/pages/aboutus.scss';
+import '../../scss/pages/aboutus.scss';
 
 const pagetitle = 'About Us'
 const source = 'about-us';

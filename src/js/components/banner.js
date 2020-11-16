@@ -3,7 +3,7 @@
 import React from 'react';
 import {NavLink, Link} from "react-router-dom";
 import {getSessionCookie, getSessionStorage} from "../common/session";
-import 'scss/components/banner.scss'
+import '../../scss/components/banner.scss'
 
 function Banner(props) {
     let count = 0;

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {Link, NavLink} from "react-router-dom";
 import { slide as Menu } from 'react-burger-menu';
 import Icon from "../common/icon";
-import 'scss/components/responsivenavigation.scss';
+import '../../scss/components/responsivenavigation.scss';
 
 function ResponsiveNavigation(props) {
     const [menuOpen, setMenuOpen] = useState(false);

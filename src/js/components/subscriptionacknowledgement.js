@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import {useApi, useSubscription} from "../common/hook";
 import Loader from "./loader";
-import 'scss/components/stayconnected.scss';
+import '../../scss/components/stayconnected.scss';
 
 function SubscriptionAcknowledgement(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');

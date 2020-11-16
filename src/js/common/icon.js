@@ -1,5 +1,5 @@
 import React from "react";
-import 'scss/common/icon.scss';
+import '../../scss/common/icon.scss';
 
 function Icon(props) {
     let icon;

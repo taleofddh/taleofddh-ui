@@ -7,7 +7,7 @@ import {useApi} from '../common/hook'
 import Title from "../components/title";
 import MetaTag from "../components/metatag";
 import {NavLink} from "react-router-dom";
-import 'scss/pages/error.scss';
+import '../../scss/pages/error.scss';
 const pagetitle = 'Taleofddh Page Not Found';
 const source = 'error';
 

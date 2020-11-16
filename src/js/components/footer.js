@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import {NavLink, Link} from "react-router-dom";
-import 'scss/components/footer.scss'
+import '../../scss/components/footer.scss'
 
 function Footer(props) {
     const [showTermsAndConditionsPopup, setTermsAndConditionsPopup] = useState(false);

@@ -3,7 +3,7 @@
 import React from 'react';
 import {Link, NavLink} from "react-router-dom";
 import Icon from "../common/icon";
-import 'scss/components/navigation.scss'
+import '../../scss/components/navigation.scss'
 
 function Navigation(props) {
     let menus = props.menus.map((item) => {

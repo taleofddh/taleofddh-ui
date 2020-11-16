@@ -8,7 +8,7 @@ import { useApi} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import Button from "../components/button";
-import 'scss/components/login.scss';
+import '../../scss/components/login.scss';
 
 function Login(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');

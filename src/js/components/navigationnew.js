@@ -4,7 +4,7 @@ import React from 'react';
 import {Link, NavLink} from "react-router-dom";
 import PropTypes from 'prop-types';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
-import 'scss/components/navigation.scss';
+import '../../scss/components/navigation.scss';
 
 function Navigation(props) {
     return (

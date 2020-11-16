@@ -6,7 +6,7 @@ import React from 'react';
 import Title from "../components/title";
 import Enquiry from "../components/enquiry";
 import MetaTag from "../components/metatag";
-import 'scss/pages/contactus.scss';
+import '../../scss/pages/contactus.scss';
 import {useApi} from "../common/hook";
 
 const pagetitle = 'Contact Us';

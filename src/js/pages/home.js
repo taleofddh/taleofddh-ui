@@ -20,7 +20,7 @@ import Navigation from "../components/navigation";
 import Banner from "../components/banner";
 import Promotion from "../components/promotion";
 import StayConnected from "../components/stayconnected";
-import 'scss/pages/home.scss';
+import '../../scss/pages/home.scss';
 
 const source = 'home';
 

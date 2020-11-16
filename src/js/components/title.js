@@ -1,7 +1,7 @@
 'use strict';
 
 import React  from 'react';
-import 'scss/components/title.scss'
+import '../../scss/components/title.scss'
 import countries from "../common/countries";
 
 function Title(props) {

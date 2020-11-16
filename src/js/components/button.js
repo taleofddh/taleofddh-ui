@@ -1,8 +1,8 @@
 'use strict';
 
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import 'scss/components/button.scss'
+import PropTypes from 'prop-types';
+import '../../scss/components/button.scss'
 
 function Button(props) {
     const [focused, setFocused] = useState(false);
