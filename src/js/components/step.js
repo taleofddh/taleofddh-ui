@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Steps, { Step } from 'rc-steps';
 import '../../scss/components/step.scss';

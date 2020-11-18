@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Link, NavLink} from "react-router-dom";
 import Icon from "../common/icon";

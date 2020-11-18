@@ -1,8 +1,7 @@
-'use strict';
-
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React from 'react';
+import {MEDIA_HOST} from "../common/constants";
 import {useApi, useFetch, useMediaQuery} from '../common/hook'
 import Title from "../components/title";
 import Loader from "../components/loader";

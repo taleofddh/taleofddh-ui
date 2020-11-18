@@ -1,5 +1,3 @@
-'use strict';
-
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import '../../scss/components/select.scss';

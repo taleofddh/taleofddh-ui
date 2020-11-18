@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {useEffect, useState} from 'react';
 import TypeInput from "./typeInput";
 import Button from "./button";

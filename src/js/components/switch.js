@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {useState} from 'react';
 import ReactSwitch from 'react-switch';
 import '../../scss/components/switch.scss'

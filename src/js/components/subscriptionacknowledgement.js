@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {useEffect, useState} from 'react';
 import {useApi, useSubscription} from "../common/hook";
 import Loader from "./loader";

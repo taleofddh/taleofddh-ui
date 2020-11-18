@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {useState} from 'react';
 import Collapse, { Panel } from 'rc-collapse';
 import '../../scss/components/collapsetext.scss';
