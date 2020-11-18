@@ -12,10 +12,10 @@ import '../../scss/pages/termsandcondition.scss';
 const pagetitle = 'Terms & Conditions';
 const source = 'terms-conditions';
 
-function TermsAndCondition(props) {
+function TermsAndConditions(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [data, loading] = useFetch(
-        api + '/core/termsAndConditionList'
+        api + '/core/termsAndConditionsList'
     );
 
     return (
@@ -74,4 +74,4 @@ function Term(props) {
     )
 }
 
-export default TermsAndCondition;
+export default TermsAndConditions;

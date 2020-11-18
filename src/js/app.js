@@ -23,7 +23,7 @@ import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
 import Album from "./pages/album";
-import TermsAndCondition from "./pages/termsandcondition";
+import TermsAndConditions from "./pages/termsandconditions";
 import PrivacyPolicy from "./pages/privacypolicy";
 import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
 import Loader from "./components/loader";
@@ -141,7 +141,7 @@ function App(props) {
                       />
                       <Route
                           exact path="/terms-conditions"
-                          render={(props) => <TermsAndCondition {...props} api={api} />}
+                          render={(props) => <TermsAndConditions {...props} api={api} />}
                       />
                       <Route
                           exact path="/privacy-policy"
