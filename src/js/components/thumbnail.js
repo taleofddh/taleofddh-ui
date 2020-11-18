@@ -15,7 +15,7 @@ function Thumbnail(props) {
         <ul className="thumbnailgroup">
             {props.pictures.map((item, index) => (
                 <li className="thumbnailitem">
-                    <div className="thumbnail" style ={{backgroundImage: 'url("' + MEDIA_HOST + 'images/thumbnail/' + item.titlePhoto.path + '/' + item.titlePhoto.name + '.jpg")', backgroundPositionX: 'center',
+                    <div className="thumbnail" style ={{backgroundImage: 'url("' + MEDIA_HOST + '/images/thumbnail/' + item.titlePhoto.path + '/' + item.titlePhoto.name + '.jpg")', backgroundPositionX: 'center',
                         backgroundPositionY: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
                         <p className="thumbnaulheader">
                             {item.name}
