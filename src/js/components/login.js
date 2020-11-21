@@ -13,27 +13,27 @@ function Login(props) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const [form, setForm] = useState({
-        username : '',
+        email : '',
         password : ''
     });
     const [errors, setErrors] = useState({
-        username : 'Username is not valid',
+        email : 'Email is not valid',
         password : 'Password is not valid'
     });
 
     const handleInputChange = (changeEvent) => {
         const name = changeEvent.target.name;
         const value = changeEvent.target.value;
-        const usernameRegex = RegExp('^[A-Za-z0-9 ]{1,20}$');
+        const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
         const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
         let formErrors = errors;
 
         switch (name) {
-            case 'username':
-                formErrors.username =
-                    value.match(usernameRegex)
+            case 'email':
+                formErrors.email =
+                    value.match(emailRegex)
                         ? ''
-                        : 'Username is not valid';
+                        : 'Email is not valid';
                 break;
             case 'password':
                 formErrors.password =
@@ -85,16 +85,16 @@ function Login(props) {
                 <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"
-                                   name="username"
-                                   label="Username"
-                                   type="text"
+                                   name="email"
+                                   label="Email"
+                                   type="email"
                                    disabled={false}
                                    required={true}
                                    maxLength={50}
                                    initialValue=""
-                                   value={form.username}
+                                   value={form.email}
                                    placeHolder=""
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
+                                   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                    onChange={handleInputChange} />
                     </div>
                     <div className="loginfieldcontainer">
@@ -107,7 +107,7 @@ function Login(props) {
                                    initialValue=""
                                    value={form.password}
                                    placeHolder=""
-                                   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                   pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')"
                                    onChange={handleInputChange} />
                     </div>
                 </form>
