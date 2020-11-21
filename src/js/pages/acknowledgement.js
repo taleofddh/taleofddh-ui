@@ -6,7 +6,7 @@ import '../../scss/pages/acknowledgement.scss';
 
 function Acknowledgement(props) {
     const [data, loading] = useRequest(
-        props.api + '/request/createEnquiry',
+        props.api + '/request/createRequest',
         props.location.state.request
     );
 
