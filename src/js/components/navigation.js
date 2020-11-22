@@ -4,10 +4,10 @@ import Icon from "../common/icon";
 import '../../scss/components/navigation.scss'
 
 function Navigation(props) {
-    let menus = props.menus.map((item) => {
+    let menus = props.menus.map((item, index) => {
         if(item.type === 'All') {
             return (
-                <MenuItem key={item.id} menu={item} />
+                <MenuItem key={index} menu={item} />
             )
         }
     });
@@ -36,7 +36,7 @@ function MenuItem(props) {
     }
 
     return (
-        <li>
+        <li key={props.menu.id}>
             {props.menu.external ? (
                 <a target="blank" href={props.menu.link}>
                     <p className="menuicon">

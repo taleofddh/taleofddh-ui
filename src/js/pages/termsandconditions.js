@@ -28,9 +28,9 @@ function TermsAndConditions(props) {
                                 <Loader loading={loading} />
                             ) : (
                                 <>
-                                    {data.map((item) => {
+                                    {data.map((item, index) => {
                                         return (
-                                            <Terms key={item.id} term={item} />
+                                            <Terms key={index} term={item} />
                                         )
                                     })}
                                 </>
@@ -51,7 +51,7 @@ function Terms(props) {
         )
     });
     return (
-        <div className="term">
+        <div key={props.term.id} className="term">
             <p>
                 <label className="termheader">
                     {props.term.header}
@@ -64,7 +64,7 @@ function Terms(props) {
 
 function Term(props) {
     return (
-        <p>
+        <p key={props.seq}>
             <label className="termdescription">
                 {props.content}
             </label>

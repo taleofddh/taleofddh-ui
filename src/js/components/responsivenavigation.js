@@ -36,9 +36,9 @@ function ResponsiveNavigation(props) {
                       overlayClassName="overlay"
                       isOpen={menuOpen}
                       onStateChange={(state) => handleStateChange(state)}>
-                    {props.menus.map((item) => {
+                    {props.menus.map((item, index) => {
                         return (
-                            <label key={item.id} className="itemwrapper" onClick={closeMenu}>
+                            <label key={index} className="itemwrapper" onClick={closeMenu}>
                                 <HamnburgerMenuItem menu={item} onClick={closeMenu}/>
                             </label>
                         )

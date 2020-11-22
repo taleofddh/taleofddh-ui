@@ -28,9 +28,9 @@ function PrivacyPolicy(props) {
                                 <Loader loading={loading} />
                             ) : (
                                 <>
-                                    {data.map((item) => {
+                                    {data.map((item, index) => {
                                         return (
-                                            <Policies key={item.id} policy={item} />
+                                            <Policies key={index} policy={item} />
                                         )
                                     })}
                                 </>

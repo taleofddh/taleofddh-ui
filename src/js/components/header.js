@@ -18,13 +18,13 @@ function Header(props) {
         countryCode = geolocationData.country_code;
     }
     console.log(props.menus)
-    let menusIcon = props.menus.map((item) => {
+    let menusIcon = props.menus.map((item, index) => {
         let separator = '   |   ';
         if(item.position === 'Header') {
             count++
             return (
                 item.external ?
-                    <a target="blank" href={item.link}>
+                    <a key={index} target="blank" href={item.link}>
                         {count > 1 ? (
                             <>
                                 {separator}
@@ -39,7 +39,7 @@ function Header(props) {
                         )}
                     </a>
                 :
-                    <NavLink key={item.id} to={item.link}>
+                    <NavLink key={index} to={item.link}>
                         {count > 1 ? (
                             <>
                                 {separator}
@@ -57,17 +57,17 @@ function Header(props) {
         }
     });
     count = 0;
-    let menusText = props.menus.map((item) => {
+    let menusText = props.menus.map((item, index) => {
         let separator = '   |   ';
         if(item.position === 'Header') {
             count++
             return (
                 item.external ?
-                    <a target="blank" href={item.link}>
+                    <a key={index} target="blank" href={item.link}>
                         {count > 1 ? separator + item.name : item.name}
                     </a>
                 :
-                    <NavLink key={item.id} to={item.link}>
+                    <NavLink key={index} to={item.link}>
                         {count > 1 ? separator + item.name : item.name}
                     </NavLink>
             )
@@ -80,7 +80,7 @@ function Header(props) {
                 <div className="header">
                     <div className="serveaselogo">
                         <NavLink to="/">
-                            <img src="images/taleofddh-banner.png" />
+                            <img src="images/taleofddh-banner.png" alt="Tale of DDH"/>
                         </NavLink>
                     </div>
                     <div className="signin">
