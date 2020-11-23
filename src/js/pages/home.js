@@ -9,7 +9,7 @@ import {
     NavLink
 } from "react-router-dom";
 import {SessionContext, getSessionCookie, setSessionCookie, getSessionStorage} from "../common/session";
-import {useApi, useFetch} from "../common/hook";
+import {useApi, useGet} from "../common/hook";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";

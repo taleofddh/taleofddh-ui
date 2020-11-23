@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, createContext } from "react";
 import { Cookies } from "react-cookie-consent";
 
 export const setSessionCookie = (name, value) => {
@@ -33,4 +33,8 @@ export const getSessionStorage = (name, value) => {
     }
 }
 
-export const SessionContext = React.createContext(getSessionCookie());
+export const SessionContext = createContext(getSessionCookie());
+
+export function useAppContext() {
+    return useContext(SessionContext);
+}

@@ -2,22 +2,26 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { useApi} from "../common/hook";
+import { Auth } from 'aws-amplify';
+import CryptoApi from 'crypto-api/src/crypto-api';
+import { useApi, usePost} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import Button from "../components/button";
+import Loader from "./loader";
 import '../../scss/components/login.scss';
 
 function Login(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    const hasher = CryptoApi.getHasher('ripemd256');
 
     const [form, setForm] = useState({
-        email : '',
+        username : '',
         password : ''
     });
     const [errors, setErrors] = useState({
-        email : 'Email is not valid',
+        username : 'Email is not valid',
         password : 'Password is not valid'
     });
 
@@ -25,15 +29,15 @@ function Login(props) {
         const name = changeEvent.target.name;
         const value = changeEvent.target.value;
         const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
-        const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
+        const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$');
         let formErrors = errors;
 
         switch (name) {
-            case 'email':
-                formErrors.email =
+            case 'username':
+                formErrors.username =
                     value.match(emailRegex)
                         ? ''
-                        : 'Email is not valid';
+                        : 'Username is not valid';
                 break;
             case 'password':
                 formErrors.password =
@@ -49,11 +53,11 @@ function Login(props) {
         setErrors(formErrors);
     }
 
-    const submitLogin = (submitEvent) => {
+    const submitLogin = async (submitEvent) => {
         submitEvent.preventDefault();
         console.log(form.username);
         if(validateForm(errors)) {
-            let user = {
+            /*let user = {
                 username: form.username,
                 password: form.password
             }
@@ -63,10 +67,36 @@ function Login(props) {
                 source: props.source,
                 index: index,
                 user: user
-            });
-
+            });*/
+            try {
+                await Auth.signIn(form.username, form.password);
+                alert(form.username + " logged in");
+            } catch (e) {
+                try {
+                    hasher.update(form.password);
+                    let hashedPassword = CryptoApi.encoder.toHex(hasher.finalize()).toUpperCase();
+                    console.log(hashedPassword);
+                    let headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    };
+                    let data = {
+                        username: form.username,
+                        password: hashedPassword
+                    }
+                    let validUser = await fetch(api + '/auth/findUser', { method: 'POST', headers : headers, body: JSON.stringify(data) });
+                    let json = await validUser.json();
+                    if(json) {
+                        alert(form.username + " logged in");
+                    } else {
+                        throw new Error("Invalid username or password");
+                    }
+                } catch (ex) {
+                    alert(ex.message);
+                }
+            }
         } else {
-            alert('Invalid Form. Please complete mandatory fields correctly marked with *')
+            alert('Invalid Form. Please check your email and password requirement')
         }
     }
 
@@ -85,14 +115,14 @@ function Login(props) {
                 <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"
-                                   name="email"
-                                   label="Email"
+                                   name="username"
+                                   label="Username"
                                    type="email"
                                    disabled={false}
                                    required={true}
                                    maxLength={50}
                                    initialValue=""
-                                   value={form.email}
+                                   value={form.username}
                                    placeHolder=""
                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                    onChange={handleInputChange} />
@@ -107,7 +137,7 @@ function Login(props) {
                                    initialValue=""
                                    value={form.password}
                                    placeHolder=""
-                                   pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')"
+                                   pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
                                    onChange={handleInputChange} />
                     </div>
                 </form>

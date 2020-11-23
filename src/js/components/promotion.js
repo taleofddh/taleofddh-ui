@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import { Link, NavLink } from "react-router-dom";
 import Slider from "react-slick";
 import Title from "./title";
-import {useApi, useFetch} from "../common/hook";
+import {useApi, useGet} from "../common/hook";
 import Loader from "./loader";
 import '../../scss/components/slider.scss';
 
 function Promotion(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [promotionData, promotionLoading] = useFetch(api + '/core/promotionList/true', 'promotion');
+    const [promotionData, promotionLoading] = useGet(api + '/core/promotionList/true', 'promotion');
 
     let settings = {
         dots: true,

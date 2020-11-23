@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React from 'react';
 import {NavLink, Link} from "react-router-dom";
-import {useApi, useFetch} from '../common/hook'
+import {useApi, useGet} from '../common/hook'
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
@@ -13,7 +13,7 @@ const source = 'frequently-asked-questions';
 
 function FrequentlyAskedQuestion(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [data, loading] = useFetch(
+    const [data, loading] = useGet(
         api + '/core/frequentlyAskedQuestionList'
     );
 

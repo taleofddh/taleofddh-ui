@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React from 'react';
 import { MEDIA_HOST} from "../common/constants";
-import {useApi, useFetch, useMediaQuery} from "../common/hook";
+import {useApi, useGet, useMediaQuery} from "../common/hook";
 import '../../scss/components/thumbnail.scss';
 
 function Thumbnail(props) {

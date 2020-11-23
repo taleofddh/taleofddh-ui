@@ -26,7 +26,7 @@ export const useApi = (hostname, protocol, key) => {
     return [url, index];
 }
 
-export const useFetch = (url, key) => {
+export const useGet = (url, key) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -61,6 +61,32 @@ export const useFetch = (url, key) => {
     }
 
     return [data, loading];
+}
+
+export const usePost = (url, data) => {
+    const [result, setResult] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        postConnection();
+    }, []);
+
+    async function postConnection() {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const json = await response.json();
+        console.log(json);
+        setResult(json);
+        setLoading(false);
+    }
+
+    return [result, loading];
 }
 
 export const useSubscription = (url, subscription) => {

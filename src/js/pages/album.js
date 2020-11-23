@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React from 'react';
-import {useApi, useFetch, useMediaQuery} from '../common/hook'
+import {useApi, useGet, useMediaQuery} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
@@ -26,7 +26,7 @@ function Album(props) {
     if(!restrictedFlag) {
         albumUri = albumUri + '/' + restrictedFlag;
     }
-    const [data, loading] = useFetch(
+    const [data, loading] = useGet(
         api + albumUri, 'albums'
     );
 

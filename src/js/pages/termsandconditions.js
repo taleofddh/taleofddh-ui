@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React from 'react';
-import {useApi, useFetch} from '../common/hook'
+import {useApi, useGet} from '../common/hook'
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
@@ -12,7 +12,7 @@ const source = 'terms-conditions';
 
 function TermsAndConditions(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [data, loading] = useFetch(
+    const [data, loading] = useGet(
         api + '/core/termsAndConditionsList'
     );
 
