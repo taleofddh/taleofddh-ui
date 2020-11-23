@@ -6,6 +6,7 @@ import { Auth } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import { useApi, usePost} from "../common/hook";
 import {useSessionContext, getSessionCookie} from "../common/session";
+import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import Button from "../components/button";
 import Loader from "./loader";
@@ -98,7 +99,7 @@ function Login(props) {
                         throw new Error("Invalid username or password");
                     }
                 } catch (ex) {
-                    alert(ex.message);
+                    onError(ex);
                     setIsLoading(false);
                 }
             }

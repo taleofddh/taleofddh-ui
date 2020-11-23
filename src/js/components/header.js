@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { NavLink, Link, useHistory } from "react-router-dom";
 import {Auth} from "aws-amplify";
 import {getSessionCookie, getSessionStorage, useSessionContext} from "../common/session";
+import {onError} from "../common/error";
 import Icon from "../common/icon";
 import FunnyQuote from "./funnyquote";
 import '../../scss/components/header.scss'
@@ -36,7 +37,7 @@ function Header(props) {
         }
         catch(e) {
             if (e !== 'No current user') {
-                alert(e);
+                onError(e);
             }
         }
         setIsAuthenticating(false);
