@@ -17,6 +17,7 @@ function Login(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const hasher = CryptoApi.getHasher('ripemd256');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [form, setForm] = useState({
         username : '',
@@ -70,6 +71,7 @@ function Login(props) {
                 index: index,
                 user: user
             });*/
+            setIsLoading(true);
             try {
                 await Auth.signIn(form.username, form.password);
                 userHasAuthenticated(true);
@@ -97,6 +99,7 @@ function Login(props) {
                     }
                 } catch (ex) {
                     alert(ex.message);
+                    setIsLoading(false);
                 }
             }
         } else {
@@ -116,6 +119,7 @@ function Login(props) {
     return (
         <>
             <div className="logincontainer">
+                <Loader loading={isLoading} />
                 <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"
@@ -149,7 +153,7 @@ function Login(props) {
             <div className="loginbuttoncontainer">
                 <Button name="LoginButton"
                         label="Login"
-                        disabled={true}
+                        disabled={!validateForm}
                         onClick={submitLogin} />
             </div>
         </>

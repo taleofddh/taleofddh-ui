@@ -7,6 +7,7 @@ import "../../scss/components/loader.scss";
 const style = css`
   display: inline-block;  
   border-color: rgb(192, 159, 128);
+  position: absolute;
 `;
 
 function Loader(props) {
