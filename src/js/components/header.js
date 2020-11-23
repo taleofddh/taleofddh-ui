@@ -1,11 +1,16 @@
-import React from 'react';
-import {NavLink, Link} from "react-router-dom";
-import {getSessionCookie, getSessionStorage} from "../common/session";
+import React, {useEffect, useState} from 'react';
+import { NavLink, Link, useHistory } from "react-router-dom";
+import {Auth} from "aws-amplify";
+import {getSessionCookie, getSessionStorage, useSessionContext} from "../common/session";
 import Icon from "../common/icon";
 import FunnyQuote from "./funnyquote";
 import '../../scss/components/header.scss'
+import ReactGA from "react-ga";
 
 function Header(props) {
+    const history = useHistory();
+    const { isAuthenticated, userHasAuthenticated } = useSessionContext();
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
     let count = 0;
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     let countryCode;
@@ -17,64 +22,111 @@ function Header(props) {
         let geolocationData = getSessionStorage('geolocation');
         countryCode = geolocationData.country_code;
     }
-    console.log(props.menus)
-    let menusIcon = props.menus.map((item, index) => {
-        let separator = '   |   ';
+    console.log(props.menus);
+
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname);
+        onLoad();
+    }, [])
+
+    async function onLoad() {
+        try {
+            await Auth.currentSession();
+            userHasAuthenticated(true);
+        }
+        catch(e) {
+            if (e !== 'No current user') {
+                alert(e);
+            }
+        }
+        setIsAuthenticating(false);
+    }
+/*    let menusIcon = props.menus.map((item, index) => {
+        let separator = '   ';
         if(item.position === 'Header') {
             count++
             return (
-                item.external ?
-                    <a key={index} target="blank" href={item.link}>
-                        {count > 1 ? (
-                            <>
-                                {separator}
-                                <p className="headericon">
-                                    <Icon name={item.icon} fill = "#FFFFFF" />
-                                </p>
-                            </>
-                        ) : (
+                <NavLink key={index} to={item.link}>
+                    {count > 1 ? (
+                        <>
+                            {separator}
                             <p className="headericon">
                                 <Icon name={item.icon} fill = "#FFFFFF" />
                             </p>
-                        )}
-                    </a>
-                :
-                    <NavLink key={index} to={item.link}>
-                        {count > 1 ? (
-                            <>
-                                {separator}
-                                <p className="headericon">
-                                    <Icon name={item.icon} fill = "#FFFFFF" />
-                                </p>
-                            </>
-                        ) : (
-                            <p className="headericon">
-                                <Icon name={item.icon} fill = "#FFFFFF" />
-                            </p>
-                        )}
-                    </NavLink>
+                        </>
+                    ) : (
+                        <p className="headericon">
+                            <Icon name={item.icon} fill = "#FFFFFF" />
+                        </p>
+                    )}
+                </NavLink>
             )
         }
-    });
-    count = 0;
+    });*/
+/*    let menusIcon =
+        isAuthenticated ? (
+            <NavLink to="/my-profile">
+                <p className="headericon">
+                    <Icon name="user" fill = "#FFFFFF" />
+                </p>
+            </NavLink>
+        ) : (
+            <NavLink to="/sign-in">
+                <p className="headericon">
+                    <Icon name="user" fill = "#FFFFFF" />
+                </p>
+            </NavLink>
+        )*/
+
+/*    count = 0;
     let menusText = props.menus.map((item, index) => {
-        let separator = '   |   ';
         if(item.position === 'Header') {
+            let separator = '   |   ';
+            let name = item.name;
+            let link = item.link;
+            if(item.name === 'Sign-in') {
+                if(isAuthenticated) {
+                    name = 'Sign-out'
+                    link = '/sign-out';
+                }
+            }
             count++
             return (
-                item.external ?
-                    <a key={index} target="blank" href={item.link}>
-                        {count > 1 ? separator + item.name : item.name}
-                    </a>
-                :
-                    <NavLink key={index} to={item.link}>
-                        {count > 1 ? separator + item.name : item.name}
-                    </NavLink>
+                <NavLink key={index} to={link}>
+                    {count > 1 ? separator + name : name}
+                </NavLink>
             )
         }
-    });
+    });*/
+/*    let menusText =
+        isAuthenticated ? (
+            <>
+                <label className="signintext" onClick={handleLogout}>
+                        Sign-out
+                </label>
+                <NavLink to="/my-profile">
+                    <p className="headericon">
+                        <Icon name="user" fill = "#FFFFFF" />
+                    </p>
+                </NavLink>&nbsp;&nbsp;
+            </>
+        ) : (
+            <label className="signintext">
+                <NavLink to="/sign-in">
+                    Sign-in
+                </NavLink>
+            </label>
+        )*/
+
+    const handleLogout = async (clickEvent) => {
+        clickEvent.preventDefault();
+        await Auth.signOut();
+        userHasAuthenticated(false);
+        history.push("/sign-in");
+    }
 
     return (
+        !isAuthenticating && (
         <div className="headerbar">
             <div className="container">
                 <div className="header">
@@ -84,16 +136,44 @@ function Header(props) {
                         </NavLink>
                     </div>
                     <div className="signin">
-                        <label className="signintext">
-                            {menusText}
-                        </label>
+                        {isAuthenticated ? (
+                            <>
+                                <label className="signintext" onClick={handleLogout}>
+                                    Sign-out
+                                </label>
+                                <NavLink to="/my-profile">
+                                    <p className="headericon">
+                                        <Icon name="user" fill = "#FFFFFF" />
+                                    </p>
+                                </NavLink>&nbsp;&nbsp;
+                            </>
+                        ) : (
+                            <label className="signintext">
+                                <NavLink to="/sign-in">
+                                    Sign-in
+                                </NavLink>
+                            </label>
+                        )}
                     </div>
                     <div className="signinicon">
-                        {menusIcon}
+                        {isAuthenticated ? (
+                            <NavLink to="/my-profile">
+                                <p className="headericon">
+                                    <Icon name="user" fill = "#FFFFFF" />
+                                </p>
+                            </NavLink>
+                        ) : (
+                            <NavLink to="/sign-in">
+                                <p className="headericon">
+                                    <Icon name="user" fill = "#FFFFFF" />
+                                </p>
+                            </NavLink>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
+        )
     )
 
 }

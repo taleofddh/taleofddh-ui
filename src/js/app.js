@@ -33,137 +33,137 @@ import '../scss/app.scss';
 ReactGA.initialize(GTAG_TRACKING_ID);
 const history = createBrowserHistory();
 history.listen(location => {
-  ReactGA.set({ page: location.pathname })
-  ReactGA.pageview(location.pathname)
+    ReactGA.set({ page: location.pathname })
+    ReactGA.pageview(location.pathname)
 })
 
 function App(props) {
-  const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-  const [menuList, menuLoading] = useGet(api + '/core/menuList/' + true, 'menu');
-  const [geolocationData, geolocationLoading] = useGet(GEOLOCATION_URL, 'geolocation');
-  const [ddhomeCountry, setDdhomeCountry] = useState({
-    country_code : '',
-    country_name : ''
-  });
-  const validCountries = ['GB', 'IN'];
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const [session] = useState(getSessionCookie);
+    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const [menuList, menuLoading] = useGet(api + '/core/menuList/' + true, 'menu');
+    const [geolocationData, geolocationLoading] = useGet(GEOLOCATION_URL, 'geolocation');
+    const [ddhomeCountry, setDdhomeCountry] = useState({
+        country_code : '',
+        country_name : ''
+    });
+    const validCountries = ['GB', 'IN'];
+    const [isAuthenticated, userHasAuthenticated] = useState(false);
+    const [session] = useState(getSessionCookie);
 
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-  }, [])
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname);
+    }, [])
 
-  useEffect(() => {
-    let ddhomeCountryDetails = getSessionCookie('ddhomeCountry');
-    if(Object.keys(ddhomeCountryDetails).length === 0 && ddhomeCountryDetails.constructor === Object) {
-      let countryMatch = false;
-      for(let i in validCountries) {
-        if(geolocationData.country_code === validCountries[i]) {
-          countryMatch = true;
+    useEffect(() => {
+        let ddhomeCountryDetails = getSessionCookie('ddhomeCountry');
+        if(Object.keys(ddhomeCountryDetails).length === 0 && ddhomeCountryDetails.constructor === Object) {
+            let countryMatch = false;
+            for(let i in validCountries) {
+                if(geolocationData.country_code === validCountries[i]) {
+                    countryMatch = true;
+                }
+            }
+            if(countryMatch) {
+                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: geolocationData.country_code, country_name: geolocationData.country_name}));
+                setSessionCookie('ddhomeCountry', {country_code: geolocationData.country_code, country_name: geolocationData.country_name});
+            } else {
+                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: 'GB', country_name: countries['GB']}));
+                setSessionCookie('ddhomeCountry', {country_code: 'GB', country_name: countries['GB']});
+            }
+        } else {
+            setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
         }
-      }
-      if(countryMatch) {
-        setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: geolocationData.country_code, country_name: geolocationData.country_name}));
-        setSessionCookie('ddhomeCountry', {country_code: geolocationData.country_code, country_name: geolocationData.country_name});
-      } else {
-        setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: 'GB', country_name: countries['GB']}));
-        setSessionCookie('ddhomeCountry', {country_code: 'GB', country_name: countries['GB']});
-      }
-    } else {
-      setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
+    }, [geolocationData]);
+
+    const getDdhomeCountry = (ddhomeCountryCallBack) => {
+        if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {
+            setDdhomeCountry({...ddhomeCountry, country_code: ddhomeCountryCallBack.country_code, country_name: ddhomeCountryCallBack.country_name});
+
+            setSessionCookie('ddhomeCountry', ddhomeCountryCallBack);
+        }
     }
-  }, [geolocationData]);
 
-  const getDdhomeCountry = (ddhomeCountryCallBack) => {
-    if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {
-      setDdhomeCountry({...ddhomeCountry, country_code: ddhomeCountryCallBack.country_code, country_name: ddhomeCountryCallBack.country_name});
-
-      setSessionCookie('ddhomeCountry', ddhomeCountryCallBack);
-    }
-  }
-
-  return (
-      <SessionContext.Provider value={{session, isAuthenticated, userHasAuthenticated}}>
-        <Router history={history}>
-          <ScrollToTop>
-            <div>
-              <CookieConsent
-                  location="bottom"
-                  buttonText="Accept"
-                  declineButtonText="Decline"
-                  cookieName="DDHomeCookie"
-                  containerClasses="cookieconsentcontainer"
-                  contentClasses="cookieconsentcontent"
-                  buttonClasses="cookieconsentbutton"
-                  declineButtonClasses="cookiedeclinebutton"
-                  expires={30}
-                  enableDeclineButton={false}
-                  onDecline={() => {
-                    console.log("User has declined to cookies");
-                  }}>
-                <p>
-                  This website stores cookies on your device. These cookies are used to collect information about how you interact with our website and allow us to remember you.
-                  We use this information in order to improve and customize your browsing experience and for analytics and metrics about our visitors both on this website and other media. To find out more about the cookies we use, see our Privacy Policy.</p>
-                <p>
-                  If you decline, your information won’t be tracked when you visit this website. A single cookie will be used in your browser to remember your preference not to be tracked.
-                </p>
-              </CookieConsent>
-              {menuLoading || geolocationLoading ? (
-                  <Loader loading={menuLoading || geolocationLoading} />
-              ) : (
-                  <>
-                    <ResponsiveNavigation menus={menuList} />
-                    <Header country={ddhomeCountry} menus={menuList} />
-                    <Navigation menus={menuList} />
-                    <Switch>
-                      <Route
-                          exact path="/"
-                          render={() => <Home ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} api={api} />}
-                      />
-                      <Route
-                          exact path="/sign-in"
-                          render={(props) => <SignIn {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/about-us"
-                          render={(props) => <AboutUs {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/contact-us"
-                          render={(props) => <ContactUs {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/contact-us-acknowledgement"
-                          render={(props) => <Acknowledgement {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/album"
-                          render={(props) => <Album {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/terms-conditions"
-                          render={(props) => <TermsAndConditions {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/privacy-policy"
-                          render={(props) => <PrivacyPolicy {...props} api={api} />}
-                      />
-                      <Route
-                          exact path="/frequently-asked-questions"
-                          render={(props) => <FrequentlyAskedQuestion {...props} api={api} />}
-                      />
-                      <Route
-                          render={(props) => <Error {...props} api={api} />}
-                      />
-                    </Switch>
-                    <Footer menus={menuList} />
-                  </>
-              )}
-            </div>
-          </ScrollToTop>
-        </Router>
-      </SessionContext.Provider>
-  )
+    return (
+        <SessionContext.Provider value={{session, isAuthenticated, userHasAuthenticated}}>
+            <Router history={history}>
+                <ScrollToTop>
+                    <div>
+                        <CookieConsent
+                            location="bottom"
+                            buttonText="Accept"
+                            declineButtonText="Decline"
+                            cookieName="DDHomeCookie"
+                            containerClasses="cookieconsentcontainer"
+                            contentClasses="cookieconsentcontent"
+                            buttonClasses="cookieconsentbutton"
+                            declineButtonClasses="cookiedeclinebutton"
+                            expires={30}
+                            enableDeclineButton={false}
+                            onDecline={() => {
+                                console.log("User has declined to cookies");
+                            }}>
+                            <p>
+                                This website stores cookies on your device. These cookies are used to collect information about how you interact with our website and allow us to remember you.
+                                We use this information in order to improve and customize your browsing experience and for analytics and metrics about our visitors both on this website and other media. To find out more about the cookies we use, see our Privacy Policy.</p>
+                            <p>
+                                If you decline, your information won’t be tracked when you visit this website. A single cookie will be used in your browser to remember your preference not to be tracked.
+                            </p>
+                        </CookieConsent>
+                        {menuLoading || geolocationLoading ? (
+                            <Loader loading={menuLoading || geolocationLoading} />
+                        ) : (
+                            <>
+                                <ResponsiveNavigation menus={menuList} />
+                                <Header country={ddhomeCountry} menus={menuList} />
+                                <Navigation menus={menuList} />
+                                <Switch>
+                                    <Route
+                                        exact path="/"
+                                        render={() => <Home ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/sign-in"
+                                        render={(props) => <SignIn {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/about-us"
+                                        render={(props) => <AboutUs {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/contact-us"
+                                        render={(props) => <ContactUs {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/contact-us-acknowledgement"
+                                        render={(props) => <Acknowledgement {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/album"
+                                        render={(props) => <Album {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/terms-conditions"
+                                        render={(props) => <TermsAndConditions {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/privacy-policy"
+                                        render={(props) => <PrivacyPolicy {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/frequently-asked-questions"
+                                        render={(props) => <FrequentlyAskedQuestion {...props} api={api} />}
+                                    />
+                                    <Route
+                                        render={(props) => <Error {...props} api={api} />}
+                                    />
+                                </Switch>
+                                <Footer menus={menuList} />
+                            </>
+                        )}
+                    </div>
+                </ScrollToTop>
+            </Router>
+        </SessionContext.Provider>
+    )
 }
 
 export default App;

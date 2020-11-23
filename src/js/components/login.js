@@ -1,17 +1,19 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import { useApi, usePost} from "../common/hook";
-import {getSessionCookie} from "../common/session";
+import {useSessionContext, getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import Button from "../components/button";
 import Loader from "./loader";
 import '../../scss/components/login.scss';
 
 function Login(props) {
+    const history = useHistory();
+    const { userHasAuthenticated } = useSessionContext();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const hasher = CryptoApi.getHasher('ripemd256');
@@ -70,7 +72,8 @@ function Login(props) {
             });*/
             try {
                 await Auth.signIn(form.username, form.password);
-                alert(form.username + " logged in");
+                userHasAuthenticated(true);
+                history.push("/");
             } catch (e) {
                 try {
                     hasher.update(form.password);
@@ -87,7 +90,8 @@ function Login(props) {
                     let validUser = await fetch(api + '/auth/findUser', { method: 'POST', headers : headers, body: JSON.stringify(data) });
                     let json = await validUser.json();
                     if(json) {
-                        alert(form.username + " logged in");
+                        userHasAuthenticated(true);
+                        history.push("/");
                     } else {
                         throw new Error("Invalid username or password");
                     }

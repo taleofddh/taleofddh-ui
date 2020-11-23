@@ -35,6 +35,6 @@ export const getSessionStorage = (name, value) => {
 
 export const SessionContext = createContext(getSessionCookie());
 
-export function useAppContext() {
+export function useSessionContext() {
     return useContext(SessionContext);
 }
