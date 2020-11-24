@@ -39,7 +39,7 @@ function Login(props) {
                 try {
                     hasher.update(fields.password);
                     let hashedPassword = CryptoApi.encoder.toHex(hasher.finalize()).toUpperCase();
-                    console.log(hashedPassword);
+                    //console.log(hashedPassword);
                     let headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function Login(props) {
                 }
             }
         } else {
-            alert('Invalid Form. Please check your username and password requirement')
+            alert('Please check your username and password requirement')
         }
     }
 
