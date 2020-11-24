@@ -89,6 +89,20 @@ export const usePost = (url, data) => {
     return [result, loading];
 }
 
+export const useFormFields = (initialState) => {
+    const [fields, setFields] = useState(initialState);
+
+    return [
+        fields,
+        function(event) {
+            setFields({
+                ...fields,
+                [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value
+            });
+        }
+    ];
+}
+
 export const useSubscription = (url, subscription) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
