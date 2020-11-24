@@ -67,10 +67,7 @@ function Login(props) {
     }
 
     const validateForm = () => {
-        const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
-        const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$');
-        return (fields.username.match(emailRegex) ? true : false)
-            && (fields.password.match(passwordRegex) ? true: false);
+        return fields.username.length > 0 && fields.password.length > 0;
     }
 
     return (
