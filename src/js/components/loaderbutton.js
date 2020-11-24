@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import '../../scss/components/button.scss';
+import { BsArrowRepeat } from "react-icons/bs";
+import '../../scss/components/loaderbutton.scss';
 
-function Button(props) {
+function LoaderButton(props) {
     const [focused, setFocused] = useState(false);
     const [disabled, setDisabled] = useState(props.disabled);
 
@@ -25,19 +26,20 @@ function Button(props) {
             name={props.name}
             ref={props.ref}
             defaultValue={props.label}
-            className={`button ${props.className}`}
+            className={`loaderbutton ${props.className}`}
             title={props.title}>
-            <button disabled={disabled}
+            <button disabled={disabled || props.isLoading}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     onClick={handleClick}>
+                {props.isLoading && <BsArrowRepeat className="spinning" />}
                 {props.label}
             </button>
         </div>
     )
 }
 
-Button.propTypes = {
+LoaderButton.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     ref: PropTypes.string,
@@ -45,14 +47,16 @@ Button.propTypes = {
     title: PropTypes.string,
     className: PropTypes.string,
     disabled: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    isLoading: PropTypes.bool
 };
 
-Button.defaultProps = {
+LoaderButton.defaultProps = {
     label: '',
     title: '',
     onClick: () => {},
-    className: ''
+    className: '',
+    isLoading: false
 };
 
-export default Button;
+export default LoaderButton;

@@ -1,16 +1,18 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
+import { NavLink, withRouter, useHistory } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import { useApi, usePost} from "../common/hook";
 import {useSessionContext, getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
+import CheckBox from "./checkbox";
 import Button from "../components/button";
 import Loader from "./loader";
 import '../../scss/components/login.scss';
+import LoaderButton from "./loaderbutton";
 
 function Login(props) {
     const history = useHistory();
@@ -22,7 +24,8 @@ function Login(props) {
 
     const [form, setForm] = useState({
         username : '',
-        password : ''
+        password : '',
+        isRemember: false
     });
     const [errors, setErrors] = useState({
         username : 'Email is not valid',
@@ -31,7 +34,7 @@ function Login(props) {
 
     const handleInputChange = (changeEvent) => {
         const name = changeEvent.target.name;
-        const value = changeEvent.target.value;
+        const value = changeEvent.target.type === 'checkbox' ? changeEvent.target.checked : changeEvent.target.value;
         const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
         const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$');
         let formErrors = errors;
@@ -104,7 +107,7 @@ function Login(props) {
                 }
             }
         } else {
-            alert('Invalid Form. Please check your email and password requirement')
+            alert('Invalid Form. Please check your username and password requirement')
         }
     }
 
@@ -120,7 +123,6 @@ function Login(props) {
     return (
         <>
             <div className="logincontainer">
-                <Loader loading={isLoading} />
                 <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"
@@ -149,13 +151,32 @@ function Login(props) {
                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
                                    onChange={handleInputChange} />
                     </div>
+                    <div className="remembermecontainer">
+                        <CheckBox id="3"
+                                  name="isRemember"
+                                  label="Remember Me"
+                                  value={form.isRemember}
+                                  disabled={false}
+                                  required={false}
+                                  initialState={false}
+                                  onChange={handleInputChange} />
+                    </div>
+                    <div className="forgotpasswordcontainer">
+                        <NavLink to="/forgot-password">Forgot Password</NavLink>
+                    </div>
                 </form>
             </div>
             <div className="loginbuttoncontainer">
-                <Button name="LoginButton"
-                        label="Login"
-                        disabled={!validateForm}
-                        onClick={submitLogin} />
+                <LoaderButton name="LoginButton"
+                          label="Login"
+                          disabled={!validateForm}
+                          isLoading={isLoading}
+                          onClick={submitLogin} />
+            </div>
+            <div className="signupmessagecontainer">
+                <p className="signupmessage">
+                    Don't have an account yet? Please <NavLink to="/sign-up">Sign-up</NavLink>
+                </p>
             </div>
         </>
     )

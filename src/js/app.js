@@ -18,6 +18,7 @@ import Header from './components/header';
 import Navigation from './components/navigation'
 import Footer from './components/footer'
 import Home from './pages/home';
+import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
@@ -119,6 +120,10 @@ function App(props) {
                                     <Route
                                         exact path="/"
                                         render={() => <Home ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/sign-up"
+                                        render={(props) => <SignUp {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/sign-in"
