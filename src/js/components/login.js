@@ -4,15 +4,13 @@ import React, { useState } from 'react';
 import { NavLink, withRouter, useHistory } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
-import { useApi, usePost} from "../common/hook";
+import { useApi, useFormFields } from "../common/hook";
 import {useSessionContext, getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import CheckBox from "./checkbox";
-import Button from "../components/button";
-import Loader from "./loader";
-import '../../scss/components/login.scss';
 import LoaderButton from "./loaderbutton";
+import '../../scss/components/login.scss';
 
 function Login(props) {
     const history = useHistory();
@@ -22,67 +20,24 @@ function Login(props) {
     const hasher = CryptoApi.getHasher('ripemd256');
     const [isLoading, setIsLoading] = useState(false);
 
-    const [form, setForm] = useState({
+    const [fields, handleFieldChange] = useFormFields({
         username : '',
         password : '',
         isRemember: false
     });
-    const [errors, setErrors] = useState({
-        username : 'Email is not valid',
-        password : 'Password is not valid'
-    });
-
-    const handleInputChange = (changeEvent) => {
-        const name = changeEvent.target.name;
-        const value = changeEvent.target.type === 'checkbox' ? changeEvent.target.checked : changeEvent.target.value;
-        const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
-        const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$');
-        let formErrors = errors;
-
-        switch (name) {
-            case 'username':
-                formErrors.username =
-                    value.match(emailRegex)
-                        ? ''
-                        : 'Username is not valid';
-                break;
-            case 'password':
-                formErrors.password =
-                    value.match(passwordRegex)
-                        ? ''
-                        : 'Password is not Valid';
-                break;
-            default:
-                break;
-        }
-
-        setForm({...form, [name] : value});
-        setErrors(formErrors);
-    }
 
     const submitLogin = async (submitEvent) => {
         submitEvent.preventDefault();
-        console.log(form.username);
-        if(validateForm(errors)) {
-            /*let user = {
-                username: form.username,
-                password: form.password
-            }
-
-            props.history.push('/' + props.source + '-acknowledgement', {
-                api: api,
-                source: props.source,
-                index: index,
-                user: user
-            });*/
+        console.log(fields.username);
+        if(validateForm()) {
             setIsLoading(true);
             try {
-                await Auth.signIn(form.username, form.password);
+                await Auth.signIn(fields.username, fields.password);
                 userHasAuthenticated(true);
                 history.push("/");
             } catch (e) {
                 try {
-                    hasher.update(form.password);
+                    hasher.update(fields.password);
                     let hashedPassword = CryptoApi.encoder.toHex(hasher.finalize()).toUpperCase();
                     console.log(hashedPassword);
                     let headers = {
@@ -90,7 +45,7 @@ function Login(props) {
                         'Content-Type': 'application/json',
                     };
                     let data = {
-                        username: form.username,
+                        username: fields.username,
                         password: hashedPassword
                     }
                     let validUser = await fetch(api + '/auth/findUser', { method: 'POST', headers : headers, body: JSON.stringify(data) });
@@ -111,13 +66,11 @@ function Login(props) {
         }
     }
 
-    const validateForm = (errors) => {
-        let valid = true;
-        Object.values(errors).forEach(
-            // if we have an error string set valid to false
-            (val) => val.length > 0 && (valid = false)
-        );
-        return valid;
+    const validateForm = () => {
+        const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
+        const passwordRegex = RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$');
+        return (fields.username.match(emailRegex) ? true : false)
+            && (fields.password.match(passwordRegex) ? true: false);
     }
 
     return (
@@ -133,10 +86,10 @@ function Login(props) {
                                    required={true}
                                    maxLength={50}
                                    initialValue=""
-                                   value={form.username}
+                                   value={fields.username}
                                    placeHolder=""
                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                   onChange={handleInputChange} />
+                                   onChange={handleFieldChange} />
                     </div>
                     <div className="loginfieldcontainer">
                         <TypeInput id="2"
@@ -146,20 +99,20 @@ function Login(props) {
                                    disabled={false}
                                    required={true}
                                    initialValue=""
-                                   value={form.password}
+                                   value={fields.password}
                                    placeHolder=""
                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
-                                   onChange={handleInputChange} />
+                                   onChange={handleFieldChange} />
                     </div>
                     <div className="remembermecontainer">
                         <CheckBox id="3"
                                   name="isRemember"
                                   label="Remember Me"
-                                  value={form.isRemember}
+                                  value={fields.isRemember}
                                   disabled={false}
                                   required={false}
                                   initialState={false}
-                                  onChange={handleInputChange} />
+                                  onChange={handleFieldChange} />
                     </div>
                     <div className="forgotpasswordcontainer">
                         <NavLink to="/forgot-password">Forgot Password</NavLink>
