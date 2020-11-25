@@ -23,7 +23,7 @@ import SignIn from "./pages/signin";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
-import Album from "./pages/album";
+import Gallery from "./pages/gallery";
 import TermsAndConditions from "./pages/termsandconditions";
 import PrivacyPolicy from "./pages/privacypolicy";
 import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
@@ -142,8 +142,8 @@ function App(props) {
                                         render={(props) => <Acknowledgement {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path="/album"
-                                        render={(props) => <Album {...props} api={api} />}
+                                        exact path="/gallery"
+                                        render={(props) => <Gallery {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

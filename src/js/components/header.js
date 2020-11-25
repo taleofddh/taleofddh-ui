@@ -5,8 +5,7 @@ import {getSessionCookie, getSessionStorage, useSessionContext} from "../common/
 import {onError} from "../common/error";
 import Icon from "../common/icon";
 import FunnyQuote from "./funnyquote";
-import '../../scss/components/header.scss'
-import ReactGA from "react-ga";
+import '../../scss/components/header.scss';
 
 function Header(props) {
     const history = useHistory();
@@ -26,7 +25,6 @@ function Header(props) {
     console.log(props.menus);
 
     useEffect(() => {
-        ReactGA.pageview(window.location.pathname);
         onLoad();
     }, [])
 
