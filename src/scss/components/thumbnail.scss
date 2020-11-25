@@ -10,6 +10,15 @@
     float: left;
 }
 
+.thumbnailset {
+    display: block;
+    min-height: 1px;
+    width: 100%;
+    overflow: auto;
+    border: 1px solid rgb(211, 211, 211);
+    text-align: center;
+    background-color: $color-white-dark;
+}
 .thumbnailgroup {
     margin-top: 5px;
     width: calc(100% - 20px);
@@ -60,27 +69,51 @@
 
 @media screen and (max-width: 800px) {
     /* comes into effect for screens between 321 and 480 pixels (inclusive) */
-    .categoryquotegroup {
-        width: 80%;
-        margin-left: 10%;
-    }
-    .categoryquotepiccontrol {
-        width: 45px;
-        height: 45px;
-    }
-    .categoryquoteheader {
-        font-size: 0.85rem;
+    .thumbnailitem {
+        width: calc(33.33333% - 40px);
     }
 }
 
+@media screen and (max-width: 600px) {
+    /* comes into effect for screens between 321 and 480 pixels (inclusive) */
+    .thumbnailitem {
+        width: calc(33.33333% - 40px);
+    }
+    .thumbnail {
+        min-height: 150px;
+    }
+    .thumbnailpiccontrol {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .thumbnailitem {
+        width: calc(50% - 40px);
+    }
+    .thumbnail {
+        min-height: 120px;
+    }
+    .thumbnailpiccontrol {
+        width: 120px;
+        height: 120px;
+    }
+}
 
 @media screen and (max-width: 400px) {
     .thumbnailgroup {
         width: 90%;
         margin-left: 5%;
     }
+    .thumbnailitem {
+        width: calc(50% - 40px);
+    }
+    .thumbnail {
+        min-height: 120px;
+    }
     .thumbnailpiccontrol {
-        width: 150px;
-        height: 150px;
+        width: 120px;
+        height: 120px;
     }
 }

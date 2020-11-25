@@ -41,6 +41,7 @@
     "react-cookie-consent": "^5.2.0",
     "react-dom": "^17.0.1",
     "react-ga": "^3.2.1",
+    "react-grid-gallery": "^0.5.5",
     "react-icons": "^3.11.0",
     "react-meta-tags": "^0.7.4",
     "react-router": "^5.2.0",
