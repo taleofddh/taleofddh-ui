@@ -10,7 +10,7 @@ import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import Album from "../components/album";
-import '../../scss/pages/album.scss';
+import '../../scss/pages/gallery.scss';
 
 const pagetitle = 'Gallery'
 const source = 'gallery';
@@ -57,7 +57,15 @@ function Gallery(props) {
 
     const handleClick = (clickEvent, object) => {
         if(isAuthenticated) {
-            alert(object.photo.caption);
+            //alert(object.photo.caption);
+            let albumName = {
+                albumName: object.photo.caption
+            }
+            props.history.push('/photo', {
+                api: api,
+                index: index,
+                albumName: albumName
+            });
         } else {
             alert("Not Authorised. Please login");
         }
@@ -70,7 +78,7 @@ function Gallery(props) {
             <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
             <div className="boxouter">
                 <div className="container">
-                    <div className="albumframe">
+                    <div className="galleryframe">
                         <Title message={pagetitle} />
                         {loading ? (
                             <Loader loading={loading} />

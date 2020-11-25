@@ -1,6 +1,6 @@
 @import "../common/common";
 
-.thumbnailframe {
+.albumframe {
     border: 0px solid $color-tan;
     width: 100%;
     height: auto;
@@ -10,27 +10,7 @@
     float: left;
 }
 
-.thumbnailset {
-    display: block;
-    min-height: 1px;
-    width: 100%;
-    overflow: auto;
-    border: 1px solid rgb(211, 211, 211);
-    text-align: center;
-    background-color: $color-white-dark;
-}
-.thumbnailgroup {
-    margin-top: 5px;
-    width: calc(100% - 20px);
-    margin-left: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding-left: 0;
-    text-align: center;
-}
-
-.thumbnailitem {
+.albumitem {
     background-color: $color-atlantis;
     padding: 10px;
     width: calc(25% - 40px);
@@ -45,12 +25,12 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
-.thumbnail {
+.album {
     display: block;
     min-height: 200px;
 }
 
-.thumbnailpiccontrol {
+.albumpiccontrol {
     width: 200px;
     height: 200px;
 }
@@ -69,50 +49,46 @@
 
 @media screen and (max-width: 800px) {
     /* comes into effect for screens between 321 and 480 pixels (inclusive) */
-    .thumbnailitem {
+    .albumitem {
         width: calc(33.33333% - 40px);
     }
 }
 
 @media screen and (max-width: 600px) {
     /* comes into effect for screens between 321 and 480 pixels (inclusive) */
-    .thumbnailitem {
+    .albumitem {
         width: calc(33.33333% - 40px);
     }
-    .thumbnail {
+    .album {
         min-height: 150px;
     }
-    .thumbnailpiccontrol {
+    .albumpiccontrol {
         width: 150px;
         height: 150px;
     }
 }
 
 @media screen and (max-width: 540px) {
-    .thumbnailitem {
+    .albumitem {
         width: calc(50% - 40px);
     }
-    .thumbnail {
+    .album {
         min-height: 120px;
     }
-    .thumbnailpiccontrol {
+    .albumpiccontrol {
         width: 120px;
         height: 120px;
     }
 }
 
 @media screen and (max-width: 400px) {
-    .thumbnailgroup {
-        width: 90%;
-        margin-left: 5%;
-    }
-    .thumbnailitem {
+    .albumitem {
         width: calc(50% - 40px);
     }
-    .thumbnail {
+    .album {
         min-height: 120px;
     }
-    .thumbnailpiccontrol {
+    .albumpiccontrol {
         width: 120px;
         height: 120px;
     }
