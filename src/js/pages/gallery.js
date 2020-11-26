@@ -58,13 +58,13 @@ function Gallery(props) {
     const handleClick = (clickEvent, object) => {
         if(isAuthenticated) {
             //alert(object.photo.caption);
-            let albumName = {
+            let album = {
                 albumName: object.photo.caption
             }
             props.history.push('/photo', {
                 api: api,
                 index: index,
-                albumName: albumName
+                album: album
             });
         } else {
             alert("Not Authorised. Please login");

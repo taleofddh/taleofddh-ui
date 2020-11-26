@@ -24,6 +24,7 @@ import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
 import Gallery from "./pages/gallery";
+import Photo from "./pages/photo";
 import TermsAndConditions from "./pages/termsandconditions";
 import PrivacyPolicy from "./pages/privacypolicy";
 import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
@@ -144,6 +145,10 @@ function App(props) {
                                     <Route
                                         exact path="/gallery"
                                         render={(props) => <Gallery {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/photo"
+                                        render={(props) => <Photo {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import {SessionContext, getSessionCookie, setSessionCookie, getSessionStorage, setSessionStorage} from "./session";
+import {Auth} from "aws-amplify";
+import API, { graphqlOperation } from '@aws-amplify/api';
+
+API.configure();
 
 export const useApi = (hostname, protocol, key) => {
     let url;
@@ -31,10 +35,10 @@ export const useGet = (url, key) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchUrl();
+        getData();
     }, []);
 
-    async function fetchUrl() {
+    async function getData() {
         let json;
         let obj;
         if(key === 'geolocation') {
@@ -63,23 +67,86 @@ export const useGet = (url, key) => {
     return [data, loading];
 }
 
-export const usePost = (url, data) => {
-    const [result, setResult] = useState([]);
+/*export const useGet = (api, path, pathParams, key) => {
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        postConnection();
+        getSubmit();
     }, []);
 
-    async function postConnection() {
-        const response = await fetch(url, {
+    async function getSubmit() {
+        let json;
+        let obj;
+        if(key === 'geolocation') {
+            obj = getSessionCookie(key)
+        } else {
+            obj = getSessionStorage(key);
+        }
+        if(Object.keys(obj).length === 0 && obj.constructor === Object) {
+            let init = {
+                headers: {},
+                pathParameters: JSON.stringify(pathParams),
+            };
+
+            const response = await API.get(api, path, init);
+            json = await response.json();
+            if(key) {
+                if(key === 'geolocation') {
+                    setSessionCookie(key, json)
+                } else {
+                    setSessionStorage(key, json);
+                }
+            }
+        } else {
+            json = obj;
+        }
+        console.log(json);
+        setData(json);
+        setLoading(false);
+    }
+
+    return [data, loading];
+}*/
+
+export const usePost = (api, path, data, authorized) => {
+    const [result, setResult] = useState([]);
+    const [loading, setLoading] = useState(true);
+    if(!authorized) {
+        authorized = false;
+    }
+
+    useEffect(() => {
+        postData();
+    }, []);
+
+    async function postData() {
+        let token;
+        if(authorized) {
+            const user = await Auth.currentAuthenticatedUser();
+            token = `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`;
+        }
+        console.log(data);
+
+        let init = {
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        };
+
+        const response = await API.post(api, path, init);
+
+        /*const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify(data)
-        });
+        });*/
         const json = await response.json();
         console.log(json);
         setResult(json);

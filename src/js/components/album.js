@@ -24,7 +24,7 @@ function Album(props) {
 
     return (
         <div>
-            <AlbumGallery photos={images} targetRowHeight="180" onClick={handleAlbumClick}/>
+            <AlbumGallery photos={images} targetRowHeight={180} onClick={handleAlbumClick}/>
         </div>
     )
 }
