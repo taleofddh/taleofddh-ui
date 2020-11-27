@@ -34,7 +34,7 @@ function Photo(props) {
     } else {
         albumUri = albumUri + '/photoList'
     }
-    let albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album : '';
+    let albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album.albumName : '';
     const [data, loading] = usePost(
         'findPhotoList',
         '/photoList',
