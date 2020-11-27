@@ -27,7 +27,8 @@ function Button(props) {
             defaultValue={props.label}
             className={`button ${props.className}`}
             title={props.title}>
-            <button disabled={disabled}
+            <button type="submit"
+                    disabled={disabled}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     onClick={handleClick}>

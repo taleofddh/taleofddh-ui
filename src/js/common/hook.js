@@ -109,7 +109,7 @@ export const useGet = (api, path, key) => {
     return [data, loading];
 }
 
-export const usePost = (api, path, data, authorized) => {
+export const usePost = (api, path, data) => {
     const [result, setResult] = useState([]);
     const [loading, setLoading] = useState(true);
 

@@ -16,7 +16,6 @@ function Registration(props) {
     const { userHasAuthenticated } = useSessionContext();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const hasher = CryptoApi.getHasher('ripemd256');
     const [isLoading, setIsLoading] = useState(false);
     const [newUser, setNewUser] = useState(null);
 
@@ -24,7 +23,7 @@ function Registration(props) {
         username : '',
         password : '',
         confirmPassword: '',
-        confirmationCode: ""
+        confirmationCode: ''
     });
 
     const submitRegistration = async (submitEvent) => {

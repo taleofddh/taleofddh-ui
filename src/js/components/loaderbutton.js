@@ -28,7 +28,8 @@ function LoaderButton(props) {
             defaultValue={props.label}
             className={`loaderbutton ${props.className}`}
             title={props.title}>
-            <button disabled={disabled || props.isLoading}
+            <button type="submit"
+                    disabled={disabled || props.isLoading}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     onClick={handleClick}>

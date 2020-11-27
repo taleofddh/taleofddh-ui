@@ -1,8 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import React, { useState } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { useApi} from "../common/hook";
+import {useApi, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import TextArea from "../components/textarea";
@@ -14,71 +14,24 @@ function Enquiry(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
-    const [form, setForm] = useState({
+    const [fields, handleFieldChange] = useFormFields({
         name : '',
         email : '',
         phone : '',
         enquiry : ''
     });
-    const [errors, setErrors] = useState({
-        name : 'Name is not valid',
-        email : 'Email is not valid',
-        phone : '',
-        enquiry : 'Enquiry is not valid'
-    });
-
-    const handleInputChange = (changeEvent) => {
-        const name = changeEvent.target.name;
-        const value = changeEvent.target.type === 'checkbox' ? changeEvent.target.checked : changeEvent.target.value;
-        const nameRegex = RegExp('^[A-Za-z0-9 ]{1,50}$');
-        const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
-        const phoneRegex = RegExp('^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]{8,}$');
-        let formErrors = errors;
-
-        switch (name) {
-            case 'name':
-                formErrors.name =
-                    value.match(nameRegex)
-                        ? ''
-                        : 'Name is not valid';
-                break;
-            case 'email':
-                formErrors.email =
-                    value.match(emailRegex)
-                        ? ''
-                        : 'Email is not Valid';
-                break;
-            case 'phone':
-                formErrors.phone =
-                    value.match(phoneRegex)
-                        ? ''
-                        : 'Phone is not Valid';
-                break;
-            case 'enquiry':
-                formErrors.enquiry =
-                    value.length < 1
-                        ? 'Enquiry is not valid'
-                        : '';
-                break;
-            default:
-                break;
-        }
-
-        setForm({...form, [name] : value});
-        setErrors(formErrors);
-    }
 
     const submitEnquiry = (submitEvent) => {
         submitEvent.preventDefault();
-        console.log(form.name, form.email, form.phone, form.enquiry);
-        if(validateForm(errors)) {
+        console.log(fields.name, fields.email, fields.phone, fields.enquiry);
+        if(validateForm()) {
             let request = {
                 type: props.type,
                 countryCode: ddhomeCountry.country_code,
-                requestor: form.name,
-                email: form.email,
-                phone: form.phone,
-                enquiry: form.enquiry
+                requestor: fields.name,
+                email: fields.email,
+                phone: fields.phone,
+                enquiry: fields.enquiry
             }
 
             props.history.push('/' + props.source + '-acknowledgement', {
@@ -93,13 +46,14 @@ function Enquiry(props) {
         }
     }
 
-    const validateForm = (errors) => {
-        let valid = true;
-        Object.values(errors).forEach(
-            // if we have an error string set valid to false
-            (val) => val.length > 0 && (valid = false)
-        );
-        return valid;
+    const validateForm = () => {
+        const nameRegex = RegExp('^[A-Za-z0-9 ]{1,50}$');
+        const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$');
+        const phoneRegex = RegExp('^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]{8,}$');
+        return fields.name.match(nameRegex)
+            && fields.email.match(emailRegex)
+            && (fields.phone.length === 0 || (fields.phone.length > 0 && fields.phone.match(phoneRegex)))
+            && fields.enquiry.length > 0;
     }
 
     return (
@@ -115,10 +69,10 @@ function Enquiry(props) {
                                    required={true}
                                    maxLength={50}
                                    initialValue=""
-                                   value={form.name}
+                                   value={fields.name}
                                    placeHolder="e.g. John Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
-                                   onChange={handleInputChange} />
+                                   onChange={handleFieldChange} />
                     </div>
                     <div className="enquiryfieldcontainer">
                         <TypeInput id="2"
@@ -128,10 +82,10 @@ function Enquiry(props) {
                                    disabled={false}
                                    required={true}
                                    initialValue=""
-                                   value={form.email}
+                                   value={fields.email}
                                    placeHolder="e.g. email@domain.com"
                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                   onChange={handleInputChange} />
+                                   onChange={handleFieldChange} />
                     </div>
                     <div className="enquiryfieldcontainer">
                         <TypeInput id="3"
@@ -141,10 +95,10 @@ function Enquiry(props) {
                                    disabled={false}
                                    required={false}
                                    initialValue=""
-                                   value={form.phone}
+                                   value={fields.phone}
                                    placeHolder="+XX XXX XXX-XXXX"
                                    pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]{8,}$"
-                                   onChange={handleInputChange} />
+                                   onChange={handleFieldChange} />
                     </div>
                     <div className="enquiryfieldcontainer">
                         <TextArea id="4"
@@ -153,16 +107,16 @@ function Enquiry(props) {
                                   disabled={false}
                                   required={true}
                                   initialValue=""
-                                  value={form.enquiry}
+                                  value={fields.enquiry}
                                   placeHolder="Type your query/message"
-                                  onChange={handleInputChange} />
+                                  onChange={handleFieldChange} />
                     </div>
                 </form>
             </div>
             <div className="enquirybuttoncontainer">
                 <Button name="SubmitEnquiryButton"
                     label="Submit"
-                    disabled={true}
+                    disabled={!validateForm}
                     onClick={submitEnquiry} />
             </div>
         </>

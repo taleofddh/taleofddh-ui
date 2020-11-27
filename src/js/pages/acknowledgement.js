@@ -1,13 +1,14 @@
 import React from "react";
-import {useRequest} from "../common/hook";
+import {usePost} from "../common/hook";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/acknowledgement.scss';
 
 function Acknowledgement(props) {
-    const [data, loading] = useRequest(
-        props.api + '/request/createRequest',
-        props.location.state.request
+    const [data, loading] = usePost(
+        'createRequest',
+        '/createRequest',
+        (props.location.state && props.location.state !== undefined) ? props.location.state.request : ''
     );
 
     return (

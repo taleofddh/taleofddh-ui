@@ -61,6 +61,21 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'createRequest',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/request',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findRequest',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/request',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'updateSubscription',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/request',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'findAlbumList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {useApi, useSubscription} from "../common/hook";
+import {useApi, usePost} from "../common/hook";
 import Loader from "./loader";
 import '../../scss/components/stayconnected.scss';
 
 function SubscriptionAcknowledgement(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [data, loading] = useSubscription(
-        api + '/request/updateSubscription',
+    const [data, loading] = usePost(
+        'updateSubscription',
+        '/updateSubscription',
         props.subscription
     );
 

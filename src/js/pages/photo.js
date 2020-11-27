@@ -38,8 +38,7 @@ function Photo(props) {
     const [data, loading] = usePost(
         'findPhotoList',
         '/photoList',
-        (props.location.state && props.location.state !== undefined) ? props.location.state.album : 'Dummy',
-        true
+        (props.location.state && props.location.state !== undefined) ? props.location.state.album : 'Dummy'
     );
 
     const matches = useMediaQuery('(max-width: 820px)');
