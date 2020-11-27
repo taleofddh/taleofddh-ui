@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
-import {useHistory} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {Auth} from "aws-amplify";
 import {useApi, usePost, useMediaQuery} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
@@ -9,8 +9,8 @@ import {onError} from "../common/error";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
-import Album from "../components/album";
-import '../../scss/pages/gallery.scss';
+import Carousel from "../components/carousel";
+import '../../scss/pages/photo.scss';
 
 const pagetitle = 'Album'
 const source = 'album';
@@ -34,10 +34,11 @@ function Photo(props) {
     } else {
         albumUri = albumUri + '/photoList'
     }
+    let albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album : '';
     const [data, loading] = usePost(
         'findPhotoList',
         '/photoList',
-        props.location.state.album,
+        (props.location.state && props.location.state !== undefined) ? props.location.state.album : 'Dummy',
         true
     );
 
@@ -81,22 +82,33 @@ function Photo(props) {
             <>
                 <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
                 <div className="boxouter">
-                    <div className="container">
-                        <div className="galleryframe">
-                            <Title message={pagetitle} />
-                            {loading ? (
-                                <Loader loading={loading} />
-                            ) : (
-                                <Album pictures={data} onClick={handleClick}/>
-                            )}
+                    {isAuthenticated ? (
+                        <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
+                            <div className="photoframe">
+                                <Title message={pagetitle + ' - ' + albumName} />
+                                    {loading ? (
+                                        <Loader loading={loading} />
+                                    ) : (
+                                        <Carousel pictures={data} onClick={handleClick}/>
+                                    )}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="container">
+                            <div className="errorframe">
+                                <Title message={pagetitle + ' Not Found'} />
+                                <div className="errormessage">
+                                    <p>Your requested page is not available or the application has generated an error.</p>
+                                    <p>Please visit <NavLink to="/">Taleofddh Home Page</NavLink>  or <NavLink to="/sign-in">Sign-in</NavLink> to search for features</p>
+                                    <p>If you have any specific query please <NavLink to="/contact-us">Contact Us</NavLink>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </>
         )
     )
 }
-
-
 
 export default Photo;
