@@ -10,7 +10,7 @@ import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
 import countries from "./common/countries";
 import {SessionContext, getSessionCookie, setSessionCookie, setSessionStorage, getSessionStorage} from "./common/session";
-import {useApi, useGet} from "./common/hook";
+import {useApi, useFetch, useGet} from "./common/hook";
 import { GEOLOCATION_URL, GTAG_TRACKING_ID } from './common/constants';
 import ScrollToTop from "./common/scroll";
 import ResponsiveNavigation from "./components/responsivenavigation";
@@ -41,8 +41,8 @@ history.listen(location => {
 
 function App(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [menuList, menuLoading] = useGet(api + '/core/menuList/' + true, 'menu');
-    const [geolocationData, geolocationLoading] = useGet(GEOLOCATION_URL, 'geolocation');
+    const [menuList, menuLoading] = useGet('findMenuList' , '/menuList/true', 'menu');
+    const [geolocationData, geolocationLoading] = useFetch(GEOLOCATION_URL, 'geolocation');
     const [ddhomeCountry, setDdhomeCountry] = useState({
         country_code : '',
         country_name : ''

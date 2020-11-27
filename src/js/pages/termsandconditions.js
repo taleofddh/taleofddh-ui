@@ -13,7 +13,7 @@ const source = 'terms-conditions';
 function TermsAndConditions(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [data, loading] = useGet(
-        api + '/core/termsAndConditionsList'
+        'findTermsAndConditionsList', '/termsAndConditionsList'
     );
 
     return (

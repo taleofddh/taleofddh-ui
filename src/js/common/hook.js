@@ -29,7 +29,7 @@ export const useApi = (hostname, protocol, key) => {
     return [url, index];
 }
 
-export const useGet = (url, key) => {
+export const useFetch = (url, key) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -66,37 +66,38 @@ export const useGet = (url, key) => {
     return [data, loading];
 }
 
-/*export const useGet = (api, path, pathParams, key) => {
+export const useGet = (api, path, key) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getSubmit();
+        getData();
     }, []);
 
-    async function getSubmit() {
+    async function getData() {
         let json;
-        let obj;
-        if(key === 'geolocation') {
-            obj = getSessionCookie(key)
-        } else {
-            obj = getSessionStorage(key);
-        }
-        if(Object.keys(obj).length === 0 && obj.constructor === Object) {
-            let init = {
-                headers: {},
-                pathParameters: JSON.stringify(pathParams),
-            };
+        let obj = getSessionStorage(key);
 
-            const response = await API.get(api, path, init);
-            json = await response.json();
-            if(key) {
-                if(key === 'geolocation') {
-                    setSessionCookie(key, json)
-                } else {
-                    setSessionStorage(key, json);
-                }
-            }
+        const init = {
+            response: true,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }
+
+        if(Object.keys(obj).length === 0 && obj.constructor === Object) {
+            await API.get(api, path, init)
+                .then(response => {
+                    json = response.data;
+                    if(key) {
+                        setSessionStorage(key, json);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    json = error;
+                });
         } else {
             json = obj;
         }
@@ -106,7 +107,7 @@ export const useGet = (url, key) => {
     }
 
     return [data, loading];
-}*/
+}
 
 export const usePost = (api, path, data, authorized) => {
     const [result, setResult] = useState([]);

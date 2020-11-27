@@ -15,7 +15,7 @@ const source = 'about-us';
 function AboutUs(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [data, loading] = useGet(
-        api + '/core/aboutUsList', 'about-us'
+        'findAboutUsList', '/aboutUsList'
     );
 
     const matches = useMediaQuery('(max-width: 820px)');

@@ -13,7 +13,7 @@ const source = 'privacy-policy';
 function PrivacyPolicy(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [data, loading] = useGet(
-        api + '/core/privacyPolicyList'
+        'findPrivacyPolicyList', '/privacyPolicyList'
     );
 
     return (

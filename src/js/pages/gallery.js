@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {useApi, useGet, useMediaQuery} from '../common/hook'
+import {useApi, useFetch, useMediaQuery} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import MetaTag from "../components/metatag";
@@ -32,7 +32,7 @@ function Gallery(props) {
     if(restrictedFlag) {
         albumUri = albumUri + '/' + restrictedFlag;
     }
-    const [data, loading] = useGet(
+    const [data, loading] = useFetch(
         api + albumUri, 'albums'
     );
 

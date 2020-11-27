@@ -14,7 +14,7 @@ const source = 'frequently-asked-questions';
 function FrequentlyAskedQuestion(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [data, loading] = useGet(
-        api + '/core/frequentlyAskedQuestionList'
+        'findFrequentlyAskedQuestionList', '/frequentlyAskedQuestionList'
     );
 
     return (

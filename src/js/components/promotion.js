@@ -8,7 +8,7 @@ import '../../scss/components/slider.scss';
 
 function Promotion(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [promotionData, promotionLoading] = useGet(api + '/core/promotionList/true', 'promotion');
+    const [promotionData, promotionLoading] = useGet('findPromotionList', '/promotionList/true', 'promotion');
 
     let settings = {
         dots: true,
