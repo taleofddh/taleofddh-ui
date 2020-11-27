@@ -68,26 +68,17 @@ Amplify.configure({
             {
                 name: 'findRestrictedAlbumList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION,
-                custom_header: async () => {
-                    return {Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`}
-                }
+                region: AWS_CONFIG.apiGateway.REGION
             },
             {
                 name: 'findPhotoList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION,
-                custom_header: async () => {
-                    return {Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`}
-                }
             },
             {
                 name: 'findRestrictedPhotoList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION,
-                custom_header: async () => {
-                    return {Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`}
-                }
+                region: AWS_CONFIG.apiGateway.REGION
             },
         ]
     }

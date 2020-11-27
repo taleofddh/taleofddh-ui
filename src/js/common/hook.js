@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import {SessionContext, getSessionCookie, setSessionCookie, getSessionStorage, setSessionStorage} from "./session";
-import {Auth} from "aws-amplify";
-import API, { graphqlOperation } from '@aws-amplify/api';
+import {Auth, API} from "aws-amplify";
 
 API.configure();
 
@@ -112,45 +111,34 @@ export const useGet = (url, key) => {
 export const usePost = (api, path, data, authorized) => {
     const [result, setResult] = useState([]);
     const [loading, setLoading] = useState(true);
-    if(!authorized) {
-        authorized = false;
-    }
 
     useEffect(() => {
         postData();
     }, []);
 
     async function postData() {
-        let token;
-        if(authorized) {
-            const user = await Auth.currentAuthenticatedUser();
-            token = `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`;
-        }
         console.log(data);
 
-        let init = {
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        };
-
-        const response = await API.post(api, path, init);
-
-        /*const response = await fetch(url, {
-            method: 'POST',
+        const init = {
+            response: true,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': token
             },
-            body: JSON.stringify(data)
-        });*/
-        const json = await response.json();
-        console.log(json);
-        setResult(json);
-        setLoading(false);
+            body: data,
+        }
+
+        await API.post(api, path, init)
+            .then(response => {
+                console.log(response.data);
+                setLoading(false);
+                setResult(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+                setResult(error);
+            });
     }
 
     return [result, loading];
