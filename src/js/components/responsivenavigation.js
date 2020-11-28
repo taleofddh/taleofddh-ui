@@ -3,6 +3,7 @@ import {Link, NavLink} from "react-router-dom";
 import { slide as Menu } from 'react-burger-menu';
 import Icon from "../common/icon";
 import '../../scss/components/responsivenavigation.scss';
+import {useSessionContext} from "../common/session";
 
 function ResponsiveNavigation(props) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -51,6 +52,7 @@ function ResponsiveNavigation(props) {
 }
 
 function HamnburgerMenuItem(props) {
+    const { isAuthenticated, userHasAuthenticated } = useSessionContext();
     //var isActive = this.props.location.pathname === this.props.menu.link;
     var activeClassName;
     if(props.menu.link === '#') {
@@ -62,9 +64,19 @@ function HamnburgerMenuItem(props) {
     if(props.menu.link === '/') {
         exact = {"exact": true};
     }
+    let visible = false;
+    if(props.menu.condition === 'Not Applicable') {
+        visible = true;
+    } else if (props.menu.condition === 'Not Authenticated' && !isAuthenticated) {
+        visible = true;
+    } else if (props.menu.condition === 'Authenticated' && isAuthenticated) {
+        visible = true;
+    } else {
+        visible = false;
+    }
 
     return (
-        <>
+        visible && (<>
             {props.menu.external ? (
                 <a href={props.menu.link} className="item">
                     <p className="menuitem">
@@ -90,7 +102,7 @@ function HamnburgerMenuItem(props) {
                     </p>
                 </NavLink>
             )}
-        </>
+        </>)
     )
 
 }
