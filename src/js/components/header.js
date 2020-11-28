@@ -131,7 +131,7 @@ function Header(props) {
                 <div className="header">
                     <div className="serveaselogo">
                         <NavLink to="/">
-                            <img src="images/taleofddh-banner.png" alt="Tale of DDH"/>
+                            <img src="/images/taleofddh-banner.png" alt="Tale of DDH"/>
                         </NavLink>
                     </div>
                     <div className="signin">

@@ -26,8 +26,7 @@ function Carousel(props) {
             thumbnail: MEDIA_HOST + '/images/thumbnail/' + item.path + '/' + item.name + '.jpg',
             original: MEDIA_HOST + '/images/' + originalPath + '/' + item.path + '/' + item.name + '.jpg',
             originalTitle: item.description,
-            description: item.description,
-            startIndex: props.startIndex
+            description: item.description
         };
     });
 
@@ -36,7 +35,7 @@ function Carousel(props) {
     }
 
     return (
-        <ImageGallery  items={images} />
+        <ImageGallery  items={images} startIndex={props.startIndex} />
     )
 }
 
