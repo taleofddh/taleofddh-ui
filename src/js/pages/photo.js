@@ -34,11 +34,24 @@ function Photo(props) {
     } else {
         albumUri = albumUri + '/photoList'
     }
-    let albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album.albumName : '';
+    let albumName;
+    let album;
+    let startIndex = 0;
+    if(props.match.params.albumName) {
+        albumName = props.match.params.albumName;
+        if(props.match.params.startIndex) {
+            startIndex = parseInt(props.match.params.startIndex);
+        }
+    } else {
+        albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album.albumName : '';
+    }
+    album = {
+        albumName: albumName
+    }
     const [data, loading] = usePost(
         'findPhotoList',
         '/photoList',
-        (props.location.state && props.location.state !== undefined) ? props.location.state.album : 'Dummy'
+        album
     );
 
     const matches = useMediaQuery('(max-width: 820px)');
@@ -88,7 +101,7 @@ function Photo(props) {
                                     {loading ? (
                                         <Loader loading={loading} />
                                     ) : (
-                                        <Carousel pictures={data} onClick={handleClick}/>
+                                        <Carousel pictures={data} startIndex={startIndex} onClick={handleClick}/>
                                     )}
                             </div>
                         </div>

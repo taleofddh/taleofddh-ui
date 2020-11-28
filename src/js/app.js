@@ -147,7 +147,7 @@ function App(props) {
                                         render={(props) => <Gallery {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path="/photo"
+                                        exact path="/photo/:albumName/:startIndex"
                                         render={(props) => <Photo {...props} api={api} />}
                                     />
                                     <Route
