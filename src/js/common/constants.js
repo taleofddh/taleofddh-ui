@@ -1,20 +1,20 @@
-export const FUNNY_QUOTE_URL = 'https://www.brainyquote.com/link/quotefu.js';
-export const GEOLOCATION_URL = 'https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572/';
-export const GTAG_TRACKING_ID = 'UA-183084614-1';
-export const MEDIA_HOST = 'https://taleofddh.s3-eu-west-1.amazonaws.com';
+export const FUNNY_QUOTE_URL = process.env.REACT_APP_FUNNY_QUOTE_URL;
+export const GEOLOCATION_URL = process.env.REACT_APP_GEOLOCATION_URL;
+export const GTAG_TRACKING_ID = process.env.REACT_APP_GTAG_TRACKING_ID;
+export const MEDIA_HOST = process.env.REACT_APP_MEDIA_HOST;
 export const AWS_CONFIG = {
     s3: {
-        REGION: "eu-west-1",
-        BUCKET: "media.taleofddh.com",
+        REGION: process.env.REACT_APP_AWS_S3_REGION,
+        BUCKET: process.env.REACT_APP_AWS_S3_BUCKET,
     },
     apiGateway: {
-        REGION: "eu-west-1",
-        URL: "https://api.taleofddh.com",
+        REGION: process.env.REACT_APP_AWS_API_GATEWAY_REGION,
+        URL: process.env.REACT_APP_AWS_API_GATEWAY_URL,
     },
     cognito: {
-        REGION: "eu-west-1",
-        USER_POOL_ID: "eu-west-1_9faevWd35",
-        APP_CLIENT_ID: "5642rk8biiciamun2pppl6hfib",
-        IDENTITY_POOL_ID: "eu-west-1:34adc005-4841-467b-861f-da971f6eaa5c"
+        REGION: process.env.REACT_APP_AWS_COGNITO_REGION,
+        USER_POOL_ID: process.env.REACT_APP_AWS_COGNITO_USER_POOL_ID,
+        APP_CLIENT_ID: process.env.REACT_APP_AWS_COGNITO_APP_CLIENT_ID,
+        IDENTITY_POOL_ID: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID
     }
 };
