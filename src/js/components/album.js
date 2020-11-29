@@ -14,7 +14,8 @@ function Album(props) {
             width: 3,
             height: 2,
             caption: item.name,
-            alt: item.name
+            alt: item.name,
+            description: item.description
         };
     });
 

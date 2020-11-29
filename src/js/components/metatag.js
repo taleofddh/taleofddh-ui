@@ -26,6 +26,14 @@ function MetaTag(props) {
             description = 'Contact the taleofddh team for related queries. ' +
                 'Email us for travel blogs, gallery, cooking, technical matters.';
             break;
+        case 'gallery':
+            title = 'Photo Galleries - from Vacation, Outing, Celebration and Residence | taleofddh';
+            description = 'Photo Galleries - from Vacation, Outing, Celebration and Residence';
+            break;
+        case 'album':
+            title = 'Photo Album - ' + props.description + ' | taleofddh';
+            description = 'Photo Album - ' + props.description;
+            break;
         case 'request':
             title = 'Track Request Status | taleofddh';
             description = 'Track status of your request. Related queries with taleofddh. ' +

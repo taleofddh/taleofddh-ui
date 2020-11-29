@@ -28,22 +28,19 @@ function Photo(props) {
             restrictedFlag = true;
         }
     }
-    let albumUri = '/gallery';
-    if(restrictedFlag) {
-        albumUri = albumUri + '/photoListRestricted';
-    } else {
-        albumUri = albumUri + '/photoList'
-    }
     let albumName;
+    let albumDescription;
     let album;
     let startIndex = 0;
     if(props.match.params.albumName) {
         albumName = props.match.params.albumName;
+        albumDescription = props.match.params.albumName;
         if(props.match.params.startIndex) {
             startIndex = parseInt(props.match.params.startIndex);
         }
     } else {
-        albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album.albumName : '';
+        albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album.caption : '';
+        albumDescription = (props.location.state && props.location.state !== undefined) ? props.location.state.album.description : '';
     }
     album = {
         albumName: albumName
@@ -92,7 +89,7 @@ function Photo(props) {
     return (
         !isAuthenticating && (
             <>
-                <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
+                <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} description={albumDescription}/>
                 <div className="boxouter">
                     {isAuthenticated ? (
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
