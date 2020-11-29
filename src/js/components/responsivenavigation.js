@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useHistory} from "react-router-dom";
 import { slide as Menu } from 'react-burger-menu';
 import Icon from "../common/icon";
 import '../../scss/components/responsivenavigation.scss';
 import {useSessionContext} from "../common/session";
+import {Auth} from "aws-amplify";
 
 function ResponsiveNavigation(props) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -53,6 +54,7 @@ function ResponsiveNavigation(props) {
 
 function HamnburgerMenuItem(props) {
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
+    const history = useHistory();
     //var isActive = this.props.location.pathname === this.props.menu.link;
     var activeClassName;
     if(props.menu.link === '#') {
@@ -75,6 +77,13 @@ function HamnburgerMenuItem(props) {
         visible = false;
     }
 
+    const handleLogout = async (clickEvent) => {
+        clickEvent.preventDefault();
+        await Auth.signOut();
+        userHasAuthenticated(false);
+        history.push("/sign-in");
+    }
+
     return (
         visible && (<>
             {props.menu.external ? (
@@ -95,10 +104,18 @@ function HamnburgerMenuItem(props) {
                         <span className="menuitemicon">
                             <Icon name={props.menu.icon} fill="#431C5D" />
                         </span>
-                        <span className="menuitemname">
-                            &nbsp;&nbsp;&nbsp;
-                            {props.menu.name}
-                        </span>
+                        {props.menu.name === 'Sign-out' ? (
+                            <span className="menuitemname" onClick={handleLogout}>
+                                &nbsp;&nbsp;&nbsp;
+                                {props.menu.name}
+                            </span>
+                        ) : (
+                            <span className="menuitemname">
+                                &nbsp;&nbsp;&nbsp;
+                                {props.menu.name}
+                            </span>
+                        )}
+
                     </p>
                 </NavLink>
             )}
