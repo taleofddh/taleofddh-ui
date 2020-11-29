@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {NavLink, Link} from "react-router-dom";
 import '../../scss/components/footer.scss'
+import Icon from "../common/icon";
 
 function Footer(props) {
     const [showTermsAndConditionsPopup, setTermsAndConditionsPopup] = useState(false);
@@ -30,11 +31,11 @@ function Footer(props) {
                 <div className="footer">
                     {menus}
                     <div className="socialmedia">
-                        <a href="https://www.facebook.com/devadyuti.das" target="_blank"><img src="/images/icon-facebook.png" className="socialmediapiccontrol" alt="Facebook" /></a>
+                        <a href="https://www.facebook.com/devadyuti.das" target="_blank"><Icon name="facebook" fill="#FFFFFF" /></a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="https://twitter.com/ServEase_io/" target="_blank"><img src="/images/icon-twitter.png" className="socialmediapiccontrol" alt="Twitter" /></a>
+                        <a href="https://twitter.com/ServEase_io/" target="_blank"><Icon name="twitter" fill="#FFFFFF" /></a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="https://www.linkedin.com/in/devadyuti-das-48955012/" target="_blank"><img src="/images/icon-linkedin.png" className="socialmediapiccontrol" alt="LinkedIn" /></a>
+                        <a href="https://www.linkedin.com/in/devadyuti-das-48955012/" target="_blank"><Icon name="linkedin" fill="#FFFFFF" /></a>
                     </div>
                     <div className="copyright">
                         &copy; 2020 taleofddh.com All rights reserved.
