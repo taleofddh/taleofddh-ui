@@ -31,6 +31,8 @@ import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
 import Loader from "./components/loader";
 import Error from "./pages/error";
 import '../scss/app.scss';
+import AuthenticatedRoute from "./common/authenticatedroute";
+import UnauthenticatedRoute from "./common/unauthenticatedroute";
 
 ReactGA.initialize(GTAG_TRACKING_ID);
 const history = createBrowserHistory();
@@ -122,11 +124,11 @@ function App(props) {
                                         exact path="/"
                                         render={() => <Home ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} api={api} />}
                                     />
-                                    <Route
+                                    <UnauthenticatedRoute
                                         exact path="/sign-up"
                                         render={(props) => <SignUp {...props} api={api} />}
                                     />
-                                    <Route
+                                    <UnauthenticatedRoute
                                         exact path="/sign-in"
                                         render={(props) => <SignIn {...props} api={api} />}
                                     />
@@ -146,7 +148,7 @@ function App(props) {
                                         exact path="/gallery"
                                         render={(props) => <Gallery {...props} api={api} />}
                                     />
-                                    <Route
+                                    <AuthenticatedRoute
                                         exact path={["/photo", "/photo/:albumName/:startIndex"]}
                                         render={(props) => <Photo {...props} api={api} />}
                                     />

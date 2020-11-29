@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
-import { NavLink, withRouter, useHistory } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import { useApi, useFormFields } from "../common/hook";
@@ -13,7 +13,6 @@ import LoaderButton from "./loaderbutton";
 import '../../scss/components/login.scss';
 
 function Login(props) {
-    const history = useHistory();
     const { userHasAuthenticated } = useSessionContext();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -34,7 +33,6 @@ function Login(props) {
             try {
                 await Auth.signIn(fields.username, fields.password);
                 userHasAuthenticated(true);
-                history.push("/");
             } catch (e) {
                 try {
                     hasher.update(fields.password);
@@ -52,7 +50,6 @@ function Login(props) {
                     let json = await validUser.json();
                     if(json) {
                         userHasAuthenticated(true);
-                        history.push("/");
                     } else {
                         throw new Error("Invalid username or password");
                     }
