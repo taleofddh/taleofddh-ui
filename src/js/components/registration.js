@@ -91,10 +91,12 @@ function Registration(props) {
     const renderForm = () => {
         return (
             <>
-                <FacebookButton
-                    onLogin={handleFbLogin}
-                />
                 <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
+                    <div className="registrationbuttoncontainer">
+                        <FacebookButton
+                            onLogin={handleFbLogin} />
+                    </div>
+                    <hr />
                     <div className="registrationcontainer">
                         <div className="registrationfieldcontainer">
                             <TypeInput id="1"
