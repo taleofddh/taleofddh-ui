@@ -85,7 +85,7 @@ function Registration(props) {
     }
 
     const handleFbLogin = () => {
-        this.props.userHasAuthenticated(true);
+        userHasAuthenticated(true);
     };
 
     const renderForm = () => {
