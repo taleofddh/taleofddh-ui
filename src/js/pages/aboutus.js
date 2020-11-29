@@ -32,7 +32,7 @@ function AboutUs(props) {
                         ) : (
                             <>
                                 {data.map((item, index) => (
-                                    <Story key={item.id} story={item} index={index} mobile={matches} />
+                                    <Story key={index} story={item} index={index} mobile={matches} />
                                 ))}
                                 <StayConnected />
                             </>
