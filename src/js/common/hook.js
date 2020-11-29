@@ -9,12 +9,9 @@ export const useApi = (hostname, protocol, key) => {
     let index = true;
     let obj = getSessionStorage(key);
     if(Object.keys(obj).length === 0 && obj.constructor === Object) {
-        /*if(hostname === 'taleofddh.com' || hostname === 'localhost') {
-            url = 'https//'  + 'api.taleofddh.com';
-        } else {
-            url = protocol + '//'  + hostname;
+        if(hostname !== 'taleofddh.com' && hostname !== 'www.taleofddh.com') {
             index = false;
-        }*/
+        }
         url = 'https://api.taleofddh.com';
         if(key) {
             setSessionStorage(key, {api: url});

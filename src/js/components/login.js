@@ -72,8 +72,8 @@ function Login(props) {
 
     return (
         <>
-            <div className="logincontainer">
-                <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
+            <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
+                <div className="logincontainer">
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"
                                    name="username"
@@ -114,20 +114,20 @@ function Login(props) {
                     <div className="forgotpasswordcontainer">
                         <NavLink to="/forgot-password">Forgot Password</NavLink>
                     </div>
-                </form>
-            </div>
-            <div className="loginbuttoncontainer">
-                <LoaderButton name="LoginButton"
-                          label="Login"
-                          disabled={!validateForm}
-                          isLoading={isLoading}
-                          onClick={submitLogin} />
-            </div>
-            <div className="signupmessagecontainer">
-                <p className="signupmessage">
-                    Don't have an account yet? Please <NavLink to="/sign-up">Sign-up</NavLink>
-                </p>
-            </div>
+                </div>
+                <div className="loginbuttoncontainer">
+                    <LoaderButton name="LoginButton"
+                              label="Login"
+                              disabled={!validateForm}
+                              isLoading={isLoading}
+                              onClick={submitLogin} />
+                </div>
+                <div className="signupmessagecontainer">
+                    <p className="signupmessage">
+                        Don't have an account yet? Please <NavLink to="/sign-up">Sign-up</NavLink>
+                    </p>
+                </div>
+            </form>
         </>
     )
 }

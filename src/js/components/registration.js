@@ -86,8 +86,8 @@ function Registration(props) {
     const renderForm = () => {
         return (
             <>
-                <div className="registrationcontainer">
-                    <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
+                <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
+                    <div className="registrationcontainer">
                         <div className="registrationfieldcontainer">
                             <TypeInput id="1"
                                        name="username"
@@ -128,15 +128,15 @@ function Registration(props) {
                                        pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
                                        onChange={handleFieldChange} />
                         </div>
-                    </form>
-                </div>
-                <div className="registrationbuttoncontainer">
-                    <LoaderButton name="RegisterButton"
-                                  label="Register"
-                                  disabled={!validateForm}
-                                  isLoading={isLoading}
-                                  onClick={submitRegistration} />
-                </div>
+                    </div>
+                    <div className="registrationbuttoncontainer">
+                        <LoaderButton name="RegisterButton"
+                                      label="Register"
+                                      disabled={!validateForm}
+                                      isLoading={isLoading}
+                                      onClick={submitRegistration} />
+                    </div>
+                </form>
             </>
         )
     }
@@ -144,8 +144,8 @@ function Registration(props) {
     const renderConfirmationForm = () => {
         return (
             <>
-                <div className="registrationcontainer">
-                    <form key="RegistrationForm" name="RegistrationForm" onSubmit={submitRegistration}>
+                <form key="RegistrationForm" name="RegistrationForm" onSubmit={submitConfirmation}>
+                    <div className="registrationcontainer">
                         <div className="registrationfieldcontainer">
                             <TypeInput id="1"
                                        name="confirmationCode"
@@ -160,15 +160,15 @@ function Registration(props) {
                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                        onChange={handleFieldChange} />
                         </div>
-                    </form>
-                </div>
-                <div className="registrationbuttoncontainer">
-                    <LoaderButton name="ConfirmCodeButton"
-                                  label="Confirm Code"
-                                  disabled={!validateConfirmationForm}
-                                  isLoading={isLoading}
-                                  onClick={submitConfirmation} />
-                </div>
+                    </div>
+                    <div className="registrationbuttoncontainer">
+                        <LoaderButton name="ConfirmCodeButton"
+                                      label="Confirm Code"
+                                      disabled={!validateConfirmationForm}
+                                      isLoading={isLoading}
+                                      onClick={submitConfirmation} />
+                    </div>
+                </form>
             </>
         )
     }

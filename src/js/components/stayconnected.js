@@ -32,56 +32,56 @@ function StayConnected(props) {
         }
         return (
             <>
-                {props.isAdditionalEnqueries ? (
+                <form key="StayConnectedForm" name="StayConnectedForm" onSubmit={submitSubscription}>
+                    {props.isAdditionalEnqueries ? (
+                        <div className="formcontainer">
+                            {props.stayConnectedEnqueries.map((item) => (
+                                <div className="fieldcontainer">
+                                    {item.type.toUpperCase() === 'RADIO' ? (
+                                        <>
+                                            <div className="stayconnectedenquiryquestion">
+                                                <Label id={item.sequence + ''}
+                                                       name={item.question}
+                                                       label={item.question}
+                                                       disabled={false}
+                                                       required={item.required} />
+                                                {item.note !== '' ? (
+                                                    <label className="stayconnectedenquirynote">
+                                                        {'(' + item.note + ')'}
+                                                    </label>
+                                                ) : (
+                                                    <>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <div className="stayconnectedenquiryoptions">
+                                                {item.optionList.map((item1, index) => {
+                                                    return (
+                                                        <Radio key={index}
+                                                               id={item.sequence + ''}
+                                                               type={item.type}
+                                                               name={item.question}
+                                                               label={item1.choice}
+                                                               value={item1.choice}
+                                                               disabled={false}
+                                                               required={false}
+                                                               initialState={false}
+                                                               onChange={handleAdditionalEnquriesChange}/>
+                                                    )
+                                                })}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                        </>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                     <div className="formcontainer">
-                        {props.stayConnectedEnqueries.map((item) => (
-                            <div className="fieldcontainer">
-                                {item.type.toUpperCase() === 'RADIO' ? (
-                                    <>
-                                        <div className="stayconnectedenquiryquestion">
-                                            <Label id={item.sequence + ''}
-                                                   name={item.question}
-                                                   label={item.question}
-                                                   disabled={false}
-                                                   required={item.required} />
-                                            {item.note !== '' ? (
-                                                <label className="stayconnectedenquirynote">
-                                                    {'(' + item.note + ')'}
-                                                </label>
-                                            ) : (
-                                                <>
-                                                </>
-                                            )}
-                                        </div>
-                                        <div className="stayconnectedenquiryoptions">
-                                            {item.optionList.map((item1, index) => {
-                                                return (
-                                                    <Radio key={index}
-                                                           id={item.sequence + ''}
-                                                           type={item.type}
-                                                           name={item.question}
-                                                           label={item1.choice}
-                                                           value={item1.choice}
-                                                           disabled={false}
-                                                           required={false}
-                                                           initialState={false}
-                                                           onChange={handleAdditionalEnquriesChange}/>
-                                                )
-                                            })}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                    </>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <></>
-                )}
-                <div className="formcontainer">
-                    <form key="StayConnectedForm" name="StayConnectedForm" onSubmit={submitSubscription}>
                         <div className="fieldcontainer">
                             <TypeInput
                                 id="1"
@@ -97,15 +97,15 @@ function StayConnected(props) {
                                 pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                 onChange={handleFieldChange} />
                         </div>
-                    </form>
-                </div>
-                <div className="connectedbuttoncontainer" style={{marginTop: marginTop}}>
-                    <LoaderButton name="StayConnectedButton"
-                                  label="Stay Connected"
-                                  disabled={!validateForm}
-                                  isLoading={isLoading}
-                                  onClick={submitSubscription} />
-                </div>
+                    </div>
+                    <div className="connectedbuttoncontainer" style={{marginTop: marginTop}}>
+                        <LoaderButton name="StayConnectedButton"
+                                      label="Stay Connected"
+                                      disabled={!validateForm}
+                                      isLoading={isLoading}
+                                      onClick={submitSubscription} />
+                    </div>
+                </form>
             </>
         );
     }
