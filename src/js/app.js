@@ -6,12 +6,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Router, Route, Switch } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import {Auth} from "aws-amplify";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
 import countries from "./common/countries";
 import {SessionContext, getSessionCookie, setSessionCookie, setSessionStorage, getSessionStorage} from "./common/session";
 import {useApi, useFetch, useGet} from "./common/hook";
-import { GEOLOCATION_URL, GTAG_TRACKING_ID } from './common/constants';
+import {AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, FACEBOOK_APP_URL} from './common/constants';
+import {onError} from "./common/error";
 import ScrollToTop from "./common/scroll";
 import ResponsiveNavigation from "./components/responsivenavigation";
 import Header from './components/header';
@@ -54,8 +56,41 @@ function App(props) {
     const [session] = useState(getSessionCookie);
 
     useEffect(() => {
+        onLoad();
         ReactGA.pageview(window.location.pathname);
     }, [])
+
+    async function onLoad() {
+        loadFacebookSDK();
+        try {
+            await Auth.currentSession();
+            userHasAuthenticated(true);
+        }
+        catch(e) {
+            if (e !== 'No current user') {
+                onError(e);
+            }
+        }
+    }
+
+    const loadFacebookSDK = () => {
+        window.fbAsyncInit = function() {
+            window.FB.init({
+                appId            : AWS_CONFIG.social.FB,
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v3.1'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = FACEBOOK_APP_URL;
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }
 
     useEffect(() => {
         let ddhomeCountryDetails = getSessionCookie('ddhomeCountry');

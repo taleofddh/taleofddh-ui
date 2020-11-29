@@ -1,9 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake } from '@fortawesome/free-solid-svg-icons';
 
-library.add(far, fab, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake);
+library.add(far, fab, faFacebookF, faGoogle, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake);
 
 export const ruler = (measure) => {
     let ruler = {

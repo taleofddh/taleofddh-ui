@@ -9,6 +9,7 @@ import {useSessionContext, getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import LoaderButton from "./loaderbutton";
+import FacebookButton from "./facebookbutton";
 import '../../scss/components/registration.scss';
 
 function Registration(props) {
@@ -83,9 +84,16 @@ function Registration(props) {
         return fields.confirmationCode.length > 0;
     }
 
+    const handleFbLogin = () => {
+        this.props.userHasAuthenticated(true);
+    };
+
     const renderForm = () => {
         return (
             <>
+                <FacebookButton
+                    onLogin={handleFbLogin}
+                />
                 <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
                     <div className="registrationcontainer">
                         <div className="registrationfieldcontainer">

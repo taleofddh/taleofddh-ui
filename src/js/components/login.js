@@ -10,6 +10,7 @@ import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import CheckBox from "./checkbox";
 import LoaderButton from "./loaderbutton";
+import FacebookButton from "./facebookbutton";
 import '../../scss/components/login.scss';
 
 function Login(props) {
@@ -67,9 +68,18 @@ function Login(props) {
         return fields.username.length > 0 && fields.password.length > 0;
     }
 
+    const handleFbLogin = () => {
+        userHasAuthenticated(true);
+    };
+
     return (
         <>
             <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
+                <div className="loginbuttoncontainer">
+                    <FacebookButton
+                        onLogin={handleFbLogin} />
+                </div>
+                <hr />
                 <div className="logincontainer">
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"

@@ -2,6 +2,7 @@ export const FUNNY_QUOTE_URL = process.env.REACT_APP_FUNNY_QUOTE_URL;
 export const GEOLOCATION_URL = process.env.REACT_APP_GEOLOCATION_URL;
 export const GTAG_TRACKING_ID = process.env.REACT_APP_GTAG_TRACKING_ID;
 export const MEDIA_HOST = process.env.REACT_APP_MEDIA_HOST;
+export const FACEBOOK_APP_URL=process.env.REACT_APP_FACEBOOK_APP_URL;
 export const AWS_CONFIG = {
     s3: {
         REGION: process.env.REACT_APP_AWS_S3_REGION,
@@ -16,5 +17,8 @@ export const AWS_CONFIG = {
         USER_POOL_ID: process.env.REACT_APP_AWS_COGNITO_USER_POOL_ID,
         APP_CLIENT_ID: process.env.REACT_APP_AWS_COGNITO_APP_CLIENT_ID,
         IDENTITY_POOL_ID: process.env.REACT_APP_AWS_COGNITO_IDENTITY_POOL_ID
+    },
+    social: {
+        FB: process.env.REACT_APP_FACEBOOK_APP_ID
     }
 };

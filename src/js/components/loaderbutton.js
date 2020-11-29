@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { BsArrowRepeat } from "react-icons/bs";
 import '../../scss/components/loaderbutton.scss';
+import {FaFontAwesome} from "react-icons/all";
 
 function LoaderButton(props) {
     const [focused, setFocused] = useState(false);
@@ -18,12 +20,20 @@ function LoaderButton(props) {
     const handleClick = (event) => {
         props.onClick && props.onClick(event);
     }
+    let icon
+    if(props.icon) {
+        icon =
+            <>
+                <FontAwesomeIcon icon={['fab', props.icon]} />&nbsp;&nbsp;
+            </>
+    }
 
     return (
         <div
             tabIndex={0}
             id={props.id}
             name={props.name}
+            className="loaderbutton"
             ref={props.ref}
             defaultValue={props.label}
             className={`loaderbutton ${props.className}`}
@@ -34,7 +44,7 @@ function LoaderButton(props) {
                     onBlur={onBlur}
                     onClick={handleClick}>
                 {props.isLoading && <BsArrowRepeat className="spinning" />}
-                {props.label}
+                {icon}{props.label}
             </button>
         </div>
     )
