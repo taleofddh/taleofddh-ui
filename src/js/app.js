@@ -13,6 +13,8 @@ import countries from "./common/countries";
 import {SessionContext, getSessionCookie, setSessionCookie, setSessionStorage, getSessionStorage} from "./common/session";
 import {useApi, useFetch, useGet} from "./common/hook";
 import {AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, FACEBOOK_APP_URL} from './common/constants';
+import AuthenticatedRoute from "./common/authenticatedroute";
+import UnauthenticatedRoute from "./common/unauthenticatedroute";
 import {onError} from "./common/error";
 import ScrollToTop from "./common/scroll";
 import ResponsiveNavigation from "./components/responsivenavigation";
@@ -25,6 +27,7 @@ import SignIn from "./pages/signin";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
+import Blog from "./pages/blog";
 import Gallery from "./pages/gallery";
 import Photo from "./pages/photo";
 import TermsAndConditions from "./pages/termsandconditions";
@@ -33,8 +36,6 @@ import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
 import Loader from "./components/loader";
 import Error from "./pages/error";
 import '../scss/app.scss';
-import AuthenticatedRoute from "./common/authenticatedroute";
-import UnauthenticatedRoute from "./common/unauthenticatedroute";
 
 ReactGA.initialize(GTAG_TRACKING_ID);
 const history = createBrowserHistory();
@@ -186,6 +187,10 @@ function App(props) {
                                     <AuthenticatedRoute
                                         exact path={["/photo", "/photo/:albumName/:startIndex"]}
                                         render={(props) => <Photo {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/blog"
+                                        render={(props) => <Blog {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

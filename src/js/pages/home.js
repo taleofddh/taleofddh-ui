@@ -14,11 +14,10 @@ import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import CollapseText from "../components/collapsetext";
-import Navigation from "../components/navigation";
-import Banner from "../components/banner";
 import Promotion from "../components/promotion";
 import StayConnected from "../components/stayconnected";
 import '../../scss/pages/home.scss';
+import BlogSection from "../components/blogsection";
 
 const source = 'home';
 
@@ -54,27 +53,13 @@ function Home(props) {
             </div>
             <div className="boxouter">
                 <div className="container">
+                    <BlogSection />
+                </div>
+                <div className="container">
                     <CollapseText header='Looking for something else?' content={defaultMessage}/>
                 </div>
             </div>
         </>
-    )
-}
-
-function Brand() {
-    return (
-        <div className="brandframe">
-            <div className="serveasemap">
-                <img src="/images/servease-map.png"  alt="ServEase Map" className="brandpiccontrol"/>
-            </div>
-            <div className="serveasebrand">
-                <p>
-                    <label className="serveasebrandtext">
-                        ServEase offers easy access of local and cross-border services to expatriates, global diaspora, and people on the move!
-                    </label>
-                </p>
-            </div>
-        </div>
     )
 }
 
