@@ -42,3 +42,15 @@
     color: $color-hot-cinnamon;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .blogsectionitem {
+    width: calc(50% - 20px);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .blogsectionitem {
+    width: calc(100% - 20px);
+  }
+}
