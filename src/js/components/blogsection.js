@@ -9,6 +9,9 @@ function BlogSection(props) {
             <div className="blogsectionheader">Travel Blogs</div>
             <ul className="blogsectiongroup">
                 <li className="blogsectionitem">
+                    <p className="blogsectiontitle">
+                        Splendor of Ratnagiri
+                    </p>
                     <p className="blogsectionpiccontrol">
                         <img src={MEDIA_HOST + '/images/mobile/vacation/asia/india/ganapatipule/ganapatipule-17.jpg'} />
                     </p>
@@ -20,6 +23,9 @@ function BlogSection(props) {
 
                 </li>
                 <li className="blogsectionitem">
+                    <p className="blogsectiontitle">
+                        Beautiful Jurassic Coast
+                    </p>
                     <p className="blogsectionpiccontrol">
                         <img src={MEDIA_HOST + '/images/mobile/day-outing/europe/england/lulworth/lulworth-03.jpg'} />
                     </p>
@@ -31,6 +37,9 @@ function BlogSection(props) {
 
                 </li>
                 <li className="blogsectionitem">
+                    <p className="blogsectiontitle">
+                        Cape of the World
+                    </p>
                     <p className="blogsectionpiccontrol">
                         <img src={MEDIA_HOST + '/images/mobile/vacation/africa/south-africa/cape-town/cape-town-24.jpg'} />
                     </p>
