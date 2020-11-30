@@ -15,7 +15,7 @@ function BlogSection(props) {
                     <p className="blogsectiontext">
                         Ganapatipule is a small village on the Konkan coast with a series of beautiful beaches. Even after staying more than 10 years in Mumbai and hearing a lot about this magnificent place we have never been to Ganapatipule till the winter of 2009.
                         Extending the weekend by a day we planned for a short trip and booked an overnight bus from Borivali. About 375 km south of Mumbai it took the entire night of half sleep half awake in an air conditioned coach to reach Ratnagiri.
-                        &nbsp;<a href="#">...Read More</a>
+                        From Ratnagiri train station&nbsp;<a href="#">...Read More</a>
                     </p>
 
                 </li>
