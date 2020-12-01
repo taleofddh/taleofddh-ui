@@ -67,11 +67,11 @@ function HamnburgerMenuItem(props) {
         exact = {"exact": true};
     }
     let visible = false;
-    if(props.menu.condition === 'Not Applicable') {
+    if(props.menu.condition === 'NA') {
         visible = true;
-    } else if (props.menu.condition === 'Not Authenticated' && !isAuthenticated) {
+    } else if (props.menu.condition === 'No Auth' && !isAuthenticated) {
         visible = true;
-    } else if (props.menu.condition === 'Authenticated' && isAuthenticated) {
+    } else if (props.menu.condition === 'Auth' && isAuthenticated) {
         visible = true;
     } else {
         visible = false;
