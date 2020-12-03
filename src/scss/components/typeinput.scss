@@ -52,6 +52,14 @@ input[type="text"] {
             background-repeat: no-repeat;
         }
     }
+    &:focus {
+        &:invalid {
+            background-position: right top;
+            outline: none;
+            background-image: url("/images/icon-invalid.png");
+            background-repeat: no-repeat;
+        }
+    }
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -83,6 +91,14 @@ input[type="number"] {
             background-repeat: no-repeat;
         }
     }
+    &:focus {
+        &:invalid {
+            background-position: right top;
+            outline: none;
+            background-image: url("/images/icon-invalid.png");
+            background-repeat: no-repeat;
+        }
+    }
 }
 
 input[type="password"] {
@@ -97,6 +113,14 @@ input[type="password"] {
             background-position: right top;
             outline: none;
             background-image: url("/images/icon-valid.png");
+            background-repeat: no-repeat;
+        }
+    }
+    &:focus {
+        &:invalid {
+            background-position: right top;
+            outline: none;
+            background-image: url("/images/icon-invalid.png");
             background-repeat: no-repeat;
         }
     }
@@ -117,6 +141,14 @@ input[type="email"] {
             background-repeat: no-repeat;
         }
     }
+    &:focus {
+        &:invalid {
+            background-position: right top;
+            outline: none;
+            background-image: url("/images/icon-invalid.png");
+            background-repeat: no-repeat;
+        }
+    }
 }
 
 input[type="tel"] {
@@ -134,6 +166,14 @@ input[type="tel"] {
             background-repeat: no-repeat;
         }
     }
+    &:focus {
+        &:invalid {
+            background-position: right top;
+            outline: none;
+            background-image: url("/images/icon-invalid.png");
+            background-repeat: no-repeat;
+        }
+    }
 }
 
 input[type="date"] {
@@ -148,6 +188,14 @@ input[type="date"] {
             background-position: right top;
             outline: none;
             background-image: url("/images/icon-valid.png");
+            background-repeat: no-repeat;
+        }
+    }
+    &:focus {
+        &:invalid {
+            background-position: right top;
+            outline: none;
+            background-image: url("/images/icon-invalid.png");
             background-repeat: no-repeat;
         }
     }
