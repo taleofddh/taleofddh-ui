@@ -24,26 +24,23 @@ function Enquiry(props) {
     const submitEnquiry = (submitEvent) => {
         submitEvent.preventDefault();
         console.log(fields.name, fields.email, fields.phone, fields.enquiry);
-        if(validateForm()) {
-            let request = {
-                type: props.type,
-                countryCode: ddhomeCountry.country_code,
-                requestor: fields.name,
-                email: fields.email,
-                phone: fields.phone,
-                enquiry: fields.enquiry
-            }
 
-            props.history.push('/' + props.source + '-acknowledgement', {
-                api: api,
-                source: props.source,
-                index: index,
-                request: request
-            });
-
-        } else {
-            alert('Invalid Form. Please complete mandatory fields correctly marked with *')
+        let request = {
+            type: props.type,
+            countryCode: ddhomeCountry.country_code,
+            requestor: fields.name,
+            email: fields.email,
+            phone: fields.phone,
+            enquiry: fields.enquiry
         }
+
+        props.history.push('/' + props.source + '-acknowledgement', {
+            api: api,
+            source: props.source,
+            index: index,
+            request: request
+        });
+
     }
 
     const validateForm = () => {
@@ -115,9 +112,10 @@ function Enquiry(props) {
             </div>
             <div className="enquirybuttoncontainer">
                 <Button name="SubmitEnquiryButton"
-                    label="Submit"
-                    disabled={!validateForm}
-                    onClick={submitEnquiry} />
+                        type="submit"
+                        label="Submit"
+                        disabled={!validateForm()}
+                        onClick={submitEnquiry} />
             </div>
         </>
     )

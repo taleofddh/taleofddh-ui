@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { BsArrowRepeat } from "react-icons/bs";
 import '../../scss/components/loaderbutton.scss';
-import {FaFontAwesome} from "react-icons/all";
 
 function LoaderButton(props) {
     const [focused, setFocused] = useState(false);
-    const [disabled, setDisabled] = useState(props.disabled);
 
     const onBlur = () => {
         setFocused(false);
@@ -38,8 +36,8 @@ function LoaderButton(props) {
             defaultValue={props.label}
             className={`loaderbutton ${props.className}`}
             title={props.title}>
-            <button type="submit"
-                    disabled={disabled || props.isLoading}
+            <button type={props.type}
+                    disabled={props.disabled || props.isLoading}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     onClick={handleClick}>
@@ -67,7 +65,7 @@ LoaderButton.defaultProps = {
     title: '',
     onClick: () => {},
     className: '',
-    isLoading: false
+    disabled: false
 };
 
 export default LoaderButton;

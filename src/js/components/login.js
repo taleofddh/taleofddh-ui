@@ -29,42 +29,41 @@ function Login(props) {
     const submitLogin = async (submitEvent) => {
         submitEvent.preventDefault();
         console.log(fields.username);
-        if(validateForm()) {
-            setIsLoading(true);
+
+        setIsLoading(true);
+        try {
+            await Auth.signIn(fields.username, fields.password);
+            userHasAuthenticated(true);
+        } catch (e) {
             try {
-                await Auth.signIn(fields.username, fields.password);
-                userHasAuthenticated(true);
-            } catch (e) {
-                try {
-                    hasher.update(fields.password);
-                    let hashedPassword = CryptoApi.encoder.toHex(hasher.finalize()).toUpperCase();
-                    //console.log(hashedPassword);
-                    let headers = {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    };
-                    let data = {
-                        username: fields.username,
-                        password: hashedPassword
-                    }
-                    let validUser = await fetch(api + '/auth/findUser', { method: 'POST', headers : headers, body: JSON.stringify(data) });
-                    let json = await validUser.json();
-                    if(json) {
-                        userHasAuthenticated(true);
-                    } else {
-                        throw new Error("Invalid username or password");
-                    }
-                } catch (ex) {
-                    onError(ex);
-                    setIsLoading(false);
+                hasher.update(fields.password);
+                let hashedPassword = CryptoApi.encoder.toHex(hasher.finalize()).toUpperCase();
+                //console.log(hashedPassword);
+                let headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                };
+                let data = {
+                    username: fields.username,
+                    password: hashedPassword
                 }
+                let validUser = await fetch(api + '/auth/findUser', { method: 'POST', headers : headers, body: JSON.stringify(data) });
+                let json = await validUser.json();
+                if(json) {
+                    userHasAuthenticated(true);
+                } else {
+                    throw new Error("Invalid username or password");
+                }
+            } catch (ex) {
+                onError(ex);
+                setIsLoading(false);
             }
-        } else {
-            alert('Please check your username and password requirement')
         }
+
     }
 
     const validateForm = () => {
+        console.log("fields.username.length", fields.username.length);
         return fields.username.length > 0 && fields.password.length > 0;
     }
 
@@ -124,10 +123,10 @@ function Login(props) {
                 </div>
                 <div className="loginbuttoncontainer">
                     <LoaderButton name="LoginButton"
-                              label="Login"
-                              disabled={!validateForm}
-                              isLoading={isLoading}
-                              onClick={submitLogin} />
+                                  label="Login"
+                                  type="submit"
+                                  disabled={!validateForm()}
+                                  isLoading={isLoading} />
                 </div>
                 <div className="signupmessagecontainer">
                     <p className="signupmessage">

@@ -13,7 +13,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
     background-color: $color-atlantis;
     background-image: linear-gradient(to right, $color-crete , $color-atlantis);
-    >button {
+    button {
         width: 100%;
         display: block;
         text-align: center;
@@ -23,8 +23,13 @@
         font-family: Open Sans, Sans-Serif;
         font-size: 1rem;
         font-weight: bold;
-        cursor: pointer;
         padding: 5px 25px;
+        cursor: pointer;
+        &:disabled {
+            border: none;
+            opacity: 0.6;
+            cursor: default;
+        }
     }
     &.facebook {
         border: 1px solid $color-blue-jay;
@@ -38,7 +43,7 @@
     }
 }
 
-.loaderbutton .spinning.glyphicon {
+.loaderbutton .spinning {
     margin-right: 7px;
     top: 2px;
     animation: spin 1s infinite linear;

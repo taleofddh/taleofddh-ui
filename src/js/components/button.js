@@ -4,7 +4,6 @@ import '../../scss/components/button.scss';
 
 function Button(props) {
     const [focused, setFocused] = useState(false);
-    const [disabled, setDisabled] = useState(props.disabled);
 
     const onBlur = () => {
         setFocused(false);
@@ -27,8 +26,8 @@ function Button(props) {
             defaultValue={props.label}
             className={`button ${props.className}`}
             title={props.title}>
-            <button type="submit"
-                    disabled={disabled}
+            <button type={props.type}
+                    disabled={props.disabled}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     onClick={handleClick}>
@@ -53,7 +52,8 @@ Button.defaultProps = {
     label: '',
     title: '',
     onClick: () => {},
-    className: ''
+    className: '',
+    disabled: false
 };
 
 export default Button;
