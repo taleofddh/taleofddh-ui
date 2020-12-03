@@ -95,6 +95,21 @@ Amplify.configure({
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },
+            {
+                name: 'findBlogList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findCategorizedBlogList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findArticleList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            }
         ]
     }
 });

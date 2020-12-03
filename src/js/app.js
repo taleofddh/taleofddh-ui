@@ -28,6 +28,7 @@ import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
 import Blog from "./pages/blog";
+import Article from "./pages/article";
 import Gallery from "./pages/gallery";
 import Photo from "./pages/photo";
 import TermsAndConditions from "./pages/termsandconditions";
@@ -189,8 +190,12 @@ function App(props) {
                                         render={(props) => <Photo {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path="/blog"
+                                        exact path={["/blog", "/blog/:blogName"]}
                                         render={(props) => <Blog {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/blog-article"
+                                        render={(props) => <Article {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

@@ -1,0 +1,67 @@
+@import "../common/common";
+
+.articleframe {
+    border-width: 0px;
+    border-style: solid;
+    border-color: $color-tan;
+    width: 100%;
+    height: auto;
+    margin: 10px 0px;
+    line-height: 22px;
+    padding: 0px 0px 10px;
+    position: relative;
+    background-color: $color-shark;
+    float: left;
+}
+
+.articlecontainer {
+    background-color: $color-white-dark;
+    width: calc(100% - 20px);
+    height: auto;
+    font-family: Open Sans, Sans-Serif;
+    font-weight: normal;
+    margin: 0px 10px;
+    float: left;
+}
+.articlettitle {
+    font-weight: bold;
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    color: $color-white;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.articlepiccontrol {
+    width: calc(100% - 20px);
+    padding: 10px;
+    float: left;
+    text-align: center;
+}
+
+.article {
+    width: calc(100% - 20px);
+    padding: 0px 10px;
+    float: left;
+}
+
+.articletext {
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 1.67rem;
+    color: $color-abbey;
+    text-align: justify;
+    margin: 5px auto;
+}
+
+@media screen and (max-width: 820px) {
+    .articlepiccontrol, .article {
+        width: calc(100% - 20px);
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .articletext {
+        text-align: left;
+    }
+}

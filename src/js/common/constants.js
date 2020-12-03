@@ -22,3 +22,6 @@ export const AWS_CONFIG = {
         FB: process.env.REACT_APP_FACEBOOK_APP_ID
     }
 };
+export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
