@@ -1,6 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useEffect } from 'react';
+import { NavLink } from "react-router-dom";
 import ReactHtmlParser  from 'react-html-parser';
 import {MEDIA_HOST, MONTH_NAMES} from "../common/constants";
 import {useApi, usePost, useMediaQuery} from '../common/hook'
@@ -90,14 +91,45 @@ function Section(props) {
                 <img src={MEDIA_HOST + '/images/' + originalPath + '/' + props.section.content} />
             </div>
     } else if (props.section.type === 'Text') {
-        content =
-            <div className="article">
-                <p className={props.section.styleClass}>
-                    <label>
-                        {ReactHtmlParser(props.section.content)}
-                    </label>
-                </p>
-            </div>
+        let tempMessage = props.section.content;
+        let startMessage;
+        let link;
+        let linkText;
+        let linkMessage;
+        let endMessage;
+        let linkStart = tempMessage.indexOf("<a")
+        let linkEnd = tempMessage.indexOf("</a>");
+        if(linkStart > -1) {
+            if (linkStart > 0) {
+                startMessage = tempMessage.substring(0, linkStart);
+            }
+            if(linkEnd + 5 < tempMessage.length) {
+                endMessage = tempMessage.substring(linkEnd + 4, tempMessage.length)
+            }
+            link = tempMessage.substring(tempMessage.indexOf("href=\"") + 6, tempMessage.indexOf("\">"));
+            linkText = tempMessage.substring(tempMessage.indexOf("\">") + 2, linkEnd);
+            linkMessage =
+                <NavLink to={link}>{linkText}</NavLink>
+            content =
+                <div className="article">
+                    <p className={props.section.styleClass}>
+                        <label>
+                            {ReactHtmlParser(startMessage)}
+                            {linkMessage}
+                            {ReactHtmlParser(endMessage)}
+                        </label>
+                    </p>
+                </div>
+        } else {
+            content =
+                <div className="article">
+                    <p className={props.section.styleClass}>
+                        <label>
+                            {ReactHtmlParser(tempMessage)}
+                        </label>
+                    </p>
+                </div>
+        }
     }
 
     return (
