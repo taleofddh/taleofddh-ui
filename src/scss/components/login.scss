@@ -47,32 +47,20 @@
   padding: 20px 0px;
 }
 
-.remembermecontainer {
-  width: calc(50% - 20px);
+.messagecontainer {
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  text-align: center;
+  background-color: $color-transparent;
   padding: 5px 10px;
-  float: left;
 }
 
-.forgotpasswordcontainer {
-  float: left;
-  width: calc(50% - 20px);
-  padding: 5px 10px;
-  a {
-    color: $color-hot-cinnamon;
-    text-decoration: none;
-  }
-}
-
-.signupmessage, forgotpasswordmessage {
-  width: calc(100% - 2px);
+.signupmessage, .forgotpasswordmessage {
   color: $color-white;
   font-family: Open Sans, Sans-Serif;
   font-size: 1rem;
   font-weight: normal;
-  text-align: center;
   line-height: 1.67rem;
-  margin: 0 auto;
-  padding: 5px 10px;
   a {
     color: $color-atlantis;
     text-decoration: none;

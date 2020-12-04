@@ -8,7 +8,6 @@ import { useApi, useFormFields } from "../common/hook";
 import {useSessionContext, getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
-import CheckBox from "./checkbox";
 import LoaderButton from "./loaderbutton";
 import FacebookButton from "./facebookbutton";
 import '../../scss/components/login.scss';
@@ -107,19 +106,6 @@ function Login(props) {
                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
                                    onChange={handleFieldChange} />
                     </div>
-                    <div className="remembermecontainer">
-                        <CheckBox id="3"
-                                  name="isRemember"
-                                  label="Remember Me"
-                                  value={fields.isRemember}
-                                  disabled={false}
-                                  required={false}
-                                  initialState={false}
-                                  onChange={handleFieldChange} />
-                    </div>
-                    <div className="forgotpasswordcontainer">
-                        <NavLink to="/forgot-password">Forgot Password</NavLink>
-                    </div>
                 </div>
                 <div className="loginbuttoncontainer">
                     <LoaderButton name="LoginButton"
@@ -129,8 +115,9 @@ function Login(props) {
                                   isLoading={isLoading} />
                 </div>
                 <div className="signupmessagecontainer">
-                    <p className="signupmessage">
-                        Don't have an account yet? Please <NavLink to="/sign-up">Sign-up</NavLink>
+                    <p className="messagecontainer">
+                        <span className="forgotpasswordmessage"><NavLink to="/reset-password">Forgot Password</NavLink>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span className="signupmessage">Don't have an account yet? Please <NavLink to="/sign-up">Sign-up</NavLink></span>
                     </p>
                 </div>
             </form>

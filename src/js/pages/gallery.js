@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
-import {useHistory} from "react-router-dom";
+import {useHistory, withRouter} from "react-router-dom";
 import {Auth} from "aws-amplify";
 import {useApi, useFetch, useMediaQuery} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
@@ -93,4 +93,4 @@ function Gallery(props) {
 
 
 
-export default Gallery;
+export default withRouter(Gallery);

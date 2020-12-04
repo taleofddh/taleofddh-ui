@@ -24,6 +24,7 @@ import Footer from './components/footer'
 import Home from './pages/home';
 import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
+import ResetPassword from "./pages/resetpassword";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
@@ -168,6 +169,10 @@ function App(props) {
                                     <UnauthenticatedRoute
                                         exact path="/sign-in"
                                         render={(props) => <SignIn {...props} api={api} />}
+                                    />
+                                    <UnauthenticatedRoute
+                                        exact path="/reset-password"
+                                        render={(props) => <ResetPassword {...props} api={{api}} />}
                                     />
                                     <Route
                                         exact path="/about-us"

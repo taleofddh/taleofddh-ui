@@ -30,26 +30,22 @@ function Registration(props) {
     const submitRegistration = async (submitEvent) => {
         submitEvent.preventDefault();
         console.log(fields.username);
-        if(validateForm()) {
-            setIsLoading(true);
 
-            try {
-                const newUser = await Auth.signUp({
-                    username: fields.username,
-                    password: fields.password,
-                });
-                setIsLoading(false);
-                setNewUser(newUser);
-            } catch (e) {
-                if (e.name === 'UsernameExistsException') {
-                    alert (e.message);
-                } else {
-                    onError(e);
-                }
-                setIsLoading(false);
+        setIsLoading(true);
+        try {
+            const newUser = await Auth.signUp({
+                username: fields.username,
+                password: fields.password,
+            });
+            setIsLoading(false);
+            setNewUser(newUser);
+        } catch (e) {
+            if (e.name === 'UsernameExistsException') {
+                alert (e.message);
+            } else {
+                onError(e);
             }
-        } else {
-            alert('Please check your username and password requirement');
+            setIsLoading(false);
         }
     }
 
@@ -90,64 +86,63 @@ function Registration(props) {
 
     const renderForm = () => {
         return (
-            <>
-                <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
-                    <div className="registrationbuttoncontainer">
-                        <FacebookButton
-                            onLogin={handleFbLogin} />
+            <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
+                <div className="registrationbuttoncontainer">
+                    <FacebookButton
+                        onLogin={handleFbLogin} />
+                </div>
+                <hr />
+                <div className="registrationcontainer">
+                    <div className="registrationfieldcontainer">
+                        <TypeInput id="1"
+                                   name="username"
+                                   label="Username"
+                                   type="email"
+                                   disabled={false}
+                                   required={true}
+                                   maxLength={50}
+                                   initialValue=""
+                                   value={fields.username}
+                                   placeHolder=""
+                                   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                   onChange={handleFieldChange} />
                     </div>
-                    <hr />
-                    <div className="registrationcontainer">
-                        <div className="registrationfieldcontainer">
-                            <TypeInput id="1"
-                                       name="username"
-                                       label="Username"
-                                       type="email"
-                                       disabled={false}
-                                       required={true}
-                                       maxLength={50}
-                                       initialValue=""
-                                       value={fields.username}
-                                       placeHolder=""
-                                       pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                       onChange={handleFieldChange} />
-                        </div>
-                        <div className="registrationfieldcontainer">
-                            <TypeInput id="2"
-                                       name="password"
-                                       label="Password"
-                                       type="password"
-                                       disabled={false}
-                                       required={true}
-                                       initialValue=""
-                                       value={fields.password}
-                                       placeHolder=""
-                                       pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
-                                       onChange={handleFieldChange} />
-                        </div>
-                        <div className="registrationfieldcontainer">
-                            <TypeInput id="2"
-                                       name="confirmPassword"
-                                       label="Confirm Password"
-                                       type="password"
-                                       disabled={false}
-                                       required={true}
-                                       initialValue=""
-                                       value={fields.confirmPassword}
-                                       placeHolder=""
-                                       pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
-                                       onChange={handleFieldChange} />
-                        </div>
+                    <div className="registrationfieldcontainer">
+                        <TypeInput id="2"
+                                   name="password"
+                                   label="Password"
+                                   type="password"
+                                   disabled={false}
+                                   required={true}
+                                   initialValue=""
+                                   value={fields.password}
+                                   placeHolder=""
+                                   pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
+                                   onChange={handleFieldChange} />
                     </div>
-                    <div className="registrationbuttoncontainer">
-                        <LoaderButton name="RegisterButton"
-                                      label="Register"
-                                      disabled={!validateForm}
-                                      isLoading={isLoading}
-                                      onClick={submitRegistration} />
+                    <div className="registrationfieldcontainer">
+                        <TypeInput id="3"
+                                   name="confirmPassword"
+                                   label="Confirm Password"
+                                   type="password"
+                                   disabled={false}
+                                   required={true}
+                                   initialValue=""
+                                   value={fields.confirmPassword}
+                                   placeHolder=""
+                                   pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$"
+                                   onChange={handleFieldChange} />
                     </div>
-                </form>
-            </>
+                </div>
+                <div className="registrationbuttoncontainer">
+                    <LoaderButton name="RegisterButton"
+                                  type="submit"
+                                  label="Register"
+                                  disabled={!validateForm()}
+                                  isLoading={isLoading}
+                                  onClick={submitRegistration} />
+                </div>
+            </form>
         )
     }
 
@@ -173,8 +168,9 @@ function Registration(props) {
                     </div>
                     <div className="registrationbuttoncontainer">
                         <LoaderButton name="ConfirmCodeButton"
+                                      type="submit"
                                       label="Confirm Code"
-                                      disabled={!validateConfirmationForm}
+                                      disabled={!validateConfirmationForm()}
                                       isLoading={isLoading}
                                       onClick={submitConfirmation} />
                     </div>
