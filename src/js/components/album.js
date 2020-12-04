@@ -25,9 +25,34 @@ function Album(props) {
 
     return (
         <div>
-            <AlbumGallery photos={images} targetRowHeight={180} onClick={handleAlbumClick}/>
+            <AlbumGallery photos={images} targetRowHeight={180} onClick={handleAlbumClick} renderImage={props => <Thumbnail {...props} />}/>
         </div>
     )
 }
+
+const Thumbnail = ({ index, onClick, photo, margin, direction, top, left }) => {
+    const imgStyle = { margin: margin, cursor: "pointer" };
+    if (direction === "column") {
+        imgStyle.position = "absolute";
+        imgStyle.left = left;
+        imgStyle.top = top;
+    }
+
+    const handleClick = event => {
+        onClick(event, { photo, index });
+    };
+
+    return (
+        <div className="thumbnail">
+            <img className="thumbnailpiccontrol"
+                style={imgStyle}
+                {...photo}
+                onClick={onClick ? handleClick : null}
+                alt={photo.alt}
+            />
+            <p className="thumbnailheader">{photo.caption}</p>
+        </div>
+    );
+};
 
 export default Album;
