@@ -19,6 +19,10 @@ export const getSessionCookie = (name) => {
     }
 };
 
+export const removeSessionCookie = (name) => {
+    Cookies.remove(name);
+}
+
 export const setSessionStorage = (name, value) => {
     sessionStorage.removeItem(name);
     sessionStorage.setItem(name, JSON.stringify(value));

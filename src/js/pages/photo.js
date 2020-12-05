@@ -95,11 +95,11 @@ function Photo(props) {
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
                             <div className="photoframe">
                                 <Title message={pagetitle + ' - ' + albumName} />
-                                    {loading ? (
-                                        <Loader loading={loading} />
-                                    ) : (
-                                        <Carousel pictures={data} startIndex={startIndex} onClick={handleClick}/>
-                                    )}
+                                {loading ? (
+                                    <Loader loading={loading} />
+                                ) : (
+                                    <Carousel pictures={data} startIndex={startIndex} onClick={handleClick}/>
+                                )}
                             </div>
                         </div>
                     ) : (

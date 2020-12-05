@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { NavLink, Link, useHistory } from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {getSessionCookie, getSessionStorage, setSessionCookie, useSessionContext} from "../common/session";
+import {getSessionCookie, getSessionStorage, setSessionCookie, removeSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import Icon from "../common/icon";
 import FunnyQuote from "./funnyquote";
@@ -121,7 +121,7 @@ function Header(props) {
         clickEvent.preventDefault();
         await Auth.signOut();
         userHasAuthenticated(false);
-        setSessionCookie("identityId", null);
+        removeSessionCookie("credential");
         history.push("/sign-in");
     }
 

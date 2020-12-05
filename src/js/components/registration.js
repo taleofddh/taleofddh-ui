@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
-import { NavLink, withRouter, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Auth, API } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import {useApi, useFormFields, usePost} from "../common/hook";
@@ -57,7 +57,7 @@ function Registration(props) {
             await Auth.signIn(fields.username, fields.password);
             userHasAuthenticated(true);
             const credentials = await Auth.currentUserCredentials();
-            setSessionCookie("identityId", credentials.identityId);
+            setSessionCookie("credential", {identityId: credentials.identityId});
             await API.post("updateUserProfile", "/updateUserProfile", {
                 response: true,
                 headers: {
@@ -191,4 +191,4 @@ function Registration(props) {
     )
 }
 
-export default withRouter(Registration);
+export default Registration;

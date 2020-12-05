@@ -1,7 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
-import {NavLink, useHistory, withRouter} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import { Auth, API } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import {useApi, useFormFields} from "../common/hook";
@@ -36,7 +36,7 @@ function Login(props) {
             await Auth.signIn(fields.username, fields.password);
             userHasAuthenticated(true);
             const credentials = await Auth.currentUserCredentials();
-            setSessionCookie("identityId", credentials.identityId);
+            setSessionCookie("credential", {identityId: credentials.identityId});
         } catch (e) {
             try {
                 hasher.update(fields.password);
@@ -77,7 +77,7 @@ function Login(props) {
             await Auth.signIn(fields.username, fields.password);
             userHasAuthenticated(true);
             const credentials = await Auth.currentUserCredentials();
-            setSessionCookie("identityId", credentials.identityId);
+            setSessionCookie("credential", {identityId: credentials.identityId});
             await API.put("updateUserProfile", "/updateUserProfile", {
                 response: true,
                 headers: {
@@ -200,4 +200,4 @@ function Login(props) {
     )
 }
 
-export default withRouter(Login);
+export default Login;
