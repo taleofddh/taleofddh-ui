@@ -109,6 +109,36 @@ Amplify.configure({
                 name: 'findArticleList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'createUser',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findUser',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'updateUser',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'createUserProfile',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findUserProfile',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'updateUserProfile',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
             }
         ]
     }

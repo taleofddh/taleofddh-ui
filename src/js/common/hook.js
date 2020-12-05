@@ -142,6 +142,43 @@ export const usePost = (api, path, data) => {
     return [result, loading];
 }
 
+export const usePut = (api, path, data) => {
+    const [result, setResult] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        putData();
+    }, []);
+
+    async function putData() {
+        console.log(data);
+
+        const init = {
+            response: true,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: data,
+        }
+
+        await API.put(api, path, init)
+            .then(response => {
+                console.log(response.data);
+                setLoading(false);
+                setResult(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+                setLoading(false);
+                setResult(error);
+            });
+    }
+
+    return [result, loading];
+}
+
+
 export const useFormFields = (initialState) => {
     const [fields, setFields] = useState(initialState);
 

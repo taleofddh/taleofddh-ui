@@ -25,6 +25,7 @@ import Home from './pages/home';
 import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
 import ResetPassword from "./pages/resetpassword";
+import UserProfile from "./pages/userprofile";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
@@ -173,6 +174,10 @@ function App(props) {
                                     <UnauthenticatedRoute
                                         exact path="/reset-password"
                                         render={(props) => <ResetPassword {...props} api={{api}} />}
+                                    />
+                                    <AuthenticatedRoute
+                                        exact path="/my-profile"
+                                        render={(props) => <UserProfile {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/about-us"

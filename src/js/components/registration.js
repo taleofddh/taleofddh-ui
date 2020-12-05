@@ -2,10 +2,10 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
 import { NavLink, withRouter, useHistory } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
+import { Auth, API } from 'aws-amplify';
 import CryptoApi from 'crypto-api/src/crypto-api';
 import {useApi, useFormFields, usePost} from "../common/hook";
-import {useSessionContext, getSessionCookie} from "../common/session";
+import {useSessionContext, getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import LoaderButton from "./loaderbutton";
@@ -51,20 +51,25 @@ function Registration(props) {
 
     const submitConfirmation = async (submitEvent) => {
         submitEvent.preventDefault();
-        if(validateConfirmationForm()) {
-            setIsLoading(true);
-            try {
-                await Auth.confirmSignUp(fields.username, fields.confirmationCode);
-                await Auth.signIn(fields.username, fields.password);
-
-                userHasAuthenticated(true);
-                history.push("/");
-            } catch (e) {
-                onError(e);
-                setIsLoading(false);
-            }
-        } else {
-            alert('Please enter a proper confirmation code');
+        setIsLoading(true);
+        try {
+            await Auth.confirmSignUp(fields.username, fields.confirmationCode);
+            await Auth.signIn(fields.username, fields.password);
+            userHasAuthenticated(true);
+            const credentials = await Auth.currentUserCredentials();
+            setSessionCookie("identityId", credentials.identityId);
+            await API.post("updateUserProfile", "/updateUserProfile", {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {email: fields.username, identityId: credentials.identityId},
+            });
+            history.push("/");
+        } catch (e) {
+            onError(e);
+            setIsLoading(false);
         }
     }
 

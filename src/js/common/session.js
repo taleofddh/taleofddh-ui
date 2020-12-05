@@ -3,7 +3,7 @@ import { Cookies } from "react-cookie-consent";
 
 export const setSessionCookie = (name, value) => {
     Cookies.remove(name);
-    if(name === 'geolocation') {
+    if(name === 'geolocation' || name === 'identityId') {
         Cookies.set(name, value, {sameSite: 'strict'});
     } else {
         Cookies.set(name, value, {expires: 7, sameSite: 'lax'});
