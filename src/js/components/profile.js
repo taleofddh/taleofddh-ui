@@ -31,9 +31,23 @@ function Profile(props) {
         countryCode: profile.countryCode,
         phone: profile.phone,
         about: profile.about,
-        communityList: profile.communityList,
         mailingFlag: profile.mailingFlag
     });
+
+    const [form, setForm] = useFormFields({
+        communityList: profile.communityList
+    });
+
+    const handleChildCheckboxChange = (changeEvent) => {
+        let communities = form.communityList;
+        communities.forEach(community => {
+            if(community.name === changeEvent.target.value) {
+                community.checked = changeEvent.target.checked;
+            }
+        })
+        setForm({...communities});
+        console.log(form);
+    }
 
     const submitProfileUpdate = (submitEvent) => {
         submitEvent.preventDefault();
@@ -235,17 +249,17 @@ function Profile(props) {
                     <div className="profilefieldcontainer">
                         <p style={{margin: '0 auto', paddingBottom: '5px'}}>Community</p>
                         <ul style={{listStyle: 'none', margin: '0 auto', padding: '0px'}}>
-                            {fields.communityList.map((item, index) => (
-                                <li style={{display: 'inline'}}>
-                                    <CheckBox id={13 + index + ''}
+                            {form.communityList.map((item, index) => (
+                                <li key={index} style={{display: 'inline'}}>
+                                    <CheckBox id={12 + item.id + ''}
                                               name="communityList"
-                                              label={item.community}
-                                              value={fields.mailingFlag}
+                                              label={item.name}
                                               disabled={false}
                                               required={false}
                                               initialState={item.checked}
-                                              {...item}
-                                              onChange={handleFieldChange} />
+                                              value={item.name}
+                                              checked={item.checked}
+                                              onChange={handleChildCheckboxChange} />
                                 </li>
                             ))}
                         </ul>
