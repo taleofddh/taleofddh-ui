@@ -1,20 +1,24 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
+import {API} from "aws-amplify";
 import {dateFormatToString} from "../common/common";
 import {useApi, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import TextArea from "../components/textarea";
 import CheckBox from "./checkbox";
-import Button from "../components/button";
+import LoaderButton from "../components/loaderbutton";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
+
+import {onError} from "../common/error";
 
 function Profile(props) {
     const history = useHistory();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const [isLoading, setIsLoading] = useState(false);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const profile = props.data;
 
@@ -49,24 +53,49 @@ function Profile(props) {
         setForm(form => ({...form, communityList: communities}));
     }
 
-    const submitProfileUpdate = (submitEvent) => {
+    const submitProfileUpdate = async (submitEvent) => {
         submitEvent.preventDefault();
+        setIsLoading(true);
         console.log(fields.firstName, fields.email, fields.phone, fields.about);
 
-        let request = {
-            countryCode: ddhomeCountry.country_code,
-            requestor: fields.firstName,
-            email: fields.email,
+        let profile = {
+            identityId: getSessionCookie("credential").identityId,
+            firstName : fields.firstName,
+            lastName: fields.lastName,
+            dateOfBirth: new Date(fields.dateOfBirth),
+            gender: fields.gender,
+            address1: fields.address1,
+            address2: fields.address2,
+            city: fields.city,
+            postCode: fields.postCode,
+            countryCode: fields.countryCode,
             phone: fields.phone,
+            about: fields.about,
+            communityList: form.communityList,
+            mailingFlag: fields.mailingFlag,
+            updatedAt: new Date()
         }
+        console.log(JSON.stringify(profile));
 
-        history.push('/' + props.source + '-acknowledgement', {
-            api: api,
-            source: props.source,
-            index: index,
-            request: request
-        });
-
+        try {
+            await API.put(
+                "updateUserProfile",
+                "/updateUserProfile",
+                {
+                    response: true,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: profile
+                }
+            );
+            setIsLoading(false);
+            alert("Your profile is successfully updated");
+        } catch (error) {
+            onError(error);
+            setIsLoading(false);
+        }
     }
 
     const validateForm = () => {
@@ -81,8 +110,14 @@ function Profile(props) {
 
     return (
         <>
-            <div className="profilecontainer">
-                <form key="ProfileForm" name="ProfileForm" onSubmit={submitProfileUpdate}>
+            <form key="ProfileForm" name="ProfileForm" onSubmit={submitProfileUpdate}>
+                <div className="profilebuttoncontainer">
+                    <NavLink to="/change-password">
+                        <LoaderButton name="ChangePasswordButton"
+                                      label="Change Password" />
+                    </NavLink>
+                </div>
+                <div className="profilecontainer">
                     <div className="profilefieldcontainer">
                         <TypeInput id="1"
                                    name="firstName"
@@ -163,7 +198,6 @@ function Profile(props) {
                                    initialValue={fields.address1}
                                    value={fields.address1}
                                    placeHolder="e.g. Smith"
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
@@ -177,7 +211,6 @@ function Profile(props) {
                                    initialValue={fields.address2}
                                    value={fields.address2}
                                    placeHolder="e.g. Smith"
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
@@ -273,14 +306,15 @@ function Profile(props) {
                                   initialState={fields.mailingFlag}
                                   onChange={handleFieldChange} />
                     </div>
-                </form>
-            </div>
-            <div className="profilebuttoncontainer">
-                <Button name="SubmitEnquiryButton"
-                        type="submit"
-                        label="Update Profile"
-                        disabled={!validateForm()} />
-            </div>
+                </div>
+                <div className="profilebuttoncontainer">
+                    <LoaderButton name="SubmitEnquiryButton"
+                                  type="submit"
+                                  label="Update Profile"
+                                  disabled={!validateForm()}
+                                  isLoading={isLoading} />
+                </div>
+            </form>
         </>
     )
 }

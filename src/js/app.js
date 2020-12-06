@@ -26,6 +26,7 @@ import SignUp from "./pages/signup";
 import SignIn from "./pages/signin";
 import ResetPassword from "./pages/resetpassword";
 import UserProfile from "./pages/userprofile";
+import ChangePassword from "./pages/changepassword";
 import AboutUs from "./pages/aboutus";
 import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
@@ -69,6 +70,8 @@ function App(props) {
         try {
             await Auth.currentSession();
             userHasAuthenticated(true);
+            const credentials = await Auth.currentUserCredentials();
+            setSessionCookie("credential", {identityId: credentials.identityId});
         }
         catch(e) {
             if (e !== 'No current user') {
@@ -178,6 +181,10 @@ function App(props) {
                                     <AuthenticatedRoute
                                         exact path="/my-profile"
                                         render={(props) => <UserProfile {...props} api={api} />}
+                                    />
+                                    <AuthenticatedRoute
+                                        exact path="/change-password"
+                                        render={(props) => <ChangePassword {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/about-us"

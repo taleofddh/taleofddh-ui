@@ -50,8 +50,17 @@ function Login(props) {
                     username: fields.username,
                     password: hashedPassword
                 }
-                let validUser = await fetch(api + '/auth/findUser', { method: 'POST', headers : headers, body: JSON.stringify(data) });
-                let json = await validUser.json();
+                let validUser = await API.post(
+                    "findUser",
+                    "/findUser",
+                    {
+                        response: true,
+                        headers : headers,
+                        body: data
+                    }
+                );
+                console.log(validUser);
+                let json = await validUser.data;
                 if(json) {
                     const newUser = await Auth.signUp({
                         username: fields.username,
@@ -185,8 +194,7 @@ function Login(props) {
                                       type="submit"
                                       label="Confirm Code"
                                       disabled={!validateConfirmationForm()}
-                                      isLoading={isLoading}
-                                      onClick={submitConfirmation} />
+                                      isLoading={isLoading} />
                     </div>
                 </form>
             </>
