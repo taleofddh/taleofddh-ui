@@ -5,7 +5,9 @@
     width: 100%;
     height: auto;
     background-color: $color-transparent;
-    >label {
+    margin: 0 auto;
+    padding: 0px;
+    label {
         width: 100%;
         display: block;
         text-align: left;
@@ -15,7 +17,7 @@
         font-size: 1rem;
         font-weight: normal;
     }
-    >textarea {
+    textarea {
         width: calc(100% - 10px);
         height: auto;
         display: block;
@@ -62,25 +64,25 @@ textarea {
         }
     }
     &::-webkit-input-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &:-moz-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &::-moz-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &:-ms-input-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
 }
 
 textarea[placeholder] {
-    color: $color-black;
+    color: $color-nevada;
     font-size: 1rem;
 }
 

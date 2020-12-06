@@ -35,7 +35,7 @@ function CheckBox(props) {
     let required = props.required ? '*' : '';
 
     return (
-        <div className={`check ${props.className}`}>
+        <p className={`check ${props.className}`}>
             <label className="checkboxlabel">
                 <span className="checkboxtext">{props.label}</span>
                 <span className="required">{required}</span>
@@ -51,7 +51,7 @@ function CheckBox(props) {
                     onBlur={onBlur}
                     onChange={handleChange}
                     className="hidecheckbox" />
-                <div // StyledCheckbox
+                <span // StyledCheckbox
                     checked={checked}
                     className={styledClassName}>
                     <svg // Icon
@@ -59,9 +59,9 @@ function CheckBox(props) {
                         className={iconClassName}>
                         <polyline points='15 4 7 12 3 9' />
                     </svg>
-                </div>
+                </span>
             </label>
-        </div>
+        </p>
     )
 }
 

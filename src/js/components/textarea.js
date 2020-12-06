@@ -27,7 +27,7 @@ function TextArea(props) {
     }
 
     return (
-        <div className={`text ${props.className}`}>
+        <p className={`text ${props.className}`}>
             <label>
                 {props.label}
                 <span className="required">{required}</span>
@@ -48,7 +48,7 @@ function TextArea(props) {
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onChange={handleChange} />
-        </div>
+        </p>
     )
 }
 

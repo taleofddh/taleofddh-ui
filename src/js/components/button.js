@@ -18,22 +18,19 @@ function Button(props) {
     }
 
     return (
-        <div
-            tabIndex={0}
-            id={props.id}
-            name={props.name}
-            ref={props.ref}
-            defaultValue={props.label}
-            className={`button ${props.className}`}
-            title={props.title}>
-            <button type={props.type}
-                    disabled={props.disabled}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onClick={handleClick}>
-                {props.label}
-            </button>
-        </div>
+       <button id={props.id}
+               name={props.name}
+               ref={props.ref}
+               defaultValue={props.label}
+               className={`btn ${props.className}`}
+               title={props.title}
+               type={props.type}
+               disabled={props.disabled}
+               onFocus={onFocus}
+               onBlur={onBlur}
+               onClick={handleClick}>
+            {props.label}
+        </button>
     )
 }
 

@@ -42,7 +42,7 @@ function TypeInput(props) {
     }
 
     return (
-        <div className={`type ${props.className}`}>
+        <p className={`type ${props.className}`}>
             <label>
                 {props.label}
                 <span className="required">{required}</span>
@@ -66,7 +66,7 @@ function TypeInput(props) {
                 onBlur={onBlur}
                 onKeyDown={onKeyDown}
                 onChange={handleChange} />
-        </div>
+        </p>
     )
 }
 

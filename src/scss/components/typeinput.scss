@@ -5,7 +5,9 @@
     width: 100%;
     height: auto;
     background-color: $color-transparent;
-    >label {
+    margin: 0 auto;
+    padding: 0px;
+    label {
         width: 100%;
         display: block;
         text-align: left;
@@ -13,9 +15,10 @@
         color: $color-shark;
         font-family: Open Sans, Sans-Serif;
         font-size: 1rem;
+        line-height: 1.67rem;
         font-weight: normal;
     }
-    >input {
+    input {
         width: calc(100% - 10px);
         line-height: 1.67rem;
         display: block;
@@ -203,19 +206,19 @@ input[type="date"] {
 
 input {
     &::-webkit-input-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &:-moz-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &::-moz-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &:-ms-input-placeholder {
-        color: $color-black;
+        color: $color-nevada;
         font-size: 1rem;
     }
     &::-webkit-inner-spin-button {

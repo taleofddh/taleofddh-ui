@@ -233,21 +233,25 @@ function Profile(props) {
                                   onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
-                        <TypeInput id="13"
-                                   name="communityList"
-                                   label="Community(s)"
-                                   type="text"
-                                   disabled={false}
-                                   required={false}
-                                   maxLength={50}
-                                   initialValue={fields.communityList}
-                                   value={fields.communityList}
-                                   placeHolder="e.g. Smith"
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
-                                   onChange={handleFieldChange} />
+                        <p style={{margin: '0 auto', paddingBottom: '5px'}}>Community</p>
+                        <ul style={{listStyle: 'none', margin: '0 auto', padding: '0px'}}>
+                            {fields.communityList.map((item, index) => (
+                                <li style={{display: 'inline'}}>
+                                    <CheckBox id={13 + index + ''}
+                                              name="communityList"
+                                              label={item.community}
+                                              value={fields.mailingFlag}
+                                              disabled={false}
+                                              required={false}
+                                              initialState={item.checked}
+                                              {...item}
+                                              onChange={handleFieldChange} />
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                     <div className="profilefieldcontainer">
-                        <CheckBox id="14"
+                        <CheckBox id="16"
                                   name="mailingFlag"
                                   label="Would you like to join our mailing list?"
                                   value={fields.mailingFlag}

@@ -1,11 +1,12 @@
 @import "../common/common";
 
 .check {
-    width: 100%;
+    width: auto;
     display: inline-block;
     vertical-align: middle;
     height: auto;
     background-color: $color-transparent;
+    margin: 0 auto;
     padding-bottom: 5px;
 }
 
@@ -29,7 +30,7 @@
     font-family: Open Sans, Sans-Serif;
     font-size: 1rem;
     font-weight: normal;
-    color: $color-black;
+    color: $color-shark;
 }
 
 .required {
