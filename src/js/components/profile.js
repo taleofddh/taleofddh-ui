@@ -6,6 +6,7 @@ import {useApi, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import TextArea from "../components/textarea";
+import CheckBox from "./checkbox";
 import Button from "../components/button";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
@@ -246,18 +247,14 @@ function Profile(props) {
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
-                        <TypeInput id="14"
-                                   name="mailingFlag"
-                                   label="Mailing Flag"
-                                   type="text"
-                                   disabled={false}
-                                   required={false}
-                                   maxLength={50}
-                                   initialValue={fields.mailingFlag}
-                                   value={fields.mailingFlag}
-                                   placeHolder="e.g. Smith"
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
-                                   onChange={handleFieldChange} />
+                        <CheckBox id="14"
+                                  name="mailingFlag"
+                                  label="Would you like to join our mailing list?"
+                                  value={fields.mailingFlag}
+                                  disabled={false}
+                                  required={false}
+                                  initialState={fields.mailingFlag}
+                                  onChange={handleFieldChange} />
                     </div>
                 </form>
             </div>
