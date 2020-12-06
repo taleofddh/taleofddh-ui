@@ -1,7 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
-import React from 'react';
+import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
+import {dateFormatToString} from "../common/common";
 import {useApi, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
@@ -10,7 +11,6 @@ import CheckBox from "./checkbox";
 import Button from "../components/button";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
-import {dateFormatToString} from "../common/common";
 
 function Profile(props) {
     const history = useHistory();
@@ -34,19 +34,19 @@ function Profile(props) {
         mailingFlag: profile.mailingFlag
     });
 
-    const [form, setForm] = useFormFields({
+    const [form, setForm] = useState({
         communityList: profile.communityList
     });
 
     const handleChildCheckboxChange = (changeEvent) => {
         let communities = form.communityList;
-        communities.forEach(community => {
-            if(community.name === changeEvent.target.value) {
-                community.checked = changeEvent.target.checked;
+        communities = communities.map((item) => {
+            if(item.id === parseInt(changeEvent.target.id) && item.name === changeEvent.target.name) {
+                return {...item, checked: changeEvent.target.checked}
             }
+            return item;
         })
-        setForm({...communities});
-        console.log(form);
+        setForm(form => ({...form, communityList: communities}));
     }
 
     const submitProfileUpdate = (submitEvent) => {
@@ -251,14 +251,13 @@ function Profile(props) {
                         <ul style={{listStyle: 'none', margin: '0 auto', padding: '0px'}}>
                             {form.communityList.map((item, index) => (
                                 <li key={index} style={{display: 'inline'}}>
-                                    <CheckBox id={12 + item.id + ''}
-                                              name="communityList"
+                                    <CheckBox id={item.id + ''}
+                                              name={item.name}
                                               label={item.name}
                                               disabled={false}
                                               required={false}
                                               initialState={item.checked}
-                                              value={item.name}
-                                              checked={item.checked}
+                                              value={item.checked}
                                               onChange={handleChildCheckboxChange} />
                                 </li>
                             ))}
