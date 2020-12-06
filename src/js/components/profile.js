@@ -9,6 +9,7 @@ import TextArea from "../components/textarea";
 import Button from "../components/button";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
+import {dateFormatToString} from "../common/common";
 
 function Profile(props) {
     const history = useHistory();
@@ -19,7 +20,7 @@ function Profile(props) {
     const [fields, handleFieldChange] = useFormFields({
         firstName : profile.firstName,
         lastName: profile.lastName,
-        dateOfBirth: profile.dateOfBirth,
+        dateOfBirth: dateFormatToString(new Date(profile.dateOfBirth)),
         gender: profile.gender,
         email : profile.email,
         address1: profile.address1,
@@ -75,7 +76,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.firstName}
                                    value={fields.firstName}
                                    placeHolder="e.g. John"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -89,7 +90,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.lastName}
                                    value={fields.lastName}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -99,11 +100,11 @@ function Profile(props) {
                         <TypeInput id="3"
                                    name="dateOfBirth"
                                    label="Date of Birth"
-                                   type="text"
+                                   type="date"
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.dateOfBirth}
                                    value={fields.dateOfBirth}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -117,7 +118,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.gender}
                                    value={fields.gender}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -130,7 +131,7 @@ function Profile(props) {
                                    type="email"
                                    disabled={true}
                                    required={true}
-                                   initialValue=""
+                                   initialValue={fields.email}
                                    value={fields.email}
                                    placeHolder="e.g. email@domain.com"
                                    pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -144,7 +145,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.address1}
                                    value={fields.address1}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -158,7 +159,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.address2}
                                    value={fields.address2}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -172,7 +173,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.city}
                                    value={fields.city}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -186,7 +187,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.postCode}
                                    value={fields.postCode}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -200,7 +201,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.countryCode}
                                    value={fields.countryCode}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -213,7 +214,7 @@ function Profile(props) {
                                    label="Phone"
                                    disabled={false}
                                    required={false}
-                                   initialValue=""
+                                   initialValue={fields.phone}
                                    value={fields.phone}
                                    placeHolder="+XX XXX XXX-XXXX"
                                    pattern="^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]{8,}$"
@@ -225,7 +226,7 @@ function Profile(props) {
                                   label="About Yourself"
                                   disabled={false}
                                   required={false}
-                                  initialValue=""
+                                  initialValue={fields.about}
                                   value={fields.about}
                                   placeHolder="About Yourself"
                                   onChange={handleFieldChange} />
@@ -238,7 +239,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.communityList}
                                    value={fields.communityList}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
@@ -252,7 +253,7 @@ function Profile(props) {
                                    disabled={false}
                                    required={false}
                                    maxLength={50}
-                                   initialValue=""
+                                   initialValue={fields.mailingFlag}
                                    value={fields.mailingFlag}
                                    placeHolder="e.g. Smith"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"

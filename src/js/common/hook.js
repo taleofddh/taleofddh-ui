@@ -85,8 +85,8 @@ export const useGet = (api, path, key) => {
 
         if(Object.keys(obj).length === 0 && obj.constructor === Object) {
             await API.get(api, path, init)
-                .then(response => {
-                    json = response.data;
+                .then(async response => {
+                    json = await response.data;
                     if(key) {
                         setSessionStorage(key, json);
                     }
@@ -127,15 +127,15 @@ export const usePost = (api, path, data) => {
         }
 
         await API.post(api, path, init)
-            .then(response => {
+            .then(async response => {
                 console.log(response.data);
+                setResult(await response.data);
                 setLoading(false);
-                setResult(response.data);
             })
             .catch(error => {
                 console.log(error);
-                setLoading(false);
                 setResult(error);
+                setLoading(false);
             });
     }
 
