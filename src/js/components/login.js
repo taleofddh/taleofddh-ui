@@ -37,6 +37,14 @@ function Login(props) {
             userHasAuthenticated(true);
             const credentials = await Auth.currentUserCredentials();
             setSessionCookie("credential", {identityId: credentials.identityId});
+            await API.put("updateUserProfile", "/updateUserProfile", {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {identityId: credentials.identityId, lastLogin: new Date()},
+            });
         } catch (e) {
             try {
                 hasher.update(fields.password);
@@ -93,7 +101,7 @@ function Login(props) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: {email: fields.username, identityId: credentials.identityId},
+                body: {email: fields.username, identityId: credentials.identityId, lastLogin: new Date()},
             });
             history.push("/");
         } catch (e) {
