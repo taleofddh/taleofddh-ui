@@ -4,7 +4,7 @@ import '../../scss/components/select.scss';
 
 function Select(props) {
     const [focused, setFocused] = useState(false);
-    const [value, setValue] = useState(props.defaultOption.choice);
+    const [value, setValue] = useState(props.value);
 
     const onBlur = () => {
         setFocused(false);
@@ -29,38 +29,38 @@ function Select(props) {
     let defaultOption;
     if(props.defaultOption) {
         defaultOption =
-            <option key={props.defaultOption.sequence} value={props.defaultOption.choice}>
-                {props.defaultOption.choice}
+            <option key={props.defaultOption.sequence} value={props.defaultOption.value}>
+                {props.defaultOption.label}
             </option>
     }
 
     let options = props.options.map((item) =>
-        <option key={item.sequence} value={item.choice}>
-            {item.choice}
+        <option key={item.sequence} value={item.value}>
+            {item.label}
         </option>
     );
 
     return (
-        <div className={`select ${props.className}`}>
+        <p className={`select ${props.className}`}>
             <label className="selectlabel">
                 {props.label}
                 <span className="required">{required}</span>
-                <select
-                    tabIndex={0}
-                    id={props.id}
-                    name={props.name}
-                    ref={props.ref}
-                    disabled={props.disabled}
-                    required={props.required}
-                    value={value}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onChange={handleChange}>
-                    {defaultOption}
-                    {options}
-                </select>
             </label>
-        </div>
+            <select
+                tabIndex={0}
+                id={props.id}
+                name={props.name}
+                ref={props.ref}
+                disabled={props.disabled}
+                required={props.required}
+                value={value}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onChange={handleChange}>
+                {defaultOption}
+                {options}
+            </select>
+        </p>
     )
 }
 

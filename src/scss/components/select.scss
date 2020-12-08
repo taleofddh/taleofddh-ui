@@ -2,29 +2,41 @@
 
 .select {
     display: inline-block;
+    width: 100%;
     height: auto;
     background-color: $color-transparent;
-}
-.selectlabel {
-    position: relative;
-    cursor: pointer;
-    font-family: Open Sans, Sans-Serif;
-    font-size: 1rem;
-    font-weight: normal;
-    color: $color-blackboard;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    select {
-        color: $color-blackboard;
+    margin: 0 auto;
+    padding: 0px;
+    .selectlabel {
+        width: 100%;
+        display: block;
+        position: relative;
+        cursor: pointer;
         font-family: Open Sans, Sans-Serif;
         font-size: 1rem;
         font-weight: normal;
+        color: $color-blackboard;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    select {
+        width: 100%;
+        border: 0px solid $color-tan;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+        font-size: 1rem;
+        color: $color-abbey;
+        font-family: Open Sans, Sans-Serif;
+        font-weight: normal;
         line-height: 1.67rem;
-        left: 5px;
         text-align: justify-all;
-        border: 1px solid $color-blackboard;
-        background-color: $color-white-darker;
+        padding: 5px 0px;
     }
 }
+

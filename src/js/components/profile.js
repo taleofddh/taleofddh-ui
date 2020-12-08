@@ -6,20 +6,29 @@ import {API} from "aws-amplify";
 import {dateFormatToString} from "../common/common";
 import {useApi, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
-import TypeInput from "../components/typeInput";
-import TextArea from "../components/textarea";
+import {onError} from "../common/error";
+import countries from "../common/countries";
+import TypeInput from "./typeInput";
+import TextArea from "./textarea";
 import CheckBox from "./checkbox";
-import LoaderButton from "../components/loaderbutton";
+import LoaderButton from "./loaderbutton";
+import Select from "./select";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
-
-import {onError} from "../common/error";
 
 function Profile(props) {
     const history = useHistory();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [isLoading, setIsLoading] = useState(false);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    const countryEntries = Object.entries(countries);
+    let countryOpts = [];
+    let i = 0;
+    let defaultCountryOpt = {sequence: 0, value: "XX", label: "Select a Country"};
+    for(const [code, name] of countryEntries) {
+        i++;
+        countryOpts = [...countryOpts, {"sequence": i, "value": code, "label": name}];
+    }
     const profile = props.data;
 
     const [fields, handleFieldChange] = useFormFields({
@@ -56,8 +65,6 @@ function Profile(props) {
     const submitProfileUpdate = async (submitEvent) => {
         submitEvent.preventDefault();
         setIsLoading(true);
-        console.log(fields.firstName, fields.email, fields.phone, fields.about);
-
         let profile = {
             identityId: getSessionCookie("credential").identityId,
             firstName : fields.firstName,
@@ -125,7 +132,7 @@ function Profile(props) {
                                    type="text"
                                    disabled={false}
                                    required={false}
-                                   maxLength={50}
+                                   maxLength={25}
                                    initialValue={fields.firstName}
                                    value={fields.firstName}
                                    placeHolder="e.g. John"
@@ -139,7 +146,7 @@ function Profile(props) {
                                    type="text"
                                    disabled={false}
                                    required={false}
-                                   maxLength={50}
+                                   maxLength={25}
                                    initialValue={fields.lastName}
                                    value={fields.lastName}
                                    placeHolder="e.g. Smith"
@@ -153,7 +160,6 @@ function Profile(props) {
                                    type="date"
                                    disabled={false}
                                    required={false}
-                                   maxLength={50}
                                    initialValue={fields.dateOfBirth}
                                    value={fields.dateOfBirth}
                                    placeHolder="e.g. Smith"
@@ -167,7 +173,6 @@ function Profile(props) {
                                    type="text"
                                    disabled={false}
                                    required={false}
-                                   maxLength={50}
                                    initialValue={fields.gender}
                                    value={fields.gender}
                                    placeHolder="e.g. Smith"
@@ -179,8 +184,8 @@ function Profile(props) {
                                    name="email"
                                    label="Email"
                                    type="email"
-                                   disabled={true}
-                                   required={true}
+                                   disabled={false}
+                                   required={false}
                                    initialValue={fields.email}
                                    value={fields.email}
                                    placeHolder="e.g. email@domain.com"
@@ -197,7 +202,7 @@ function Profile(props) {
                                    maxLength={50}
                                    initialValue={fields.address1}
                                    value={fields.address1}
-                                   placeHolder="e.g. Smith"
+                                   placeHolder="e.g. House No. Street"
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
@@ -210,7 +215,7 @@ function Profile(props) {
                                    maxLength={50}
                                    initialValue={fields.address2}
                                    value={fields.address2}
-                                   placeHolder="e.g. Smith"
+                                   placeHolder="e.g. Area, Locality"
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
@@ -223,7 +228,7 @@ function Profile(props) {
                                    maxLength={50}
                                    initialValue={fields.city}
                                    value={fields.city}
-                                   placeHolder="e.g. Smith"
+                                   placeHolder="e.g. London"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
                                    onChange={handleFieldChange} />
                     </div>
@@ -234,26 +239,23 @@ function Profile(props) {
                                    type="text"
                                    disabled={false}
                                    required={false}
-                                   maxLength={50}
+                                   maxLength={20}
                                    initialValue={fields.postCode}
                                    value={fields.postCode}
-                                   placeHolder="e.g. Smith"
+                                   placeHolder="e.g. 111111"
                                    pattern="^[A-Za-z0-9 ]{1,50}$"
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
-                        <TypeInput id="10"
-                                   name="countryCode"
-                                   label="Country"
-                                   type="text"
-                                   disabled={false}
-                                   required={false}
-                                   maxLength={50}
-                                   initialValue={fields.countryCode}
-                                   value={fields.countryCode}
-                                   placeHolder="e.g. Smith"
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
-                                   onChange={handleFieldChange} />
+                        <Select id="10"
+                                name="countryCode"
+                                disabled={false}
+                                required={false}
+                                label="Country"
+                                defaultOption={defaultCountryOpt}
+                                options={countryOpts}
+                                value={fields.countryCode}
+                                onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
                         <TypeInput id="11"
