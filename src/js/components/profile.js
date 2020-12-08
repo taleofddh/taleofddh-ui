@@ -15,6 +15,7 @@ import LoaderButton from "./loaderbutton";
 import Select from "./select";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
+import Radio from "./radio";
 
 function Profile(props) {
     const history = useHistory();
@@ -29,6 +30,11 @@ function Profile(props) {
         i++;
         countryOpts = [...countryOpts, {"sequence": i, "value": code, "label": name}];
     }
+    const genders = [
+        {sequence: 1, value: 'Male', label: 'Male'},
+        {sequence: 2, value: 'Female', label: 'Female'},
+        {sequence: 3, value: 'Preferred not to say', label: 'Preferred not to say'}
+    ]
     const profile = props.data;
 
     const [fields, handleFieldChange] = useFormFields({
@@ -64,6 +70,7 @@ function Profile(props) {
 
     const submitProfileUpdate = async (submitEvent) => {
         submitEvent.preventDefault();
+        console.log(fields.gender)
         setIsLoading(true);
         let profile = {
             identityId: getSessionCookie("credential").identityId,
@@ -167,17 +174,21 @@ function Profile(props) {
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
-                        <TypeInput id="4"
-                                   name="gender"
-                                   label="Gender"
-                                   type="text"
-                                   disabled={false}
-                                   required={false}
-                                   initialValue={fields.gender}
-                                   value={fields.gender}
-                                   placeHolder="e.g. Smith"
-                                   pattern="^[A-Za-z0-9 ]{1,50}$"
-                                   onChange={handleFieldChange} />
+                        <p style={{margin: '0 auto', paddingBottom: '5px'}}>Gender</p>
+                        <ul style={{listStyle: 'none', margin: '0 auto', padding: '0px'}}>
+                            {genders.map((item, index) => (
+                                <li key={index} style={{display: 'inline'}}>
+                                    <Radio id={item.sequence + ''}
+                                           name="gender"
+                                           label={item.label}
+                                           disabled={false}
+                                           required={false}
+                                           value={item.value}
+                                           checked={fields.gender === item.value}
+                                           onChange={handleFieldChange} />
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                     <div className="profilefieldcontainer">
                         <TypeInput id="5"
