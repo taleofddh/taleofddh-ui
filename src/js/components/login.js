@@ -118,7 +118,7 @@ function Login(props) {
         return fields.confirmationCode.length > 0;
     }
 
-    const handleFbLogin = () => {
+    const handleFbLogin = async () => {
         userHasAuthenticated(true);
     };
 
@@ -177,6 +177,7 @@ function Login(props) {
             </>
         )
     }
+
     const renderConfirmationForm = () => {
         return (
             <>

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
-import { Auth } from "aws-amplify";
+import {API, Auth} from "aws-amplify";
 import LoaderButton from "./loaderbutton";
+import {setSessionCookie} from "../common/session";
 
 const waitForInit = () => {
     return new Promise((res, rej) => {
@@ -58,6 +59,19 @@ function FacebookButton(props) {
             );
             setIsLoading(false);
             props.onLogin(response);
+            const result = await API.get("findIdentity", "/findIdentity", {
+                response: true,
+            });
+            const credentials = result.data;
+            setSessionCookie("credential", {identityId: credentials.identityId});
+            await API.post("createUserProfile", "/createUserProfile", {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
+            });
         } catch (e) {
             setIsLoading(false);
             handleError(e);

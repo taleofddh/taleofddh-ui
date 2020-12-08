@@ -111,6 +111,11 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'findIdentity',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'createUser',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION

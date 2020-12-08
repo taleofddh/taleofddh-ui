@@ -4,6 +4,7 @@ export const GTAG_TRACKING_ID = process.env.REACT_APP_GTAG_TRACKING_ID;
 export const MEDIA_HOST = process.env.REACT_APP_MEDIA_HOST;
 export const FACEBOOK_APP_URL=process.env.REACT_APP_FACEBOOK_APP_URL;
 export const AWS_CONFIG = {
+    region: process.env.REACT_APP_AWS_REGION,
     s3: {
         REGION: process.env.REACT_APP_AWS_S3_REGION,
         BUCKET: process.env.REACT_APP_AWS_S3_BUCKET,
