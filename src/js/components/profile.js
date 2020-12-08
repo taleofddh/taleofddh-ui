@@ -13,9 +13,9 @@ import TextArea from "./textarea";
 import CheckBox from "./checkbox";
 import LoaderButton from "./loaderbutton";
 import Select from "./select";
+import Radio from "./radio";
 import '../../scss/components/profile.scss';
 import '../../scss/components/popup.scss';
-import Radio from "./radio";
 
 function Profile(props) {
     const history = useHistory();
