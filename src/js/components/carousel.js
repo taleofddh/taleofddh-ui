@@ -1,6 +1,7 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React from 'react';
+import {API} from 'aws-amplify';
 import { MEDIA_HOST} from "../common/constants";
 import {useMediaQuery} from "../common/hook";
 import ImageGallery  from 'react-image-gallery';
@@ -23,19 +24,53 @@ function Carousel(props) {
     images = props.pictures.map((item, index) => {
         return {
             ...images,
+            sequence: item.sequence,
             thumbnail: MEDIA_HOST + '/images/thumbnail/' + item.path + '/' + item.name + '.jpg',
             original: MEDIA_HOST + '/images/' + originalPath + '/' + item.path + '/' + item.name + '.jpg',
             originalTitle: item.description,
-            description: item.description
+            name: item.name,
+            description: item.description,
+            viewCount: item.viewCount
         };
     });
 
-    const handleAlbumClick = (clickEvent, obj) => {
-        props.onClick && props.onClick(clickEvent, obj);
+    const handleThumbnailClick = async (clickEvent, index) => {
+        await API.put(
+            'updatePhotoViewCount',
+            '/photoViewCount',
+            {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: { name: images[index].name }
+            }
+        )
+        //props.onClick && props.onClick(clickEvent, obj);
+    }
+
+    const handleSlideMove = async (index) => {
+        await API.put(
+            'updatePhotoViewCount',
+            '/photoViewCount',
+            {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: { name: images[index].name }
+            }
+        )
     }
 
     return (
-        <ImageGallery  items={images} startIndex={props.startIndex} />
+        <ImageGallery  items={images}
+                       startIndex={props.startIndex}
+                       onThumbnailClick={handleThumbnailClick}
+                       onSlide={handleSlideMove}
+        />
     )
 }
 

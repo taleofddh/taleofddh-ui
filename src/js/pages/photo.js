@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {NavLink, useHistory} from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {useApi, usePost, useMediaQuery} from '../common/hook'
+import {useApi, usePost, usePut, useMediaQuery} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import MetaTag from "../components/metatag";
@@ -45,6 +45,12 @@ function Photo(props) {
     album = {
         albumName: albumName
     }
+    const [countUpdate, countUpdateLoading] = usePut(
+        'updateAlbumViewCount',
+        '/albumViewCount',
+        album
+    );
+
     const [data, loading] = usePost(
         'findPhotoList',
         '/photoList',
@@ -95,8 +101,8 @@ function Photo(props) {
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
                             <div className="photoframe">
                                 <Title message={pagetitle + ' - ' + albumName} />
-                                {loading ? (
-                                    <Loader loading={loading} />
+                                {loading || countUpdateLoading ? (
+                                    <Loader loading={loading || countUpdateLoading} />
                                 ) : (
                                     <Carousel pictures={data} startIndex={startIndex} onClick={handleClick}/>
                                 )}

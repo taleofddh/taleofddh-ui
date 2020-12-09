@@ -86,12 +86,22 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'updateAlbumViewCount',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'findPhotoList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION,
             },
             {
                 name: 'findRestrictedPhotoList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'updatePhotoViewCount',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },

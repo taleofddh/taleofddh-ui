@@ -10,12 +10,14 @@ function Album(props) {
     images = props.pictures.map((item, index) => {
         return {
             ...images,
+            sequence: item.sequence,
             src: MEDIA_HOST + '/images/thumbnail/' + item.titlePhoto.path + '/' + item.titlePhoto.name + '.jpg',
             width: 3,
             height: 2,
             caption: item.name,
             alt: item.name,
-            description: item.description
+            description: item.description,
+            viewcount: item.viewCount
         };
     });
 
