@@ -4,6 +4,7 @@ import React from 'react';
 import { MEDIA_HOST} from "../common/constants";
 import AlbumGallery from 'react-photo-gallery';
 import '../../scss/components/album.scss';
+import Icon from "../common/icon";
 
 function Album(props) {
     let images = {};
@@ -17,7 +18,8 @@ function Album(props) {
             caption: item.name,
             alt: item.name,
             description: item.description,
-            viewcount: item.viewCount
+            count: item.photoCount,
+            views: item.viewCount
         };
     });
 
@@ -53,6 +55,10 @@ const Thumbnail = ({ index, onClick, photo, margin, direction, top, left }) => {
                 alt={photo.alt}
             />
             <p className="thumbnailheader">{photo.caption}</p>
+            <p className="thumbnailstats">
+                <label style={{width: '50%', padding: '0px', margin: '0 auto', display: 'inline-block'}}><Icon name="view" fill="#FFFFFF" />&nbsp;{photo.views}</label>
+                <label style={{width: '50%', padding: '0px', margin: '0 auto', display: 'inline-block'}}><Icon name="photo" fill="#FFFFFF" />&nbsp;{photo.count}</label>
+            </p>
         </div>
     );
 };
