@@ -1,21 +1,14 @@
-import 'react-app-polyfill/ie9';
-import 'react-app-polyfill/stable';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import marked  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
 import { MEDIA_HOST} from "../common/constants";
-import Loader from "./loader";
+import Logo from "../common/logo";
+import '../../scss/pages/article.scss';
 
 function MarkedDown(props) {
     const [markDown, setMarkDown] = useState([]);
-    const mdPath = MEDIA_HOST + "/blogs/technical/spring-log4j2-splunk.md";
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        onLoad();
-    }, []);
-
-    async function onLoad() {
+    async function loadMdPath(mdPath) {
         await fetch(mdPath)
             .then(async response => {
                 return await response.text()
@@ -23,19 +16,22 @@ function MarkedDown(props) {
             .then(text => {
                 setMarkDown(marked(text));
             })
-        setIsLoading(false);
+    }
+
+    let content;
+    if(props.section.type === 'Logo') {
+        const arr = props.section.content.split(',');
+        content = arr.map((item, index) => {
+            return (<img key={index} className="articlelogocontrol" src={MEDIA_HOST + "/images/" + item}/>)
+        });
+    } else if (props.section.type === 'Markedown') {
+        loadMdPath(MEDIA_HOST + "/" + props.section.content);
+        return (<div className="articlemarkdown">{ReactHtmlParser(markDown)}</div>);
     }
 
     return (
         <>
-            {isLoading ? (
-                <Loader loading={isLoading} />
-            ) : (
-                <div className="articlecontainer">
-                    <div style={{padding: '0px 10px'}}>{ReactHtmlParser(markDown)}</div>
-                </div>
-            )}
-
+            {content}
         </>
     )
 }

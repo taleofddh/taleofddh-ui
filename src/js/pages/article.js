@@ -1,17 +1,17 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 import React, { useEffect } from 'react';
-import { NavLink } from "react-router-dom";
-import ReactHtmlParser  from 'react-html-parser';
-import {MEDIA_HOST, MONTH_NAMES} from "../common/constants";
+import {Auth} from "aws-amplify";
+import {MONTH_NAMES} from "../common/constants";
 import {useApi, usePost, useMediaQuery} from '../common/hook'
+import {useSessionContext} from "../common/session";
+import {onError} from "../common/error";
+import Document from "../components/document";
+import MarkedDown from "../components/markedown";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/article.scss';
-import {Auth} from "aws-amplify";
-import {onError} from "../common/error";
-import {useSessionContext} from "../common/session";
 
 const pagetitle = 'Blog'
 const source = 'article';
@@ -58,84 +58,21 @@ function Article(props) {
                         {loading ? (
                             <Loader loading={loading} />
                         ) : (
-                            <>
+                            <div className="articlecontainer">
                                 {data.map((item, index) => (
-                                    <Section key={index} section={item} index={index} mobile={matches} />
+                                    props.location.state.blog.category === 'Travel' ? (
+                                        <Document section={item} index={index} mobile={matches} />
+                                    ) : (
+                                        <MarkedDown section={item} index={index} mobile={matches} />
+                                    )
                                 ))}
-                            </>
+
+                            </div>
                         )}
                     </div>
                 </div>
             </div>
         </>
-    )
-}
-
-function Section(props) {
-    const isThumbnail = useMediaQuery('(max-width: 600px)');
-    const isMobile = useMediaQuery('(max-width: 800px)');
-    const isTablet = useMediaQuery('(max-width: 1200px)');
-    let originalPath = 'desktop'
-    if(isThumbnail) {
-        originalPath = 'thumbnail';
-    } else if (isMobile) {
-        originalPath = 'mobile';
-    } else if (isTablet) {
-        originalPath = 'tablet';
-    }
-    let content;
-    let text;
-    if(props.section.type === 'Image') {
-        content =
-            <div className={props.section.styleClass}>
-                <img src={MEDIA_HOST + '/images/' + originalPath + '/' + props.section.content} />
-            </div>
-    } else if (props.section.type === 'Text') {
-        let tempMessage = props.section.content;
-        let startMessage;
-        let link;
-        let linkText;
-        let linkMessage;
-        let endMessage;
-        let linkStart = tempMessage.indexOf("<a")
-        let linkEnd = tempMessage.indexOf("</a>");
-        if(linkStart > -1) {
-            if (linkStart > 0) {
-                startMessage = tempMessage.substring(0, linkStart);
-            }
-            if(linkEnd + 5 < tempMessage.length) {
-                endMessage = tempMessage.substring(linkEnd + 4, tempMessage.length)
-            }
-            link = tempMessage.substring(tempMessage.indexOf("href=\"") + 6, tempMessage.indexOf("\">"));
-            linkText = tempMessage.substring(tempMessage.indexOf("\">") + 2, linkEnd);
-            linkMessage =
-                <NavLink to={link}>{linkText}</NavLink>
-            content =
-                <div className="article">
-                    <p className={props.section.styleClass}>
-                        <label>
-                            {ReactHtmlParser(startMessage)}
-                            {linkMessage}
-                            {ReactHtmlParser(endMessage)}
-                        </label>
-                    </p>
-                </div>
-        } else {
-            content =
-                <div className="article">
-                    <p className={props.section.styleClass}>
-                        <label>
-                            {ReactHtmlParser(tempMessage)}
-                        </label>
-                    </p>
-                </div>
-        }
-    }
-
-    return (
-        <div className="articlecontainer">
-            {content}
-        </div>
     )
 }
 

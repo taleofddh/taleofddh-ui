@@ -16,19 +16,13 @@ import MetaTag from "../components/metatag";
 import CollapseText from "../components/collapsetext";
 import Promotion from "../components/promotion";
 import StayConnected from "../components/stayconnected";
-import TravelBlog from "../components/travelblog";
+import BlogSection from "../components/blogsection";
 import '../../scss/pages/home.scss';
 
 const source = 'home';
 
 function Home(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const [travelBlogList, travelBlogLoading] = usePost('findCategorizedBlogList' ,
-        '/blogListCategorized',
-        {
-            category: 'Travel',
-            homePageFlag: true
-        });
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
@@ -58,12 +52,8 @@ function Home(props) {
             </div>
             <div className="boxouter">
                 <div className="container">
-                    {travelBlogLoading ? (
-                        <Loader loading={travelBlogLoading} />
-                    ) : (
-                        <TravelBlog data={travelBlogList}/>
-
-                    )}
+                    <BlogSection category="Technical"/>
+                    <BlogSection category="Travel"/>
                 </div>
                 <div className="container">
                     <CollapseText header='Looking for something else?' content={defaultMessage}/>
