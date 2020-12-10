@@ -32,6 +32,7 @@ import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
 import Blog from "./pages/blog";
 import Article from "./pages/article";
+import MarkedDownBlog from "./pages/markedownblog";
 import Gallery from "./pages/gallery";
 import Photo from "./pages/photo";
 import TermsAndConditions from "./pages/termsandconditions";
@@ -213,6 +214,10 @@ function App(props) {
                                     <Route
                                         exact path="/blog-article"
                                         render={(props) => <Article {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/markdown-blog"
+                                        render={(props) => <MarkedDownBlog {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

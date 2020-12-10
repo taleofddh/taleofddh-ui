@@ -56,8 +56,8 @@ const Thumbnail = ({ index, onClick, photo, margin, direction, top, left }) => {
             />
             <p className="thumbnailheader">{photo.caption}</p>
             <p className="thumbnailstats">
-                <label style={{width: '50%', padding: '0px', margin: '0 auto', display: 'inline-block'}}><Icon name="view" fill="#FFFFFF" />&nbsp;{photo.views}</label>
-                <label style={{width: '50%', padding: '0px', margin: '0 auto', display: 'inline-block'}}><Icon name="photo" fill="#FFFFFF" />&nbsp;{photo.count}</label>
+                <label style={{width: '50%', padding: '0px', margin: '0 auto', display: 'inline-block'}}><span><Icon name="view" fill="#FFFFFF" />&nbsp;{photo.views}</span></label>
+                <label style={{width: '50%', padding: '0px', margin: '0 auto', display: 'inline-block'}}><span><Icon name="photo" fill="#FFFFFF" />&nbsp;{photo.count}</span></label>
             </p>
         </div>
     );

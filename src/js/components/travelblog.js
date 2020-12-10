@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {MEDIA_HOST} from "../common/constants";
 import '../../scss/components/blogsection.scss';
 
-function BlogSection(props) {
+function TravelBlog(props) {
     return (
         <>
             <div className="blogsectionheader">Travel Blogs</div>
@@ -32,4 +32,4 @@ function BlogSection(props) {
     )
 }
 
-export default BlogSection;
+export default TravelBlog;

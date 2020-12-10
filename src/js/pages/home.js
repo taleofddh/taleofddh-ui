@@ -16,7 +16,7 @@ import MetaTag from "../components/metatag";
 import CollapseText from "../components/collapsetext";
 import Promotion from "../components/promotion";
 import StayConnected from "../components/stayconnected";
-import BlogSection from "../components/blogsection";
+import TravelBlog from "../components/travelblog";
 import '../../scss/pages/home.scss';
 
 const source = 'home';
@@ -61,7 +61,8 @@ function Home(props) {
                     {travelBlogLoading ? (
                         <Loader loading={travelBlogLoading} />
                     ) : (
-                        <BlogSection data={travelBlogList}/>
+                        <TravelBlog data={travelBlogList}/>
+
                     )}
                 </div>
                 <div className="container">

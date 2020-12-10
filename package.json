@@ -29,6 +29,7 @@
     "aws-sdk": "^2.804.0",
     "crypto-api": "^0.8.5",
     "history": "^4.10.1",
+    "marked": "^1.2.5",
     "node-sass": "^4.14.1",
     "postinstall": "^0.7.0",
     "prop-types": "^15.7.2",

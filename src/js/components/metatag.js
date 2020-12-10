@@ -34,6 +34,10 @@ function MetaTag(props) {
             title = 'Photo Album - ' + props.description + ' | taleofddh';
             description = 'Photo Album - ' + props.description;
             break;
+        case 'blog':
+            title = 'Blog Article - ' + props.description + ' | taleofddh';
+            description = 'Blog Article - ' + props.description;
+            break;
         case 'article':
             title = 'Blog Article - ' + props.description + ' | taleofddh';
             description = 'Blog Article - ' + props.description;

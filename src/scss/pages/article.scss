@@ -16,12 +16,48 @@
 
 .articlecontainer {
     background-color: $color-white-dark;
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     height: auto;
     font-family: Open Sans, Sans-Serif;
     font-weight: normal;
     margin: 0px 10px;
+    padding: 0px 10px;
+    line-height: 1.67rem;
     float: left;
+    h2 {
+        font-family: Open Sans, Lucida Calligraphy;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: $color-crete;
+        padding: 10px 0px;
+        margin: 0 auto;
+        font-size-adjust: none;
+        font-stretch: normal;
+        line-height: 1.8rem;
+    }
+    ul {
+        margin: 0 auto;
+        li {
+            line-height: 1.67rem;
+            font-family: Open Sans;
+            font-size: 1rem;
+            font-weight: normal;
+            color: $color-abbey;
+        }
+    }
+    pre {
+        width: calc(100% - 20px);
+        background-color: $color-abbey;
+        padding: 5px 10px;
+        text-wrap: normal;
+        white-space: pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        code {
+            color: $color-metallic-yellow;
+        }
+    }
 }
 .articlettitle {
     font-weight: bold;
