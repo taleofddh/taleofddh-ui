@@ -8,13 +8,13 @@ import {getSessionCookie, useSessionContext} from "../common/session";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
-import MarkedDown from "../components/markedown";
+import Markdown from "../components/markdown";
 import '../../scss/pages/article.scss';
 
 const pagetitle = 'Blog'
 const source = 'blog';
 
-function MarkedDownBlog(props) {
+function MarkdownBlog(props) {
     const history = useHistory();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -27,7 +27,7 @@ function MarkedDownBlog(props) {
                     <div className="articleframe">
                         <Title message={'Spring Integration with Splunk & Log4J2'} />
                         <div className="articlettitle">{pagetitle + ' by Devadyuti Das on 10 Dec, 2020'}</div>
-                        <MarkedDown />
+                        <Markdown />
                     </div>
                 </div>
             </div>
@@ -35,4 +35,4 @@ function MarkedDownBlog(props) {
     )
 }
 
-export default MarkedDownBlog;
+export default MarkdownBlog;

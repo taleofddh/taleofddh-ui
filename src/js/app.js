@@ -217,7 +217,7 @@ function App(props) {
                                     />
                                     <Route
                                         exact path="/markdown-blog"
-                                        render={(props) => <MarkedDownBlog {...props} api={api} />}
+                                        render={(props) => <MarkdownBlog {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"
