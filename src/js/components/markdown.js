@@ -5,7 +5,7 @@ import { MEDIA_HOST} from "../common/constants";
 import Logo from "../common/logo";
 import '../../scss/pages/article.scss';
 
-function MarkedDown(props) {
+function Markdown(props) {
     const [markDown, setMarkDown] = useState([]);
 
     async function loadMdPath(mdPath) {
@@ -24,7 +24,7 @@ function MarkedDown(props) {
         content = arr.map((item, index) => {
             return (<img key={index} className="articlelogocontrol" src={MEDIA_HOST + "/images/" + item}/>)
         });
-    } else if (props.section.type === 'Markedown') {
+    } else if (props.section.type === 'Markdown') {
         loadMdPath(MEDIA_HOST + "/" + props.section.content);
         return (<div className="articlemarkdown">{ReactHtmlParser(markDown)}</div>);
     }
@@ -36,4 +36,4 @@ function MarkedDown(props) {
     )
 }
 
-export default MarkedDown;
+export default Markdown;

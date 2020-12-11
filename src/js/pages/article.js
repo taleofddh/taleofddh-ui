@@ -7,7 +7,7 @@ import {useApi, usePost, useMediaQuery} from '../common/hook'
 import {useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import Document from "../components/document";
-import MarkedDown from "../components/markedown";
+import Markdown from "../components/markdown";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
@@ -63,7 +63,7 @@ function Article(props) {
                                     props.location.state.blog.category === 'Travel' ? (
                                         <Document section={item} index={index} mobile={matches} />
                                     ) : (
-                                        <MarkedDown section={item} index={index} mobile={matches} />
+                                        <Markdown section={item} index={index} mobile={matches} />
                                     )
                                 ))}
 
