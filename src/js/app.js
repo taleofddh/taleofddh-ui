@@ -32,7 +32,7 @@ import ContactUs from "./pages/contactus";
 import Acknowledgement from "./pages/acknowledgement";
 import Blog from "./pages/blog";
 import Article from "./pages/article";
-import MarkdownBlog from "./pages/markedownblog";
+import MarkdownBlog from "./pages/markdownblog";
 import Gallery from "./pages/gallery";
 import Photo from "./pages/photo";
 import TermsAndConditions from "./pages/termsandconditions";
