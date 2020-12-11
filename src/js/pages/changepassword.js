@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
 import {NavLink, useHistory} from "react-router-dom";
 import {useApi, useFormFields} from "../common/hook";
+import {postAuditEntry} from "../common/common";
+import {getSessionCookie} from "../common/session";
 import { onError } from "../common/error";
 import TypeInput from "../components/typeInput";
 import MetaTag from "../components/metatag";
@@ -21,6 +23,20 @@ function ChangePassword(props) {
         confirmPassword: '',
     });
     const [isChanging, setIsChanging] = useState(false);
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+
+    useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'change password',
+                message: 'Change Password Page Accessed by ' + getSessionCookie("credential").identityId
+            }
+        );
+    }, [])
 
     const handleChangeClick = async (event) => {
         event.preventDefault();

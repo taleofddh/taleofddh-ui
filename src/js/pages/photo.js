@@ -1,9 +1,10 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {NavLink, useHistory} from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {useApi, usePost, usePut, useMediaQuery} from '../common/hook'
+import {useApi, usePost, usePut, useMediaQuery} from '../common/hook';
+import {postAuditEntry} from "../common/common";
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import MetaTag from "../components/metatag";
@@ -61,7 +62,17 @@ function Photo(props) {
 
     useEffect(() => {
         onLoad();
-    }, [])
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'album',
+                message: 'Album Page ' + albumName + ' Accessed by ' + getSessionCookie("credential").identityId
+            }
+        );
+    }, []);
 
     async function onLoad() {
         try {

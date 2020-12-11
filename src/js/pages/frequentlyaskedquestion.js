@@ -1,12 +1,14 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavLink, Link} from "react-router-dom";
-import {useApi, useGet} from '../common/hook'
+import {useApi, useGet} from '../common/hook';
+import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/frequentlyaskedquestion.scss';
+import {getSessionCookie} from "../common/session";
 
 const pagetitle = 'Frequently Asked Questions'
 const source = 'frequently-asked-questions';
@@ -16,6 +18,20 @@ function FrequentlyAskedQuestion(props) {
     const [data, loading] = useGet(
         'findFrequentlyAskedQuestionList', '/frequentlyAskedQuestionList'
     );
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+
+    useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'home',
+                message: 'Frequetly Asked Question Page Accessed'
+            }
+        );
+    }, [])
 
     return (
         <>

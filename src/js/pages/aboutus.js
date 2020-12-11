@@ -1,13 +1,15 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {MEDIA_HOST} from "../common/constants";
-import {useApi, useGet, useMediaQuery} from '../common/hook'
+import {useApi, useGet, useMediaQuery} from '../common/hook';
+import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import StayConnected from "../components/stayconnected";
 import '../../scss/pages/aboutus.scss';
+import {getSessionCookie} from "../common/session";
 
 const pagetitle = 'About Us'
 const source = 'about-us';
@@ -17,8 +19,22 @@ function AboutUs(props) {
     const [data, loading] = useGet(
         'findAboutUsList', '/aboutUsList'
     );
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const matches = useMediaQuery('(max-width: 820px)');
+
+    useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'about us',
+                message: 'About Us Page Accessed'
+            }
+        );
+    }, []);
 
     return (
         <>

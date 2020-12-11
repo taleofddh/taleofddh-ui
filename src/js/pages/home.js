@@ -1,4 +1,4 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {
@@ -10,8 +10,7 @@ import {
 } from "react-router-dom";
 import {SessionContext, getSessionCookie, setSessionCookie, getSessionStorage} from "../common/session";
 import {useApi, usePost} from "../common/hook";
-import Title from "../components/title";
-import Loader from "../components/loader";
+import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import CollapseText from "../components/collapsetext";
 import Promotion from "../components/promotion";
@@ -30,6 +29,16 @@ function Home(props) {
     const message3 = 'We\'d be delighted to keep you informed about our roadmap and plan of launching new services. Please stay in touch with us.';
 
     useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'home',
+                message: 'Home Page Accessed'
+            }
+        );
     }, []);
 
     const defaultMessage =

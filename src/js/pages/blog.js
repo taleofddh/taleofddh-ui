@@ -1,4 +1,4 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
@@ -11,6 +11,7 @@ import Title from "../components/title";
 import Loader from "../components/loader";
 import Album from "../components/album";
 import '../../scss/pages/gallery.scss';
+import {postAuditEntry} from "../common/common";
 
 const pagetitle = 'Blog'
 const source = 'blog';
@@ -40,6 +41,16 @@ function Blog(props) {
 
     useEffect(() => {
         onLoad();
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'blog',
+                message: 'Blog Page Accessed'
+            }
+        );
     }, [])
 
     async function onLoad() {

@@ -2,6 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import {API} from "aws-amplify";
 
 library.add(far, fab, faFacebookF, faGoogle, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp);
 
@@ -86,3 +87,19 @@ export const dateFormatToString = (date) => {
         (dd > 9 ? '' : '0') + dd
     ].join('');
 };
+
+export const postAuditEntry = async (data) => {
+    const init = {
+        response: true,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: data,
+    }
+    await API.post(
+        'createAuditEntry',
+        '/auditEntry',
+        init
+    )
+}

@@ -1,10 +1,10 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { useEffect } from 'react';
 import {Auth} from "aws-amplify";
 import {MONTH_NAMES} from "../common/constants";
 import {useApi, usePost, useMediaQuery} from '../common/hook'
-import {useSessionContext} from "../common/session";
+import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import Document from "../components/document";
 import Markdown from "../components/markdown";
@@ -12,6 +12,7 @@ import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/article.scss';
+import {postAuditEntry} from "../common/common";
 
 const pagetitle = 'Blog'
 const source = 'article';
@@ -25,9 +26,20 @@ function Article(props) {
         '/articleList',
         {blogName: blogName}
     );
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
         onLoad();
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'blog article',
+                message: 'Article ' + blogName + ' Page Accessed'
+            }
+        )
     }, [])
 
     async function onLoad() {

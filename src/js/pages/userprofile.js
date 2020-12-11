@@ -1,6 +1,6 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useApi, usePost} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
@@ -8,6 +8,7 @@ import MetaTag from "../components/metatag";
 import Profile from "../components/profile";
 import Loader from "../components/loader";
 import '../../scss/pages/userprofile.scss';
+import {postAuditEntry} from "../common/common";
 
 const pagetitle = 'My Profile';
 const source = 'my-profile';
@@ -21,6 +22,20 @@ function UserProfile(props) {
             identityId: getSessionCookie("credential").identityId
         }
     );
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+
+    useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'user profile',
+                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
+            }
+        );
+    }, []);
 
     return (
         <>

@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Auth, Amplify } from 'aws-amplify';
@@ -57,6 +59,11 @@ Amplify.configure({
             },
             {
                 name: 'findCountryByName',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/core',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'createAuditEntry',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/core',
                 region: AWS_CONFIG.apiGateway.REGION
             },

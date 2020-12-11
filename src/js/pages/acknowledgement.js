@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {usePost} from "../common/hook";
+import {postAuditEntry} from "../common/common";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/acknowledgement.scss';
+import {getSessionCookie} from "../common/session";
 
 function Acknowledgement(props) {
     const [data, loading] = usePost(
@@ -10,6 +12,20 @@ function Acknowledgement(props) {
         '/createRequest',
         (props.location.state && props.location.state !== undefined) ? props.location.state.request : ''
     );
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+
+    useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'acknowledgement',
+                message: 'Acknowledgement Page Accessed'
+            }
+        );
+    });
 
     return (
         <>

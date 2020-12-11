@@ -1,11 +1,13 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React from 'react';
-import {useApi, useGet} from '../common/hook'
+import React, {useEffect} from 'react';
+import {useApi, useGet} from '../common/hook';
+import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/termsandcondition.scss';
+import {getSessionCookie} from "../common/session";
 
 const pagetitle = 'Terms & Conditions';
 const source = 'terms-conditions';
@@ -15,6 +17,20 @@ function TermsAndConditions(props) {
     const [data, loading] = useGet(
         'findTermsAndConditionsList', '/termsAndConditionsList'
     );
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+
+    useEffect(() => {
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'terms and conditions',
+                message: 'Terms and Conditions Page Accessed'
+            }
+        );
+    }, [])
 
     return (
         <>

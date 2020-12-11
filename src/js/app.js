@@ -1,6 +1,6 @@
 'use strict';
 
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, { useState, useEffect, useContext } from 'react';
 import { Router, Route, Switch } from "react-router-dom";
@@ -9,7 +9,6 @@ import { createBrowserHistory } from "history";
 import {Auth} from "aws-amplify";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
-import countries from "./common/countries";
 import {SessionContext, getSessionCookie, setSessionCookie, setSessionStorage, getSessionStorage} from "./common/session";
 import {useApi, useFetch, useGet} from "./common/hook";
 import {AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, FACEBOOK_APP_URL} from './common/constants';
@@ -55,9 +54,9 @@ function App(props) {
     const [geolocationData, geolocationLoading] = useFetch(GEOLOCATION_URL, 'geolocation');
     const [ddhomeCountry, setDdhomeCountry] = useState({
         country_code : '',
-        country_name : ''
+        country_name : '',
+        ip_address: ''
     });
-    const validCountries = ['GB', 'IN'];
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [session] = useState(getSessionCookie);
 
@@ -103,27 +102,17 @@ function App(props) {
     useEffect(() => {
         let ddhomeCountryDetails = getSessionCookie('ddhomeCountry');
         if(Object.keys(ddhomeCountryDetails).length === 0 && ddhomeCountryDetails.constructor === Object) {
-            let countryMatch = false;
-            for(let i in validCountries) {
-                if(geolocationData.country_code === validCountries[i]) {
-                    countryMatch = true;
-                }
-            }
-            if(countryMatch) {
-                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: geolocationData.country_code, country_name: geolocationData.country_name}));
-                setSessionCookie('ddhomeCountry', {country_code: geolocationData.country_code, country_name: geolocationData.country_name});
-            } else {
-                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: 'GB', country_name: countries['GB']}));
-                setSessionCookie('ddhomeCountry', {country_code: 'GB', country_name: countries['GB']});
-            }
+            setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: geolocationData.country_code, country_name: geolocationData.country_name, ip_address: geolocationData.IPv4}));
+
+            setSessionCookie('ddhomeCountry', {country_code: geolocationData.country_code, country_name: geolocationData.country_name, ip_address: geolocationData.IPv4});
         } else {
-            setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
+            setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name, ip_address: ddhomeCountryDetails.ip_address}));
         }
     }, [geolocationData]);
 
     const getDdhomeCountry = (ddhomeCountryCallBack) => {
         if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {
-            setDdhomeCountry({...ddhomeCountry, country_code: ddhomeCountryCallBack.country_code, country_name: ddhomeCountryCallBack.country_name});
+            setDdhomeCountry({...ddhomeCountry, country_code: ddhomeCountryCallBack.country_code, country_name: ddhomeCountryCallBack.country_name, ip_address: ddhomeCountryCallBack.ip_address});
 
             setSessionCookie('ddhomeCountry', ddhomeCountryCallBack);
         }

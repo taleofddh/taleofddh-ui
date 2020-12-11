@@ -1,4 +1,4 @@
-import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {useHistory, withRouter} from "react-router-dom";
@@ -6,6 +6,7 @@ import {Auth} from "aws-amplify";
 import {useApi, useGet, useMediaQuery} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
+import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
@@ -41,7 +42,17 @@ function Gallery(props) {
 
     useEffect(() => {
         onLoad();
-    }, [])
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'gallery',
+                message: 'Gallery Page Accessed'
+            }
+        );
+    }, []);
 
     async function onLoad() {
         try {
