@@ -117,7 +117,11 @@
 }
 
 @media screen and (max-width: 600px) {
-
+    .articlecontainer {
+        width: calc(100% - 20px);
+        margin: 0px 10px;
+        padding: 0px;
+    }
 }
 
 @media screen and (max-width: 400px) {

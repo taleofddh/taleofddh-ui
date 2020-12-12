@@ -98,6 +98,11 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'findAlbumPhotoList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION,
+            },
+            {
                 name: 'findPhotoList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION,
@@ -119,6 +124,11 @@ Amplify.configure({
             },
             {
                 name: 'findCategorizedBlogList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findBlogArticleList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
             },

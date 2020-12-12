@@ -1,15 +1,12 @@
-'use strict';
-
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Router, Route, Switch } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import {Auth} from "aws-amplify";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
-import {SessionContext, getSessionCookie, setSessionCookie, setSessionStorage, getSessionStorage} from "./common/session";
+import {SessionContext, getSessionCookie, setSessionCookie} from "./common/session";
 import {useApi, useFetch, useGet} from "./common/hook";
 import {AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, FACEBOOK_APP_URL} from './common/constants';
 import AuthenticatedRoute from "./common/authenticatedroute";
@@ -49,7 +46,7 @@ history.listen(location => {
 })
 
 function App(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const [api] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [menuList, menuLoading] = useGet('findMenuList' , '/menuList/true', 'menu');
     const [geolocationData, geolocationLoading] = useFetch(GEOLOCATION_URL, 'geolocation');
     const [ddhomeCountry, setDdhomeCountry] = useState({
@@ -201,7 +198,7 @@ function App(props) {
                                         render={(props) => <Blog {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path="/blog-article"
+                                        exact path={["/blog-article", "/blog-article/:blogName"]}
                                         render={(props) => <Article {...props} api={api} />}
                                     />
                                     <Route

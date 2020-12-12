@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {getSessionCookie, getSessionStorage, setSessionCookie, removeSessionCookie, useSessionContext} from "../common/session";
+import {getSessionCookie, getSessionStorage, removeSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import Icon from "../common/icon";
-import FunnyQuote from "./funnyquote";
 import '../../scss/components/header.scss';
 
 function Header(props) {
     const history = useHistory();
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
     const [isAuthenticating, setIsAuthenticating] = useState(true);
-    let count = 0;
+    //let count = 0;
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     let countryCode;
     if(props.country.country_code !== undefined) {
@@ -178,7 +177,7 @@ function Header(props) {
 
 }
 
-function DDHomeLanguage(props) {
+/*function DDHomeLanguage(props) {
     return (
         <div className="visitorlanguage">
             <label className="headertext">
@@ -199,6 +198,6 @@ function Links(props) {
             </label>
         </div>
     )
-}
+}*/
 
 export default Header;

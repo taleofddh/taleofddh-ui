@@ -20,10 +20,15 @@ const source = 'article';
 function Article(props) {
     const { userHasAuthenticated } = useSessionContext();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    let blogName = (props.location.state && props.location.state !== undefined) ? props.location.state.blog.name : '';
+    let blogName;
+    if(props.match.params.blogName) {
+        blogName = props.match.params.blogName;
+    } else {
+        blogName = (props.location.state && props.location.state !== undefined) ? props.location.state.blog.name : '';
+    }
     const [data, loading] = usePost(
-        'findArticleList',
-        '/articleList',
+        'findBlogArticleList',
+        '/blogArticleList',
         {blogName: blogName}
     );
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -56,35 +61,31 @@ function Article(props) {
 
     const matches = useMediaQuery('(max-width: 820px)');
 
-    let blogDate = new Date(props.location.state.blog.endDate);
-    let blogDateStr = blogDate.getDate() + " " + MONTH_NAMES[blogDate.getMonth()] + ", " + blogDate.getFullYear();
-
     return (
-        <>
-            <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} description={props.location.state.blog.title}/>
-            <div className="boxouter">
-                <div className="container">
-                    <div className="articleframe">
-                        <Title message={blogName + " - " + props.location.state.blog.header} />
-                        <div className="articlettitle">{pagetitle + ' by ' + props.location.state.blog.author + ' on ' + blogDateStr}</div>
-                        {loading ? (
-                            <Loader loading={loading} />
-                        ) : (
+        loading ? (
+            <Loader loading={loading} />
+        ) : (
+            <>
+                <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} description={data.title}/>
+                <div className="boxouter">
+                    <div className="container">
+                        <div className="articleframe">
+                            <Title message={data.header} />
+                            <div className="articlettitle">{pagetitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
                             <div className="articlecontainer">
-                                {data.map((item, index) => (
-                                    props.location.state.blog.category === 'Travel' ? (
+                                {data.contents.map((item, index) => (
+                                    data.category === 'Travel' ? (
                                         <Document section={item} index={index} mobile={matches} />
                                     ) : (
                                         <Markdown section={item} index={index} mobile={matches} />
                                     )
                                 ))}
-
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </>
+            </>
+        )
     )
 }
 

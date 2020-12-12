@@ -19,7 +19,6 @@ const source = 'album';
 function Photo(props) {
     const history = useHistory();
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
-    const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const user = getSessionCookie('user');
@@ -30,20 +29,17 @@ function Photo(props) {
         }
     }
     let albumName;
-    let albumDescription;
-    let album;
+
     let startIndex = 0;
     if(props.match.params.albumName) {
         albumName = props.match.params.albumName;
-        albumDescription = props.match.params.albumName;
         if(props.match.params.startIndex) {
             startIndex = parseInt(props.match.params.startIndex);
         }
     } else {
         albumName = (props.location.state && props.location.state !== undefined) ? props.location.state.album.caption : '';
-        albumDescription = (props.location.state && props.location.state !== undefined) ? props.location.state.album.description : '';
     }
-    album = {
+    let album = {
         albumName: albumName
     }
     const [countUpdate, countUpdateLoading] = usePut(
@@ -53,8 +49,8 @@ function Photo(props) {
     );
 
     const [data, loading] = usePost(
-        'findPhotoList',
-        '/photoList',
+        'findAlbumPhotoList',
+        '/albumPhotoList',
         album
     );
 
@@ -84,7 +80,6 @@ function Photo(props) {
                 onError(e);
             }
         }
-        setIsAuthenticating(false);
     }
 
     const handleClick = (clickEvent, object) => {
@@ -104,19 +99,17 @@ function Photo(props) {
     }
 
     return (
-        !isAuthenticating && (
+        loading || countUpdateLoading ? (
+            <Loader loading={loading || countUpdateLoading} />
+        ) : (
             <>
-                <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} description={albumDescription}/>
+                <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} description={data.description}/>
                 <div className="boxouter">
                     {isAuthenticated ? (
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
                             <div className="photoframe">
-                                <Title message={pagetitle + ' - ' + albumName} />
-                                {loading || countUpdateLoading ? (
-                                    <Loader loading={loading || countUpdateLoading} />
-                                ) : (
-                                    <Carousel pictures={data} startIndex={startIndex} onClick={handleClick}/>
-                                )}
+                                <Title message={data.description} />
+                                <Carousel pictures={data.photos} startIndex={startIndex} onClick={handleClick}/>
                             </div>
                         </div>
                     ) : (
@@ -134,6 +127,7 @@ function Photo(props) {
                 </div>
             </>
         )
+
     )
 }
 
