@@ -13,6 +13,7 @@ import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/article.scss';
 import {postAuditEntry} from "../common/common";
+import Comment from "../components/comment";
 
 const pagetitle = 'Blog'
 const source = 'article';
@@ -80,6 +81,7 @@ function Article(props) {
                                         <Markdown section={item} index={index} mobile={matches} />
                                     )
                                 ))}
+                                <Comment type={source} />
                             </div>
                         </div>
                     </div>

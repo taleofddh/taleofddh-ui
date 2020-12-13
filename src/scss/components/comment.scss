@@ -1,0 +1,43 @@
+@import "../common/common";
+
+.commentform {
+  margin: 0 10px 10px;
+  padding: 0px;
+  width: calc(100% - 22px);
+  border: 1px solid $color-silver;
+  float: left;
+}
+.commentcontainer {
+  width: calc(100% - 10px);
+  height: auto;
+  line-height: 1.67rem;
+  margin: 0 auto;
+  padding: 5px 5px 0px;
+  background-color: $color-white-dark;
+  float: left;
+}
+
+.commentfieldcontainer {
+  margin: 0px;
+  padding: 5px 10px;
+}
+
+.commentbuttoncontainer {
+  width: 100%;
+  height: auto;
+  margin: 0px 0px 5px;
+  padding: 10px 0px;
+  background-color: $color-white-dark;
+  border: 0px solid $color-tan;
+  text-align: center;
+  float: left;
+}
+
+.commentheader {
+  font-family: Open Sans;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: $color-shark;
+  padding: 5px 5px;
+  margin: 0 auto;
+}
