@@ -70,7 +70,6 @@ function Comment(props) {
 
         setForm({
             ...form,
-            name : '',
             comment: ''
         });
 
