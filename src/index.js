@@ -138,6 +138,16 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'findArticleCommentList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'addArticleComment',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'findIdentity',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION

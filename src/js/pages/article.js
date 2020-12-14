@@ -76,12 +76,12 @@ function Article(props) {
                             <div className="articlecontainer">
                                 {data.contents.map((item, index) => (
                                     data.category === 'Travel' ? (
-                                        <Document section={item} index={index} mobile={matches} />
+                                        <Document section={item} key={index} mobile={matches} />
                                     ) : (
-                                        <Markdown section={item} index={index} mobile={matches} />
+                                        <Markdown section={item} key={index} mobile={matches} />
                                     )
                                 ))}
-                                <Comment type={source} />
+                                <Comment type={source} blogName={data.name}/>
                             </div>
                         </div>
                     </div>

@@ -1,19 +1,14 @@
 @import "../common/common";
 
-.commentform {
-  margin: 0 10px 10px;
-  padding: 0px;
-  width: calc(100% - 22px);
-  border: 1px solid $color-silver;
-  float: left;
-}
 .commentcontainer {
-  width: calc(100% - 10px);
-  height: auto;
-  line-height: 1.67rem;
-  margin: 0 auto;
-  padding: 5px 5px 0px;
   background-color: $color-white-dark;
+  width: calc(100% - 40px);
+  height: auto;
+  font-family: Open Sans, Sans-Serif;
+  font-weight: normal;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  line-height: 1.67rem;
   float: left;
 }
 
