@@ -4,12 +4,12 @@ import React, {useEffect} from 'react';
 import {MEDIA_HOST} from "../common/constants";
 import {useApi, useGet, useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
+import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import StayConnected from "../components/stayconnected";
 import '../../scss/pages/aboutus.scss';
-import {getSessionCookie} from "../common/session";
 
 const pagetitle = 'About Us'
 const source = 'about-us';

@@ -2,7 +2,14 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import {API} from "aws-amplify";
+import {API, Storage} from "aws-amplify";
+import AWS from 'aws-sdk';
+import {AWS_CONFIG} from "./constants";
+
+AWS.config.region = AWS_CONFIG.region;
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID,
+});
 
 library.add(far, fab, faFacebookF, faGoogle, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp);
 
@@ -102,4 +109,51 @@ export const postAuditEntry = async (data) => {
         '/auditEntry',
         init
     )
+}
+
+export const getObject = async (key) => {
+    // Create a new service object
+    console.log("key", key);
+    let s3 = new AWS.S3({
+        apiVersion: '2006-03-01',
+        params: {Bucket: AWS_CONFIG.s3.BUCKET}
+    });
+
+    // for async it only works with Promise and resolve/reject
+    return new Promise((resolve, reject) => {
+        s3.getObject({Key: key}, function(err, data) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                const href = this.request.httpRequest.endpoint.href;
+                const objectUrl = href + AWS_CONFIG.s3.BUCKET + '/' + key;
+                console.log(objectUrl, data);
+                resolve(data);
+            }
+        });
+    });
+}
+
+export const getObjectUrl = async (key) => {
+    // Create a new service object
+    console.log("key", key);
+    let s3 = new AWS.S3({
+        apiVersion: '2006-03-01',
+        params: {Bucket: AWS_CONFIG.s3.BUCKET}
+    });
+
+    // for async it only works with Promise and resolve/reject
+    return new Promise((resolve, reject) => {
+        s3.getObject({Key: key}, function(err, data) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                const href = this.request.httpRequest.endpoint.href;
+                const objectUrl = href + AWS_CONFIG.s3.BUCKET + '/' + key;
+                resolve(objectUrl);
+            }
+        });
+    });
 }
