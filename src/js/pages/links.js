@@ -1,105 +1,83 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React, {useEffect, useState} from 'react';
-import {useHistory, withRouter} from "react-router-dom";
-import {Auth} from "aws-amplify";
+import React, {useEffect} from 'react';
+import {NavLink, useHistory, withRouter} from "react-router-dom";
 import {useApi, useGet, useMediaQuery} from '../common/hook'
-import {getSessionCookie, useSessionContext} from "../common/session";
-import {onError} from "../common/error";
+import {getSessionCookie} from "../common/session";
 import {postAuditEntry} from "../common/common";
+import Icon from "../common/icon";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
-import Album from "../components/album";
-import '../../scss/pages/gallery.scss';
+import '../../scss/pages/links.scss';
 
-const pagetitle = 'Gallery'
-const source = 'gallery';
+const pagetitle = 'Useful Links'
+const source = 'links';
 
 function Links(props) {
     const history = useHistory();
-    const { isAuthenticated, userHasAuthenticated } = useSessionContext();
-    const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const user = getSessionCookie('user');
-    let restrictedFlag = false;
-    if(user.roleList !== undefined) {
-        if(user.roleList.name === 'Friend' || user.roleList.name === 'Family') {
-            restrictedFlag = true;
-        }
-    }
-    let albumUri = '/gallery/albumList';
-    if(restrictedFlag) {
-        albumUri = albumUri + '/' + restrictedFlag;
-    }
+
     const [data, loading] = useGet(
-        'findAlbumList',
-        '/albumList'
+        'findLinkList',
+        '/linkList/' + true,
+        'links'
     );
 
     const matches = useMediaQuery('(max-width: 820px)');
 
     useEffect(() => {
-        onLoad();
         postAuditEntry(
             {
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
-                page: 'gallery',
-                message: 'Gallery Page Accessed'
+                page: 'links',
+                message: 'Links Page Accessed'
             }
         );
     }, []);
 
-    async function onLoad() {
-        try {
-            await Auth.currentSession();
-            userHasAuthenticated(true);
-        }
-        catch(e) {
-            if (e !== 'No current user') {
-                onError(e);
-            }
-        }
-        setIsAuthenticating(false);
-    }
-
     const handleClick = (clickEvent, object) => {
-        if(isAuthenticated) {
-            //alert(object.photo.caption);
-            let album = object.photo;
-            props.history.push('/photo', {
-                api: api,
-                index: index,
-                album: album
-            });
-        } else {
-            alert("Not Authorised. Please login");
-        }
-
+        clickEvent.preventDefault();
     }
 
     return (
-        !isAuthenticating && (
-            <>
-                <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
-                <div className="boxouter">
-                    <div className="container">
-                        <div className="galleryframe">
-                            <Title message={pagetitle} />
-                            {loading ? (
-                                <Loader loading={loading} />
-                            ) : (
-                                <Album pictures={data} onClick={handleClick}/>
-                            )}
-                        </div>
+        <>
+            <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
+            <div className="boxouter">
+                <div className="container">
+                    <div className="linksframe">
+                        <Title message={pagetitle} />
+                        {loading ? (
+                            <Loader loading={loading} />
+                        ) : (
+                            <ul className="linksgroup">
+                                {data.map((item, index) => (
+                                    <li key={index} className="linkitem">
+                                        {item.external ? (
+                                            <a href={item.link} target="_blank">
+                                                <p className="linktitle">{item.name}</p>
+                                                <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(43, 84, 127)"/></p>
+                                                <p className="linktext">{item.summary}</p>
+                                            </a>
+                                        ) : (
+                                            <NavLink to={item.link}>
+                                                    <p className="linktitle">{item.name}</p>
+                                                    <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(43, 84, 127)"/></p>
+                                                    <p className="linktext">{item.summary}</p>
+                                            </NavLink>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </div>
-            </>
-        )
+            </div>
+        </>
     )
 }
 

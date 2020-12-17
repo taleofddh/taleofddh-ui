@@ -3,8 +3,8 @@ import 'react-app-polyfill/stable';
 import React from 'react';
 import { MEDIA_HOST} from "../common/constants";
 import AlbumGallery from 'react-photo-gallery';
-import '../../scss/components/album.scss';
 import Icon from "../common/icon";
+import '../../scss/components/album.scss';
 
 function Album(props) {
     let images = {};

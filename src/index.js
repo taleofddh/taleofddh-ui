@@ -181,6 +181,11 @@ Amplify.configure({
                 name: 'updateUserProfile',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findLinkList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/link',
+                region: AWS_CONFIG.apiGateway.REGION
             }
         ]
     }
