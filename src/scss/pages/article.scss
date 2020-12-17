@@ -75,7 +75,7 @@
         position: relative;
     }
     h2 {
-        font-family: Open Sans, Lucida Calligraphy;
+        font-family: Open Sans, Lucida Calligraphy, Sans-Serif;
         font-size: 1.1rem;
         font-weight: bold;
         color: $color-crete;
@@ -89,7 +89,7 @@
         margin: 0 auto;
         li {
             line-height: 1.67rem;
-            font-family: Open Sans;
+            font-family: Open Sans, Sans-Serif;
             font-size: 1rem;
             font-weight: normal;
             color: $color-abbey;

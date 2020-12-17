@@ -28,7 +28,7 @@ div {
 @media (min-width:360px) { body {font-size:1rem;} }
 
 h2 {
-    font: bold 1.1rem/normal Open Sans, Lucida Calligraphy;
+    font: bold 1.1rem/normal Open Sans, Lucida Calligraphy, Sans-Serif;
     color: $color-crete;
     padding: 10px 0px;
     margin: 0 auto;
@@ -37,7 +37,7 @@ h2 {
 }
 
 h3 {
-    font: bold 1.1rem/normal Open Sans, Lucida Calligraphy;
+    font: bold 1.1rem/normal Open Sans, Lucida Calligraphy, Sans-Serif;
     margin: 5px;
     color: $color-atlantis;
     font-size-adjust: none;
@@ -45,7 +45,7 @@ h3 {
 }
 
 h4 {
-    font: bold 1.1rem/normal Roboto, Calibri;
+    font: bold 1.1rem/normal Roboto, Calibri, Sans-Serif;
     margin: 0px 0px 0px 8px;
     padding: 0px;
     color: rgb(0, 51, 102);
@@ -54,7 +54,7 @@ h4 {
 }
 
 h6 {
-    font: bold 0.85rem/normal Roboto, Calibri;
+    font: bold 0.85rem/normal Roboto, Calibri, Sans-Serif;
     margin: 0px 0px 0px 8px;
     padding: 0px;
     color: rgb(0, 51, 102);
@@ -90,7 +90,7 @@ img {
 }
 .cookieconsentcontent {
     color: $color-white-dark;
-    font-family: "Open Sans";
+    font-family: Open Sans, Sans-Serif;
     font-size: 0.8rem;
     text-align: justify;
     display: block;
@@ -99,7 +99,7 @@ img {
 .cookieconsentbutton {
     background-color: $color-grape;
     color: $color-white;
-    font-family: "Open Sans";
+    font-family: Open Sans, Sans-Serif;
     font-size: 0.85rem;
     font-weight: bold;
     border: 1px solid $color-blackboard;
@@ -112,7 +112,7 @@ img {
 .cookiedeclinebutton {
     background-color: $color-ziggurat;
     color: $color-blackboard;
-    font-family: "Open Sans";
+    font-family: Open Sans, Sans-Serif;
     font-size: 0.85rem;
     font-weight: bold;
     border: 1px solid $color-grape;

@@ -31,6 +31,7 @@ import Article from "./pages/article";
 import MarkdownBlog from "./pages/markdownblog";
 import Gallery from "./pages/gallery";
 import Photo from "./pages/photo";
+import Links from "./pages/links";
 import TermsAndConditions from "./pages/termsandconditions";
 import PrivacyPolicy from "./pages/privacypolicy";
 import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
@@ -186,14 +187,6 @@ function App(props) {
                                         render={(props) => <Acknowledgement {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path="/gallery"
-                                        render={(props) => <Gallery {...props} api={api} />}
-                                    />
-                                    <AuthenticatedRoute
-                                        exact path={["/photo", "/photo/:albumName/:startIndex"]}
-                                        render={(props) => <Photo {...props} api={api} />}
-                                    />
-                                    <Route
                                         exact path={["/blog", "/blog/:blogName"]}
                                         render={(props) => <Blog {...props} api={api} />}
                                     />
@@ -204,6 +197,18 @@ function App(props) {
                                     <Route
                                         exact path="/markdown-blog"
                                         render={(props) => <MarkdownBlog {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/gallery"
+                                        render={(props) => <Gallery {...props} api={api} />}
+                                    />
+                                    <AuthenticatedRoute
+                                        exact path={["/photo", "/photo/:albumName/:startIndex"]}
+                                        render={(props) => <Photo {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/links"
+                                        render={(props) => <Links {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

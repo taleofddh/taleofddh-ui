@@ -71,7 +71,7 @@
     position: relative;
     text-align: center;
     vertical-align: middle;
-    font-family: "Open Sans", Sans-Serif;
+    font-family: Open Sans, Sans-Serif;
     font-size: 0.9rem;
     font-weight: bold;
     color: $color-white;
@@ -104,7 +104,7 @@
             a {
                 padding: 10px 0px 3px;
                 text-decoration: none;
-                font-family: "Open Sans", Sans-Serif;
+                font-family: Open Sans, Sans-Serif;
                 font-size: 0.9rem;
                 font-weight: bold;
                 color: $color-white;
@@ -457,7 +457,7 @@
     }
     .rc-menu-submenu-arrow {
         display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
+        font: normal normal normal 14px/1 FontAwesome, Sans-Serif;
         font-size: inherit;
         vertical-align: baseline;
         text-align: center;
@@ -483,7 +483,7 @@
     }
     .rc-menu-submenu-arrow {
         display: inline-block;
-        font: normal normal normal 16px/1 FontAwesome;
+        font: normal normal normal 16px/1 FontAwesome, Sans-Serif;
         font-size: inherit;
         vertical-align: baseline;
         text-align: center;
@@ -509,7 +509,7 @@
     }
     .rc-menu-submenu-arrow {
         display: inline-block;
-        font: normal normal normal 16px/1 FontAwesome;
+        font: normal normal normal 16px/1 FontAwesome, Sans-Serif;
         font-size: inherit;
         vertical-align: baseline;
         text-align: center;
@@ -535,7 +535,7 @@
     }
     .rc-menu-submenu-arrow {
         display: inline-block;
-        font: normal normal normal 16px/1 FontAwesome;
+        font: normal normal normal 16px/1 FontAwesome, Sans-Serif;
         font-size: inherit;
         vertical-align: baseline;
         text-align: center;

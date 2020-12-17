@@ -56,7 +56,9 @@ export const formatMoney = (amount, decimalCount = 2, decimal = ".", thousands =
 export const getQuoteOfTheDay = (capturedQuote) => {
     let new_line = "\n";
     let hiphen = " - ";
-    let str, str1, str2 = "";
+    let str = "";
+    let str1 = "";
+    let str2 = "";
     let replace_pattern = ["br.writeln(\"", "<br>\");"];
     let replace_more_pattern = ["\");", "\\"];
 
