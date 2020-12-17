@@ -69,6 +69,13 @@
     }
 }
 
+@media screen and (min-width: 401px) and (max-width: 600px) {
+    .linkpiccontrol {
+        width: 50%;
+        margin: 0 25%;
+    }
+}
+
 @media screen and (max-width: 400px) {
     .linkitem {
         width: calc(100% - 40px);
