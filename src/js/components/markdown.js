@@ -1,20 +1,21 @@
 import React, {useState} from 'react';
 import marked  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
-import { MEDIA_HOST} from "../common/constants";
+import { AWS_CONFIG, MEDIA_HOST} from "../common/constants";
+import { getObject } from "../common/common";
 import Logo from "../common/logo";
 import '../../scss/pages/article.scss';
 
 function Markdown(props) {
     const [markDown, setMarkDown] = useState([]);
 
-    async function loadMdPath(mdPath) {
-        await fetch(mdPath)
+    async function loadMdPath(bucket, key) {
+        await getObject(bucket, key)
             .then(async response => {
-                return await response.text()
+                return await response.Body
             })
             .then(text => {
-                setMarkDown(marked(text));
+                setMarkDown(marked(text.toString('utf-8')));
             })
     }
 
@@ -25,7 +26,7 @@ function Markdown(props) {
             return (<img key={index} className="articlelogocontrol" src={MEDIA_HOST + "/images/" + item}/>)
         });
     } else if (props.section.type === 'Markdown') {
-        loadMdPath(MEDIA_HOST + "/" + props.section.content);
+        loadMdPath(AWS_CONFIG.s3.BLOG_BUCKET, props.section.content);
         return (<div className="articlemarkdown">{ReactHtmlParser(markDown)}</div>);
     }
 

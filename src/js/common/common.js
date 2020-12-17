@@ -2,7 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import {API, Storage} from "aws-amplify";
+import { API } from "aws-amplify";
 import AWS from 'aws-sdk';
 import {AWS_CONFIG} from "./constants";
 
@@ -111,12 +111,11 @@ export const postAuditEntry = async (data) => {
     )
 }
 
-export const getObject = async (key) => {
+export const getObject = async (bucket, key) => {
     // Create a new service object
-    console.log("key", key);
     let s3 = new AWS.S3({
         apiVersion: '2006-03-01',
-        params: {Bucket: AWS_CONFIG.s3.BUCKET}
+        params: {Bucket: bucket}
     });
 
     // for async it only works with Promise and resolve/reject
@@ -127,20 +126,19 @@ export const getObject = async (key) => {
             }
             else {
                 const href = this.request.httpRequest.endpoint.href;
-                const objectUrl = href + AWS_CONFIG.s3.BUCKET + '/' + key;
-                console.log(objectUrl, data);
+                const objectUrl = href + bucket + '/' + key;
                 resolve(data);
             }
         });
     });
 }
 
-export const getObjectUrl = async (key) => {
+export const getObjectUrl = async (bucket, key) => {
     // Create a new service object
     console.log("key", key);
     let s3 = new AWS.S3({
         apiVersion: '2006-03-01',
-        params: {Bucket: AWS_CONFIG.s3.BUCKET}
+        params: {Bucket: bucket}
     });
 
     // for async it only works with Promise and resolve/reject

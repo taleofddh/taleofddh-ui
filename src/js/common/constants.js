@@ -8,6 +8,10 @@ export const AWS_CONFIG = {
     s3: {
         REGION: process.env.REACT_APP_AWS_S3_REGION,
         BUCKET: process.env.REACT_APP_AWS_S3_BUCKET,
+        BLOG_BUCKET: process.env.REACT_APP_AWS_S3_BLOG_BUCKET,
+        DOCUMENT_BUCKET: process.env.REACT_APP_AWS_S3_DOCUMENT_BUCKET,
+        MEDIA_BUCKET: process.env.REACT_APP_AWS_S3_MEDIA_BUCKET,
+        MESSAGE_BUCKET: process.env.REACT_APP_AWS_S3_MESSAGE_BUCKET
     },
     apiGateway: {
         REGION: process.env.REACT_APP_AWS_API_GATEWAY_REGION,
