@@ -193,67 +193,6 @@ export const useFormFields = (initialState) => {
     ];
 }
 
-export const useSubscription = (url, subscription) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        postConnection();
-    }, []);
-
-    async function postConnection() {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: subscription.email,
-                subscribed: subscription.subscribed
-            })
-        });
-        const json = await response.json();
-        console.log(json);
-        setData(json);
-        setLoading(false);
-    }
-
-    return [data, loading];
-}
-
-export const useRequest = (url, request) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        postRequest();
-    }, []);
-
-    async function postRequest() {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                type: request.type,
-                requestor: request.requestor,
-                email: request.email,
-                phone: request.phone,
-                enquiry: request.enquiry
-            })
-        });
-        const json = await response.json();
-        console.log(json);
-        setData(json);
-        setLoading(false);
-    }
-
-    return [data, loading];
-}
-
 export const useMediaQuery = (query) => {
     const mediaMatch = window.matchMedia(query);
     const [matches, setMatches] = useState(mediaMatch.matches);

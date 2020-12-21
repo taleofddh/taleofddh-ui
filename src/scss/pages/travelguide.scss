@@ -1,0 +1,101 @@
+@import "../common/common";
+
+.travelguideframe {
+    border-width: 0px;
+    border-style: solid;
+    border-color: $color-tan;
+    width: 100%;
+    height: auto;
+    margin: 10px 0px;
+    line-height: 1.67rem;
+    padding: 0px 0px 5px;
+    position: relative;
+    background-color: $color-shark;
+    float: left;
+}
+
+.travelguidecontainer {
+    background-color: $color-white-dark;
+    width: calc(100% - 40px);
+    height: auto;
+    font-family: Open Sans, Sans-Serif;
+    font-weight: normal;
+    margin: 0px 10px;
+    padding: 0px 10px 10px;
+    line-height: 1.67rem;
+    float: left;
+}
+
+.travelguidegroup {
+    margin: 0 10%;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+    background-color: $color-transparent;
+}
+
+.travelguideitem {
+    background-color: $color-transparent;
+    padding: 0px;
+    width:calc(100% - 40px);
+    margin: 10px;
+    text-align:center;
+    cursor:pointer;
+    a {
+        text-decoration: none;
+    }
+    &:hover{
+        background-color: $color-white-darkest;
+    }
+}
+
+.travelguidetitle {
+    width: calc(100% - 20px);
+    color: $color-abbey;
+    font-family: Open Sans, Sans-Serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 5px 0px;
+    text-align: left;
+    line-height: 1.8rem;
+    letter-spacing: 2px;
+    float: left;
+}
+
+.travelguidepiccontrol {
+    width: calc(10% - 20px);
+    margin: 0 10px;
+    float: left;
+}
+
+.travelguidetext {
+    width: calc(100% - 20px);
+    margin: 5px 10px;
+    font-family: Open Sans, Sans-Serif;
+    font-size: 1rem;
+    color: $color-shark;
+    line-height: 1.67rem;
+    float: left;
+}
+
+@media screen and (max-width: 800px) {
+
+}
+
+@media screen and (max-width: 600px) {
+    .travelguidegroup {
+        margin: 0 5%;
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .travelguidegroup {
+        margin: 0 0;
+        width: 100%;
+    }
+}

@@ -21,7 +21,7 @@ function expandIcon({ isActive }) {
                     transform: `rotate(${isActive ? 90 : 0}deg)`,
                 }}
             >
-                <path d={arrowPath} p-id="5827"></path>
+                <path d={arrowPath}></path>
             </svg>
         </i>
     );
@@ -48,16 +48,14 @@ function CollapseText(props) {
     }
 
     return (
-        <div className="collapseframe">
-            <Collapse
-                accordion={false}
-                onChange={onChange}
-                activeKey={activeKey}
-                expandIcon={expandIcon}
-            >
-                {getItems()}
-            </Collapse>
-        </div>
+        <Collapse
+            accordion={false}
+            onChange={onChange}
+            activeKey={activeKey}
+            expandIcon={expandIcon}
+        >
+            {getItems()}
+        </Collapse>
     )
 }
 

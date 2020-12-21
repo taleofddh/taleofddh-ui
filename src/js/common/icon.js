@@ -3,10 +3,20 @@ import '../../scss/common/icon.scss';
 
 function Icon(props) {
     let icon;
+    let style={};
+    if(props.width) {
+        style.width = props.width;
+    }
+    if(props.height) {
+        style.height = props.height;
+    }
+    if(props.verticalAlign) {
+        style.vertifcalAlign = props.vertifcalAlign;
+    }
     switch(props.name) {
         case 'about':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.053 412.053">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.053 412.053" style={{...style}}>
                     <path id="XMLID_173_" d="M396.399,67.735c-2.731-14.978-9.574-28.905-19.791-40.284c-0.02-0.022-0.039-0.045-0.059-0.067
                         c-5.233-5.909-13.905-14.033-25.497-19.181l-0.264-0.117C339.6,2.72,327.594,0,315.105,0c-18.47,0-35.94,5.962-50.522,17.243
                         c-0.014,0.011-0.08,0.063-0.098,0.076c-12.536,9.789-20.809,23.777-21.833,25.559h0c-0.046,0.078-0.091,0.157-0.134,0.236
@@ -66,7 +76,7 @@ function Icon(props) {
             break;
         case 'contact':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <g>
                             <g>
@@ -91,7 +101,7 @@ function Icon(props) {
             break;
         case 'blog':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <path d="M437.022,74.984C388.67,26.63,324.381,0,256,0C187.624,0,123.338,26.63,74.984,74.984S0,187.624,0,256
                             c0,68.388,26.63,132.678,74.984,181.028C123.335,485.375,187.621,512,256,512c68.385,0,132.673-26.625,181.021-74.972
@@ -130,7 +140,7 @@ function Icon(props) {
             break;
         case 'gallery':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455 455">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455 455" style={{...style}}>
                     <g>
                         <path d="M417.5,120H313.355l-11.303-45.215C297.176,55.28,277.606,40,257.5,40h-60c-20.106,0-39.676,15.28-44.553,34.785
                             L141.645,120H130V97.5c0-4.142-3.357-7.5-7.5-7.5h-60c-4.143,0-7.5,3.358-7.5,7.5V120H37.5C16.822,120,0,136.823,0,157.5v220
@@ -162,7 +172,7 @@ function Icon(props) {
             break;
         case 'links':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58" style={{...style}}>
                     <path d="M50.688,48.222C55.232,43.101,58,36.369,58,29c0-7.667-2.996-14.643-7.872-19.834c0,0,0-0.001,0-0.001
                         c-0.004-0.006-0.01-0.008-0.013-0.013c-5.079-5.399-12.195-8.855-20.11-9.126l-0.001-0.001L29.439,0.01C29.293,0.005,29.147,0,29,0
                         s-0.293,0.005-0.439,0.01l-0.563,0.015l-0.001,0.001c-7.915,0.271-15.031,3.727-20.11,9.126c-0.004,0.005-0.01,0.007-0.013,0.013
@@ -191,7 +201,7 @@ function Icon(props) {
             break;
         case 'user':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <g>
                             <path d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256c2.581,0,5.099-0.32,7.68-0.384l0.896,0.171
@@ -211,7 +221,7 @@ function Icon(props) {
             break;
         case 'sign-out':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 491.213 491.213">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 491.213 491.213" style={{...style}}>
                     <g>
                         <path d="M318.713,73.106c-32.723,0-64.571,9.208-92.103,26.628c-26.772,16.94-48.365,40.868-62.445,69.196l26.865,13.353
 		                    c24.272-48.838,73.198-79.176,127.683-79.176c78.575,0,142.5,63.925,142.5,142.5s-63.925,142.5-142.5,142.5
@@ -225,7 +235,7 @@ function Icon(props) {
             break;
         case 'home':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.865 201.865">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 201.865 201.865" style={{...style}}>
                     <g>
                         <path d="M200.65,105.892l-21.763-19.709V39.168c0-2.026-1.643-3.665-3.665-3.665h-19.158
                             c-0.973,0-1.908,0.383-2.598,1.074c-0.691,0.691-1.077,1.625-1.066,2.602l0.05,23.059l-47.466-42.993
@@ -246,7 +256,7 @@ function Icon(props) {
             break;
         case 'terms-and-conditions':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511 511">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511 511" style={{...style}}>
                     <g>
                         <path d="M454.962,110.751c-0.018-0.185-0.05-0.365-0.081-0.545c-0.011-0.06-0.016-0.122-0.028-0.182
                             c-0.043-0.215-0.098-0.425-0.159-0.632c-0.007-0.025-0.012-0.052-0.02-0.077c-0.065-0.213-0.141-0.421-0.224-0.625
@@ -278,7 +288,7 @@ function Icon(props) {
             break;
         case 'privacy-policy':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <g>
                             <path d="M256,355.404c-13.516,0-24.511,10.996-24.511,24.511c0,10.651,6.831,19.733,16.34,23.105v25.916
@@ -320,7 +330,7 @@ function Icon(props) {
             break;
         case 'faq':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 502 502">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 502 502" style={{...style}}>
                     <g>
                         <g>
                             <g>
@@ -351,7 +361,7 @@ function Icon(props) {
             break;
         case 'facebook':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310" >
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310" style={{...style}}>
                     <g id="XMLID_834_">
                         <path id="XMLID_835_" d="M81.703,165.106h33.981V305c0,2.762,2.238,5,5,5h57.616c2.762,0,5-2.238,5-5V165.765h39.064
 		                    c2.54,0,4.677-1.906,4.967-4.429l5.933-51.502c0.163-1.417-0.286-2.836-1.234-3.899c-0.949-1.064-2.307-1.673-3.732-1.673h-44.996
@@ -363,7 +373,7 @@ function Icon(props) {
             break;
         case 'twitter':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310" style={{...style}}>
                     <g id="XMLID_826_">
                         <path id="XMLID_827_" d="M302.973,57.388c-4.87,2.16-9.877,3.983-14.993,5.463c6.057-6.85,10.675-14.91,13.494-23.73
                             c0.632-1.977-0.023-4.141-1.648-5.434c-1.623-1.294-3.878-1.449-5.665-0.39c-10.865,6.444-22.587,11.075-34.878,13.783
@@ -382,7 +392,7 @@ function Icon(props) {
             break;
         case 'linkedin':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310" style={{...style}}>
                     <g id="XMLID_801_">
                         <path id="XMLID_802_" d="M72.16,99.73H9.927c-2.762,0-5,2.239-5,5v199.928c0,2.762,2.238,5,5,5H72.16c2.762,0,5-2.238,5-5V104.73
 		                    C77.16,101.969,74.922,99.73,72.16,99.73z" fill={props.fill} />
@@ -397,7 +407,7 @@ function Icon(props) {
             break;
         case 'view':
             icon =
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.794 80.794">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.794 80.794" style={{...style}}>
                     <g>
                         <g>
                             <path d="M79.351,38.549c-0.706-0.903-17.529-22.119-38.953-22.119c-21.426,0-38.249,21.216-38.955,22.119L0,40.396l1.443,1.847
@@ -413,7 +423,7 @@ function Icon(props) {
             break;
         case 'photo':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <g>
                             <g>
@@ -435,7 +445,7 @@ function Icon(props) {
             break;
         case 'travel':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 475.766 475.766">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 475.766 475.766" style={{...style}}>
                     <g>
                         <path d="M237.883,99.02c-1.855,0.581-9.339,6.848-16.375,29.443c-5.719,18.365-9.284,41.583-10.309,66.537h53.368
 		                    c-1.025-24.955-4.59-48.172-10.309-66.537C247.222,105.868,239.739,99.601,237.883,99.02z" fill={props.fill} />
@@ -454,7 +464,7 @@ function Icon(props) {
             break;
         case 'architecture':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <g>
                             <path d="M240.794,113.393H139.421v133.949h101.373v59.81h131.784v-59.81V113.393H240.794z M190.108,216.93h-20.275v-73.125h20.275
@@ -474,7 +484,7 @@ function Icon(props) {
             break;
         case 'git':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 291.32 291.32">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 291.32 291.32" style={{...style}}>
                     <g>
                         <path d="M145.66,0C65.219,0,0,65.219,0,145.66c0,80.45,65.219,145.66,145.66,145.66
                             s145.66-65.21,145.66-145.66C291.319,65.219,226.1,0,145.66,0z M186.462,256.625c-0.838-11.398-1.775-25.518-1.83-31.235
@@ -491,7 +501,7 @@ function Icon(props) {
             break;
         case 'sonar':
             icon =
-                <svg id="Calque_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg id="Calque_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g id="Illustration_5">
                         <path d="M408.78,448.09H386.5c0-179.36-148-325.28-329.91-325.28V100.53C250.79,100.53,408.78,256.44,408.78,448.09Z" fill={props.fill} />
                         <path d="M424.18,328.48C397.43,216,306.27,122,192,89.2l5.12-17.84C317.73,106,414,205.23,442.24,324.19Z" fill={props.fill} />
@@ -501,7 +511,7 @@ function Icon(props) {
             break;
         case 'invent':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={{...style}}>
                     <g>
                         <g>
                             <g>
@@ -538,7 +548,7 @@ function Icon(props) {
             break;
         case 'tool':
             icon =
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 489.347 489.347">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 489.347 489.347" style={{...style}}>
                     <g>
                         <path d="M412.642,345.939l-59.523-14.229l-66.352-66.352l51.12-51.055c11.874,4.167,24.216,6.203,36.499,6.202
                             c28.736-0.002,57.122-11.149,78.233-32.221c32.686-32.626,41.544-82.646,22.043-124.466l-9.042-19.391l-53.807,53.682
@@ -557,6 +567,29 @@ function Icon(props) {
                             c-3.698-24.737,4.343-50.455,22.623-68.702c23.801-23.758,60.288-30.197,90.792-16.021l9.505,4.417l34.609-34.565l24.967,24.966
                             l-34.578,34.534l4.44,9.525C197.403,370.751,190.952,407.138,167.171,430.877z M373.342,397.227l-7.564-31.645l31.646,7.564
                             l49.498,49.499l-24.081,24.081L373.342,397.227z" fill={props.fill} />
+                    </g>
+                </svg>
+            break;
+        case 'folderopen':
+            icon =
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490" style={{...style}}>
+                    <g>
+                        <g>
+                            <polygon points="56.8,193.3 0,426.2 433.2,426.2 490,193.3" fill={props.fill} />
+                            <polygon points="433.2,169.6 433.2,130.3 174.2,130.3 131.5,63.8 0,63.8 0,326.3 38.2,169.6" fill={props.fill} />
+                        </g>
+                    </g>
+                </svg>
+            break;
+        case 'folderclose':
+            icon =
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 440" style={{...style}}>
+                    <g>
+                        <path d="M420,78.072V60c0-16.5-13.5-30-30-30H240v40h150C400.925,70,411.167,72.949,420,78.072z" fill={props.fill} />
+                        <path d="M340.57,211.141c29.914,0,57.487,10.205,79.43,27.311V130c0-16.5-13.5-30-30-30H210V30c0-16.5-13.5-30-30-30H30
+		                    C13.5,0,0,13.5,0,30v310.57h211.141C211.141,269.202,269.202,211.141,340.57,211.141z" fill={props.fill} />
+                        <path d="M340.57,241.141c-54.825,0-99.43,44.604-99.43,99.43S285.745,440,340.57,440c54.826,0,99.43-44.604,99.43-99.43
+		                    S395.396,241.141,340.57,241.141z M402.071,355.57h-46.5v46.5h-30v-46.5h-46.5v-30h46.5v-46.5h30v46.5h46.5V355.57z" fill={props.fill} />
                     </g>
                 </svg>
             break;

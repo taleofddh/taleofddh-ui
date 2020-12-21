@@ -1,0 +1,52 @@
+import React, {useState} from 'react';
+import Collapse, { Panel } from 'rc-collapse';
+import Icon from "../common/icon";
+import '../../scss/components/collapsefolder.scss';
+
+function expandIcon({ isActive }) {
+    return (
+        <i style={{ marginRight: '.5rem' }}>
+            {isActive ? (
+                <Icon name="folderopen" width="2rem" height="2rem" verticalAlign=".25rem" fill="rgb(248, 215, 117)" />
+            ) : (
+                <Icon name="folderclose" width="2rem" height="2rem" verticalAlign=".125rem" fill="rgb(248, 215, 117)" />
+            )}
+        </i>
+    );
+}
+
+function CollapseFolder(props) {
+    const [activeKey, setActiveKey] = useState([]);
+
+    const onChange = (key) => {
+        console.log(key)
+        setActiveKey(key);
+        props.onChange && props.onChange(key);
+    }
+
+    return (
+        <Collapse
+            accordion={false}
+            onChange={onChange}
+            activeKey={activeKey}
+            expandIcon={expandIcon}
+        >
+            <Panel header={props.data.folder} key={props.data.folder}>
+                    <Collapse defaultActiveKey={props.data.folder}>
+                        <ul>
+                        {props.data.files.map((file, index) => (
+                            file === '' ? (
+                                <>
+                                </>
+                            ) : (
+                                <li key={index}>{file}</li>
+                            )
+                        ))}
+                        </ul>
+                    </Collapse>
+            </Panel>
+        </Collapse>
+    )
+}
+
+export default CollapseFolder;

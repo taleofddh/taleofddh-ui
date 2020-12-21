@@ -32,6 +32,7 @@ import MarkdownBlog from "./pages/markdownblog";
 import Gallery from "./pages/gallery";
 import Photo from "./pages/photo";
 import Links from "./pages/links";
+import TravelGuide from "./pages/travelguide";
 import TermsAndConditions from "./pages/termsandconditions";
 import PrivacyPolicy from "./pages/privacypolicy";
 import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
@@ -209,6 +210,10 @@ function App(props) {
                                     <Route
                                         exact path="/links"
                                         render={(props) => <Links {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/travel-guides"
+                                        render={(props) => <TravelGuide {...props} api={api} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"

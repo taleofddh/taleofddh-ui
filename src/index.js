@@ -2,23 +2,24 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Amplify } from 'aws-amplify';
+import { Amplify, Storage } from 'aws-amplify';
 import { AWS_CONFIG } from './js/common/constants';
 import App from './js/app';
 import reportwebvitals from './js/common/reportwebvitals';
 
 Amplify.configure({
     Auth: {
-        mandatorySignIn: true,
         region: AWS_CONFIG.cognito.REGION,
         userPoolId: AWS_CONFIG.cognito.USER_POOL_ID,
         identityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID,
         userPoolWebClientId: AWS_CONFIG.cognito.APP_CLIENT_ID
     },
     Storage: {
-        region: AWS_CONFIG.s3.REGION,
-        bucket: AWS_CONFIG.s3.BUCKET,
-        identityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID
+        AWSS3: {
+            region: AWS_CONFIG.s3.REGION,
+            bucket: AWS_CONFIG.s3.BUCKET,
+            identityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID
+        }
     },
     API: {
         endpoints: [
@@ -186,10 +187,16 @@ Amplify.configure({
                 name: 'findLinkList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/link',
                 region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findTravelDocuments',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/link',
+                region: AWS_CONFIG.apiGateway.REGION
             }
         ]
     }
 });
+Storage.configure({level: 'protected'});
 
 ReactDOM.render(
   <React.StrictMode>

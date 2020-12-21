@@ -1,6 +1,6 @@
 import React  from 'react';
-import '../../scss/components/title.scss'
 import countries from "../common/countries";
+import '../../scss/components/title.scss'
 
 function Title(props) {
     let message;
