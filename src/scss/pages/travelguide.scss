@@ -8,7 +8,7 @@
     height: auto;
     margin: 10px 0px;
     line-height: 1.67rem;
-    padding: 0px 0px 5px;
+    padding: 0px 0px 10px;
     position: relative;
     background-color: $color-shark;
     float: left;
@@ -58,39 +58,6 @@
     line-height: 1.8rem;
     letter-spacing: 2px;
     float: left;
-}
-
-@media screen and (max-width: 800px) {
-
-}
-
-@media screen and (max-width: 600px) {
-    .travelguidecontainer {
-        width: calc(100% - 20px);
-        margin: 0px 5px;
-        padding: 0px 5px 10px;
-    }
-
-    .travelguidegroup {
-        margin: 0 5%;
-        width: 90%;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .travelguidecontainer {
-        width: 100%;
-        margin: 0px auto;
-        padding: 0px 0px 10px;
-    }
-    .travelguidegroup {
-        margin: 0 0;
-        width: 100%;
-    }
-    .travelguideitem {
-        width: 100%;
-        margin: 10px 0px;
-    }
 }
 
 .traveldocumentsgroup {
@@ -143,4 +110,37 @@
     display: inline;
     margin-left: 10px;
     position: relative;
+}
+
+
+
+@media screen and (max-width: 800px) {
+    .travelguidecontainer {
+        width: calc(100% - 20px);
+        margin: 0px 5px;
+        padding: 0px 5px 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .travelguidegroup {
+        margin: 0 5%;
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .travelguidecontainer {
+        width: 100%;
+        margin: 0px auto;
+        padding: 0px 0px 10px;
+    }
+    .travelguidegroup {
+        margin: 0 0;
+        width: 100%;
+    }
+    .travelguideitem {
+        width: 100%;
+        margin: 10px 0px;
+    }
 }
