@@ -60,27 +60,17 @@
     float: left;
 }
 
-.travelguidepiccontrol {
-    width: calc(10% - 20px);
-    margin: 0 10px;
-    float: left;
-}
-
-.travelguidetext {
-    width: calc(100% - 20px);
-    margin: 5px 10px;
-    font-family: Open Sans, Sans-Serif;
-    font-size: 1rem;
-    color: $color-shark;
-    line-height: 1.67rem;
-    float: left;
-}
-
 @media screen and (max-width: 800px) {
 
 }
 
 @media screen and (max-width: 600px) {
+    .travelguidecontainer {
+        width: calc(100% - 20px);
+        margin: 0px 5px;
+        padding: 0px 5px 10px;
+    }
+
     .travelguidegroup {
         margin: 0 5%;
         width: 90%;
@@ -88,9 +78,18 @@
 }
 
 @media screen and (max-width: 400px) {
+    .travelguidecontainer {
+        width: 100%;
+        margin: 0px auto;
+        padding: 0px 0px 10px;
+    }
     .travelguidegroup {
         margin: 0 0;
         width: 100%;
+    }
+    .travelguideitem {
+        width: 100%;
+        margin: 10px 0px;
     }
 }
 
@@ -130,4 +129,18 @@
     line-height: 1.67rem;
     letter-spacing: 1px;
     float: left;
+}
+
+.travelguidedocumentlogo {
+    display: inline;
+    img {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+.travelguidedocumenttext {
+    display: inline;
+    margin-left: 10px;
+    position: relative;
 }

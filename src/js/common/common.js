@@ -113,56 +113,6 @@ export const postAuditEntry = async (data) => {
     )
 }
 
-export const listFolders = async (bucket, params) => {
-    // Create a new service object
-    let s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
-        params: {Bucket: bucket}
-    });
-
-    // for async it only works with Promise and resolve/reject
-    return new Promise((resolve, reject) => {
-        s3.listObjectsV2(params, (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                console.log(data);
-                let folders = data.CommonPrefixes.map((commonPrefix) => {
-                    return decodeURIComponent(commonPrefix.Prefix).substring(params.Prefix.length).replace('/', '');
-                });
-                console.log(folders);
-                resolve(folders);
-            }
-        });
-    });
-}
-
-export const listObjects = async (bucket, params) => {
-    // Create a new service object
-    let s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
-        params: {Bucket: bucket}
-    });
-
-    // for async it only works with Promise and resolve/reject
-    return new Promise((resolve, reject) => {
-        s3.listObjectsV2(params, (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                console.log(data);
-                let objects = data.Contents.map((object) => {
-                    return decodeURIComponent(object.Key).substring(params.Prefix.length);
-                });
-                console.log(objects);
-                resolve(objects);
-            }
-        });
-    });
-}
-
 export const getObject = async (bucket, key) => {
     // Create a new service object
     let s3 = new AWS.S3({
@@ -178,49 +128,6 @@ export const getObject = async (bucket, key) => {
             }
             else {
                 resolve(data);
-            }
-        });
-    });
-}
-
-export const getHeaderObject = async (bucket, key) => {
-    // Create a new service object
-    let s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
-        params: {Bucket: bucket}
-    });
-
-    // for async it only works with Promise and resolve/reject
-    return new Promise((resolve, reject) => {
-        s3.headObject({Key: key}, (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(data);
-            }
-        });
-    });
-}
-
-export const getObjectUrl = async (bucket, key) => {
-    // Create a new service object
-    console.log("key", key);
-    let s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
-        params: {Bucket: bucket}
-    });
-
-    // for async it only works with Promise and resolve/reject
-    return new Promise((resolve, reject) => {
-        s3.getObject({Key: key}, (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                const href = this.request.httpRequest.endpoint.href;
-                const objectUrl = href + AWS_CONFIG.s3.BUCKET + '/' + key;
-                resolve(objectUrl);
             }
         });
     });

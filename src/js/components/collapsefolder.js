@@ -7,9 +7,9 @@ function expandIcon({ isActive }) {
     return (
         <i style={{ marginRight: '.5rem' }}>
             {isActive ? (
-                <Icon name="folderopen" width="2rem" height="2rem" verticalAlign=".25rem" fill="rgb(248, 215, 117)" />
+                <Icon name="folderopen" width="2rem" height="2rem" fill="rgb(248, 215, 117)" />
             ) : (
-                <Icon name="folderclose" width="2rem" height="2rem" verticalAlign=".125rem" fill="rgb(248, 215, 117)" />
+                <Icon name="folderclose" width="2rem" height="2rem" fill="rgb(248, 215, 117)" />
             )}
         </i>
     );

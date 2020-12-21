@@ -2,11 +2,9 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {withRouter} from "react-router-dom";
-import {Storage} from 'aws-amplify';
-import {AWS_CONFIG} from "../common/constants";
 import {useApi, usePost} from '../common/hook'
 import {getSessionCookie} from "../common/session";
-import {listFolders, listObjects, postAuditEntry} from "../common/common";
+import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Map from "../components/map";
@@ -54,7 +52,14 @@ function TravelGuide(props) {
                         </>
                     ) : (
                         <li key={index} className="traveldocumentitem">
-                            <p className="traveldocumenttitle">{file}</p>
+                            <p className="traveldocumenttitle">
+                                <span className="travelguidedocumentlogo">
+                                    <img src={"/images/logo-" + file.substr(file.lastIndexOf('.') + 1) + ".svg"} />
+                                </span>
+                                <span className="travelguidedocumenttext">
+                                    {file}
+                                </span>
+                            </p>
                         </li>
                     )
                 ))}
