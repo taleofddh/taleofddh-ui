@@ -25,6 +25,9 @@
       font-weight: bold;
       font-size: 1.1rem;
       cursor: pointer;
+      &:hover{
+        background-color: $color-white-darkest;
+      }
       .arrow {
         display: inline-block;
         content: '\20';
@@ -73,7 +76,7 @@
   background-color: $color-transparent;
   >.rc-collapse-content-box {
     margin-top: 0px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
   }
 }
 .rc-collapse-content-inactive {

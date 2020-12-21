@@ -40,16 +40,10 @@
 .travelguideitem {
     background-color: $color-transparent;
     padding: 0px;
-    width:calc(100% - 40px);
+    width:calc(100% - 20px);
     margin: 10px;
     text-align:center;
     cursor:pointer;
-    a {
-        text-decoration: none;
-    }
-    &:hover{
-        background-color: $color-white-darkest;
-    }
 }
 
 .travelguidetitle {
@@ -98,4 +92,42 @@
         margin: 0 0;
         width: 100%;
     }
+}
+
+.traveldocumentsgroup {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+    background-color: $color-transparent;
+}
+
+.traveldocumentitem {
+    background-color: $color-transparent;
+    padding: 0px;
+    width:calc(100% - 20px);
+    margin: 5px 10px;
+    text-align:center;
+    cursor:pointer;
+    text-align: left;
+    &:hover{
+        background-color: $color-ziggurat;
+    }
+}
+
+.traveldocumenttitle {
+    width: calc(100% - 10px);
+    color: $color-abbey;
+    font-family: Open Sans, Sans-Serif;
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0 5px;
+    padding: 5px 0px;
+    text-align: left;
+    line-height: 1.67rem;
+    letter-spacing: 1px;
+    float: left;
 }

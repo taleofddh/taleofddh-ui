@@ -31,18 +31,9 @@ function CollapseFolder(props) {
             activeKey={activeKey}
             expandIcon={expandIcon}
         >
-            <Panel header={props.data.folder} key={props.data.folder}>
-                    <Collapse defaultActiveKey={props.data.folder}>
-                        <ul>
-                        {props.data.files.map((file, index) => (
-                            file === '' ? (
-                                <>
-                                </>
-                            ) : (
-                                <li key={index}>{file}</li>
-                            )
-                        ))}
-                        </ul>
+            <Panel header={props.header} key={props.header}>
+                    <Collapse defaultActiveKey={props.header}>
+                        {props.content}
                     </Collapse>
             </Panel>
         </Collapse>

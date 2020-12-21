@@ -45,6 +45,23 @@ function TravelGuide(props) {
         console.log(key);
     }
 
+    const getContent = (files) => {
+        return (
+            <ul className="traveldocumentsgroup">
+                {files.map((file, index) => (
+                    file === '' ? (
+                        <>
+                        </>
+                    ) : (
+                        <li key={index} className="traveldocumentitem">
+                            <p className="traveldocumenttitle">{file}</p>
+                        </li>
+                    )
+                ))}
+            </ul>
+        )
+    }
+
     return (
         <>
             <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
@@ -60,7 +77,7 @@ function TravelGuide(props) {
                                 <ul className="travelguidegroup">
                                     {data.map((item, index) => (
                                         <li key={index} className="travelguideitem">
-                                            <div className="travelguidetitle"><CollapseFolder data={item} onChange={handleChange}/></div>
+                                            <div className="travelguidetitle"><CollapseFolder header={item.folder} content={getContent(item.files)} onChange={handleChange}/></div>
                                         </li>
                                     ))}
                                 </ul>
