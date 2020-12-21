@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import Collapse, { Panel } from 'rc-collapse';
 import Icon from "../common/icon";
 import '../../scss/components/collapsefolder.scss';
+import {useMediaQuery} from "../common/hook";
 
-function expandIcon({ isActive }) {
+function expandIcon({isActive}) {
     return (
         <i style={{ marginRight: '.5rem' }}>
             {isActive ? (

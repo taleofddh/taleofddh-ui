@@ -127,6 +127,19 @@
         margin: 0 5%;
         width: 90%;
     }
+    .travelguidetitle {
+        width: calc(100% - 10px);
+        color: $color-abbey;
+        font-family: Open Sans, Sans-Serif;
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 0 5px;
+        padding: 5px 0px;
+        text-align: left;
+        line-height: 1.67rem;
+        letter-spacing: 1px;
+        float: left;
+    }
 }
 
 @media screen and (max-width: 400px) {
