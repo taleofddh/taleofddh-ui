@@ -26,7 +26,6 @@
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
     "aws-amplify": "^3.3.9",
-    "aws-sdk": "^2.804.0",
     "crypto-api": "^0.8.5",
     "history": "^4.10.1",
     "marked": "^1.2.5",

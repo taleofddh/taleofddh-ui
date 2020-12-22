@@ -3,13 +3,6 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { API } from "aws-amplify";
-import AWS from 'aws-sdk';
-import {AWS_CONFIG} from "./constants";
-
-AWS.config.region = AWS_CONFIG.region;
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID,
-});
 
 library.add(far, fab, faFacebookF, faGoogle, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp);
 
