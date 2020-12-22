@@ -188,11 +188,11 @@ function App(props) {
                                         render={(props) => <Acknowledgement {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path={["/blog", "/blog/:blogName"]}
+                                        exact path="/blog"
                                         render={(props) => <Blog {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path={["/blog-article", "/blog-article/:blogName"]}
+                                        exact path={["/blog/article", "/blog/article/:blogName"]}
                                         render={(props) => <Article {...props} api={api} />}
                                     />
                                     <Route
@@ -204,7 +204,7 @@ function App(props) {
                                         render={(props) => <Gallery {...props} api={api} />}
                                     />
                                     <AuthenticatedRoute
-                                        exact path={["/photo", "/photo/:albumName/:startIndex"]}
+                                        exact path={["/gallery/photo", "/gallery/photo/:albumName", "/gallery/photo/:albumName/:startIndex"]}
                                         render={(props) => <Photo {...props} api={api} />}
                                     />
                                     <Route
@@ -212,7 +212,7 @@ function App(props) {
                                         render={(props) => <Links {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path="/travel-guides"
+                                        exact path="/links/travel-guides"
                                         render={(props) => <TravelGuide {...props} api={api} />}
                                     />
                                     <Route
