@@ -2,16 +2,16 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
 import {withRouter} from "react-router-dom";
-import {useApi, usePost} from '../common/hook'
+import {useApi, useGet, usePost} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import {base64ToBlob, postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
-import Map from "../components/map";
 import CollapseFolder from "../components/collapsefolder";
 import Loader from "../components/loader";
 import '../../scss/pages/travelguide.scss';
 import {API} from "aws-amplify";
+import Visit from "../components/visit";
 
 const pagetitle = 'Travel Guides - Itinerary, Estimate & Forms'
 const source = 'travel-guides';
@@ -19,7 +19,12 @@ const source = 'travel-guides';
 function TravelGuide(props) {
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const[data, loading] = usePost(
+    const[visitData, visitDataLoading] = useGet(
+        'findCountryVisitStatus',
+        '/countryVisitStatus',
+        'countryVisitStatus'
+    )
+    const[travelDocumentData, travelDocumentDataLoading] = usePost(
         'findTravelDocuments',
         '/documentList',
         {
@@ -107,19 +112,21 @@ function TravelGuide(props) {
                     <div className="travelguideframe">
                         <Title message={pagetitle} />
                         <div className="travelguidecontainer">
-                            <Map/>
-                            {loading ? (
-                                <Loader loading={loading} />
+                            {visitDataLoading || travelDocumentDataLoading ? (
+                                <Loader loading={visitDataLoading || travelDocumentDataLoading} />
                             ) : (
-                                <ul className="travelguidegroup">
-                                    {data.map((item, index) => (
-                                        <li key={index} className="travelguideitem">
-                                            <div className="travelguidetitle">
-                                                <CollapseFolder header={item.folder} content={getContent(item.folder, item.files)} onChange={handleChange}/>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <>
+                                    <Visit data={visitData} />
+                                    <ul className="travelguidegroup">
+                                        {travelDocumentData.map((item, index) => (
+                                            <li key={index} className="travelguideitem">
+                                                <div className="travelguidetitle">
+                                                    <CollapseFolder header={item.folder} content={getContent(item.folder, item.files)} onChange={handleChange}/>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
                             )}
                         </div>
                     </div>

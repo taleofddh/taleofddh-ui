@@ -198,6 +198,11 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'findCountryVisitStatus',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/link',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'getTravelDocument',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/link',
                 region: AWS_CONFIG.apiGateway.REGION
