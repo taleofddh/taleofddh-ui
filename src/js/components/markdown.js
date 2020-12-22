@@ -1,22 +1,33 @@
 import React, {useState} from 'react';
+import {API} from 'aws-amplify';
 import marked  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
-import { AWS_CONFIG, MEDIA_HOST} from "../common/constants";
-import { getObject } from "../common/common";
+import { MEDIA_HOST} from "../common/constants";
 import Logo from "../common/logo";
 import '../../scss/pages/article.scss';
 
 function Markdown(props) {
     const [markDown, setMarkDown] = useState([]);
 
-    async function loadMdPath(bucket, key) {
-        await getObject(bucket, key)
+    async function loadMdText(key) {
+        await API.post(
+            'getArticleDocument',
+            '/articleDocument',
+            {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {prefix: key.substring(0, key.lastIndexOf('/')), file: key.substring(key.lastIndexOf('/') + 1)}
+            }
+        )
             .then(async response => {
-                return await response.Body
-            })
+            return await response.data
+        })
             .then(text => {
-                setMarkDown(marked(text.toString('utf-8')));
-            })
+                setMarkDown(marked(text));
+            });
     }
 
     let content;
@@ -26,7 +37,7 @@ function Markdown(props) {
             return (<img key={index} className="articlelogocontrol" src={MEDIA_HOST + "/images/" + item}/>)
         });
     } else if (props.section.type === 'Markdown') {
-        loadMdPath(AWS_CONFIG.s3.BLOG_BUCKET, props.section.content);
+        loadMdText(props.section.content);
         return (<div className="articlemarkdown">{ReactHtmlParser(markDown)}</div>);
     }
 

@@ -149,6 +149,11 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'getArticleDocument',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'findIdentity',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
@@ -190,6 +195,11 @@ Amplify.configure({
             },
             {
                 name: 'findTravelDocuments',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/link',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'getTravelDocument',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/link',
                 region: AWS_CONFIG.apiGateway.REGION
             }

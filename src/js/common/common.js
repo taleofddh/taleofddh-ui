@@ -112,23 +112,3 @@ export const postAuditEntry = async (data) => {
         init
     )
 }
-
-export const getObject = async (bucket, key) => {
-    // Create a new service object
-    let s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
-        params: {Bucket: bucket}
-    });
-
-    // for async it only works with Promise and resolve/reject
-    return new Promise((resolve, reject) => {
-        s3.getObject({Key: key}, (err, data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                resolve(data);
-            }
-        });
-    });
-}

@@ -1,25 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import marked  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
-import {AWS_CONFIG} from "../common/constants";
-import {getObject} from "../common/common";
 import '../../scss/pages/article.scss';
+import {API} from "aws-amplify";
 
 function ObjectDocument(props) {
     const [markDown, setMarkDown] = useState([]);
 
     useEffect(() => {
-        loadMdPath(AWS_CONFIG.s3.BLOG_BUCKET, 'technical/spring-log4j2-splunk.md');
+        loadMdPath('technical/spring-log4j2-splunk.md');
     }, []);
 
-    async function loadMdPath(bucket, key) {
-        await getObject(bucket, key)
+    async function loadMdPath(key) {
+        await API.post(
+            'getArticleDocument',
+            '/articleDocument',
+            {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {prefix: key.substring(0, key.lastIndexOf('/')), file: key.substring(key.lastIndexOf('/') + 1)}
+            }
+        )
             .then(async response => {
-                return await response.Body
+                return await response.data
             })
             .then(text => {
-                setMarkDown(marked(text.toString('utf-8')));
-            })
+                setMarkDown(marked(text));
+            });
     }
 
     return (
