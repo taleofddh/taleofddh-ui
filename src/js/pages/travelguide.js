@@ -1,16 +1,17 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {withRouter} from "react-router-dom";
 import {useApi, usePost} from '../common/hook'
 import {getSessionCookie} from "../common/session";
-import {postAuditEntry} from "../common/common";
+import {base64ToBlob, postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Map from "../components/map";
 import CollapseFolder from "../components/collapsefolder";
 import Loader from "../components/loader";
 import '../../scss/pages/travelguide.scss';
+import {API} from "aws-amplify";
 
 const pagetitle = 'Travel Guides - Itinerary, Estimate & Forms'
 const source = 'travel-guides';
@@ -43,15 +44,46 @@ function TravelGuide(props) {
         console.log(key);
     }
 
-    const getContent = (files) => {
+    const handleDownload = async (folder, file, clickEvent) => {
+        clickEvent.preventDefault();
+        console.log(folder + '/' + file);
+        await API.post(
+            'getTravelDocument',
+            '/travelDocument',
+            {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    prefix: 'Travel' + '/' + folder,
+                    file: file
+                }
+            }
+        )
+            .then(async (response) => {
+                return base64ToBlob(await response.data, response.headers['content-type'])
+            })
+            .then((blob) => {
+                const blobUrl = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = file;
+                a.click();
+            })
+
+    }
+
+    const getContent = (folder, files) => {
         return (
             <ul className="traveldocumentsgroup">
-                {files.map((file, index) => (
+                {files.map((file, idx) => (
                     file === '' ? (
-                        <>
-                        </>
+                        <li key={idx} className="traveldocumentblank">
+                        </li>
                     ) : (
-                        <li key={index} className="traveldocumentitem">
+                        <li key={idx} className="traveldocumentitem" onClick={(e) => handleDownload(folder, file, e)}>
                             <p className="traveldocumenttitle">
                                 <span className="travelguidedocumentlogo">
                                     <img src={"/images/logo-" + file.substr(file.lastIndexOf('.') + 1) + ".svg"} />
@@ -82,7 +114,9 @@ function TravelGuide(props) {
                                 <ul className="travelguidegroup">
                                     {data.map((item, index) => (
                                         <li key={index} className="travelguideitem">
-                                            <div className="travelguidetitle"><CollapseFolder header={item.folder} content={getContent(item.files)} onChange={handleChange}/></div>
+                                            <div className="travelguidetitle">
+                                                <CollapseFolder header={item.folder} content={getContent(item.folder, item.files)} onChange={handleChange}/>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>

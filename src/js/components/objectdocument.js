@@ -8,7 +8,7 @@ function ObjectDocument(props) {
     const [markDown, setMarkDown] = useState([]);
 
     useEffect(() => {
-        loadMdPath('technical/spring-log4j2-splunk.md');
+        loadMdPath('Technical/spring-log4j2-splunk.md');
     }, []);
 
     async function loadMdPath(key) {

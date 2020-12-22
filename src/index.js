@@ -17,8 +17,7 @@ Amplify.configure({
     Storage: {
         AWSS3: {
             region: AWS_CONFIG.s3.REGION,
-            bucket: AWS_CONFIG.s3.BUCKET,
-            identityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID
+            bucket: AWS_CONFIG.s3.BLOG_BUCKET
         }
     },
     API: {

@@ -71,6 +71,14 @@
     background-color: $color-transparent;
 }
 
+.traveldocumentblank {
+    background-color: $color-transparent;
+    padding: 0px;
+    width: 100%;
+    margin: 0px auto;
+    line-height: 0rem;
+}
+
 .traveldocumentitem {
     background-color: $color-transparent;
     padding: 0px;
@@ -80,7 +88,7 @@
     cursor:pointer;
     text-align: left;
     &:hover{
-        background-color: $color-ziggurat;
+        background-color: $color-white-darkest;
     }
 }
 
