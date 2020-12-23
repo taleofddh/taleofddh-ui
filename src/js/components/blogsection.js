@@ -27,7 +27,14 @@ function BlogSection(props) {
                                     {item.header}
                                 </p>
                                 <p className="blogsectionpiccontrol">
-                                    <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} />
+                                    <NavLink to={{
+                                        pathname: item.link,
+                                        state: {
+                                            blog: item
+                                        }
+                                    }}>
+                                        <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} />
+                                    </NavLink>
                                 </p>
                                 <p className="blogsectiontext">
                                     {item.summary}&nbsp;

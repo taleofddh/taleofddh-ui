@@ -25,7 +25,7 @@
   background-color: $color-white;
   padding:10px;
   width:calc(33.333333% - 40px);
-  margin: 10px 10px;
+  margin: 10px;
   text-align:center;
   cursor:pointer;
   border-radius:10px;
@@ -55,11 +55,15 @@
 @media screen and (max-width: 800px) {
   .blogsectionitem {
     width: calc(50% - 20px);
+    margin: 10px 5px;
+    padding:10px 5px;
   }
 }
 
 @media screen and (max-width: 400px) {
   .blogsectionitem {
     width: calc(100% - 20px);
+    margin: 10px 5px;
+    padding:10px 5px;
   }
 }
