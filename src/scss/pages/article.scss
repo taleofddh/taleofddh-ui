@@ -74,20 +74,22 @@
             color: $color-white-dark;
             border: 1px solid $color-shark;
             text-align: center;
-            background-color: $color-abbey;
+            background-color: $color-athens-grey;
             padding: 3px 5px;
+            img {
+                display: inline-block;
+                width: 2rem;
+                height: 2rem;
+                fill: $color-shark;
+            }
         }
         td {
             border: 1px solid $color-shark;
             text-align: center;
+            font-weight: normal;
+            color: $color-abbey;
+            padding: 3px 5px;
         }
-    }
-    svg {
-        width: calc(50% - 160px);
-        padding: 20px 80px;
-        margin: 0 auto;
-        display: inline-block;
-        position: relative;
     }
     h2 {
         font-family: Open Sans, Lucida Calligraphy, Sans-Serif;

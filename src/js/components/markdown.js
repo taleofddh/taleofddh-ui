@@ -5,9 +5,13 @@ import ReactHtmlParser  from 'react-html-parser';
 import { MEDIA_HOST} from "../common/constants";
 import Logo from "../common/logo";
 import '../../scss/pages/article.scss';
+import {useMediaQuery} from "../common/hook";
 
 function Markdown(props) {
     const [markDown, setMarkDown] = useState([]);
+    const isMobile = useMediaQuery('(max-width: 600px)');
+    const isTablet = useMediaQuery('(max-width: 1200px)');
+    const originalPath = '/desktop/'
 
     async function loadMdText(key) {
         await API.post(
@@ -26,7 +30,12 @@ function Markdown(props) {
             return await response.data
         })
             .then(text => {
-                setMarkDown(marked(text));
+                if (isMobile) {
+                    text = text.toString().replace(originalPath,'/mobile/');
+                } else if (isTablet) {
+                    text = text.toString().replace(originalPath,'/tablet/');
+                }
+                setMarkDown(marked(text.toString()));
             });
     }
 
