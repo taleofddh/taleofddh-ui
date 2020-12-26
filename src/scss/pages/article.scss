@@ -67,6 +67,21 @@
 
 .articlemarkdown {
     padding: 0px 10px;
+    table {
+        border: 0px solid $color-shark;
+        th {
+            font-weight: bold;
+            color: $color-white-dark;
+            border: 1px solid $color-shark;
+            text-align: center;
+            background-color: $color-abbey;
+            padding: 3px 5px;
+        }
+        td {
+            border: 1px solid $color-shark;
+            text-align: center;
+        }
+    }
     svg {
         width: calc(50% - 160px);
         padding: 20px 80px;

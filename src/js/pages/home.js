@@ -63,6 +63,7 @@ function Home(props) {
                 <div className="container">
                     <BlogSection category="Technical"/>
                     <BlogSection category="Travel"/>
+                    <BlogSection category="Recipe"/>
                     <div className="collapseframe">
                         <CollapseText header='Looking for something else?' content={defaultMessage}/>
                     </div>

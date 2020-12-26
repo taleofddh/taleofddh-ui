@@ -16,7 +16,7 @@ import {postAuditEntry} from "../common/common";
 import Comment from "../components/comment";
 
 const pagetitle = 'Blog'
-const source = 'article';
+const source = 'blog';
 
 function Article(props) {
     const { userHasAuthenticated } = useSessionContext();
@@ -81,7 +81,7 @@ function Article(props) {
                                         <Markdown section={item} key={index} mobile={matches} />
                                     )
                                 ))}
-                                <Comment type={source} blogName={data.name}/>
+                                <Comment type={pagetitle.toLowerCase()} blogName={data.name}/>
                             </div>
                         </div>
                     </div>
