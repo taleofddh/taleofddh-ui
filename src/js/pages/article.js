@@ -3,7 +3,7 @@ import 'react-app-polyfill/stable';
 import React, { useEffect } from 'react';
 import {Auth} from "aws-amplify";
 import {MONTH_NAMES} from "../common/constants";
-import {useApi, usePost, useMediaQuery} from '../common/hook'
+import {useApi, usePost, useMediaQuery, usePut} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import Document from "../components/document";
@@ -27,6 +27,11 @@ function Article(props) {
     } else {
         blogName = (props.location.state && props.location.state !== undefined) ? props.location.state.blog.name : '';
     }
+    const [countUpdate, countUpdateLoading] = usePut(
+        'updateBlogViewCount',
+        '/blogViewCount',
+        {name: blogName}
+    );
     const [data, loading] = usePost(
         'findBlogArticleList',
         '/blogArticleList',
@@ -64,7 +69,7 @@ function Article(props) {
 
     return (
         loading ? (
-            <Loader loading={loading} />
+            <Loader loading={loading || countUpdateLoading} />
         ) : (
             <>
                 <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} description={data.title}/>

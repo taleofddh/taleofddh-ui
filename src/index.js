@@ -128,6 +128,11 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'updateBlogViewCount',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'findBlogArticleList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
