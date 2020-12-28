@@ -12,6 +12,7 @@ import Title from "../components/title";
 import Loader from "../components/loader";
 import Carousel from "../components/carousel";
 import '../../scss/pages/photo.scss';
+import Share from "../components/share";
 
 const pagetitle = 'Album'
 const source = 'album';
@@ -109,6 +110,9 @@ function Photo(props) {
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
                             <div className="photoframe">
                                 <Title message={data.description} />
+                                <div className="photoshare">
+                                    <Share name={albumName} subject={data.description} url={'https://www.taleofddh.com/gallery/photo/' + albumName} image={data.titlePhoto.path + '/' + data.titlePhoto.name + '.jpg'}/>
+                                </div>
                                 <Carousel pictures={data.photos} startIndex={startIndex} onClick={handleClick}/>
                             </div>
                         </div>

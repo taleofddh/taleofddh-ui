@@ -11,12 +11,13 @@ import Markdown from "../components/markdown";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import '../../scss/pages/article.scss';
 import {postAuditEntry} from "../common/common";
+import Share from "../components/share";
 import Comment from "../components/comment";
+import '../../scss/pages/article.scss';
 
 const pagetitle = 'Blog'
-const source = 'blog';
+const source = 'article';
 
 function Article(props) {
     const { userHasAuthenticated } = useSessionContext();
@@ -78,6 +79,9 @@ function Article(props) {
                         <div className="articleframe">
                             <Title message={data.header} />
                             <div className="articlettitle">{pagetitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
+                            <div className="articleshare">
+                                <Share name={blogName} subject={data.header} url={'https://www.taleofddh.com/blog/article/' + blogName} image={data.titlePhoto}/>
+                            </div>
                             <div className="articlecontainer">
                                 {data.contents.map((item, index) => (
                                     data.category === 'Travel' ? (
