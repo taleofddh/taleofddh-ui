@@ -5,7 +5,7 @@ import {Auth} from "aws-amplify";
 import {MONTH_NAMES} from "../common/constants";
 import {useApi, usePost, useMediaQuery, usePut} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
-import {onError} from "../common/error";;
+import {onError} from "../common/error";
 import Markdown from "../components/markdown";
 import Title from "../components/title";
 import Loader from "../components/loader";
