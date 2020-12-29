@@ -43,11 +43,11 @@ function Markdown(props) {
     if(props.section.type === 'Logo') {
         const arr = props.section.content.split(',');
         content = arr.map((item, index) => {
-            return (<img key={index} className="articlelogocontrol" src={MEDIA_HOST + "/images/" + item}/>)
+            return (<img key={index} className={props.section.styleClass} src={MEDIA_HOST + "/images/" + item}/>)
         });
     } else if (props.section.type === 'Markdown') {
         loadMdText(props.section.content);
-        return (<div className="articlemarkdown">{ReactHtmlParser(markDown)}</div>);
+        content = <div className={props.section.styleClass}>{ReactHtmlParser(markDown)}</div>;
     }
 
     return (
