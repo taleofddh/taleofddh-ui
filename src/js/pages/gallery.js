@@ -71,7 +71,7 @@ function Gallery(props) {
         if(isAuthenticated) {
             //alert(object.photo.caption);
             let album = object.photo;
-            props.history.push('/gallery/photo', {
+            props.history.push('/gallery/photo/' + album.caption, {
                 api: api,
                 index: index,
                 album: album

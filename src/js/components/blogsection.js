@@ -28,7 +28,7 @@ function BlogSection(props) {
                                 </p>
                                 <p className="blogsectionpiccontrol">
                                     <NavLink to={{
-                                        pathname: item.link,
+                                        pathname: item.link + '/' + item.name,
                                         state: {
                                             blog: item
                                         }
@@ -39,7 +39,7 @@ function BlogSection(props) {
                                 <p className="blogsectiontext">
                                     {item.summary}&nbsp;
                                     <NavLink to={{
-                                        pathname: item.link,
+                                        pathname: item.link + '/' + item.name,
                                         state: {
                                             blog: item
                                         }

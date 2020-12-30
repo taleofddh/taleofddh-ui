@@ -42,7 +42,7 @@ function Blog(props) {
     const handleClick = (clickEvent, object) => {
         clickEvent.preventDefault();
         let blogName = object.name;
-        history.push('/blog/article', {
+        history.push('/blog/article/' + object.name, {
             api: api,
             index: index,
             blog: {
