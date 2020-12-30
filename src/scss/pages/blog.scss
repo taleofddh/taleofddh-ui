@@ -50,18 +50,19 @@
     float: left;
 }
 
-.blogtitle {
+.blogheader {
     width: 100%;
-    margin: 0 auto;
+    margin: 0px 0px 5px;
     padding: 5px 0px;
     font-weight: bold;
     fornt-size: 1rem;
     color: $color-crete;
+    line-height: 1.8rem;
     text-align: left;
     border-bottom: 1px solid $color-shark;
 }
 
-.blogtext {
+.blogauthor, .blogshare, .blogtitle {
     width: 100%;
     margin: 0 auto;
     padding: 5px 0px;
@@ -69,10 +70,11 @@
     fornt-size: 1rem;
     color: $color-abbey;
     text-align: left;
+    line-height: 1.67rem;
     svg {
         display: inline;
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1rem;
+        height: 1rem;
     }
 }
 
@@ -90,9 +92,14 @@
     .blogpiccontrol {
         width: 35%;
     }
-
     .blogsummary {
         width: calc(65% - 20px);
+    }
+    .blogheader {
+        font-size: 1rem;
+    }
+    .blogauthor, .blogshare, .blogtitle {
+        font-size: 0.9rem;
     }
 }
 

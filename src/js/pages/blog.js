@@ -65,14 +65,14 @@ function Blog(props) {
                                 {data.map((item, index) => (
                                     <li key={index} className="blogitem" onClick={(e) => handleClick(e, item)}>
                                         <div style={{float: 'left'}}>
+                                            <p className="blogheader">{item.header}</p>
                                             <div className="blogpiccontrol">
                                                 <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} />
                                             </div>
                                             <div className="blogsummary">
-                                                <p className="blogtitle">{item.header}</p>
-                                                <p className="blogtext">{'by ' + item.author + ' on ' + new Date(item.endDate).getDate() + " " + MONTH_NAMES[new Date(item.endDate).getMonth()] + ", " + new Date(item.endDate).getFullYear()}</p>
-                                                <p className="blogtext">{item.title}</p>
-                                                <p className="blogtext"><Icon name="view" width="1rem" height="1rem"/>&nbsp;&nbsp;{item.viewCount}&nbsp;&nbsp;<Icon name="share" width="1rem" height="1rem"/>&nbsp;&nbsp;Category:&nbsp;&nbsp;{item.category}</p>
+                                                <p className="blogauthor">{item.category +' ' + source + ' by ' + item.author + ' on ' + new Date(item.endDate).getDate() + " " + MONTH_NAMES[new Date(item.endDate).getMonth()] + ", " + new Date(item.endDate).getFullYear()}</p>
+                                                <p className="blogshare"><Icon name="view" width="1rem" height="1rem"/>&nbsp;&nbsp;{item.viewCount}&nbsp;&nbsp;<Icon name="share" width="1rem" height="1rem"/></p>
+                                                <p className="blogtitle">{item.title}</p>
                                             </div>
                                         </div>
                                     </li>
