@@ -193,6 +193,11 @@ Amplify.configure({
                 region: AWS_CONFIG.apiGateway.REGION
             },
             {
+                name: 'findUserRole',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
                 name: 'findLinkList',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/link',
                 region: AWS_CONFIG.apiGateway.REGION
@@ -210,6 +215,16 @@ Amplify.configure({
             {
                 name: 'getTravelDocument',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/link',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'findMessageList',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'getEmailMessage',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
                 region: AWS_CONFIG.apiGateway.REGION
             }
         ]

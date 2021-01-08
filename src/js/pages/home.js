@@ -1,15 +1,11 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
     NavLink
 } from "react-router-dom";
-import {SessionContext, getSessionCookie, setSessionCookie, getSessionStorage} from "../common/session";
-import {useApi, usePost} from "../common/hook";
+import {getSessionCookie} from "../common/session";
+import {useApi} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import CollapseText from "../components/collapsetext";
@@ -73,4 +69,4 @@ function Home(props) {
     )
 }
 
-export default Home
+export default Home;

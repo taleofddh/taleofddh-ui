@@ -22,10 +22,13 @@ function Article(props) {
     const { userHasAuthenticated } = useSessionContext();
     const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     let blogName;
-    if(props.match.params.blogName) {
+    let category;
+    if(props.match.params.blogName && props.match.params.category) {
         blogName = props.match.params.blogName;
+        category = props.match.params.category;
     } else {
         blogName = (props.location.state && props.location.state !== undefined) ? props.location.state.blog.name : '';
+        category = (props.location.state && props.location.state !== undefined) ? props.location.state.blog.category : '';
     }
     const [countUpdate, countUpdateLoading] = usePut(
         'updateBlogViewCount',
@@ -35,7 +38,10 @@ function Article(props) {
     const [data, loading] = usePost(
         'findBlogArticleList',
         '/blogArticleList',
-        {blogName: blogName}
+        {
+            category: category,
+            blogName: blogName
+        }
     );
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 

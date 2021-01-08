@@ -42,10 +42,12 @@ function Blog(props) {
     const handleClick = (clickEvent, object) => {
         clickEvent.preventDefault();
         let blogName = object.name;
-        history.push('/blog/article/' + object.name, {
+        let blogCategory = object.category;
+        history.push('/blog/article/' + blogCategory + '/' + blogName, {
             api: api,
             index: index,
             blog: {
+                category: blogCategory,
                 name: blogName
             }
         });

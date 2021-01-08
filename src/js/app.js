@@ -37,6 +37,7 @@ import TermsAndConditions from "./pages/termsandconditions";
 import PrivacyPolicy from "./pages/privacypolicy";
 import FrequentlyAskedQuestion from "./pages/frequentlyaskedquestion";
 import Loader from "./components/loader";
+import Admin from "./pages/admin";
 import Error from "./pages/error";
 import '../scss/app.scss';
 
@@ -192,7 +193,7 @@ function App(props) {
                                         render={(props) => <Blog {...props} api={api} />}
                                     />
                                     <Route
-                                        exact path={["/blog/article", "/blog/article/:blogName"]}
+                                        exact path={["/blog/article", "/blog/article/:category/:blogName"]}
                                         render={(props) => <Article {...props} api={api} />}
                                     />
                                     <Route
@@ -226,6 +227,10 @@ function App(props) {
                                     <Route
                                         exact path="/frequently-asked-questions"
                                         render={(props) => <FrequentlyAskedQuestion {...props} api={api} />}
+                                    />
+                                    <Route
+                                        exact path="/admin"
+                                        render={(props) => <Admin {...props} api={api} />}
                                     />
                                     <Route
                                         render={(props) => <Error {...props} api={api} />}

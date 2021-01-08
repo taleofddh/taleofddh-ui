@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {SessionContext, getSessionCookie, setSessionCookie, getSessionStorage, setSessionStorage} from "./session";
+import {getSessionCookie, setSessionCookie, getSessionStorage, setSessionStorage} from "./session";
 import {Auth, API} from "aws-amplify";
 
 API.configure();
