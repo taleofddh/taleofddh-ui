@@ -49,7 +49,8 @@ function Comment(props) {
         let comment = {
             blogName: props.blogName,
             name: form.name,
-            comment: form.comment
+            comment: form.comment,
+            date: JSON.stringify(new Date())
         }
 
         const response = await API.post(
@@ -65,7 +66,7 @@ function Comment(props) {
             }
         );
 
-        comment.date = response.data.ops[0].date;
+        //comment.date = response.data.ops[0].date;
         setComments(comments => [comment, ...comments]);
 
         setForm({
