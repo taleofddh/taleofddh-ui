@@ -33,7 +33,10 @@ function Article(props) {
     const [countUpdate, countUpdateLoading] = usePut(
         'updateBlogViewCount',
         '/blogViewCount',
-        {name: blogName}
+        {
+            name: blogName,
+            category: category
+        }
     );
     const [data, loading] = usePost(
         'findBlogArticleList',
