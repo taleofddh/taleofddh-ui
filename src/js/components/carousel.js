@@ -28,6 +28,7 @@ function Carousel(props) {
             thumbnail: MEDIA_HOST + '/images/thumbnail/' + item.path + '/' + item.name + '.jpg',
             original: MEDIA_HOST + '/images/' + originalPath + '/' + item.path + '/' + item.name + '.jpg',
             originalTitle: item.description,
+            albumName: item.albumName,
             name: item.name,
             description: item.description,
             viewCount: item.viewCount
@@ -44,7 +45,10 @@ function Carousel(props) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: { name: images[index].name }
+                body: {
+                    albumName: images[index].albumName,
+                    name: images[index].name
+                }
             }
         )
         //props.onClick && props.onClick(clickEvent, obj);
@@ -60,7 +64,10 @@ function Carousel(props) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: { name: images[index].name }
+                body: {
+                    albumName: images[index].albumName,
+                    name: images[index].name
+                }
             }
         )
     }
