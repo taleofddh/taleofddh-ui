@@ -41,7 +41,7 @@ function Footer(props) {
                         &copy; 2020 taleofddh.com All rights reserved.
                     </div>
                     <div className="copyright">
-                        Release v3.0.0
+                        Release v1.0.0
                     </div>
                 </div>
             </div>
