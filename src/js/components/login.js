@@ -95,13 +95,13 @@ function Login(props) {
             userHasAuthenticated(true);
             const credentials = await Auth.currentUserCredentials();
             setSessionCookie("credential", {identityId: credentials.identityId});
-            await API.put("updateUserProfile", "/updateUserProfile", {
+            await API.post("createUserProfile", "/createUserProfile", {
                 response: true,
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: {email: fields.username, identityId: credentials.identityId, lastLogin: new Date()},
+                body: {email: fields.username, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
             });
             history.push("/");
         } catch (e) {

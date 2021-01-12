@@ -195,7 +195,7 @@ function Profile(props) {
                                    name="email"
                                    label="Email"
                                    type="email"
-                                   disabled={false}
+                                   disabled={true}
                                    required={false}
                                    initialValue={fields.email}
                                    value={fields.email}
