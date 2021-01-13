@@ -226,6 +226,11 @@ Amplify.configure({
                 name: 'getEmailMessage',
                 endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
                 region: AWS_CONFIG.apiGateway.REGION
+            },
+            {
+                name: 'processStoredMessage',
+                endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
+                region: AWS_CONFIG.apiGateway.REGION
             }
         ]
     }
