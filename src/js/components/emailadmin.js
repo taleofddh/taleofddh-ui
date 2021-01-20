@@ -7,11 +7,18 @@ import {API} from "aws-amplify";
 
 function EmailAdmin(props) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const[messageData, messageDataLoading] = usePost(
+    const[inboxData, inboxDataLoading] = usePost(
         'findMessageList',
         '/messageList',
         {
-            prefix: 'Inbox'
+            folder: 'Inbox'
+        }
+    );
+    const[sentData, sentDataLoading] = usePost(
+        'findMessageList',
+        '/messageList',
+        {
+            folder: 'Sent'
         }
     );
 
@@ -33,8 +40,8 @@ function EmailAdmin(props) {
 
     return (
         <>
-            {messageDataLoading ? (
-                <Loader loading={messageDataLoading} />
+            {inboxDataLoading || sentDataLoading ? (
+                <Loader loading={inboxDataLoading || sentDataLoading} />
             ) : (
                 <>
                     <form key="LoginForm" name="EmailForm" onSubmit={loadEmail}>

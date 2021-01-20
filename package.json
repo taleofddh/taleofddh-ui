@@ -11,7 +11,7 @@
     "react"
   ],
   "author": "Devadyuti Das",
-  "license": "Apache-2.0",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/devadyuti/taleofddh-ui/issues"
   },
