@@ -1,9 +1,5 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
-import {
-    NavLink
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {getSessionCookie} from "../common/session";
 import {useApi} from "../common/hook";
 import {postAuditEntry} from "../common/common";

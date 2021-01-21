@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, { useEffect } from 'react';
 import {Auth} from "aws-amplify";
 import {MONTH_NAMES} from "../common/constants";
@@ -74,8 +72,6 @@ function Article(props) {
         }
     }
 
-    const matches = useMediaQuery('(max-width: 820px)');
-
     return (
         loading ? (
             <Loader loading={loading || countUpdateLoading} />
@@ -92,7 +88,7 @@ function Article(props) {
                             </div>
                             <div className="articlecontainer">
                                 {data.contents.map((item, index) => (
-                                    <Markdown section={item} key={index} mobile={matches} />
+                                    <Markdown section={item} key={index} />
                                 ))}
                                 <Comment type={pagetitle.toLowerCase()} blogName={data.name}/>
                             </div>

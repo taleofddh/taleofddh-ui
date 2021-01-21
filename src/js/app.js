@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, { useState, useEffect } from 'react';
 import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";

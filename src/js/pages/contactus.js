@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";

@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import {useApi, useFormFields} from "../common/hook";

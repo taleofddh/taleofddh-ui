@@ -22,9 +22,9 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.12",
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.1.2",
-    "@testing-library/user-event": "^12.2.2",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/user-event": "^12.6.2",
     "aws-amplify": "^3.3.9",
     "crypto-api": "^0.8.5",
     "history": "^4.10.1",
@@ -86,7 +86,7 @@
       "not op_mini all"
     ],
     "development": [
-      "ie 11",
+      "last 1 ie version",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"

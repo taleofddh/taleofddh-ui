@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React from 'react';
 import {useApi} from '../common/hook'
 import MetaTag from "../components/metatag";

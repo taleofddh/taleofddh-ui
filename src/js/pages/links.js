@@ -1,8 +1,6 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
 import {NavLink, useHistory, withRouter} from "react-router-dom";
-import {useApi, useGet, useMediaQuery} from '../common/hook'
+import {useApi, useGet} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import {postAuditEntry} from "../common/common";
 import Icon from "../common/icon";
@@ -24,8 +22,6 @@ function Links(props) {
         '/linkList/' + true,
         'links'
     );
-
-    const matches = useMediaQuery('(max-width: 820px)');
 
     useEffect(() => {
         postAuditEntry(

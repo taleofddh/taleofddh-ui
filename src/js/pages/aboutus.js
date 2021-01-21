@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
 import {MEDIA_HOST} from "../common/constants";
 import {useApi, useGet, useMediaQuery} from '../common/hook';
@@ -21,7 +19,7 @@ function AboutUs(props) {
     );
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
-    const matches = useMediaQuery('(max-width: 820px)');
+    const matches = useMediaQuery('screen and (max-width: 820px)');
 
     useEffect(() => {
         postAuditEntry(
@@ -63,7 +61,7 @@ function AboutUs(props) {
 function Story(props) {
     let image =
         <div className="storyimage">
-            <img src={MEDIA_HOST + '/images/' + source + '/' + props.story.image} />
+            <img src={MEDIA_HOST + '/images/' + source + '/' + props.story.image} alt={props.story.header} />
         </div>
 
     let text =

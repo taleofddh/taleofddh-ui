@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { Auth, API } from 'aws-amplify';

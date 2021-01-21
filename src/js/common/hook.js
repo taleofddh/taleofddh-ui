@@ -178,7 +178,6 @@ export const usePut = (api, path, data) => {
     return [result, loading];
 }
 
-
 export const useFormFields = (initialState) => {
     const [fields, setFields] = useState(initialState);
 
@@ -198,9 +197,21 @@ export const useMediaQuery = (query) => {
     const [matches, setMatches] = useState(mediaMatch.matches);
 
     useEffect(() => {
+        let userAgent = window.navigator.userAgent;
+        let msIe = userAgent.indexOf("MSIE ");
         const handler = (e) => setMatches(e.matches);
-        mediaMatch.addEventListener('change', handler);
-        return () => mediaMatch.removeEventListener('change', handler);
+        if(msIe) {
+            mediaMatch.addListener(handler)
+        } else {
+            mediaMatch.addEventListener('change', handler);
+        }
+        return () => {
+            if(msIe) {
+                mediaMatch.removeListener(handler)
+            } else {
+                mediaMatch.removeEventListener('change', handler);
+            }
+        }
     });
 
     return matches;

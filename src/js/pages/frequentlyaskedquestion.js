@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
 import {NavLink, Link} from "react-router-dom";
 import {useApi, useGet} from '../common/hook';

@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import {usePost} from "../common/hook";
 import {postAuditEntry} from "../common/common";
+import {getSessionCookie} from "../common/session";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/acknowledgement.scss';
-import {getSessionCookie} from "../common/session";
 
 function Acknowledgement(props) {
     const [data, loading] = usePost(

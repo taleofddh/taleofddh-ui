@@ -1,10 +1,8 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import {MEDIA_HOST, MONTH_NAMES} from "../common/constants";
 import {postAuditEntry} from "../common/common";
-import {useApi, useGet, useMediaQuery} from '../common/hook'
+import {useApi, useGet} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
@@ -23,8 +21,6 @@ function Blog(props) {
         'findBlogList',
         '/blogList'
     );
-
-    const matches = useMediaQuery('(max-width: 820px)');
 
     useEffect(() => {
         postAuditEntry(

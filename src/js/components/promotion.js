@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import { Link, NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from "react-router-dom";
 import Slider from "react-slick";
-import Title from "./title";
 import {useApi, useGet} from "../common/hook";
 import Loader from "./loader";
 import '../../scss/components/slider.scss';

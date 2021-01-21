@@ -1,7 +1,7 @@
 import React from 'react';
 import ClipLoader from "react-spinners/ClipLoader";
 import { css } from "@emotion/core";
-import "../../scss/components/loader.scss";
+import '../../scss/components/loader.scss';
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const style = css`

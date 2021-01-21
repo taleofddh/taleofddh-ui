@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { useState } from 'react';
 import {NavLink, Link} from "react-router-dom";
 import '../../scss/components/footer.scss'

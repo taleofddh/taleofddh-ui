@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React from 'react';
 import {API} from 'aws-amplify';
 import { MEDIA_HOST} from "../common/constants";

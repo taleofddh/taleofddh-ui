@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React, {useEffect, useState} from 'react';
 import {NavLink, useHistory} from "react-router-dom";
 import {Auth} from "aws-amplify";
@@ -54,8 +52,6 @@ function Photo(props) {
         '/albumPhotoList',
         album
     );
-
-    const matches = useMediaQuery('(max-width: 820px)');
 
     useEffect(() => {
         onLoad();

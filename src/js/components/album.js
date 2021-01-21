@@ -1,5 +1,3 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
 import React from 'react';
 import { MEDIA_HOST} from "../common/constants";
 import AlbumGallery from 'react-photo-gallery';
