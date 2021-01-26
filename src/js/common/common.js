@@ -90,6 +90,24 @@ export const dateFormatToString = (date) => {
     ].join('');
 };
 
+export const dateTimeFormatToString = (date) => {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based
+    var dd = date.getDate();
+    var hh = date.getHours();
+    var mi = date.getMinutes();
+
+    return [date.getFullYear(),
+        '-',
+        (mm > 9 ? '' : '0') + mm,
+        '-',
+        (dd > 9 ? '' : '0') + dd,
+        ' ',
+        (hh > 9 ? '' : '0') + hh,
+        ':',
+        (mi > 9 ? '' : '0') + mi
+    ].join('');
+};
+
 export const base64ToBlob = (b64Data, contentType='', sliceSize= 512) => {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];

@@ -25,13 +25,13 @@
 
 .linkitem {
     background-color: $color-white;
-    padding:10px;
-    width:calc(33.333333% - 40px);
+    padding: 10px;
+    width: calc(33.333333% - 40px);
     margin: 10px 10px;
-    text-align:center;
-    cursor:pointer;
-    border-radius:10px;
-    box-shadow:0 1px 3px rgba(0,0,0,.4);
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.4);
     a {
         text-decoration: none;
     }

@@ -4,6 +4,8 @@ import {usePost} from "../common/hook";
 import Loader from "./loader";
 import LoaderButton from "./loaderbutton";
 import {API} from "aws-amplify";
+import {dateTimeFormatToString} from '../common/common';
+import '../../scss/components/emailadmin.scss';
 
 function EmailAdmin(props) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -54,20 +56,24 @@ function EmailAdmin(props) {
                                 isLoading={isLoading}
                             />
                         </div>
-                        <div style={{width: '100%', float: 'left'}}>
-                            <div style={{width: '10%', float: 'left'}}>
-                                <ul>
-                                    <li>Inbox</li>
-                                    <li>Sent</li>
+                        <div className="emailcontainer" style={{width: '100%', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
+                            <div style={{width: 'calc(10% - 1px);', float: 'left'}}>
+                                <ul className="emailfoldergroup">
+                                    <li className="emailfolderitem">Inbox</li>
+                                    <li className="emailfolderitem">Sent</li>
                                 </ul>
                             </div>
-                            <div style={{width: '30%', float: 'left'}}>
-                                <ul>
-                                    <li>Message 1</li>
-                                    <li>Message 2</li>
+                            <div style={{width: 'calc(30% - 1px);', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
+                                <ul className="emailpreviewgroup" >
+                                    {inboxData.map((item, index) => (
+                                        <li className="emailpreviewitem">
+                                            <p>{item.from} on {dateTimeFormatToString(new Date(item.date))}</p>
+                                            <p>{item.subject}</p>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
-                            <div style={{width: '60%', float: 'left'}}>
+                            <div style={{width: 'calc(60% - 1px);', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
                                 <h2>Message 1 Details</h2>
                             </div>
                         </div>
