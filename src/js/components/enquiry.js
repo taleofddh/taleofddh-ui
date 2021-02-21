@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import {useApi, useFormFields} from "../common/hook";
+import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import TypeInput from "../components/typeInput";
 import TextArea from "../components/textarea";
@@ -9,7 +9,7 @@ import '../../scss/components/enquiry.scss';
 import '../../scss/components/popup.scss';
 
 function Enquiry(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const [fields, handleFieldChange] = useFormFields({
@@ -33,7 +33,6 @@ function Enquiry(props) {
         }
 
         props.history.push('/' + props.source + '-acknowledgement', {
-            api: api,
             source: props.source,
             index: index,
             request: request

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {Auth} from "aws-amplify";
 import {MONTH_NAMES} from "../common/constants";
-import {useApi, usePost, useMediaQuery, usePut} from '../common/hook'
+import {useIndex, usePost, usePut} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import Markdown from "../components/markdown";
@@ -18,7 +18,7 @@ const source = 'article';
 
 function Article(props) {
     const { userHasAuthenticated } = useSessionContext();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     let blogName;
     let category;
     if(props.match.params.blogName && props.match.params.category) {

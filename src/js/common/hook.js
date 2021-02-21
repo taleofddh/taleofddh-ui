@@ -1,29 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import {getSessionCookie, setSessionCookie, getSessionStorage, setSessionStorage} from "./session";
-import {Auth, API} from "aws-amplify";
+import {AWS_CONFIG} from "./constants";
+import {API} from "aws-amplify";
 
 API.configure();
 
-export const useApi = (hostname, protocol, key) => {
-    let url;
+export const useIndex = (hostname, protocol) => {
     let index = true;
-    let obj = getSessionStorage(key);
-    if(Object.keys(obj).length === 0 && obj.constructor === Object) {
-        if(hostname !== 'taleofddh.com' && hostname !== 'www.taleofddh.com') {
-            index = false;
-        }
-        url = 'https://api.taleofddh.com';
-        if(key) {
-            setSessionStorage(key, {api: url});
-        }
-    } else {
-        if(hostname === 'localhost' || hostname === 'dev.taleofddh.com' || hostname === 'uat.taleofddh.com') {
-            index = false;
-        }
-        url = obj.api;
+    if((protocol === 'http:' && hostname === 'localhost') || (protocol === 'https:' && hostname === 'dev.taleofddh.com')) {
+        index = false;
     }
 
-    return [url, index];
+    return index;
 }
 
 export const useFetch = (url, key) => {

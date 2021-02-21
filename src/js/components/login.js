@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {NavLink, useHistory} from 'react-router-dom';
 import { Auth, API } from 'aws-amplify';
-import CryptoApi from 'crypto-api/src/crypto-api';
-import {useApi, useFormFields} from "../common/hook";
+import {useFormFields} from "../common/hook";
 import {useSessionContext, getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
@@ -11,12 +10,9 @@ import FacebookButton from "./facebookbutton";
 import GoogleButton from "./googlebutton";
 import '../../scss/components/login.scss';
 
-function Login(props) {
+function Login() {
     const { userHasAuthenticated } = useSessionContext();
     const history = useHistory();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const hasher = CryptoApi.getHasher('ripemd256');
     const [isLoading, setIsLoading] = useState(false);
     const [newUser, setNewUser] = useState(null);
 
@@ -44,44 +40,11 @@ function Login(props) {
                 },
                 body: {identityId: credentials.identityId, lastLogin: new Date()},
             });
+            setIsLoading(false);
+            setNewUser(newUser);
         } catch (e) {
-            try {
-                hasher.update(fields.password);
-                let hashedPassword = CryptoApi.encoder.toHex(hasher.finalize()).toUpperCase();
-                //console.log(hashedPassword);
-                let headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                };
-                let data = {
-                    username: fields.username,
-                    password: hashedPassword
-                }
-                let validUser = await API.post(
-                    "findUser",
-                    "/findUser",
-                    {
-                        response: true,
-                        headers : headers,
-                        body: data
-                    }
-                );
-                console.log(validUser);
-                let json = await validUser.data;
-                if(json) {
-                    const newUser = await Auth.signUp({
-                        username: fields.username,
-                        password: fields.password,
-                    });
-                    setIsLoading(false);
-                    setNewUser(newUser);
-                } else {
-                    throw new Error("Invalid username or password");
-                }
-            } catch (ex) {
-                onError(ex);
-                setIsLoading(false);
-            }
+            onError(e);
+            setIsLoading(false);
         }
     }
 

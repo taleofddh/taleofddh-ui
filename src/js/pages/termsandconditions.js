@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import {useApi, useGet} from '../common/hook';
+import {useIndex, useGet} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import '../../scss/pages/termsandcondition.scss';
 import {getSessionCookie} from "../common/session";
+import '../../scss/pages/termsandcondition.scss';
 
 const pagetitle = 'Terms & Conditions';
 const source = 'terms-conditions';
 
-function TermsAndConditions(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+function TermsAndConditions() {
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const [data, loading] = useGet(
         'findTermsAndConditionsList', '/termsAndConditionsList'
     );

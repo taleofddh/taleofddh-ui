@@ -5,7 +5,7 @@ import {API, Auth} from "aws-amplify";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
 import {SessionContext, getSessionCookie, setSessionCookie} from "./common/session";
-import {useApi, useFetch, useGet} from "./common/hook";
+import {useIndex, useFetch, useGet} from "./common/hook";
 import {GEOLOCATION_URL, GTAG_TRACKING_ID} from './common/constants';
 import AuthenticatedRoute from "./common/authenticatedroute";
 import UnauthenticatedRoute from "./common/unauthenticatedroute";
@@ -47,7 +47,6 @@ history.listen(location => {
 })
 
 function App(props) {
-    const [api] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [menuList, menuLoading] = useGet('findMenuList' , '/menuList/true', 'menu');
     const [geolocationData, geolocationLoading] = useFetch(GEOLOCATION_URL, 'geolocation');
     const [ddhomeCountry, setDdhomeCountry] = useState({
@@ -143,86 +142,86 @@ function App(props) {
                                 <Switch>
                                     <Route
                                         exact path="/"
-                                        render={() => <Home ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} api={api} />}
+                                        render={() => <Home ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} />}
                                     />
                                     <UnauthenticatedRoute
                                         exact path="/sign-up"
-                                        render={(props) => <SignUp {...props} api={api} />}
+                                        render={(props) => <SignUp {...props} />}
                                     />
                                     <UnauthenticatedRoute
                                         exact path="/sign-in"
-                                        render={(props) => <SignIn {...props} api={api} />}
+                                        render={(props) => <SignIn {...props} />}
                                     />
                                     <UnauthenticatedRoute
                                         exact path="/reset-password"
-                                        render={(props) => <ResetPassword {...props} api={{api}} />}
+                                        render={(props) => <ResetPassword {...props} />}
                                     />
                                     <AuthenticatedRoute
                                         exact path="/my-profile"
-                                        render={(props) => <UserProfile {...props} api={api} />}
+                                        render={(props) => <UserProfile {...props} />}
                                     />
                                     <AuthenticatedRoute
                                         exact path="/change-password"
-                                        render={(props) => <ChangePassword {...props} api={api} />}
+                                        render={(props) => <ChangePassword {...props} />}
                                     />
                                     <Route
                                         exact path="/about-us"
-                                        render={(props) => <AboutUs {...props} api={api} />}
+                                        render={(props) => <AboutUs {...props} />}
                                     />
                                     <Route
                                         exact path="/contact-us"
-                                        render={(props) => <ContactUs {...props} api={api} />}
+                                        render={(props) => <ContactUs {...props} />}
                                     />
                                     <Route
                                         exact path="/contact-us-acknowledgement"
-                                        render={(props) => <Acknowledgement {...props} api={api} />}
+                                        render={(props) => <Acknowledgement {...props} />}
                                     />
                                     <Route
                                         exact path="/blog"
-                                        render={(props) => <Blog {...props} api={api} />}
+                                        render={(props) => <Blog {...props} />}
                                     />
                                     <Route
                                         exact path={["/blog/article", "/blog/article/:category/:blogName"]}
-                                        render={(props) => <Article {...props} api={api} />}
+                                        render={(props) => <Article {...props} />}
                                     />
                                     <Route
                                         exact path="/markdown-blog"
-                                        render={(props) => <MarkdownBlog {...props} api={api} />}
+                                        render={(props) => <MarkdownBlog {...props} />}
                                     />
                                     <Route
                                         exact path="/gallery"
-                                        render={(props) => <Gallery {...props} api={api} />}
+                                        render={(props) => <Gallery {...props} />}
                                     />
                                     <AuthenticatedRoute
                                         exact path={["/gallery/photo", "/gallery/photo/:albumName", "/gallery/photo/:albumName/:startIndex"]}
-                                        render={(props) => <Photo {...props} api={api} />}
+                                        render={(props) => <Photo {...props} />}
                                     />
                                     <Route
                                         exact path="/links"
-                                        render={(props) => <Links {...props} api={api} />}
+                                        render={(props) => <Links {...props} />}
                                     />
                                     <Route
                                         exact path="/links/travel-guides"
-                                        render={(props) => <TravelGuide {...props} api={api} />}
+                                        render={(props) => <TravelGuide {...props} />}
                                     />
                                     <Route
                                         exact path="/terms-conditions"
-                                        render={(props) => <TermsAndConditions {...props} api={api} />}
+                                        render={(props) => <TermsAndConditions {...props} />}
                                     />
                                     <Route
                                         exact path="/privacy-policy"
-                                        render={(props) => <PrivacyPolicy {...props} api={api} />}
+                                        render={(props) => <PrivacyPolicy {...props} />}
                                     />
                                     <Route
                                         exact path="/frequently-asked-questions"
-                                        render={(props) => <FrequentlyAskedQuestion {...props} api={api} />}
+                                        render={(props) => <FrequentlyAskedQuestion {...props} />}
                                     />
                                     <Route
                                         exact path="/admin"
-                                        render={(props) => <Admin {...props} api={api} />}
+                                        render={(props) => <Admin {...props} />}
                                     />
                                     <Route
-                                        render={(props) => <Error {...props} api={api} />}
+                                        render={(props) => <Error {...props} />}
                                     />
                                 </Switch>
                                 <Footer menus={menuList} />

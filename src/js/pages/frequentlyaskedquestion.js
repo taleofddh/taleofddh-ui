@@ -1,18 +1,18 @@
 import React, {useEffect} from 'react';
-import {NavLink, Link} from "react-router-dom";
-import {useApi, useGet} from '../common/hook';
+import {NavLink} from "react-router-dom";
+import {useIndex, useGet} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import MetaTag from "../components/metatag";
-import '../../scss/pages/frequentlyaskedquestion.scss';
 import {getSessionCookie} from "../common/session";
+import '../../scss/pages/frequentlyaskedquestion.scss';
 
 const pagetitle = 'Frequently Asked Questions'
 const source = 'frequently-asked-questions';
 
 function FrequentlyAskedQuestion(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const [data, loading] = useGet(
         'findFrequentlyAskedQuestionList', '/frequentlyAskedQuestionList'
     );

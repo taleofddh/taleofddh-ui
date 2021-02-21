@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {NavLink, useHistory, withRouter} from "react-router-dom";
-import {useApi, useGet} from '../common/hook'
+import {NavLink, withRouter} from "react-router-dom";
+import {useIndex, useGet} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import {postAuditEntry} from "../common/common";
 import Icon from "../common/icon";
@@ -13,8 +13,7 @@ const pagetitle = 'Useful Links'
 const source = 'links';
 
 function Links(props) {
-    const history = useHistory();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const [data, loading] = useGet(

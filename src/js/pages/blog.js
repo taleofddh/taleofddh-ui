@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import {MEDIA_HOST, MONTH_NAMES} from "../common/constants";
 import {postAuditEntry} from "../common/common";
-import {useApi, useGet} from '../common/hook'
+import {useIndex, useGet} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
@@ -15,7 +15,7 @@ const source = 'blog';
 
 function Blog(props) {
     const history = useHistory();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [data, loading] = useGet(
         'findBlogList',
@@ -40,7 +40,6 @@ function Blog(props) {
         let blogName = object.name;
         let blogCategory = object.category;
         history.push('/blog/article/' + blogCategory + '/' + blogName, {
-            api: api,
             index: index,
             blog: {
                 category: blogCategory,

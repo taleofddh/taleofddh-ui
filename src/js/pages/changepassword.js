@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
-import {NavLink, useHistory} from "react-router-dom";
-import {useApi, useFormFields} from "../common/hook";
+import {useHistory} from "react-router-dom";
+import {useIndex, useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import { onError } from "../common/error";
@@ -16,7 +16,7 @@ const source = 'change-password';
 
 function ChangePassword(props) {
     const history = useHistory();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const [fields, handleFieldChange] = useFormFields({
         oldPassword: '',
         password: '',

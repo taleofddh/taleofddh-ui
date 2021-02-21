@@ -4,14 +4,14 @@ import Title from "../components/title";
 import Enquiry from "../components/enquiry";
 import MetaTag from "../components/metatag";
 import '../../scss/pages/contactus.scss';
-import {useApi} from "../common/hook";
+import {useIndex} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 
 const pagetitle = 'Contact Us';
 const source = 'contact-us';
 
 function ContactUs(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -40,7 +40,7 @@ function ContactUs(props) {
                                 <p className="contactus"><label>Please use the form below or you can email us at <a href="mailto:helpdesk@taleofddh.com" target="blank">helpdesk@taleofddh.com</a></label></p>
                             </div>
                         </div>
-                        <Enquiry api={api} type="GEQ" source={source} />
+                        <Enquiry type="GEQ" source={source} />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {MEDIA_HOST} from "../common/constants";
-import {useApi, useGet, useMediaQuery} from '../common/hook';
+import {useIndex, useGet, useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
@@ -13,7 +13,7 @@ const pagetitle = 'About Us'
 const source = 'about-us';
 
 function AboutUs(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const [data, loading] = useGet(
         'findAboutUsList', '/aboutUsList'
     );

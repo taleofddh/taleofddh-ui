@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useApi} from "../common/hook";
+import {useIndex} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import MetaTag from "../components/metatag";
@@ -10,8 +10,8 @@ import {getSessionCookie} from "../common/session";
 const pagetitle = 'Sign up';
 const source = 'sign-up';
 
-function SignUp(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+function SignUp() {
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -34,7 +34,7 @@ function SignUp(props) {
                 <div className="container">
                     <div className="signupframe">
                         <Title message={pagetitle} />
-                        <Registration api={api} source={source} />
+                        <Registration source={source} />
                     </div>
                 </div>
             </div>

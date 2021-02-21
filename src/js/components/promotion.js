@@ -1,12 +1,11 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import Slider from "react-slick";
-import {useApi, useGet} from "../common/hook";
+import {useIndex, useGet} from "../common/hook";
 import Loader from "./loader";
 import '../../scss/components/slider.scss';
 
 function Promotion(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [promotionData, promotionLoading] = useGet('findPromotionList', '/promotionList/true', 'promotion');
 
     let settings = {

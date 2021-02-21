@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
 import { NavLink } from "react-router-dom";
-import {useApi, useFormFields} from "../common/hook";
+import {useIndex, useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import { onError } from "../common/error";
 import TypeInput from "../components/typeInput";
@@ -9,14 +9,14 @@ import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import LoaderButton from "../components/loaderbutton";
-import "../../scss/pages/resetpassword.scss";
 import {getSessionCookie} from "../common/session";
+import "../../scss/pages/resetpassword.scss";
 
 const pagetitle = 'Reset Password';
 const source = 'reset-password';
 
 function ResetPassword(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const [fields, handleFieldChange] = useFormFields({
         username: '',
         confirmationCode: '',

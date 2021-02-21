@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {useApi, useGet} from '../common/hook'
+import {useIndex, useGet} from '../common/hook'
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import {postAuditEntry} from "../common/common";
@@ -15,10 +15,9 @@ const pagetitle = 'Gallery'
 const source = 'gallery';
 
 function Gallery(props) {
-    const history = useHistory();
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
     const [isAuthenticating, setIsAuthenticating] = useState(true);
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const user = getSessionCookie('user');
     let restrictedFlag = false;
@@ -68,7 +67,6 @@ function Gallery(props) {
             //alert(object.photo.caption);
             let album = object.photo;
             props.history.push('/gallery/photo/' + album.caption, {
-                api: api,
                 index: index,
                 album: album
             });

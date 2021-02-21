@@ -1,21 +1,21 @@
 import React, {useEffect} from 'react';
 import {withRouter} from "react-router-dom";
-import {useApi, useGet, usePost} from '../common/hook'
+import {useIndex, useGet, usePost} from '../common/hook'
 import {getSessionCookie} from "../common/session";
 import {base64ToBlob, postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import CollapseFolder from "../components/collapsefolder";
 import Loader from "../components/loader";
-import '../../scss/pages/travelguide.scss';
 import {API} from "aws-amplify";
 import Visit from "../components/visit";
+import '../../scss/pages/travelguide.scss';
 
 const pagetitle = 'Travel Guides - Itinerary, Estimate & Forms'
 const source = 'travel-guides';
 
-function TravelGuide(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+function TravelGuide() {
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const[visitData, visitDataLoading] = useGet(
         'findCountryVisitStatus',
@@ -60,7 +60,7 @@ function TravelGuide(props) {
                     'Content-Type': 'application/json'
                 },
                 body: {
-                    prefix: 'Travel' + '/' + folder,
+                    prefix: 'Travel/' + folder,
                     file: file
                 }
             }
@@ -89,7 +89,7 @@ function TravelGuide(props) {
                         <li key={idx} className="traveldocumentitem" onClick={(e) => handleDownload(folder, file, e)}>
                             <p className="traveldocumenttitle">
                                 <span className="travelguidedocumentlogo">
-                                    <img src={"/images/logo-" + file.substr(file.lastIndexOf('.') + 1) + ".svg"} />
+                                    <img src={"/images/logo-" + file.substr(file.lastIndexOf('.') + 1) + ".svg"} alt={file}/>
                                 </span>
                                 <span className="travelguidedocumenttext">
                                     {file}

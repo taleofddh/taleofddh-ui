@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {NavLink, useHistory} from 'react-router-dom';
 import {API} from "aws-amplify";
 import {dateFormatToString} from "../common/common";
-import {useApi, useFormFields} from "../common/hook";
+import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import countries from "../common/countries";
@@ -17,7 +17,6 @@ import '../../scss/components/popup.scss';
 
 function Profile(props) {
     const history = useHistory();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const [isLoading, setIsLoading] = useState(false);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const countryEntries = Object.entries(countries);

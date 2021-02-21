@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Auth, API } from 'aws-amplify';
-import {useApi, useFormFields} from "../common/hook";
+import {useFormFields} from "../common/hook";
 import {useSessionContext, getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
@@ -13,7 +13,6 @@ import '../../scss/components/registration.scss';
 function Registration(props) {
     const history = useHistory();
     const { userHasAuthenticated } = useSessionContext();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [isLoading, setIsLoading] = useState(false);
     const [newUser, setNewUser] = useState(null);

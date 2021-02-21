@@ -1,5 +1,5 @@
 import React from 'react';
-import {useApi} from '../common/hook'
+import {useIndex} from '../common/hook'
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import ObjectDocument from "../components/objectdocument";
@@ -9,7 +9,7 @@ const pagetitle = 'Blog'
 const source = 'blog';
 
 function MarkdownBlog(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
 
     return (
         <>

@@ -1,18 +1,18 @@
 import React, {useEffect} from 'react';
-import {useApi, usePost} from "../common/hook";
+import {useIndex, usePost} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
 import MetaTag from "../components/metatag";
 import Profile from "../components/profile";
 import Loader from "../components/loader";
-import '../../scss/pages/userprofile.scss';
 import {postAuditEntry} from "../common/common";
+import '../../scss/pages/userprofile.scss';
 
 const pagetitle = 'My Profile';
 const source = 'my-profile';
 
-function UserProfile(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+function UserProfile() {
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const [data, loading] = usePost(
         "findUserProfile",
         "/findUserProfile",
@@ -45,7 +45,7 @@ function UserProfile(props) {
                         {loading ? (
                             <Loader loading={loading} />
                         ) : (
-                            <Profile api={props.api} data={data} source={source}/>
+                            <Profile data={data} source={source}/>
                         )}
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { NavLink } from "react-router-dom";
 import {getSessionCookie} from "../common/session";
-import {useApi} from "../common/hook";
+import {useIndex} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import CollapseText from "../components/collapsetext";
@@ -13,7 +13,7 @@ import '../../scss/pages/home.scss';
 const source = 'home';
 
 function Home(props) {
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';

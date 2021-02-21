@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {NavLink, useHistory} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {NavLink} from "react-router-dom";
 import {Auth} from "aws-amplify";
-import {useApi, usePost, usePut, useMediaQuery} from '../common/hook';
+import {useIndex, usePost, usePut} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
@@ -9,16 +9,15 @@ import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import Loader from "../components/loader";
 import Carousel from "../components/carousel";
-import '../../scss/pages/photo.scss';
 import Share from "../components/share";
+import '../../scss/pages/photo.scss';
 
 const pagetitle = 'Album'
 const source = 'album';
 
 function Photo(props) {
-    const history = useHistory();
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const user = getSessionCookie('user');
     let restrictedFlag = false;
@@ -86,7 +85,6 @@ function Photo(props) {
                 albumName: object.photo.caption
             }
             props.history.push('/photo', {
-                api: api,
                 index: index,
                 albumName: albumName
             });

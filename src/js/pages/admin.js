@@ -7,7 +7,7 @@ import {
     useSessionContext
 } from "../common/session";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import {useApi, useGet} from "../common/hook";
+import {useIndex, useGet} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Loader from "../components/loader";
@@ -23,7 +23,7 @@ const source = 'admin';
 
 function Admin(props) {
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
-    const [api, index] = useApi(window.location.hostname, window.location.protocol, 'api');
+    const index = useIndex(window.location.hostname, window.location.protocol);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [isAdmin, setAdmin] = useState(false);
     const [data, loading] = useGet(
