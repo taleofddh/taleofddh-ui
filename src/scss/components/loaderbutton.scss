@@ -35,6 +35,13 @@
         border: 1px solid $color-blue-jay;
         background-color: $color-san-marino;
         background-image: linear-gradient(to right, $color-san-marino , $color-san-marino);
+        min-width: 230px;
+    }
+    &.google {
+        border: 1px solid $color-oxblood;
+        background-color: $color-punch;
+        background-image: linear-gradient(to right, $color-punch , $color-punch);
+        min-width: 230px;
     }
     &.playdown {
         background-color: $color-white-dark;

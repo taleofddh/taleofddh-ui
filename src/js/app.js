@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import {Auth} from "aws-amplify";
+import {API, Auth} from "aws-amplify";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
 import {SessionContext, getSessionCookie, setSessionCookie} from "./common/session";

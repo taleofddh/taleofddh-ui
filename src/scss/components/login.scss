@@ -55,14 +55,35 @@
   padding: 5px 10px;
 }
 
-.signupmessage, .forgotpasswordmessage {
-  color: $color-white;
+.forgotpasswordmessage {
+  margin: 0px 0px 0px 20px;
+  width: calc(50% - 20px);
+  color: $color-blackboard;
   font-family: Open Sans, Sans-Serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: normal;
   line-height: 1.67rem;
+  text-align: left;
   a {
     color: $color-atlantis;
     text-decoration: none;
+    border-bottom: 1px solid $color-atlantis;
   }
+  float: left;
+}
+.signupmessage {
+  margin: 0px 20px 0px 0px;
+  width: calc(50% - 20px);
+  color: $color-blackboard;
+  font-family: Open Sans, Sans-Serif;
+  font-size: 0.95rem;
+  font-weight: normal;
+  line-height: 1.67rem;
+  text-align: right;
+  a {
+    color: $color-atlantis;
+    text-decoration: none;
+    border-bottom: 1px solid $color-atlantis;
+  }
+  float: left;
 }

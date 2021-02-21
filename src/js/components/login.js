@@ -117,7 +117,7 @@ function Login(props) {
         return fields.confirmationCode.length > 0;
     }
 
-    const handleFederatedLogin = async () => {
+    const handleFederatedLogin = async (response) => {
         console.log(response);
     };
 
@@ -172,8 +172,8 @@ function Login(props) {
                     </div>
                     <div className="signupmessagecontainer">
                         <p className="messagecontainer">
-                            <span className="forgotpasswordmessage"><NavLink to="/reset-password">Forgot Password</NavLink>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <span className="signupmessage">Don't have an account yet? Please <NavLink to="/sign-up">Sign-up</NavLink></span>
+                            <p className="forgotpasswordmessage"><NavLink to="/reset-password">Forgot Password</NavLink></p>
+                            <p className="signupmessage"><NavLink to="/sign-up">New User Sign-up</NavLink></p>
                         </p>
                     </div>
                 </form>
