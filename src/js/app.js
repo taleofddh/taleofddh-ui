@@ -5,7 +5,7 @@ import {API, Auth} from "aws-amplify";
 import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
 import {SessionContext, getSessionCookie, setSessionCookie} from "./common/session";
-import {useIndex, useFetch, useGet} from "./common/hook";
+import {useFetch, useGet} from "./common/hook";
 import {GEOLOCATION_URL, GTAG_TRACKING_ID} from './common/constants';
 import AuthenticatedRoute from "./common/authenticatedroute";
 import UnauthenticatedRoute from "./common/unauthenticatedroute";
@@ -46,7 +46,7 @@ history.listen(location => {
     ReactGA.pageview(location.pathname)
 })
 
-function App(props) {
+function App() {
     const [menuList, menuLoading] = useGet('findMenuList' , '/menuList/true', 'menu');
     const [geolocationData, geolocationLoading] = useFetch(GEOLOCATION_URL, 'geolocation');
     const [ddhomeCountry, setDdhomeCountry] = useState({
