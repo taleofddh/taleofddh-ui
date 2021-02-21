@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Auth, API } from 'aws-amplify';
-import CryptoApi from 'crypto-api/src/crypto-api';
-import {useApi, useFormFields, usePost} from "../common/hook";
+import {useApi, useFormFields} from "../common/hook";
 import {useSessionContext, getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import LoaderButton from "./loaderbutton";
 import FacebookButton from "./facebookbutton";
+import GoogleButton from "./googlebutton";
 import '../../scss/components/registration.scss';
 
 function Registration(props) {
@@ -83,8 +83,8 @@ function Registration(props) {
         return fields.confirmationCode.length > 0;
     }
 
-    const handleFbLogin = () => {
-        userHasAuthenticated(true);
+    const handleFederatedLogin = async (response) => {
+        console.log(response);
     };
 
     const renderForm = () => {
@@ -92,7 +92,11 @@ function Registration(props) {
             <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
                 <div className="registrationbuttoncontainer">
                     <FacebookButton
-                        onLogin={handleFbLogin} />
+                        onLogin={handleFederatedLogin} />
+                </div>
+                <div className="registrationbuttoncontainer">
+                    <GoogleButton
+                        onLogin={handleFederatedLogin} />
                 </div>
                 <hr />
                 <div className="registrationcontainer">

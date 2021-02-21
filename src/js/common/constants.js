@@ -2,7 +2,9 @@ export const FUNNY_QUOTE_URL = process.env.REACT_APP_FUNNY_QUOTE_URL;
 export const GEOLOCATION_URL = process.env.REACT_APP_GEOLOCATION_URL;
 export const GTAG_TRACKING_ID = process.env.REACT_APP_GTAG_TRACKING_ID;
 export const MEDIA_HOST = process.env.REACT_APP_MEDIA_HOST;
-export const FACEBOOK_APP_URL=process.env.REACT_APP_FACEBOOK_APP_URL;
+export const GOOGLE_MAP_API_URL = process.env.REACT_APP_GOOGLE_MAP_API_URL;
+export const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY
+export const FACEBOOK_APP_URL= process.env.REACT_APP_FACEBOOK_APP_URL;
 export const AWS_CONFIG = {
     region: process.env.REACT_APP_AWS_REGION,
     s3: {
@@ -25,6 +27,15 @@ export const AWS_CONFIG = {
     },
     social: {
         FB: process.env.REACT_APP_FACEBOOK_APP_ID
+    },
+    cookie: {
+        DOMAIN: process.env.REACT_APP_AWS_COOKIE_DOMAIN,
+        SECURED: process.env.REACT_APP_AWS_COOKIE_SECURED_FLAG.toUpperCase() === 'TRUE'
+    },
+    oath: {
+        DOMAIN: process.env.REACT_APP_AWS_OATH_DOMAIN,
+        REDIRECT_SIGN_IN: process.env.REACT_APP_AWS_OATH_REDIRECT_SIGN_IN,
+        REDIRECT_SIGN_OUT: process.env.REACT_APP_AWS_OATH_REDIRECT_SIGN_OUT
     }
 };
 export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",

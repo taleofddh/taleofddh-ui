@@ -12,7 +12,14 @@ Amplify.configure({
         region: AWS_CONFIG.cognito.REGION,
         userPoolId: AWS_CONFIG.cognito.USER_POOL_ID,
         identityPoolId: AWS_CONFIG.cognito.IDENTITY_POOL_ID,
-        userPoolWebClientId: AWS_CONFIG.cognito.APP_CLIENT_ID
+        userPoolWebClientId: AWS_CONFIG.cognito.APP_CLIENT_ID,
+        oauth: {
+            domain: AWS_CONFIG.oath.DOMAIN,
+            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+            redirectSignIn: AWS_CONFIG.oath.REDIRECT_SIGN_IN,
+            redirectSignOut: AWS_CONFIG.oath.REDIRECT_SIGN_OUT,
+            responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+        }
     },
     Storage: {
         AWSS3: {

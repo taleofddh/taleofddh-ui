@@ -6,7 +6,7 @@ import CookieConsent from "react-cookie-consent";
 import ReactGA from 'react-ga';
 import {SessionContext, getSessionCookie, setSessionCookie} from "./common/session";
 import {useApi, useFetch, useGet} from "./common/hook";
-import {AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, FACEBOOK_APP_URL} from './common/constants';
+import {GEOLOCATION_URL, GTAG_TRACKING_ID} from './common/constants';
 import AuthenticatedRoute from "./common/authenticatedroute";
 import UnauthenticatedRoute from "./common/unauthenticatedroute";
 import {onError} from "./common/error";
@@ -64,37 +64,28 @@ function App(props) {
     }, [])
 
     async function onLoad() {
-        loadFacebookSDK();
         try {
             await Auth.currentSession();
+            const user = await Auth.currentAuthenticatedUser();
+            console.log('user: ', user);
+            const email = user.attributes.email;
             userHasAuthenticated(true);
             const credentials = await Auth.currentUserCredentials();
             setSessionCookie("credential", {identityId: credentials.identityId});
+            await API.put("updateUserProfile", "/updateUserProfile", {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
+            });
         }
         catch(e) {
             if (e !== 'No current user') {
                 onError(e);
             }
         }
-    }
-
-    const loadFacebookSDK = () => {
-        window.fbAsyncInit = function() {
-            window.FB.init({
-                appId            : AWS_CONFIG.social.FB,
-                autoLogAppEvents : true,
-                xfbml            : true,
-                version          : 'v3.1'
-            });
-        };
-
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = FACEBOOK_APP_URL;
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
     }
 
     useEffect(() => {

@@ -8,6 +8,7 @@ import {onError} from "../common/error";
 import TypeInput from "../components/typeInput";
 import LoaderButton from "./loaderbutton";
 import FacebookButton from "./facebookbutton";
+import GoogleButton from "./googlebutton";
 import '../../scss/components/login.scss';
 
 function Login(props) {
@@ -116,8 +117,8 @@ function Login(props) {
         return fields.confirmationCode.length > 0;
     }
 
-    const handleFbLogin = async () => {
-        userHasAuthenticated(true);
+    const handleFederatedLogin = async () => {
+        console.log(response);
     };
 
     const renderForm = () => {
@@ -126,7 +127,11 @@ function Login(props) {
                 <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
                     <div className="loginbuttoncontainer">
                         <FacebookButton
-                            onLogin={handleFbLogin} />
+                            onLogin={handleFederatedLogin} />
+                    </div>
+                    <div className="loginbuttoncontainer">
+                        <GoogleButton
+                            onLogin={handleFederatedLogin} />
                     </div>
                     <hr />
                     <div className="logincontainer">
