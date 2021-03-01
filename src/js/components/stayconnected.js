@@ -101,7 +101,7 @@ function StayConnected(props) {
                     <div className="connectedbuttoncontainer" style={{marginTop: marginTop}}>
                         <LoaderButton name="StayConnectedButton"
                                       label="Stay Connected"
-                                      disabled={!validateForm}
+                                      disabled={!validateForm()}
                                       isLoading={isLoading}
                                       onClick={submitSubscription} />
                     </div>
