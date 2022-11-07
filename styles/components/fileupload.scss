@@ -1,0 +1,31 @@
+@import "../common/common";
+
+.fileupload {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  background-color: $color-transparent;
+  margin: 0 auto;
+  padding: 0px;
+  .fileuploadlabel {
+    width: 100%;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-family: Open Sans, Sans-Serif;
+    font-size: 1rem;
+    font-weight: normal;
+    color: $color-abbey;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+.propertydocumentfilelist {
+  font-family: "Open Sans", Sans-Serif;
+  font-size: 1rem;
+  font-style: normal;
+  color: $color-abbey;
+}
