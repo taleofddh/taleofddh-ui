@@ -42,7 +42,7 @@ function Footer({menus}) {
                         &copy; {year} taleofddh.com All rights reserved.
                     </div>
                     <div className="copyright">
-                        Release v2.0.0
+                        Release v4.0.0
                     </div>
                 </div>
             </div>
