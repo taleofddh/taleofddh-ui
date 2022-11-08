@@ -81,7 +81,7 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
                 <ResponsiveNavigation menus={menuList} />
                 <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
-                <MetaTag page={source} index={index} url={url} description={data.title} />
+                <MetaTag page={source} index={index} url={url} desc={data.title} />
                 <div className="boxouter">
                     <div className="container">
                         <div className="articleframe">

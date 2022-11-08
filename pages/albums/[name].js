@@ -100,7 +100,7 @@ function Album({ menuList, handleLogout, data, albumName }) {
                 <ResponsiveNavigation menus={menuList} />
                 <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
-                <MetaTag page={source} index={index} url={url} description={data.description} />
+                <MetaTag page={source} index={index} url={url} desc={data.description} />
                 <div className="boxouter">
                     {isAuthenticated ? (
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>

@@ -1,15 +1,15 @@
 import React from "react";
-import MetaTags from 'react-meta-tags';
+import Head from 'next/head';
 
-function MetaTag(props) {
+function MetaTag({ page, index, url, desc }) {
     let indexMeta;
-    if(!props.index || props.page === 'error') {
+    if(!index || page === 'error') {
         indexMeta = <meta name="robots" content="noindex" />
     }
     let title;
     let description;
-    let image = props.url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg';
-    switch(props.page) {
+    let image = url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg';
+    switch(page) {
         case 'home':
             title = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal\'s Home | taleofddh';
             description = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
@@ -17,7 +17,7 @@ function MetaTag(props) {
         case 'about-us':
             title = 'The Tale of DDH story, Our mission, journey and background';
             description = 'Meet the team behind taleofddh. We are on a mission to make the delivery of cross-border and local professional-services hassle-free and simple.';
-            image = props.url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg'
+            image = url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg'
             break;
         case 'contact-us':
             title = 'Contact Us - Service, Support and Enquiries | taleofddh';
@@ -29,16 +29,16 @@ function MetaTag(props) {
             description = 'Album Galleries - from Vacation, Outing, Celebration and Residence';
             break;
         case 'album':
-            title = 'Album Collection - ' + props.description + ' | taleofddh';
-            description = 'Album Collection - ' + props.description;
+            title = 'Album Collection - ' + desc + ' | taleofddh';
+            description = 'Album Collection - ' + desc;
             break;
         case 'blog':
             title = 'Blog Articles - for Travel, Recipes & Technology | taleofddh';
             description = 'Blog Articles - for Travel, Recipes & Technology | taleofddh';
             break;
         case 'article':
-            title = 'Blog Article - ' + props.description + ' | taleofddh';
-            description = 'Blog Article - ' + props.description;
+            title = 'Blog Article - ' + desc + ' | taleofddh';
+            description = 'Blog Article - ' + desc;
             break;
         case 'request':
             title = 'Track Request Status | taleofddh';
@@ -53,33 +53,51 @@ function MetaTag(props) {
         default:
             title = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal\'s Home | taleofddh';
             description = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
-            image = props.url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg';
+            image = url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg';
             break;
     }
     return (
         <>
-            {props.page === 'error' ? (
-                <MetaTags>
+            {page === 'error' ? (
+                <Head>
                     <title>{title}</title>
+                    <meta charSet="UTF-8" />
                     <meta name="description" content={description} />
                     {indexMeta}
-                </MetaTags>
+                </Head>
             ) : (
-                <MetaTags>
+                <Head>
                     <title>{title}</title>
+                    <meta charSet="UTF-8" />
                     <meta name="description" content={description} />
                     {indexMeta}
+                    <meta name="keywords" content="Devadyuti, Debarati, Deeptanal, TaleofDDH"/>
+                    <meta name="author" content="TaleofDDH.com"/>
 
                     <meta name="twitter:title" content={title} />
                     <meta name="twitter:description" content={description} />
                     <meta name="twitter:image" content={image} />
+                    <meta name="twitter:card" content="summary_large_image"/>
+                    <meta name="twitter:site" content="@ServEase_io"/>
+                    <meta name="twitter:domain" content="https://taleofddh.com"/>
+                    <meta name="twitter:creator" content="TaleofDDH_com"/>
 
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={description} />
                     <meta property="og:image" content={image} />
                     <meta property="og:image:secure_url" content={image} />
                     <meta property="og:image:alt" content={title} />
-                </MetaTags>
+                    <meta property="og:site_name" content="TaleofDDH"/>
+                    <meta property="og:type" content="website"/>
+                    <meta property="og:url" content="https://taleofddh.com"/>
+                    <meta property="og:image:type" content="image/png"/>
+                    <meta property="og:image:width" content="1200"/>
+                    <meta property="og:image:height" content="630"/>
+
+                    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+                    <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta name="HandheldFriendly" content="true"/>
+                </Head>
             )}
 
         </>
