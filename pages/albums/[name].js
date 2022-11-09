@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
-import {API, Auth} from "aws-amplify";
+import {API, Auth, withSSRContext} from "aws-amplify";
 import {useIndex, usePost, usePut} from '../../common/hook';
 import {postAuditEntry} from "../../common/common";
 import {getSessionCookie, useSessionContext} from "../../common/session";
@@ -174,11 +174,13 @@ export const getStaticProps = async ({ params }) => {
     );
     const menuList = await res.data;
     const albumName = `${params.name}`;
+    const SSR = withSSRContext();
 
-    res = await API.post(
+    res = await SSR.API.post(
         'findAlbumPhotoList',
         '/albumPhotoList',
         {
+            authMode: 'AMAZON_COGNITO_USER_POOLS',
             response: true,
             headers: {
                 'Accept': 'application/json',
