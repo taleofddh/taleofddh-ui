@@ -22,7 +22,7 @@ function BlogSection({ category, blogs }) {
                         </p>
                         <p className="blogsectiontext">
                             {item.summary}&nbsp;
-                            <Link href={item.link + '/' + item.category + '/' + item.name + '?blog=' + item}><a>...Read More</a></Link>
+                            <Link href={item.link + '/' + item.category + '/' + item.name} as={item.link + '/' + item.category + '/' + item.name}><a>...Read More</a></Link>
                         </p>
                     </li>
                 ))}
