@@ -35,11 +35,11 @@ function Gallery({ menuList, handleLogout, data }) {
         albumUri = albumUri + '/' + restrictedFlag;
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
-        await onLoad();
+        onLoad();
         postAuditEntry(
             {
                 date: new Date(),
@@ -52,7 +52,7 @@ function Gallery({ menuList, handleLogout, data }) {
         );
     }, []);
 
-    async function onLoad() {
+    const onLoad = async () => {
         try {
             await Auth.currentSession();
             userHasAuthenticated(true);

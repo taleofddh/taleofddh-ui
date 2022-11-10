@@ -106,34 +106,37 @@ function App({ Component, pageProps }) {
         }
     }, [router])
 
-    useEffect(async () => {
-        let geolocation = getSessionCookie('geolocation');
-        if(Object.keys(geolocation).length === 0 && geolocation.constructor === Object) {
-            const response = await fetch(GEOLOCATION_URL);
-            console.log(response);
-            geolocation = await response.json();
-            setSessionCookie('geolocation', geolocation);
-        }
-        setGeoLocationData(geolocationData => ({...geolocationData, geolocation}));
-        let ddhomeCountryDetails = getSessionCookie('ddhomeCountry');
-        if(Object.keys(ddhomeCountryDetails).length === 0 && ddhomeCountryDetails.constructor === Object) {
-            let countryMatch = false;
-            for(let i in validCountries) {
-                if(geolocation.country_code === validCountries[i]) {
-                    countryMatch = true;
-                }
-            }   
-            if(countryMatch) {
-                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: geolocation.country_code, country_name: geolocation.country_name}));
-                setSessionCookie('ddhomeCountry', {country_code: geolocation.country_code, country_name: geolocation.country_name});
-            } else {
-                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: 'GB', country_name: countries['GB']}));
-                setSessionCookie('ddhomeCountry', {country_code: 'GB', country_name: countries['GB']});
+    useEffect(() => {
+        const getLocationData = async () => {
+            let geolocation = getSessionCookie('geolocation');
+            if(Object.keys(geolocation).length === 0 && geolocation.constructor === Object) {
+                const response = await fetch(GEOLOCATION_URL);
+                console.log(response);
+                geolocation = await response.json();
+                setSessionCookie('geolocation', geolocation);
             }
-        } else {
-            setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
+            setGeoLocationData(geolocationData => ({...geolocationData, geolocation}));
+            let ddhomeCountryDetails = getSessionCookie('ddhomeCountry');
+            if(Object.keys(ddhomeCountryDetails).length === 0 && ddhomeCountryDetails.constructor === Object) {
+                let countryMatch = false;
+                for(let i in validCountries) {
+                    if(geolocation.country_code === validCountries[i]) {
+                        countryMatch = true;
+                    }
+                }
+                if(countryMatch) {
+                    setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: geolocation.country_code, country_name: geolocation.country_name}));
+                    setSessionCookie('ddhomeCountry', {country_code: geolocation.country_code, country_name: geolocation.country_name});
+                } else {
+                    setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: 'GB', country_name: countries['GB']}));
+                    setSessionCookie('ddhomeCountry', {country_code: 'GB', country_name: countries['GB']});
+                }
+            } else {
+                setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
+            }
         }
-        await onLoad();
+        getLocationData();
+        onLoad();
     }, [])
 
     const onLoad = async () => {

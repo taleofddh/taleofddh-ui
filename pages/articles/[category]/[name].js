@@ -44,7 +44,7 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
         )
     }, [])
 
-    async function onLoad() {
+    const onLoad = async () => {
         try {
             await API.put(
                 'updateBlogViewCount',

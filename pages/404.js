@@ -17,7 +17,7 @@ function Error({menuList, handleLogout}) {
     const index = useIndex();
     const [url, setUrl] = useState('');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    useEffect(async () => {
+    useEffect( () => {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
