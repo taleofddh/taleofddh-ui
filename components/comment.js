@@ -15,21 +15,24 @@ function Comment({blogName, type, messages}) {
         comment : ''
     });
 
-    useEffect(async () => {
-        const res = await API.post('findArticleCommentList',
-            '/articleCommentList',
-            {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: {blogName: blogName}
-            }
-        );
-        const result = await res.data;
-        setComments([...result]);
-        setIsLoading(false);
+    useEffect( () => {
+        const getComments = async () => {
+            const res = await API.post('findArticleCommentList',
+                '/articleCommentList',
+                {
+                    response: true,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: {blogName: blogName}
+                }
+            );
+            const result = await res.data;
+            setComments([...result]);
+            setIsLoading(false);
+        }
+        getComments();
     }, []);
 
     const submitComment = async (submitEvent) => {
