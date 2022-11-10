@@ -1,6 +1,6 @@
 import React from 'react';
 import { MEDIA_HOST} from "../common/constants";
-import AlbumGallery from 'react-photo-gallery';
+import AlbumGallery from 'react-photo-gallery-react17';
 import Icon from "../common/icon";
 
 function Collection(props) {

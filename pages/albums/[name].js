@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import {API, Auth, withSSRContext} from "aws-amplify";
-import {useIndex, usePost, usePut} from '../../common/hook';
+import {useIndex} from '../../common/hook';
 import {postAuditEntry} from "../../common/common";
 import {getSessionCookie, useSessionContext} from "../../common/session";
 import {onError} from "../../common/error";
@@ -100,14 +100,14 @@ function Album({ menuList, handleLogout, data, albumName }) {
                 <ResponsiveNavigation menus={menuList} />
                 <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
-                <MetaTag page={source} index={index} url={url} desc={data.description} />
+                <MetaTag page={source} index={index} url={url} desc={data.description} img={data.titlePhoto.path + '/' + data.titlePhoto.name + '.jpg'}/>
                 <div className="boxouter">
                     {isAuthenticated ? (
                         <div className="container" style={{width: '100%', backgroundColor: 'rgb(34, 38, 41)'}}>
                             <div className="photoframe">
                                 <Title message={data.description} />
                                 <div className="photoshare">
-                                    <Share name={albumName} subject={data.description} url={'https://www.taleofddh.com/gallery/photo/' + albumName} image={data.titlePhoto.path + '/' + data.titlePhoto.name + '.jpg'}/>
+                                    <Share name={albumName} subject={data.description} url={'https://www.taleofddh.com/albums/' + albumName} image={data.titlePhoto.path + '/' + data.titlePhoto.name + '.jpg'}/>
                                 </div>
                                 <Carousel pictures={data.photos} onClick={handleClick}/>
                             </div>

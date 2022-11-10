@@ -81,14 +81,14 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
                 <ResponsiveNavigation menus={menuList} />
                 <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
-                <MetaTag page={source} index={index} url={url} desc={data.title} />
+                <MetaTag page={source} index={index} url={url} desc={data.title} img={data.titlePhoto}/>
                 <div className="boxouter">
                     <div className="container">
                         <div className="articleframe">
                             <Title message={data.header} />
                             <div className="articlettitle">{pagetitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
                             <div className="articleshare">
-                                <Share name={blogName} subject={data.header} url={'https://www.taleofddh.com/blog/article/' + blogName} image={data.titlePhoto}/>
+                                <Share name={blogName} subject={data.header} url={'https://www.taleofddh.com/articles/' + blogName} image={data.titlePhoto}/>
                             </div>
                             <div className="articlecontainer">
                                 {data.contents.map((item, index) => (

@@ -1,7 +1,7 @@
 import React from "react";
 import Head from 'next/head';
 
-function MetaTag({ page, index, url, desc }) {
+function MetaTag({ page, index, url, desc, img }) {
     let indexMeta;
     if(!index || page === 'error') {
         indexMeta = <meta name="robots" content="noindex" />
@@ -31,6 +31,7 @@ function MetaTag({ page, index, url, desc }) {
         case 'album':
             title = 'Album Collection - ' + desc + ' | taleofddh';
             description = 'Album Collection - ' + desc;
+            image = url + '/images/' + img;
             break;
         case 'blog':
             title = 'Blog Articles - for Travel, Recipes & Technology | taleofddh';
@@ -39,6 +40,7 @@ function MetaTag({ page, index, url, desc }) {
         case 'article':
             title = 'Blog Article - ' + desc + ' | taleofddh';
             description = 'Blog Article - ' + desc;
+            image = url + '/images/' + img;
             break;
         case 'request':
             title = 'Track Request Status | taleofddh';
