@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {getSessionCookie, getSessionStorage, removeSessionCookie, useSessionContext} from "../common/session";
 import Icon from "../common/icon";
 
@@ -28,7 +29,7 @@ function Header({country, menus, onLogout}) {
                     <div className="taleofddhlogo">
                         <Link href='/home' as='/'>
                             <a>
-                                <img src="/images/taleofddh-banner.png" />
+                                <img src="/images/taleofddh-banner.png" alt="TaleofDDH Banner"/>
                             </a>
                         </Link>
                     </div>
@@ -44,7 +45,7 @@ function DDHomeLanguage({country}) {
     return (
         <div className="visitorlanguage">
             <label className="headertext">
-                <img src="/images/icon-english.png" alt="English" />&nbsp;&nbsp;
+                <Image src="/images/icon-english.png" alt="English" layout='fixed' width='20' height='20' />&nbsp;&nbsp;
             </label>
         </div>
     )
@@ -129,7 +130,7 @@ function Links({menus, isAuthenticated, onLogout}) {
     return (
         <div className="links">
             <label className="visitorlanguage">
-                <img src="/images/icon-english.png" alt="English" />&nbsp;&nbsp;
+                <Image src="/images/icon-english.png" alt="English" layout='fixed' width='20' height='20' />&nbsp;&nbsp;
             </label>
             {menuList}
         </div>

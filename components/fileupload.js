@@ -117,6 +117,7 @@ function FileUpload({label, accept, maxFiles, required, className, value, onChan
                 <img
                     src={file.preview}
                     style={img}
+                    alt={file.preview}
                 />
             </div>
         </div>

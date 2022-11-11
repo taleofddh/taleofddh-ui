@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Image from 'next/image';
 import {API} from 'aws-amplify';
 import { marked }  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
@@ -48,13 +49,13 @@ function Markdown({section}) {
     }, [isMobile, isTablet, section])
 
     let content;
-    if(props.section.type === 'Logo') {
-        const arr = props.section.content.split(',');
+    if(section.type === 'Logo') {
+        const arr = section.content.split(',');
         content = arr.map((item, index) => {
-            return (<img key={index} className={props.section.styleClass} src={MEDIA_HOST + "/images/" + item}/>)
+            return (<Image key={index} className={section.styleClass} src={MEDIA_HOST + "/images/" + item} alt={item} layout='responsive' width='100%' height='100%' />)
         });
-    } else if (props.section.type === 'Markdown') {
-        content = <div className={props.section.styleClass}>{ReactHtmlParser(markDown)}</div>;
+    } else if (section.type === 'Markdown') {
+        content = <div className={section.styleClass}>{ReactHtmlParser(markDown)}</div>;
     }
 
     return (

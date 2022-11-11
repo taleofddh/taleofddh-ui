@@ -8,7 +8,7 @@ function Visit({data}) {
         let colors = mapColor;
         for(let i in data) {
             for(let j in data[i].countries) {
-                colors[data[i].countries[j].countryCode] = props.data[i].backgroundColor;
+                colors[data[i].countries[j].countryCode] = data[i].backgroundColor;
             }
         }
         setMapColor(mapColor => ({...mapColor, colors}));

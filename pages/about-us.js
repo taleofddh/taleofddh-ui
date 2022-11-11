@@ -64,7 +64,7 @@ function AboutUs({ menuList, handleLogout, data }) {
 function Story({story, index, mobile}) {
     let image =
         <div className="storyimage">
-            <Image src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} />
+            <Image src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} layout='responsive' width='100%' height='100%' />
         </div>
 
     let text =

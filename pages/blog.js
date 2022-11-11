@@ -67,7 +67,7 @@ function Blog({ menuList, handleLogout, data }) {
                                     <div style={{float: 'left'}}>
                                         <p className="blogheader">{item.header}</p>
                                         <div className="blogpiccontrol">
-                                            <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} />
+                                            <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} />
                                         </div>
                                         <div className="blogsummary">
                                             <p className="blogauthor">{item.category +' ' + source + ' by ' + item.author + ' on ' + new Date(item.endDate).getDate() + " " + MONTH_NAMES[new Date(item.endDate).getMonth()] + ", " + new Date(item.endDate).getFullYear()}</p>

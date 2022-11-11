@@ -1,11 +1,12 @@
 import React  from 'react';
+import Image from 'next/image';
 
 function Title({message, icon, index}) {
     let title;
     if(icon) {
         title =
             <>
-                {message} <img src={"/images/" + icon} />
+                {message} <Image src={"/images/" + icon} alt={icon} layout='responsive' width='100%' height='100%' />
             </>
     } else {
         title =

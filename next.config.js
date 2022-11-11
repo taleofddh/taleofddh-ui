@@ -10,6 +10,9 @@ module.exports = {
     AWS_COOKIE_SECURED_FLAG: process.env.NEXT_PUBLIC_AWS_COOKIE_SECURED_FLAG,
     INDEX_FLAG: process.env.NEXT_PUBLIC_INDEX_FLAG
   },
+  images: {
+    domains: ['media.taleofddh.com'],
+  },
   async redirects() {
     return [
       {
@@ -28,5 +31,5 @@ module.exports = {
         permanent: true,
       },
     ]
-  }
+  },
 }

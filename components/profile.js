@@ -120,7 +120,7 @@ function Profile(props) {
         <>
             <form key="ProfileForm" name="ProfileForm" onSubmit={submitProfileUpdate}>
                 <div className="profilebuttoncontainer">
-                    <Link href="/change-password" as='/change-password'>
+                    <Link href="/change-password" as='/change-password' passHref>
                         <LoaderButton name="ChangePasswordButton"
                                       label="Change Password" />
                     </Link>

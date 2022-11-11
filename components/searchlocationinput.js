@@ -6,7 +6,6 @@ function SearchLocationInput({id, name, className, countryCode, disabled, initia
     const autoCompleteRef = useRef(null);
     const [focused, setFocused] = useState(false);
     const [value, setValue] = useState(initialValue);
-    let autoComplete;
 
     const onBlur = () => {
         setFocused(false);
@@ -17,6 +16,14 @@ function SearchLocationInput({id, name, className, countryCode, disabled, initia
     }
 
     useEffect(() => {
+        let autoComplete;
+        const handlePlaceChanged = (updateValue) => {
+            const place = autoComplete.getPlace();
+            const value = place.formatted_address;
+            console.log(place);
+            updateValue(value);
+            onSelect && onSelect(id, name, place.formatted_address);
+        }
         if (typeof window.google !== 'undefined') {
             autoComplete = new window.google.maps.places.Autocomplete(
                 autoCompleteRef.current,
@@ -25,15 +32,7 @@ function SearchLocationInput({id, name, className, countryCode, disabled, initia
             autoComplete.setFields(["formatted_address"]);
             autoComplete.addListener("place_changed", () => handlePlaceChanged(setValue));
         }
-    }, []);
-
-    const handlePlaceChanged = (updateValue) => {
-        const place = autoComplete.getPlace();
-        const value = place.formatted_address;
-        console.log(place);
-        updateValue(value);
-        onSelect && onSelect(id, name, place.formatted_address);
-    }
+    }, [id, name, onSelect, countryCode]);
 
     const handleChange = (event) => {
         setValue(event.target.value);
