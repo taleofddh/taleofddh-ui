@@ -39,6 +39,18 @@ function Gallery({ menuList, handleLogout, data }) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
+        const onLoad = async () => {
+            try {
+                await Auth.currentSession();
+                userHasAuthenticated(true);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+            }
+            setIsAuthenticating(false);
+        }
         onLoad();
         postAuditEntry(
             {
@@ -50,20 +62,7 @@ function Gallery({ menuList, handleLogout, data }) {
                 message: 'Gallery Page Accessed'
             }
         );
-    }, []);
-
-    const onLoad = async () => {
-        try {
-            await Auth.currentSession();
-            userHasAuthenticated(true);
-        }
-        catch(e) {
-            if (e !== 'No current user') {
-                onError(e);
-            }
-        }
-        setIsAuthenticating(false);
-    }
+    }, [userHasAuthenticated, ddhomeCountry]);
 
     const handleClick = (clickEvent, object) => {
         if(isAuthenticated) {

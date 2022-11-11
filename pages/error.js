@@ -26,7 +26,7 @@ function Error(props) {
                 message: 'Error Page Accessed'
             }
         );
-    }, []);
+    }, [ddhomeCountry]);
 
     return (
         <>

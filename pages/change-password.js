@@ -43,7 +43,7 @@ function ChangePassword({ menuList, handleLogout }) {
                 message: 'Change Password Page Accessed by ' + getSessionCookie("credential").identityId
             }
         );
-    }, [])
+    }, [ddhomeCountry])
 
     const handleChangeClick = async (event) => {
         event.preventDefault();

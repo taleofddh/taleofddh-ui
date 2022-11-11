@@ -36,6 +36,33 @@ function Album({ menuList, handleLogout, data, albumName }) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
+        const onLoad = async () => {
+            try {
+                await Auth.currentSession();
+                userHasAuthenticated(true);
+                await API.put(
+                    'updateAlbumViewCount',
+                    '/albumViewCount',
+                    {
+                        response: true,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            albumName: albumName
+                        },
+                    }
+                );
+                setCountUpdateLoading(false);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+                setCountUpdateLoading(false);
+            }
+        }
         onLoad();
         postAuditEntry(
             {
@@ -47,35 +74,7 @@ function Album({ menuList, handleLogout, data, albumName }) {
                 message: 'Collection Page ' + albumName + ' Accessed by ' + getSessionCookie("credential").identityId
             }
         );
-    }, []);
-
-    const onLoad = async () => {
-        try {
-            await Auth.currentSession();
-            userHasAuthenticated(true);
-            await API.put(
-                'updateAlbumViewCount',
-                '/albumViewCount',
-                {
-                    response: true,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: {
-                        albumName: albumName
-                    },
-                }
-            );
-            setCountUpdateLoading(false);
-        }
-        catch(e) {
-            if (e !== 'No current user') {
-                onError(e);
-            }
-            setCountUpdateLoading(false);
-        }
-    }
+    }, [albumName, userHasAuthenticated, ddhomeCountry]);
 
     const handleClick = (clickEvent, object) => {
         if(isAuthenticated) {

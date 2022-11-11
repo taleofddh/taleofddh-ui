@@ -32,7 +32,7 @@ function TermsAndConditions({ menuList, handleLogout, data }) {
                 message: 'Terms and Conditions Page Accessed'
             }
         );
-    }, [])
+    }, [ddhomeCountry])
 
     return (
         <>

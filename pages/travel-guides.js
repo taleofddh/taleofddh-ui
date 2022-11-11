@@ -34,7 +34,7 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData })
                 message: 'Travel Guides Page Accessed'
             }
         );
-    }, []);
+    }, [ddhomeCountry]);
 
     const handleChange = async (key) => {
         console.log(key);

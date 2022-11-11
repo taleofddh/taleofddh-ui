@@ -33,7 +33,7 @@ function SignUp({ menuList, handleLogout }) {
                 message: 'Sign up Page Accessed'
             }
         );
-    }, []);
+    }, [ddhomeCountry]);
 
     return (
         <>

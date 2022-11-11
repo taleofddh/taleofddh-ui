@@ -31,6 +31,34 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
+        const onLoad = async () => {
+            try {
+                await API.put(
+                    'updateBlogViewCount',
+                    '/blogViewCount',
+                    {
+                        response: true,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            name: blogName,
+                            category: category
+                        },
+                    }
+                );
+                await Auth.currentSession();
+                userHasAuthenticated(true);
+                setCountUpdateLoading(false);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+                setCountUpdateLoading(false);
+            }
+        }
         onLoad();
         postAuditEntry(
             {
@@ -42,36 +70,7 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
                 message: 'Article ' + blogName + ' Page Accessed'
             }
         )
-    }, [])
-
-    const onLoad = async () => {
-        try {
-            await API.put(
-                'updateBlogViewCount',
-                '/blogViewCount',
-                {
-                    response: true,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: {
-                        name: blogName,
-                        category: category
-                    },
-                }
-            );
-            await Auth.currentSession();
-            userHasAuthenticated(true);
-            setCountUpdateLoading(false);
-        }
-        catch(e) {
-            if (e !== 'No current user') {
-                onError(e);
-            }
-            setCountUpdateLoading(false);
-        }
-    }
+    }, [blogName, category, userHasAuthenticated, ddhomeCountry])
 
     return (
         countUpdateLoading ? (

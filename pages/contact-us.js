@@ -17,6 +17,7 @@ const source = 'contact-us';
 function ContactUs({handleLogout, menuList}) {
     const index = useIndex();
     const [url, setUrl] = useState('');
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
     useEffect(() => {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
@@ -31,8 +32,7 @@ function ContactUs({handleLogout, menuList}) {
                 message: 'Contact Us Page Accessed'
             }
         );
-    }, []);
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    }, [ddhomeCountry]);
 
     return (
         <>

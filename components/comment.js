@@ -33,7 +33,7 @@ function Comment({blogName, type, messages}) {
             setIsLoading(false);
         }
         getComments();
-    }, []);
+    }, [blogName]);
 
     const submitComment = async (submitEvent) => {
         submitEvent.preventDefault();

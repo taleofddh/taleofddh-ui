@@ -89,7 +89,6 @@ function App({ Component, pageProps }) {
         country_code : '',
         country_name : ''
     });
-    const validCountries = ['GB', 'IN'];
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
     const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [session] = useState(getSessionCookie);
@@ -107,6 +106,7 @@ function App({ Component, pageProps }) {
     }, [router])
 
     useEffect(() => {
+        const validCountries = ['GB', 'IN'];
         const getLocationData = async () => {
             let geolocation = getSessionCookie('geolocation');
             if(Object.keys(geolocation).length === 0 && geolocation.constructor === Object) {
@@ -135,58 +135,59 @@ function App({ Component, pageProps }) {
                 setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
             }
         }
+
+        const onLoad = async () => {
+            Hub.listen('auth', ({payload: {event, data}}) => {
+                let route = '';
+                let user = '';
+                switch (event) {
+                    case 'signIn':
+                        user = data;
+                        console.log('user: ', user);
+                        break;
+
+                    case 'customOAuthState':
+                        route = JSON.parse(data);
+                        console.log('route: ', route);
+                        if(route && route !== undefined)
+                            router.push(route.replace(/-/g, ''),
+                                route
+                            );
+                        break;
+
+                    default:
+                    //router.push('/home', '/');
+                }
+            });
+            try {
+                await Auth.currentSession();
+                const user = await Auth.currentAuthenticatedUser();
+                console.log('user: ', user);
+                const email = user.attributes.email;
+                userHasAuthenticated(true);
+                const credentials = await Auth.currentUserCredentials();
+                setSessionCookie("credential", {identityId: credentials.identityId});
+                await API.put("updateUserProfile", "/updateUserProfile", {
+                    response: true,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
+                });
+            }
+            catch(e) {
+                //console.error(e);
+                if (e !== undefined && e !== 'No current user') {
+                    onError(e);
+                }
+            }
+            setIsAuthenticating(false);
+        }
+
         getLocationData();
         onLoad();
-    }, [])
-
-    const onLoad = async () => {
-        Hub.listen('auth', ({payload: {event, data}}) => {
-            let route = '';
-            let user = '';
-            switch (event) {
-                case 'signIn':
-                    user = data;
-                    console.log('user: ', user);
-                    break;
-
-                case 'customOAuthState':
-                    route = JSON.parse(data);
-                    console.log('route: ', route);
-                    if(route && route !== undefined)
-                        router.push(route.replace(/-/g, ''),
-                            route
-                        );
-                    break;
-
-                default:
-                    //router.push('/home', '/');
-            }
-        });
-        try {
-            await Auth.currentSession();
-            const user = await Auth.currentAuthenticatedUser();
-            console.log('user: ', user);
-            const email = user.attributes.email;
-            userHasAuthenticated(true);
-            const credentials = await Auth.currentUserCredentials();
-            setSessionCookie("credential", {identityId: credentials.identityId});
-            await API.put("updateUserProfile", "/updateUserProfile", {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
-            });
-        }
-        catch(e) {
-            //console.error(e);
-            if (e !== undefined && e !== 'No current user') {
-                onError(e);
-            }
-        }
-        setIsAuthenticating(false);
-    }
+    }, [router])
 
     const getDdhomeCountry = (ddhomeCountryCallBack) => {
         if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {

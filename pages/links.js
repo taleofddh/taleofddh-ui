@@ -34,7 +34,7 @@ function Links({ menuList, handleLogout, data }) {
                 message: 'Links Page Accessed'
             }
         );
-    }, []);
+    }, [ddhomeCountry]);
 
     const handleClick = (clickEvent, object) => {
         clickEvent.preventDefault();

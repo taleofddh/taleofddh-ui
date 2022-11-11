@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
     NavLink
 } from "react-router-dom";
+import {Auth} from "aws-amplify";
 import {
     getSessionCookie,
     useSessionContext
@@ -12,7 +13,6 @@ import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";
 import Loader from "../components/loader";
 import Title from "../components/title";
-import {Auth} from "aws-amplify";
 import {onError} from "../common/error";
 import EmailAdmin from "../components/emailadmin";
 
@@ -21,7 +21,8 @@ const source = 'admin';
 
 function Admin(props) {
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
-    const index = useIndex(window.location.hostname, window.location.protocol);
+    const index = useIndex();
+    const [url, setUrl] = useState('');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [isAdmin, setAdmin] = useState(false);
     const [data, loading] = useGet(
@@ -30,6 +31,30 @@ function Admin(props) {
     )
 
     useEffect(() => {
+        if(typeof window !== 'undefined'){
+            setUrl(window.location.protocol + '//' + window.location.host);
+        }
+        const onLoad = async () => {
+            try {
+                await Auth.currentSession();
+                userHasAuthenticated(true);
+                if(isAuthenticated) {
+                    let admin = false;
+                    data.roleList.map((item) => {
+                        if(item.name === 'Administrator') {
+                            admin = true;
+                        }
+                    });
+                    setAdmin(admin);
+                }
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+            }
+        }
+        onLoad();
         postAuditEntry(
             {
                 date: new Date(),
@@ -40,32 +65,7 @@ function Admin(props) {
                 message: 'Admin Page Accessed'
             }
         );
-    }, []);
-
-    useEffect(() => {
-        onLoad();
-    }, [data]);
-
-    async function onLoad() {
-        try {
-            await Auth.currentSession();
-            userHasAuthenticated(true);
-            if(isAuthenticated) {
-                let admin = false;
-                data.roleList.map((item) => {
-                    if(item.name === 'Administrator') {
-                        admin = true;
-                    }
-                });
-                setAdmin(admin);
-            }
-        }
-        catch(e) {
-            if (e !== 'No current user') {
-                onError(e);
-            }
-        }
-    }
+    }, [data, isAuthenticated, userHasAuthenticated, ddhomeCountry]);
 
     return (
         <>
@@ -73,7 +73,7 @@ function Admin(props) {
                 <Loader loading={loading} />
             ) : (
                 <>
-                    <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
+                    <MetaTag page={source} index={index} url={url} />
                     <div className="boxouter">
                         {isAuthenticated && isAdmin ? (
                             <div className="container" style={{width: '100%'}}>

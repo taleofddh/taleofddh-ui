@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {API} from "aws-amplify";
+import Image from 'next/image';
 import {MEDIA_HOST} from "../common/constants";
 import {useIndex, useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
@@ -36,7 +37,7 @@ function AboutUs({ menuList, handleLogout, data }) {
                 message: 'About Us Page Accessed'
             }
         );
-    }, []);
+    }, [ddhomeCountry]);
 
     return (
         <>
@@ -63,7 +64,7 @@ function AboutUs({ menuList, handleLogout, data }) {
 function Story({story, index, mobile}) {
     let image =
         <div className="storyimage">
-            <img src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} />
+            <Image src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} />
         </div>
 
     let text =

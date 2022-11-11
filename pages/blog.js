@@ -34,7 +34,7 @@ function Blog({ menuList, handleLogout, data }) {
                 message: 'Blog Page Accessed'
             }
         );
-    }, [])
+    }, [ddhomeCountry])
 
     const handleClick = async (clickEvent, object) => {
         clickEvent.preventDefault();

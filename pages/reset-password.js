@@ -39,7 +39,7 @@ function ResetPassword(props) {
                 message: 'Reset Password Page Accessed'
             }
         );
-    }, [])
+    }, [ddhomeCountry])
 
     const handleSendCodeClick = async (event) => {
         event.preventDefault();

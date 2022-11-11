@@ -33,7 +33,7 @@ function FrequentlyAskedQuestions({ menuList, handleLogout, data }) {
                 message: 'Frequetly Asked Question Page Accessed'
             }
         );
-    }, [])
+    }, [ddhomeCountry])
 
     return (
         <>

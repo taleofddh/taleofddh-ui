@@ -28,6 +28,35 @@ function UserProfile({menuList, handleLogout}) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
+        const onLoad = async () => {
+            try {
+                const res = await API.post(
+                    'findUserProfile',
+                    '/findUserProfile',
+                    {
+                        response: true,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            identityId: getSessionCookie("credential").identityId
+                        },
+                    }
+                );
+                setData(await res.data);
+                isLoading(false);
+                await Auth.currentSession();
+                userHasAuthenticated(true);
+                setCountUpdateLoading(false);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+                isLoading(false);
+            }
+        }
         onLoad();
         postAuditEntry(
             {
@@ -39,38 +68,7 @@ function UserProfile({menuList, handleLogout}) {
                 message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
             }
         );
-    }, []);
-
-    async function onLoad() {
-        try {
-            const res = await API.post(
-                'findUserProfile',
-                '/findUserProfile',
-                {
-                    response: true,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: {
-                        identityId: getSessionCookie("credential").identityId
-                    },
-                }
-            );
-            setData(await res.data);
-            isLoading(false);
-            await Auth.currentSession();
-            userHasAuthenticated(true);
-            setCountUpdateLoading(false);
-        }
-        catch(e) {
-            if (e !== 'No current user') {
-                onError(e);
-            }
-            isLoading(false);
-        }
-    }
-
+    }, [userHasAuthenticated, ddhomeCountry]);
 
     return (
         <>

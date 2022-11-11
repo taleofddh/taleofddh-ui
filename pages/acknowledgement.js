@@ -24,7 +24,7 @@ function Acknowledgement(props) {
                 message: 'Acknowledgement Page Accessed'
             }
         );
-    });
+    }, [ddhomeCountry]);
 
     return (
         <>

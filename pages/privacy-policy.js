@@ -32,7 +32,7 @@ function PrivacyPolicy({ menuList, handleLogout, data }) {
                 message: 'Privacy Policy Page Accessed'
             }
         );
-    })
+    }, [ddhomeCountry])
 
     return (
         <>
