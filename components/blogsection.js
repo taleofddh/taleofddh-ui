@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {MEDIA_HOST} from "../common/constants";
 
 function BlogSection({ category, blogs }) {
@@ -17,7 +16,7 @@ function BlogSection({ category, blogs }) {
                         <p className="blogsectionpiccontrol">
                             <Link href={item.link + '/' + item.category + '/' + item.name} as={item.link + '/' + item.category + '/' + item.name}>
                                 <a>
-                                    <Image src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
+                                    <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} />
                                 </a>
                             </Link>
                         </p>

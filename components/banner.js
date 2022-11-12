@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import {getSessionCookie} from "../common/session";
 
 function Banner({country}) {
@@ -20,7 +19,7 @@ function Banner({country}) {
             <div className="banner">
                 <p>
                     <label className="bannertext">
-                        Making every residential property purchase a stress-free experience! Offering select services in <Image src="/images/flags/GB.png" alt='GB.png' layout='responsive' width='100%' height='100%' />&nbsp;<Image src="/images/flags/IN.png" alt='IN.png' layout='responsive' width='100%' height='100%' />
+                        Making every residential property purchase a stress-free experience! Offering select services in <img src="/images/flags/GB.png" alt='GB' />&nbsp;<img src="/images/flags/IN.png" alt='IN' />
                     </label>
                 </p>
             </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {getSessionCookie, getSessionStorage, removeSessionCookie, useSessionContext} from "../common/session";
 import Icon from "../common/icon";
 
@@ -45,7 +44,7 @@ function DDHomeLanguage({country}) {
     return (
         <div className="visitorlanguage">
             <label className="headertext">
-                <Image src="/images/icon-english.png" alt="English" layout='fixed' width='20' height='20' />&nbsp;&nbsp;
+                <img src="/images/icon-english.png" alt="English" />&nbsp;&nbsp;
             </label>
         </div>
     )
@@ -130,7 +129,7 @@ function Links({menus, isAuthenticated, onLogout}) {
     return (
         <div className="links">
             <label className="visitorlanguage">
-                <Image src="/images/icon-english.png" alt="English" layout='fixed' width='20' height='20' />&nbsp;&nbsp;
+                <img src="/images/icon-english.png" alt="English" />&nbsp;&nbsp;
             </label>
             {menuList}
         </div>

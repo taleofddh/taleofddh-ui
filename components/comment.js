@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Image from 'next/image';
 import {API} from "aws-amplify";
 import {useFormFields} from "../common/hook";
 import TypeInput from "./typeInput";
@@ -140,13 +139,12 @@ function Comment({blogName, type, messages}) {
 
                         {comments.map((item, index) => (
                             <div key={index} className="media mb-3">
-                                <Image
+                                <img
                                     className="mr-3 bg-light rounded"
                                     width="48"
                                     height="48"
                                     src={`https://api.adorable.io/avatars/48/${item.name.toLowerCase()}@adorable.io.png`}
                                     alt={item.name}
-                                    layout='responsive'
                                 />
 
                                 <div className="media-body p-2 shadow-sm rounded bg-light border">
