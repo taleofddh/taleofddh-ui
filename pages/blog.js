@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
+import Image from 'next/image';
 import {API} from "aws-amplify";
 import {MEDIA_HOST, MONTH_NAMES} from "../common/constants";
 import {postAuditEntry} from "../common/common";
@@ -64,10 +65,10 @@ function Blog({ menuList, handleLogout, data }) {
                         <ul className="bloggroup">
                             {data.map((item, index) => (
                                 <li key={index} className="blogitem" onClick={(e) => handleClick(e, item)}>
-                                    <div style={{float: 'left'}}>
+                                    <div>
                                         <p className="blogheader">{item.header}</p>
                                         <div className="blogpiccontrol">
-                                            <img src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} />
+                                            <Image src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
                                         </div>
                                         <div className="blogsummary">
                                             <p className="blogauthor">{item.category +' ' + source + ' by ' + item.author + ' on ' + new Date(item.endDate).getDate() + " " + MONTH_NAMES[new Date(item.endDate).getMonth()] + ", " + new Date(item.endDate).getFullYear()}</p>

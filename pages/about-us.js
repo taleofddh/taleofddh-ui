@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Image from 'next/image';
 import {API} from "aws-amplify";
 import {MEDIA_HOST} from "../common/constants";
 import {useIndex, useMediaQuery} from '../common/hook';
@@ -63,7 +64,7 @@ function AboutUs({ menuList, handleLogout, data }) {
 function Story({story, index, mobile}) {
     let image =
         <div className="storyimage">
-            <img src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} />
+            <Image src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} layout='responsive' width={1} height={1}/>
         </div>
 
     let text =

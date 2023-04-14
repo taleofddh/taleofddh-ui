@@ -82,7 +82,7 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData })
                         <li key={idx} className="traveldocumentitem" onClick={(e) => handleDownload(folder, file, e)}>
                             <p className="traveldocumenttitle">
                                 <span className="travelguidedocumentlogo">
-                                    <img src={"/images/logo-" + file.substr(file.lastIndexOf('.') + 1) + ".svg"} alt={file} />
+                                    <img src={"/images/logo-" + file.substring(file.lastIndexOf('.') + 1) + ".svg"} alt={file} />
                                 </span>
                                 <span className="travelguidedocumenttext">
                                     {file}
