@@ -35,7 +35,7 @@
     "crypto-api": "^0.8.5",
     "history": "^5.3.0",
     "marked": "^5.0.1",
-    "next": "^13.3.4",
+    "next": "^13.2.4",
     "postinstall": "^0.8.0",
     "prop-types": "^15.8.1",
     "rc-menu": "^9.8.4",
