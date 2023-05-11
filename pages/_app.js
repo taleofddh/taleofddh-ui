@@ -81,8 +81,6 @@ import 'react-tabs/style/react-tabs.css';
 configureAmplify();
 
 function App({ Component, pageProps }) {
-    //console.log(GEOLOCATION_URL);
-    //const [geolocationData, geolocationLoading] = useFetch(GEOLOCATION_URL, 'geolocation');
     const [geolocationData, setGeoLocationData] = useState({});
     const [ddhomeCountry, setDdhomeCountry] = useState({
         country_code : '',
