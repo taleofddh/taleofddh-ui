@@ -18,7 +18,7 @@
   "homepage": "https://taleofddh.com/",
   "scripts": {
     "dev": "next dev -p 18401",
-    "build": "next build --force",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
