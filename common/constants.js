@@ -42,3 +42,4 @@ export const MONTH_NAMES = ["January", "February", "March", "April", "May", "Jun
     "July", "August", "September", "October", "November", "December"
 ];
 export const INDEX_FLAG = process.env.NEXT_PUBLIC_INDEX_FLAG.toUpperCase === 'TRUE'
+export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION

@@ -27,9 +27,7 @@ function Header({country, menus, onLogout}) {
                 <div className="header">
                     <div className="taleofddhlogo">
                         <Link href='/home' as='/'>
-                            <a>
-                                <img src="/images/taleofddh-banner.png" alt="TaleofDDH Banner"/>
-                            </a>
+                            <img src="/images/taleofddh-banner.png" alt="TaleofDDH Banner"/>
                         </Link>
                     </div>
                     <Links menus={menus} isAuthenticated={isAuthenticated} onLogout={handleLogout}/>
@@ -74,9 +72,7 @@ function Links({menus, isAuthenticated, onLogout}) {
                         <span key={index} className="headericon">
                             {separator}
                             <Link href={item.link.replace(/-/g, '')} as={item.link}>
-                                <a>
-                                    <Icon name={item.icon} fill="#FFFFFF" />
-                                </a>
+                                <Icon name={item.icon} fill="#FFFFFF" />
                             </Link>
                         </span>
 
@@ -90,10 +86,8 @@ function Links({menus, isAuthenticated, onLogout}) {
                     menu =
                         <span key={index} className="headertext">
                             <Link href={item.link.replace(/-/g, '')} as={item.link}>
-                                <a>
                                     {separator}
                                     {item.name}
-                                </a>
                             </Link>
                         </span>
                 }
@@ -110,9 +104,7 @@ function Links({menus, isAuthenticated, onLogout}) {
                         <span key={index} className="headertext">
                             {separator}
                             <Link href={item.link.replace(/-/g, '')} as={item.link}>
-                                <a>
                                     {item.name}
-                                </a>
                             </Link>
                         </span>
                 }

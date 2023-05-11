@@ -16,14 +16,12 @@ function BlogSection({ category, blogs }) {
                         </div>
                         <div className="blogsectionpiccontrol">
                             <Link href={item.link + '/' + item.category + '/' + item.name} as={item.link + '/' + item.category + '/' + item.name}>
-                                <a>
-                                    <Image src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2}/>
-                                </a>
+                                <Image src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2}/>
                             </Link>
                         </div>
                         <div className="blogsectiontext">
                             {item.summary}&nbsp;
-                            <Link href={item.link + '/' + item.category + '/' + item.name} as={item.link + '/' + item.category + '/' + item.name}><a>...Read More</a></Link>
+                            <Link href={item.link + '/' + item.category + '/' + item.name} as={item.link + '/' + item.category + '/' + item.name}>...Read More</Link>
                         </div>
                     </li>
                 ))}

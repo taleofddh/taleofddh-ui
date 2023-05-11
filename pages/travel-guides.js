@@ -5,7 +5,7 @@ import {base64ToBlob, postAuditEntry} from "../common/common";
 import {useIndex} from '../common/hook'
 import MetaTag from "../components/metatag";
 import Title from "../components/title";
-import CollapseFolder from "../components/collapsefolder";
+import Collapse from "../components/collapse";
 import Visit from "../components/visit";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
@@ -95,6 +95,12 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData })
         )
     }
 
+    /*let items = {};
+    items = travelDocumentData.map((item, index) => {
+        let content = getContent(item.folder, item.files);
+        return {...items, label: item.folder, children: content, key: '' + (index + 1)}
+    });*/
+
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
@@ -107,11 +113,12 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData })
                         <Title message={pagetitle} />
                         <div className="travelguidecontainer">
                             <Visit data={visitData} />
+                            {/*<CollapseFolder items={items} />*/}
                             <ul className="travelguidegroup">
                                 {travelDocumentData.map((item, index) => (
                                     <li key={index} className="travelguideitem">
                                         <div className="travelguidetitle">
-                                            <CollapseFolder header={item.folder} content={getContent(item.folder, item.files)} onChange={handleChange}/>
+                                            <Collapse header={item.folder} content={getContent(item.folder, item.files)} iconOpen="folderopen" iconClose="folderclose" onChange={handleChange}/>
                                         </div>
                                     </li>
                                 ))}

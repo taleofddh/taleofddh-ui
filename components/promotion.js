@@ -22,17 +22,15 @@ function Promotion({ data }) {
                     {data.map((item, index) => (
                         <div key={index} className="promotion">
                             <Link href={item.link} as={item.link}>
-                                <a>
-                                    <div className="promotionbanner" style ={{backgroundImage: 'url("/images/promotions/' + item.image + '")', backgroundPositionX: 'center',
-                                        backgroundPositionY: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
-                                        <p className="promotiontitle">
-                                            {item.title}
-                                        </p>
-                                        <p className="promotionblog">
-                                            {item.tagLine}
-                                        </p>
-                                    </div>
-                                </a>
+                                <div className="promotionbanner" style ={{backgroundImage: 'url("/images/promotions/' + item.image + '")', backgroundPositionX: 'center',
+                                    backgroundPositionY: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+                                    <p className="promotiontitle">
+                                        {item.title}
+                                    </p>
+                                    <p className="promotionblog">
+                                        {item.tagLine}
+                                    </p>
+                                </div>
                             </Link>
                         </div>
                     ))}

@@ -61,11 +61,9 @@ function Links({ menuList, handleLogout, data }) {
                                         </a>
                                     ) : (
                                         <Link href={item.link} as={item.link}>
-                                            <a>
-                                                <p className="linktitle">{item.name}</p>
-                                                <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(97, 137, 47)"/></p>
-                                                <p className="linktext">{item.summary}</p>
-                                            </a>
+                                            <p className="linktitle">{item.name}</p>
+                                            <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(97, 137, 47)"/></p>
+                                            <p className="linktext">{item.summary}</p>
                                         </Link>
                                     )}
                                 </li>

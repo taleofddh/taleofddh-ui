@@ -50,7 +50,7 @@ function FrequentlyAskedQuestions({ menuList, handleLogout, data }) {
                                 <FAQ key={index} faq={item} />
                             ))}
                             <div className="faqsection">
-                                If you have any further questions, please <Link href='/contact-us' as='/contact-us'><a>Contact Us</a></Link>.
+                                If you have any further questions, please <Link href='/contact-us' as='/contact-us'>Contact Us</Link>.
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ function QAndA(props) {
             endmessage = tempMessage.substring(linkEnd + 7, tempMessage.length)
         }
         routerMessage =
-            <Link href={route} as={route}><a>{routeMessage}</a></Link>;
+            <Link href={route} as={route}>{routeMessage}</Link>;
     } else {
         routerMessage = props.qAndA.answer;
     }

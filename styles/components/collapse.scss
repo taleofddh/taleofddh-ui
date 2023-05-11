@@ -1,0 +1,30 @@
+@import "../common/common";
+
+.collapseframe {
+  width: 100%;
+  float: left;
+  margin: 10px 0px;
+}
+
+.collapse {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  background-color: $color-transparent;
+  margin: 0 auto;
+  padding: 0px;
+  border-radius: 3px;
+  border: 0px solid $color-tan;
+  label {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    line-height: 1.8rem;
+    padding: 10px 16px;
+    color: $color-hot-cinnamon;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+}

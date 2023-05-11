@@ -8,7 +8,7 @@ import Navigation from '../components/navigation';
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Footer from "../components/footer";
 import MetaTag from "../components/metatag";
-import CollapseText from "../components/collapsetext";
+import Collapse from "../components/collapse";
 import StayConnected from '../components/stayconnected';
 import BlogSection from "../components/blogsection";
 import Promotion from "../components/promotion";
@@ -38,6 +38,8 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
             <StayConnected />
         </div>
 
+    const text = 'Looking for something else?';
+
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
@@ -55,7 +57,7 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
                     <BlogSection category='Travel' blogs={travelBlogData} />
                     <BlogSection category='Recipe' blogs={recipeBlogData} />
                     <div className="collapseframe">
-                        <CollapseText header='Looking for something else?' content={defaultMessage}/>
+                        <Collapse header={text} content={defaultMessage} />
                     </div>
                 </div>
             </div>

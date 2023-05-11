@@ -102,7 +102,7 @@ function HamnburgerMenuItem({menu}) {
                 </a>
             ) : (
                 <Link href={menu.link} as={menu.link}>
-                    <a className={router.pathname === menu.link ? 'item ' + activeClassName : 'item'}>
+                    <span className={router.pathname === menu.link ? 'item ' + activeClassName : 'item'}>
                         <p className="menuitem">
                             <span className="menuitemicon">
                                 <Icon name={menu.icon} fill="#431C5D" />
@@ -119,7 +119,7 @@ function HamnburgerMenuItem({menu}) {
                                 </span>
                             )}
                         </p>
-                    </a>
+                    </span>
                 </Link>
             )}
         </>)

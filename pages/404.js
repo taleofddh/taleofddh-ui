@@ -35,8 +35,8 @@ function Error({menuList, handleLogout}) {
                         <Title message={pagetitle} />
                         <div className="errormessage">
                             <p>Your requested page is not available or the application has generated an error.</p>
-                            <p>Please visit <Link href="/home" as="/"><a>Tale of DDH Home Page</a></Link> to search for services</p>
-                            <p>If you have any specific query please <Link href="/contact-us" as="/contactus"><a>Contact Us</a></Link>.</p>
+                            <p>Please visit <Link href="/home" as="/">Tale of DDH Home Page</Link> to search for services</p>
+                            <p>If you have any specific query please <Link href="/contact-us" as="/contactus">Contact Us</Link>.</p>
                         </div>
                     </div>
                 </div>

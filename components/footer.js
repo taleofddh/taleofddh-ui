@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import {RELEASE_VERSION} from "../common/constants";
 import Icon from "../common/icon";
 
 function Footer({menus}) {
@@ -16,7 +17,7 @@ function Footer({menus}) {
             return (
                 <div key={count} className="footermenu">
                     <Link key={item.id} href={item.link} as={item.link}>
-                        <a>{item.name}</a>
+                        {item.name}
                     </Link>
                 </div>
             )
@@ -42,7 +43,7 @@ function Footer({menus}) {
                         &copy; {year} taleofddh.com All rights reserved.
                     </div>
                     <div className="copyright">
-                        Release v4.0.0
+                        Release v{RELEASE_VERSION}
                     </div>
                 </div>
             </div>

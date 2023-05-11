@@ -2,9 +2,15 @@ import React, {useState, useEffect} from 'react';
 import Map from "./map";
 
 function Visit({data}) {
-    const[mapColor, setMapColor] = useState({});
+    //const[mapColor, setMapColor] = useState({});
+    let mapColor = {};
+    for(let i in data) {
+        for(let j in data[i].countries) {
+            mapColor[data[i].countries[j].countryCode] = data[i].backgroundColor;
+        }
+    }
 
-    useEffect(() => {
+    /*useEffect(() => {
         let colors = mapColor;
         for(let i in data) {
             for(let j in data[i].countries) {
@@ -12,7 +18,7 @@ function Visit({data}) {
             }
         }
         setMapColor(mapColor => ({...mapColor, colors}));
-    }, [mapColor, data])
+    }, [mapColor, data]);*/
 
     return (
         <div>

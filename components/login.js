@@ -174,12 +174,12 @@ function Login() {
                         <div className="loginmessagecontainer">
                             <p className="forgotpasswordmessage">
                                 <Link {...resetPwdProp}>
-                                    <a>Forgot Password</a>
+                                    Forgot Password
                                 </Link>
                             </p>
                             <p className="signupmessage">
                                 <Link {...signUpProp}>
-                                    <a>New User Sign-up</a>
+                                    New User Sign-up
                                 </Link>
                             </p>
                         </div>
