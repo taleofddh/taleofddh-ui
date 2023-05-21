@@ -4,7 +4,7 @@ import * as gtag from '../common/gtag';
 import { API, Auth, Hub } from "aws-amplify";
 import { configureAmplify } from '../common/config'
 import CookieConsent from "react-cookie-consent";
-import { AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, GOOGLE_MAP_API_URL, GOOGLE_MAP_API_KEY } from "../common/constants";
+import { AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, GOOGLE_MAP_API_URL, GOOGLE_MAP_API_KEY, MEASUREMENT_FLAG } from "../common/constants";
 import countries from "../common/countries";
 import {
     SessionContext,
@@ -94,7 +94,7 @@ function App({ Component, pageProps }) {
     useEffect(() => {
         const handleRouteChange = (url) => {
             console.log(router);
-            gtag.pageview(url)
+            if (MEASUREMENT_FLAG) gtag.pageview(url);
         }
         router.events.on('routeChangeComplete', handleRouteChange)
         return () => {

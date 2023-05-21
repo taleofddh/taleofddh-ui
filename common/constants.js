@@ -1,6 +1,7 @@
 export const FUNNY_QUOTE_URL = process.env.NEXT_PUBLIC_FUNNY_QUOTE_URL;
 export const GEOLOCATION_URL = process.env.NEXT_PUBLIC_GEOLOCATION_URL;
 export const GTAG_TRACKING_ID = process.env.NEXT_PUBLIC_GTAG_TRACKING_ID;
+export const GTAG_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTAG_MEASUREMENT_ID;
 export const MEDIA_HOST = process.env.NEXT_PUBLIC_MEDIA_HOST;
 export const GOOGLE_MAP_API_URL = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_URL;
 export const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY
@@ -41,5 +42,6 @@ export const AWS_CONFIG = {
 export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];
-export const INDEX_FLAG = process.env.NEXT_PUBLIC_INDEX_FLAG.toUpperCase === 'TRUE'
+export const INDEX_FLAG = process.env.NEXT_PUBLIC_INDEX_FLAG.toUpperCase() === 'TRUE'
+export const MEASUREMENT_FLAG = process.env.NEXT_PUBLIC_MEASUREMENT_FLAG.toUpperCase() == 'TRUE'
 export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION

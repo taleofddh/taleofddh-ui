@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import {GOOGLE_MAP_API_KEY, GOOGLE_MAP_API_URL, GTAG_TRACKING_ID} from "../common/constants";
+import {GOOGLE_MAP_API_KEY, GOOGLE_MAP_API_URL, GTAG_TRACKING_ID, GTAG_MEASUREMENT_ID} from "../common/constants";
 
 class MyDocument extends Document {
     render() {
@@ -9,7 +9,7 @@ class MyDocument extends Document {
                     {/* Global Site Tag (gtag.js) - Google Analytics */}
                     <script
                         async
-                        src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_TRACKING_ID}`}
+                        src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_MEASUREMENT_ID}`}
                         crossOrigin="anonymous"
                     />
                     <script
@@ -18,7 +18,7 @@ class MyDocument extends Document {
                             window.dataLayer = window.dataLayer || [];
                             function gtag(){dataLayer.push(arguments);}
                             gtag('js', new Date());
-                            gtag('config', '${GTAG_TRACKING_ID}', {
+                            gtag('config', '${GTAG_MEASUREMENT_ID}', {
                               page_path: window.location.pathname,
                             });
                           `,
