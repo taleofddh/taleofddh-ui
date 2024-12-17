@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 function Select({id, name, ref, label, className, disabled, required, defaultOption, options, initialValue, onChange}) {
     const [focused, setFocused] = useState(false);
-    const [value, setValue] = useState(initialValue ? initialValue : defaultOption.choice);
+    const [value, setValue] = useState(initialValue ? initialValue : defaultOption.value);
 
     const onBlur = () => {
         setFocused(false);
@@ -28,21 +28,21 @@ function Select({id, name, ref, label, className, disabled, required, defaultOpt
     let defaultChoice;
     if(defaultOption) {
         defaultChoice =
-            <option key={defaultOption.sequence} value={defaultOption.choice}>
-                {defaultOption.hasOwnProperty('value') ? (
-                    defaultOption.value
+            <option key={defaultOption.sequence} value={defaultOption.value}>
+                {defaultOption.hasOwnProperty('label') ? (
+                    defaultOption.label
                 ) : (
-                    defaultOption.choice
+                    defaultOption.value
                 )}
             </option>
     }
 
     let optionList = options.map((item) =>
-        <option key={item.sequence} value={item.choice}>
-            {item.hasOwnProperty('value') ? (
-                item.value
+        <option key={item.sequence} value={item.value}>
+            {item.hasOwnProperty('label') ? (
+                item.label
             ) : (
-                item.choice
+                item.value
             )}
         </option>
     );
