@@ -4,7 +4,7 @@ import * as gtag from '../common/gtag';
 import { API, Auth, Hub } from "aws-amplify";
 import { configureAmplify } from '../common/config'
 import CookieConsent from "react-cookie-consent";
-import { AWS_CONFIG, GEOLOCATION_URL, GTAG_TRACKING_ID, GOOGLE_MAP_API_URL, GOOGLE_MAP_API_KEY, MEASUREMENT_FLAG } from "../common/constants";
+import { GEOLOCATION_URL, MEASUREMENT_FLAG } from "../common/constants";
 import countries from "../common/countries";
 import {
     SessionContext,

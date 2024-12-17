@@ -1,6 +1,5 @@
 export const FUNNY_QUOTE_URL = process.env.NEXT_PUBLIC_FUNNY_QUOTE_URL;
 export const GEOLOCATION_URL = process.env.NEXT_PUBLIC_GEOLOCATION_URL;
-export const GTAG_TRACKING_ID = process.env.NEXT_PUBLIC_GTAG_TRACKING_ID;
 export const GTAG_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTAG_MEASUREMENT_ID;
 export const MEDIA_HOST = process.env.NEXT_PUBLIC_MEDIA_HOST;
 export const GOOGLE_MAP_API_URL = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_URL;

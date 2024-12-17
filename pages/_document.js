@@ -1,5 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import {GOOGLE_MAP_API_KEY, GOOGLE_MAP_API_URL, GTAG_TRACKING_ID, GTAG_MEASUREMENT_ID} from "../common/constants";
+import {GOOGLE_MAP_API_KEY, GOOGLE_MAP_API_URL, GTAG_MEASUREMENT_ID} from "../common/constants";
 
 class MyDocument extends Document {
     render() {
@@ -24,7 +24,7 @@ class MyDocument extends Document {
                           `,
                         }}
                     />
-                    <script asyncsrc="https://cdn.polyfill.io/v2/polyfill.min.js" crossOrigin="anonymous"></script>
+                    <script async src="https://cdn.polyfill.io/v2/polyfill.min.js" crossOrigin="anonymous"></script>
                     <script async src={`${GOOGLE_MAP_API_URL}?key=${GOOGLE_MAP_API_KEY}&libraries=places`}></script>
                     <link rel="icon" type="image/png" href="images/icon-taleofddh.png"/>
                     <link rel="shortcut icon" type="image/x-icon" href="images/fav-taleofddh.ico"/>
