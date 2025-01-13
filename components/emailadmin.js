@@ -1,48 +1,94 @@
 import React, {useEffect, useState} from 'react';
 import {getSessionCookie} from "../common/session";
-import {usePost} from "../common/hook";
+import {fetchAuthSession} from "aws-amplify/auth";
+import {post} from "aws-amplify/api";
+import {onError} from "../common/error";
 import Loader from "./loader";
 import LoaderButton from "./loaderbutton";
-import {API} from "aws-amplify";
 import {dateTimeFormatToString} from '../common/common';
 
 function EmailAdmin(props) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const[inboxData, inboxDataLoading] = usePost(
-        'findMessageList',
-        '/messageList',
-        {
-            folder: 'Inbox'
-        }
-    );
-    const[sentData, sentDataLoading] = usePost(
-        'findMessageList',
-        '/messageList',
-        {
-            folder: 'Sent'
-        }
-    );
+    const[inboxData, setInboxData] = useState([]);
+    const[sentData, setSentData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        if(typeof window !== 'undefined'){
+            setUrl(window.location.protocol + '//' + window.location.host);
+        }
+        const onLoad = async () => {
+            try {
+                const {identityId, tokens} = await fetchAuthSession({ forceRefresh: true });
+
+                if(!tokens) {
+                    let res = await post({
+                        apiName: 'findMessageList',
+                        path: '/messageList',
+                        options: {
+                            response: true,
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            },
+                            body: {
+                                folder: 'Inbox'
+                            },
+                        }
+                    }).response;
+                    setInboxData(await res.body.json());
+
+                    res = await post({
+                        apiName: 'findMessageList',
+                        path: '/messageList',
+                        options: {
+                            response: true,
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            },
+                            body: {
+                                folder: 'Sent'
+                            },
+                        }
+                    }).response;
+                    setSentData(await res.body.json());
+                }
+
+                setIsLoading(false);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+                setIsLoading(false);
+            }
+        }
+        onLoad();
+    }, []);
 
     const loadEmail = async (submitEvent) => {
         submitEvent.preventDefault();
         setIsLoading(true);
-        await API.post("processStoredMessage", "/processMessage", {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {prefix: "Inbox"}
-        });
+        await post({
+            apiName: 'processStoredMessage',
+            path: '/processMessage',
+            options: {
+                response: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {prefix: "Inbox"},
+            }
+        }).response;
         setIsLoading(false);
     }
 
     return (
         <>
-            {inboxDataLoading || sentDataLoading ? (
-                <Loader loading={inboxDataLoading || sentDataLoading} />
+            {isLoading ? (
+                <Loader loading={isLoading} />
             ) : (
                 <>
                     <form key="LoginForm" name="EmailForm" onSubmit={loadEmail}>

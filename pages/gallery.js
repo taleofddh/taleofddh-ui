@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import {runWithAmplifyServerContext} from "../common/serverconfig";
 import {get} from "aws-amplify/api/server";
 import {useIndex} from '../common/hook'
-import {getSessionCookie, setSessionStorage, useSessionContext} from "../common/session";
+import {getSessionCookie, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
 import {postAuditEntry} from "../common/common";
 import MetaTag from "../components/metatag";

@@ -200,7 +200,7 @@ function ResetPassword({menuList, handleLogout}) {
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
+            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="resetpasswordframe">
