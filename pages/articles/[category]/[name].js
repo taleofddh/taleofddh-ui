@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {API, Auth} from "aws-amplify";
+import {runWithAmplifyServerContext} from "../../../common/serverconfig";
+import { get, post } from 'aws-amplify/api/server';
+import {put} from "aws-amplify/api";
 import {MONTH_NAMES} from "../../../common/constants";
-import {useIndex, usePost, usePut} from '../../../common/hook'
+import {useIndex} from '../../../common/hook'
 import {getSessionCookie, useSessionContext} from "../../../common/session";
 import {onError} from "../../../common/error";
 import Markdown from "../../../components/markdown";
@@ -21,7 +23,6 @@ const pagetitle = 'Blog'
 const source = 'article';
 
 function Article({ menuList, handleLogout, data, category, blogName }) {
-    const { userHasAuthenticated } = useSessionContext();
     const index = useIndex();
     const [url, setUrl] = useState('');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -31,25 +32,36 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'user profile',
+                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
+            }
+        );
+    }, [ddhomeCountry]);
+
+    useEffect(() => {
         const onLoad = async () => {
             try {
-                await API.put(
-                    'updateBlogViewCount',
-                    '/blogViewCount',
-                    {
+                await put({
+                    apiName: 'updateBlogViewCount',
+                    path: '/blogViewCount',
+                    options: {
                         response: true,
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                        },
-                        body: {
-                            name: blogName,
-                            category: category
-                        },
-                    }
-                );
-                await Auth.currentSession();
-                userHasAuthenticated(true);
+                        }
+                    },
+                    body: {
+                        name: blogName,
+                        category: category
+                    },
+                }).response;
                 setCountUpdateLoading(false);
             }
             catch(e) {
@@ -60,17 +72,7 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
             }
         }
         onLoad();
-        postAuditEntry(
-            {
-                date: new Date(),
-                hostName: window.location.hostname,
-                countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
-                page: 'blog article',
-                message: 'Article ' + blogName + ' Page Accessed'
-            }
-        )
-    }, [blogName, category, userHasAuthenticated, ddhomeCountry])
+    }, [blogName, category])
 
     return (
         countUpdateLoading ? (
@@ -107,18 +109,27 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
 // This function gets called at build time
 export const getStaticPaths = async () => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findBlogList',
-        '/blogList',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const blogs = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findBlogList',
+                    path: '/blogList',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const blogs = await res.data;
+    });
 
     // Get the paths we want to pre-render based on posts
     const paths = blogs.map((blog) => ({
@@ -133,38 +144,56 @@ export const getStaticPaths = async () => {
 // This function gets called at build time
 export const getStaticProps = async ({ params }) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
     const category = `${params.category}`;
     const blogName = `${params.name}`;
 
-    res = await API.post(
-        'findBlogArticleList',
-        '/blogArticleList',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {
-                category: category,
-                blogName: blogName
+    const data = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await post(contextSpec, {
+                    apiName: 'findBlogArticleList',
+                    path: '/blogArticleList',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            category: category,
+                            blogName: blogName
+                        }
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
             }
         }
-    );
-    const data = await res.data;
+    });
 
     // return the data
     return {

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Auth } from "aws-amplify";
+import { signInWithRedirect } from "aws-amplify/auth";
 import LoaderButton from "./loaderbutton";
 
 function FacebookButton({onLogin, route}) {
@@ -8,9 +8,10 @@ function FacebookButton({onLogin, route}) {
     const handleClick = async () => {
         setIsLoading(true);
         try {
-            const response = await Auth.federatedSignIn(
-                { provider: "Facebook", customState: JSON.stringify(route)}
-            );
+            const response = await signInWithRedirect({
+                provider: "Facebook",
+                customState: JSON.stringify(route)
+            });
             setIsLoading(false);
             onLogin(response);
         } catch (e) {

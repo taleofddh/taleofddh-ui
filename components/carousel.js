@@ -1,5 +1,5 @@
 import React from 'react';
-import {API} from 'aws-amplify';
+import {put} from "aws-amplify/api";
 import { MEDIA_HOST} from "../common/constants";
 import {useMediaQuery} from "../common/hook";
 import ImageGallery  from 'react-image-gallery';
@@ -34,11 +34,10 @@ function Carousel(props) {
     });
 
     const handleThumbnailClick = async (clickEvent, index) => {
-        await API.put(
-            'updatePhotoViewCount',
-            '/photoViewCount',
-            {
-                response: true,
+        const res = await put({
+            apiName: "updatePhotoViewCount",
+            path: "/photoViewCount",
+            options: {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -48,16 +47,17 @@ function Carousel(props) {
                     name: images[index].name
                 }
             }
-        )
+        }).response;
+
+        console.log(await res.body.json());
         //props.onClick && props.onClick(clickEvent, obj);
     }
 
     const handleSlideMove = async (index) => {
-        await API.put(
-            'updatePhotoViewCount',
-            '/photoViewCount',
-            {
-                response: true,
+        const res = await put({
+            apiName: "updatePhotoViewCount",
+            path: "/photoViewCount",
+            options: {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -67,7 +67,9 @@ function Carousel(props) {
                     name: images[index].name
                 }
             }
-        )
+        }).response;
+
+        console.log(await res.body.json());
     }
 
     return (

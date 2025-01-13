@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
 import Link from 'next/link';
-import { Auth, API } from 'aws-amplify';
+import { put } from 'aws-amplify/api';
+import {fetchAuthSession, signIn} from 'aws-amplify/auth';
 import {useFormFields} from "../common/hook";
-import {useSessionContext, getSessionCookie, setSessionCookie} from "../common/session";
+import {getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "./typeInput";
 import LoaderButton from "./loaderbutton";
@@ -12,7 +13,6 @@ import GoogleButton from "./googlebutton";
 
 function Login() {
     const router = useRouter();
-    const { userHasAuthenticated } = useSessionContext();
     const [redirect, setRedirect] = useState('');
     const [resetPwdProp, setResetPwdProp] = useState({});
     const [signUpProp, setSignUpProp] = useState({});
@@ -33,7 +33,7 @@ function Login() {
             setRedirect(redirectValue);
             const resetPwdValue = {
                 href: {
-                    pathname: '/resetpassword',
+                    pathname: '/reset-password',
                     query: { redirect: redirectValue}
                 },
                 as: {
@@ -44,7 +44,7 @@ function Login() {
             setResetPwdProp({...resetPwdValue});
             const signUpValue = {
                 href: {
-                    pathname: '/signup',
+                    pathname: '/sign-up',
                     query: { redirect: redirectValue}
                 },
                 as: {
@@ -56,7 +56,7 @@ function Login() {
         } else {
             const resetPwdValue = {
                 href: {
-                    pathname: '/resetpassword'
+                    pathname: '/reset-password'
                 },
                 as: {
                     pathname: '/reset-password'
@@ -65,7 +65,7 @@ function Login() {
             setResetPwdProp({...resetPwdValue});
             const signUpValue = {
                 href: {
-                    pathname: '/signup'
+                    pathname: '/sign-up'
                 },
                 as: {
                     pathname: '/sign-up'
@@ -81,18 +81,33 @@ function Login() {
 
         setIsLoading(true);
         try {
-            await Auth.signIn(fields.username, fields.password);
-            userHasAuthenticated(true);
-            const credentials = await Auth.currentUserCredentials();
-            setSessionCookie("credential", {identityId: credentials.identityId});
-            await API.put("updateUserProfile", "/updateUserProfile", {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: {identityId: credentials.identityId, lastLogin: new Date()},
+            const {
+                isSignedIn,
+                nextStep
+            } = await signIn({
+                username: fields.username,
+                password: fields.password
             });
+            const {
+                identityId,
+                credentials,
+                userSub,
+                tokens
+            } = await fetchAuthSession({ forceRefresh: true });
+            if(tokens && tokens !== undefined) {
+                setSessionCookie("credential", {identityId: identityId});
+                await put({
+                    apiName: "updateUserProfile",
+                    path: "/updateUserProfile",
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {identityId: identityId, lastLogin: new Date()},
+                    }
+                });
+            }
             setIsLoading(false);
             if(redirect && redirect !== undefined && redirect.length > 0) {
                 await router.push(redirect,
@@ -129,7 +144,6 @@ function Login() {
                     <GoogleButton
                         onLogin={handleFederatedLogin} route={redirect.length > 0 ? redirect : '/'} />
                 </div>
-                <hr />
                 <div className="logincontainer">
                     <div className="loginfieldcontainer">
                         <TypeInput id="1"

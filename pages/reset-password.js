@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Auth } from "aws-amplify";
-import { NavLink } from "react-router-dom";
+import Link from 'next/link';
+import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {get} from "aws-amplify/api/server";
+import {resetPassword, confirmResetPassword} from "aws-amplify/auth";
 import {useIndex, useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import { onError } from "../common/error";
@@ -10,12 +12,18 @@ import Title from "../components/title";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import LoaderButton from "../components/loaderbutton";
 import {getSessionCookie} from "../common/session";
+import ResponsiveNavigation from "../components/responsivenavigation";
+import Header from "../components/header";
+import Navigation from "../components/navigation";
+import Footer from "../components/footer";
 
 const pagetitle = 'Reset Password';
 const source = 'reset-password';
 
-function ResetPassword(props) {
-    const index = useIndex(window.location.hostname, window.location.protocol);
+function ResetPassword({menuList, handleLogout}) {
+    const index = useIndex();
+    const [url, setUrl] = useState('');
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [fields, handleFieldChange] = useFormFields({
         username: '',
         confirmationCode: '',
@@ -26,9 +34,11 @@ function ResetPassword(props) {
     const [confirmed, setConfirmed] = useState(false);
     const [isConfirming, setIsConfirming] = useState(false);
     const [isSendingCode, setIsSendingCode] = useState(false);
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
+        if(typeof window !== 'undefined'){
+            setUrl(window.location.protocol + '//' + window.location.host);
+        }
         postAuditEntry(
             {
                 date: new Date(),
@@ -45,7 +55,9 @@ function ResetPassword(props) {
         event.preventDefault();
         setIsSendingCode(true);
         try {
-            await Auth.forgotPassword(fields.username);
+            await resetPassword({
+                username: fields.username
+            });
             setCodeSent(true);
         } catch (error) {
             onError(error);
@@ -57,11 +69,11 @@ function ResetPassword(props) {
         event.preventDefault();
         setIsConfirming(true);
         try {
-            await Auth.forgotPasswordSubmit(
-                fields.username,
-                fields.confirmationCode,
-                fields.password
-            );
+            await confirmResetPassword({
+                username: fields.username,
+                confirmationCode: fields.confirmationCode,
+                newPassword: fields.password
+            });
             setConfirmed(true);
         } catch (error) {
             onError(error);
@@ -176,7 +188,7 @@ function ResetPassword(props) {
                         <span style={{color: 'rgb(253, 204, 13)', fontSize: '1.3.rem'}}><FontAwesomeIcon icon="thumbs-up" /></span>&nbsp;&nbsp;Your password has been reset.
                     </p>
                     <p>
-                        Click <NavLink to="/sign-in">here</NavLink> to login with your new credentials.
+                        Click <Link href="/sign-in" as="/sign-in">here</Link> to login with your new credentials.
                     </p>
                 </div>
             </div>
@@ -185,6 +197,9 @@ function ResetPassword(props) {
 
     return (
         <>
+            <ResponsiveNavigation menus={menuList} />
+            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Navigation menus={menuList} />
             <MetaTag page={source} index={index} url={window.location.protocol + '//'  + window.location.hostname} />
             <div className="boxouter">
                 <div className="container">
@@ -198,8 +213,43 @@ function ResetPassword(props) {
                     </div>
                 </div>
             </div>
+            <Footer menus={menuList} />
         </>
     );
 }
+
+// This function gets called at build time
+export const getStaticProps = async ({context}) => {
+    // Call an external API endpoint to get data
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        }
+    });
+
+    // return the data
+    return {
+        props: {
+            menuList
+        },
+    }
+}
+
 
 export default ResetPassword;

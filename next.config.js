@@ -12,7 +12,13 @@ module.exports = {
     MEASUREMENT_FLAG: process.env.NEXT_PUBLIC_MEASUREMENT_FLAG
   },
   images: {
-    domains: ['media.taleofddh.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.NEXT_PUBLIC_MEDIA_DOMAIN,
+        port: '',
+      },
+    ],
   },
   async redirects() {
     return [

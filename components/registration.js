@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
-import { Auth, API } from 'aws-amplify';
+import { post } from 'aws-amplify/api';
+import {fetchAuthSession, signUp, confirmSignUp, signIn} from 'aws-amplify/auth';
 import { useFormFields } from "../common/hook";
-import { useSessionContext, getSessionCookie, setSessionCookie } from "../common/session";
+import { getSessionCookie, setSessionCookie } from "../common/session";
 import { onError } from "../common/error";
 import TypeInput from "./typeInput";
 import LoaderButton from "./loaderbutton";
@@ -11,7 +12,6 @@ import GoogleButton from "./googlebutton";
 
 function Registration() {
     const router = useRouter();
-    const { userHasAuthenticated } = useSessionContext();
     const [redirect, setRedirect] = useState('');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +37,7 @@ function Registration() {
 
         setIsLoading(true);
         try {
-            const newUser = await Auth.signUp({
+            const newUser = await signUp({
                 username: fields.username,
                 password: fields.password,
                 attributes : {
@@ -60,19 +60,34 @@ function Registration() {
         submitEvent.preventDefault();
         setIsLoading(true);
         try {
-            await Auth.confirmSignUp(fields.username, fields.confirmationCode);
-            await Auth.signIn(fields.username, fields.password);
-            userHasAuthenticated(true);
-            const credentials = await Auth.currentUserCredentials();
-            setSessionCookie("credential", {identityId: credentials.identityId});
-            await API.post("createUserProfile", "/createUserProfile", {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: {email: fields.username, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
+            await confirmSignUp({
+                username: fields.username,
+                confirmationCode: fields.confirmationCode
             });
+            await signIn({
+                username: fields.username,
+                password: fields.password
+            });
+            const {tokens, identityId} = await fetchAuthSession({ forceRefresh: true });
+            if(tokens && tokens !== undefined) {
+                setSessionCookie("credential", {identityId: credentials.identityId});
+                await post({
+                    apiName: "createUserProfile",
+                    path: "/createUserProfile",
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            email: fields.username,
+                            identityId: identityId,
+                            updatedAt: new Date(),
+                            lastLogin: new Date()
+                        },
+                    }
+                });
+            }
             if(redirect && redirect !== undefined && redirect.length > 0) {
                 await router.push(redirect,
                     redirect

@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {API} from "aws-amplify";
+import { get, post } from 'aws-amplify/api/server';
+import { runWithAmplifyServerContext } from '../common/serverconfig';
+import {INDEX_FLAG, HOST_NAME, EVENT_REVALIDATE_PERIOD} from '../common/constants';
 import Link from "next/link";
 import { useIndex } from '../common/hook';
 import { getSessionCookie } from "../common/session";
@@ -11,7 +13,7 @@ import MetaTag from "../components/metatag";
 import Collapse from "../components/collapse";
 import StayConnected from '../components/stayconnected';
 import BlogSection from "../components/blogsection";
-import Promotion from "../components/promotion";
+import Banner from "../components/banner";
 
 const source = 'home';
 
@@ -24,7 +26,7 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
         }
     }, []);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
+    /*const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
     const message2 = 'If you have any particular service requirement, that is not currently covered, please ';
     const message3 = 'We\'d be delighted to keep you informed about our roadmap and plan of launching new services. Please stay in touch with us.';
 
@@ -38,7 +40,7 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
             <StayConnected />
         </div>
 
-    const text = 'Looking for something else?';
+    const text = 'Looking for something else?';*/
 
     return (
         <>
@@ -48,7 +50,7 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
             <MetaTag page={source} index={index} url={url} />
             <div className="promotionbar">
                 <div className="container">
-                    <Promotion data={promotionData}/>
+                    <Banner data={promotionData}/>
                 </div>
             </div>
             <div className="boxouter">
@@ -56,9 +58,9 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
                     <BlogSection category='Technical' blogs={technicalBlogData} />
                     <BlogSection category='Travel' blogs={travelBlogData} />
                     <BlogSection category='Recipe' blogs={recipeBlogData} />
-                    <div className="collapseframe">
+                    {/*<div className="collapseframe">
                         <Collapse header={text} content={defaultMessage} />
-                    </div>
+                    </div>*/}
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -69,82 +71,127 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
 // This function gets called at build time
 export const getStaticProps = async (context) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
-    res = await API.get(
-        'findPromotionList',
-        '/promotionList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const promotionData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findPromotionList',
+                    path: '/promotionList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const promotionData = await res.data;
+    });
 
-    res = await API.post(
-        'findCategorizedBlogList',
-        '/blogListCategorized',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {
-                category: 'Technical',
-                homePageFlag: true
-            },
+    const technicalBlogData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await post(contextSpec, {
+                    apiName: 'findCategorizedBlogList',
+                    path: '/blogListCategorized',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            category: 'Technical',
+                            homePageFlag: true
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const technicalBlogData = await res.data;
+    });
 
-    res = await API.post(
-        'findCategorizedBlogList',
-        '/blogListCategorized',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {
-                category: 'Travel',
-                homePageFlag: true
-            },
+    const travelBlogData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await post(contextSpec, {
+                    apiName: 'findCategorizedBlogList',
+                    path: '/blogListCategorized',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            category: 'Travel',
+                            homePageFlag: true
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const travelBlogData = await res.data;
+    });
 
-    res = await API.post(
-        'findCategorizedBlogList',
-        '/blogListCategorized',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {
-                category: 'Recipe',
-                homePageFlag: true
-            },
+    const recipeBlogData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await post(contextSpec, {
+                    apiName: 'findCategorizedBlogList',
+                    path: '/blogListCategorized',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            category: 'Recipe',
+                            homePageFlag: true
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const recipeBlogData = await res.data;
+    });
 
     // return the data
     return {

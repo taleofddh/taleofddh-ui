@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as gtag from '../common/gtag';
-import { API, Auth, Hub } from "aws-amplify";
+import {Hub} from 'aws-amplify/utils';
+import {put} from 'aws-amplify/api';
+import {fetchAuthSession, getCurrentUser, signOut, fetchUserAttributes} from 'aws-amplify/auth';
+import 'aws-amplify/auth/enable-oauth-listener';
 import { configureAmplify } from '../common/config'
 import CookieConsent from "react-cookie-consent";
 import { GEOLOCATION_URL, MEASUREMENT_FLAG } from "../common/constants";
 import countries from "../common/countries";
 import {
+    setCookieStorage,
     SessionContext,
     getSessionCookie,
     setSessionCookie,
@@ -86,6 +90,9 @@ function App({ Component, pageProps }) {
         country_code : '',
         country_name : ''
     });
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
+    const [customState, setCustomState] = useState(null);
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
     const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [session] = useState(getSessionCookie);
@@ -132,46 +139,60 @@ function App({ Component, pageProps }) {
                 setDdhomeCountry(ddhomeCountry => ({...ddhomeCountry, country_code: ddhomeCountryDetails.country_code, country_name: ddhomeCountryDetails.country_name}));
             }
         }
+        getLocationData();
+    }, [router]);
 
+    useEffect(() => {
         const onLoad = async () => {
-            Hub.listen('auth', ({payload: {event, data}}) => {
+            Hub.listen('auth', ({ payload}) => {
                 let route = '';
                 let user = '';
-                switch (event) {
-                    case 'signIn':
-                        user = data;
+                switch (payload.event) {
+                    case "signInWithRedirect" || 'signedIn':
+                        getUser();
                         console.log('user: ', user);
                         break;
-
-                    case 'customOAuthState':
-                        route = JSON.parse(data);
-                        console.log('route: ', route);
-                        if(route && route !== undefined)
-                            router.push(route.replace(/-/g, ''),
-                                route
-                            );
+                    case "signInWithRedirect_failure":
+                        setError("An error has occurred during the OAuth flow.");
                         break;
-
+                    case 'customOAuthState':
+                        setCustomState(payload.data);
+                        /*route = JSON.parse(data);
+                        //console.log('route: ', route);
+                        if(route && route !== undefined)
+                            router.push(route.replace(/-/g, ''), route);*/
+                        break;
                     default:
-                    //router.push('/home', '/');
+                        console.log('No Sign in Event');
+                        break;
+                        //router.push('/home', '/');
                 }
             });
             try {
-                await Auth.currentSession();
-                const user = await Auth.currentAuthenticatedUser();
-                console.log('user: ', user);
-                const email = user.attributes.email;
-                userHasAuthenticated(true);
-                const credentials = await Auth.currentUserCredentials();
-                setSessionCookie("credential", {identityId: credentials.identityId});
-                await API.put("updateUserProfile", "/updateUserProfile", {
-                    response: true,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
-                });
+                const {
+                    tokens,
+                    identityId
+                } = await fetchAuthSession({ forceRefresh: true });
+                if (tokens && tokens !== undefined) {
+                    await getUser();
+                    const attributes = await fetchUserAttributes();
+                    //console.log('attributes: ', attributes);
+                    const email = attributes.email;
+                    userHasAuthenticated(true);;
+                    setSessionCookie("credential", {identityId: identityId});
+                    let res = await put({
+                        apiName: 'updateUserProfile',
+                        path: '/updateUserProfile',
+                        options: {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
+                        }
+                    }).response;
+                    //console.log(await res.body.json());
+                }
             }
             catch(e) {
                 //console.error(e);
@@ -182,9 +203,8 @@ function App({ Component, pageProps }) {
             setIsAuthenticating(false);
         }
 
-        getLocationData();
         onLoad();
-    }, [router])
+    }, [router]);
 
     const getDdhomeCountry = (ddhomeCountryCallBack) => {
         if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {
@@ -194,18 +214,28 @@ function App({ Component, pageProps }) {
         }
     }
 
+    const getUser = async () => {
+        try {
+            const currentUser = await getCurrentUser();
+            setUser(currentUser);
+        } catch (error) {
+            console.error(error);
+            console.log("Not signed in");
+        }
+    };
+
     const handleLogout = async () => {
-        await Auth.signOut();
+        await signOut();
         userHasAuthenticated(false);
         removeSessionCookie("credential");
-        await router.push("/signin",
+        await router.push("/sign-in",
             "/sign-in"
         );
     }
 
     return (
-        !isAuthenticating && (
-            <>
+        <React.Fragment>
+            {!isAuthenticating && (
                 <SessionContext.Provider value={{session, isAuthenticated, userHasAuthenticated}}>
                     <CookieConsent
                         location="bottom"
@@ -228,10 +258,17 @@ function App({ Component, pageProps }) {
                             If you decline, your information won’t be tracked when you visit this website. A single cookie will be used in your browser to remember your preference not to be tracked.
                         </p>
                     </CookieConsent>
-                    <Component {...pageProps} ddhomeCountryCallBack={getDdhomeCountry} geolocationData={geolocationData} countryName={ddhomeCountry.country_name} countryCode={ddhomeCountry.country_code} handleLogout={handleLogout} />
                 </SessionContext.Provider>
-            </>
-        )
+            )}
+            <Component
+                {...pageProps}
+                ddhomeCountryCallBack={getDdhomeCountry}
+                geolocationData={geolocationData}
+                countryName={ddhomeCountry.country_name}
+                countryCode={ddhomeCountry.country_code}
+                handleLogout={handleLogout}
+            />
+        </React.Fragment>
     )
 }
 

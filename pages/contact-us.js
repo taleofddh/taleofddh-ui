@@ -8,8 +8,10 @@ import {getSessionCookie} from "../common/session";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
-import {API} from "aws-amplify";
+import {HOST_NAME, INDEX_FLAG, MEDIA_HOST} from "../common/constants";
 import Footer from "../components/footer";
+import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {get} from "aws-amplify/api/server";
 
 const pagetitle = 'Contact Us';
 const source = 'contact-us';
@@ -63,18 +65,27 @@ function ContactUs({handleLogout, menuList}) {
 // This function gets called at build time
 export const getStaticProps = async (context) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
     // return the data
     return {

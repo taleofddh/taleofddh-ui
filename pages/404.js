@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Link from 'next/link';
-import {API} from "aws-amplify";
+import { get } from 'aws-amplify/api/server';
+import { runWithAmplifyServerContext } from '../common/serverconfig';
+import {APP_LONG_NAME, HOST_NAME, INDEX_FLAG} from "../common/constants";
 import {useIndex} from '../common/hook'
 import Title from "../components/title";
 import MetaTag from "../components/metatag";
@@ -10,7 +12,7 @@ import Header from "../components/header";
 import Navigation from "../components/navigation";
 import {getSessionCookie} from "../common/session";
 
-const pagetitle = 'ServEase Page Not Found';
+const pagetitle = APP_LONG_NAME + ' Page Not Found';
 const source = 'error';
 
 function Error({menuList, handleLogout}) {
@@ -47,20 +49,29 @@ function Error({menuList, handleLogout}) {
 }
 
 // This function gets called at build time
-export const getStaticProps = async (context) => {
+export const getStaticProps = async ({context}) => {
     // Call an external API endpoint to get data
-    const res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
     // return the data
     return {

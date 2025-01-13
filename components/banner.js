@@ -1,28 +1,40 @@
 import React from 'react';
-import Image from 'next/image';
-import {getSessionCookie} from "../common/session";
+import Link from 'next/link';
+import Slider from "react-slick";
 
-function Banner({country}) {
-    let count = 0;
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    let countryCode;
-    if(country.country_code !== undefined) {
-        countryCode = country.country_code;
-    } else if(Object.keys(ddhomeCountry).length !== 0 || ddhomeCountry.constructor !== Object) {
-        countryCode = ddhomeCountry.country_code;
-    } else {
-        let geolocationData = getSessionCookie('geolocation');
-        countryCode = geolocationData.country_code;
-    }
+function Banner({ data }) {
+    let settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        centerMode: true,
+        centerPadding: '0px'
+    };
 
-    return (
-        <div className="bannerbar">
-            <div className="banner">
-                <p>
-                    <label className="bannertext">
-                        Making every residential property purchase a stress-free experience! Offering select services in <div className="bannertextpiccontrol"><Image src="/images/flags/GB.png" alt='GB' layout='fill' /></div>&nbsp;<div className="bannertextpiccontrol"><Image src="/images/flags/IN.png" alt='IN' layout='fill' /></div>
-                    </label>
-                </p>
+    return(
+        <div className="promotionframe">
+            <div className="promotiongroup">
+                <Slider {...settings}>
+                    {data.map((item, index) => (
+                        <div key={index} className="promotion">
+                            <Link href={item.link} as={item.link}>
+                                <div className="promotionbanner" style ={{backgroundImage: 'url("/images/promotions/' + item.image + '")', backgroundPositionX: 'center',
+                                    backgroundPositionY: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+                                    <p className="promotiontitle">
+                                        {item.title}
+                                    </p>
+                                    <p className="promotionblog">
+                                        {item.tagLine}
+                                    </p>
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
+                </Slider>
             </div>
         </div>
     )

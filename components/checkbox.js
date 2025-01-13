@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function CheckBox({type, id, name, ref, label, className, disabled, required, initialState, value, specialText, onChange}) {
+function CheckBox({type, id, name, ref, label, note, className, disabled, required, initialState, value, specialText, onChange}) {
     const [focused, setFocused] = useState(false);
     const [checked, setChecked] = useState(!!initialState);
 
@@ -33,11 +33,19 @@ function CheckBox({type, id, name, ref, label, className, disabled, required, in
 
     let reqdText = required ? '*' : '';
 
+    let noteText;
+    if(note) {
+        noteText = <label className="checkboxnote">{' (' + note + ')'}</label>;
+    } else {
+        noteText = <></>
+    }
+
     return (
         <p className={`check ${className}`}>
             <label className="checkboxlabel">
                 <span className="checkboxtext">{label}</span>
                 <span className="required">{reqdText}</span>
+                {noteText}
                 <input // HiddenCheckbox
                     type='checkbox'
                     id={id}
@@ -70,6 +78,7 @@ CheckBox.propTypes = {
     name: PropTypes.string.isRequired,
     ref: PropTypes.string,
     label: PropTypes.string,
+    note: PropTypes.string,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     required: PropTypes.bool,

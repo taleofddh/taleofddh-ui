@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {API} from "aws-amplify";
+import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {get} from "aws-amplify/api/server";
+import {get as clientGet} from "aws-amplify/api";
 import {getSessionCookie} from "../common/session";
 import {base64ToBlob, postAuditEntry} from "../common/common";
 import {useIndex} from '../common/hook'
@@ -11,6 +13,7 @@ import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
+import {onError} from "../common/error";
 
 const pagetitle = 'Travel Guides - Itinerary, Estimate & Forms';
 const source = 'travel-guides';
@@ -43,32 +46,29 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData })
     const handleDownload = async (folder, file, clickEvent) => {
         clickEvent.preventDefault();
         console.log(folder + '/' + file);
-        await API.post(
-            'getTravelDocument',
-            '/travelDocument',
-            {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    prefix: 'Travel/' + folder,
-                    file: file
-                }
-            }
-        )
-            .then(async (response) => {
-                return base64ToBlob(await response.data, response.headers['content-type'])
-            })
-            .then((blob) => {
-                const blobUrl = window.URL.createObjectURL(blob);
-                let a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = file;
-                a.click();
-            })
 
+        try {
+            const res = await clientGet({
+                apiName: "getTravelDocument",
+                path: "/travelDocument/Travel/" + folder + "/" + file,
+                options: {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    }
+                }
+            }).response;
+
+            const blob = base64ToBlob(await res.body.json(), res.headers['content-type']);
+
+            const blobUrl = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = file;
+            a.click();
+        } catch (error) {
+            onError(error);
+        }
     }
 
     const getContent = (folder, files) => {
@@ -135,47 +135,71 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData })
 // This function gets called at build time
 export const getStaticProps = async (context) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }
-    );
-    const menuList = await res.data;
-
-    res = await API.get(
-        'findCountryVisitStatus',
-        '/countryVisitStatus',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }
-    );
-    const visitData = await res.data;
-
-    res = await API.post(
-        'findTravelDocuments',
-        '/documentList',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {
-                    prefix: 'Travel'
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
             }
         }
-    );
-    const travelDocumentData = await res.data;
+    });
+
+    const visitData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findCountryVisitStatus',
+                    path: '/countryVisitStatus',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        }
+    });
+
+    const travelDocumentData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findTravelDocuments',
+                    path: '/documentList/Travel',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        }
+    });
 
     // return the data
     return {

@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
-import {API, Auth} from "aws-amplify";
+import {runWithAmplifyServerContext} from "../../common/serverconfig";
+import {get, post} from "aws-amplify/api/server";
+import {put} from "aws-amplify/api";
+import {fetchAuthSession} from "aws-amplify/auth";
 import {useIndex} from '../../common/hook';
 import {postAuditEntry} from "../../common/common";
 import {getSessionCookie, useSessionContext} from "../../common/session";
@@ -36,24 +39,37 @@ function Album({ menuList, handleLogout, data, albumName }) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
+        postAuditEntry(
+            {
+                date: new Date(),
+                hostName: window.location.hostname,
+                countryCode: ddhomeCountry.country_code,
+                ipAddress: ddhomeCountry.ip_address,
+                page: 'user profile',
+                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
+            }
+        );
+    }, [ddhomeCountry]);
+
+    useEffect(() => {
         const onLoad = async () => {
             try {
-                await Auth.currentSession();
-                userHasAuthenticated(true);
-                await API.put(
-                    'updateAlbumViewCount',
-                    '/albumViewCount',
-                    {
+                await fetchAuthSession({ forceRefresh: true });
+                await put({
+                    apiName: 'updateAlbumViewCount',
+                    path: '/albumViewCount',
+                    options: {
                         response: true,
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                        },
-                        body: {
-                            albumName: albumName
-                        },
-                    }
-                );
+                        }
+                    },
+                    body: {
+                        albumName: albumName
+                    },
+                }).response;
+                userHasAuthenticated(true);
                 setCountUpdateLoading(false);
             }
             catch(e) {
@@ -64,17 +80,7 @@ function Album({ menuList, handleLogout, data, albumName }) {
             }
         }
         onLoad();
-        postAuditEntry(
-            {
-                date: new Date(),
-                hostName: window.location.hostname,
-                countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
-                page: 'album',
-                message: 'Collection Page ' + albumName + ' Accessed by ' + getSessionCookie("credential").identityId
-            }
-        );
-    }, [albumName, userHasAuthenticated, ddhomeCountry]);
+    }, [albumName, userHasAuthenticated]);
 
     const handleClick = (clickEvent, object) => {
         if(isAuthenticated) {
@@ -134,18 +140,27 @@ function Album({ menuList, handleLogout, data, albumName }) {
 // This function gets called at build time
 export const getStaticPaths = async () => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findAlbumList',
-        '/albumList',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const albums = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findAlbumList',
+                    path: '/albumList',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const albums = await res.data;
+    });
 
     // Get the paths we want to pre-render based on posts
     const paths = albums.map((album) => ({
@@ -160,35 +175,54 @@ export const getStaticPaths = async () => {
 // This function gets called at build time
 export const getStaticProps = async ({ params }) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        }
-    );
-    const menuList = await res.data;
-    const albumName = `${params.name}`;
-
-    res = await API.post(
-        'findAlbumPhotoList',
-        '/albumPhotoList',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: {
-                albumName: albumName
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
             }
         }
-    );
-    const data = await res.data;
+    });
+
+    const albumName = `${params.name}`;
+
+    const data = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await post(contextSpec, {
+                    apiName: 'findAlbumPhotoList',
+                    path: '/albumPhotoList',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            albumName: albumName
+                        }
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        }
+    });
 
     // return the data
     return {

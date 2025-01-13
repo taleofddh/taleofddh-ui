@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {useIndex, usePost} from "../common/hook";
+import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {get} from "aws-amplify/api/server";
+import {get as clientGet} from "aws-amplify/api";
+import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
+import {useIndex} from "../common/hook";
 import {getSessionCookie, useSessionContext} from "../common/session";
 import Title from "../components/title";
 import MetaTag from "../components/metatag";
@@ -9,7 +13,6 @@ import {postAuditEntry} from "../common/common";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
-import {API, Auth} from "aws-amplify";
 import Footer from "../components/footer";
 import {onError} from "../common/error";
 
@@ -25,39 +28,6 @@ function UserProfile({menuList, handleLogout}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
-        const onLoad = async () => {
-            try {
-                const res = await API.post(
-                    'findUserProfile',
-                    '/findUserProfile',
-                    {
-                        response: true,
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: {
-                            identityId: getSessionCookie("credential").identityId
-                        },
-                    }
-                );
-                setData(await res.data);
-                isLoading(false);
-                await Auth.currentSession();
-                userHasAuthenticated(true);
-                setCountUpdateLoading(false);
-            }
-            catch(e) {
-                if (e !== 'No current user') {
-                    onError(e);
-                }
-                isLoading(false);
-            }
-        }
-        onLoad();
         postAuditEntry(
             {
                 date: new Date(),
@@ -68,7 +38,41 @@ function UserProfile({menuList, handleLogout}) {
                 message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
             }
         );
-    }, [userHasAuthenticated, ddhomeCountry]);
+    }, [ddhomeCountry]);
+
+    useEffect(() => {
+        if(typeof window !== 'undefined'){
+            setUrl(window.location.protocol + '//' + window.location.host);
+        }
+        const onLoad = async () => {
+            try {
+                const {identityId} = await fetchAuthSession({ forceRefresh: true });
+                const attributes = await fetchUserAttributes();
+                const email = attributes.email;
+
+                const res = await clientGet({
+                    apiName: 'findUserProfile',
+                    path: '/findUserProfile',
+                    options: {
+                        response: true,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                }).response;
+                setData(await res.body.json());
+                isLoading(false);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+                isLoading(false);
+            }
+        }
+        onLoad();
+    }, []);
 
     return (
         <>
@@ -96,18 +100,27 @@ function UserProfile({menuList, handleLogout}) {
 // This function gets called at build time
 export const getStaticProps = async ({ params }) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
     // return the data
     return {

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {API} from 'aws-amplify';
+import {post} from "aws-amplify/api";
 import { marked }  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
 import { MEDIA_HOST} from "../common/constants";
@@ -16,7 +16,31 @@ function Markdown({section}) {
         const loadMdText = async () => {
             const key = section.content;
             if (section.type === 'Markdown') {
-                await API.post(
+                const res = await post({
+                    apiName: "getArticleDocument",
+                    path: "/articleDocument",
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            prefix: key.substring(0, key.lastIndexOf('/')),
+                            file: key.substring(key.lastIndexOf('/') + 1)
+                        }
+                    }
+                }).response;
+
+                let text = await res.body.json();
+
+                if (isMobile) {
+                    text = text.toString().replace(originalPath, '/mobile/');
+                } else if (isTablet) {
+                    text = text.toString().replace(originalPath, '/tablet/');
+                }
+                setMarkDown(marked(text.toString()));
+
+                /*await API.post(
                     'getArticleDocument',
                     '/articleDocument',
                     {
@@ -31,8 +55,8 @@ function Markdown({section}) {
                         }
                     }
                 )
-                    .then(async response => {
-                        return await response.data
+                    .then(async res => {
+                        return await res.response.body.json()
                     })
                     .then(async text => {
                         if (isMobile) {
@@ -41,7 +65,7 @@ function Markdown({section}) {
                             text = text.toString().replace(originalPath, '/tablet/');
                         }
                         setMarkDown(marked(text.toString()));
-                    });
+                    });*/
             }
         }
         loadMdText();

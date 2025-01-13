@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
-import {API} from "aws-amplify";
+import {put} from "aws-amplify/api";
 import {dateFormatToString} from "../common/common";
 import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
@@ -86,20 +86,22 @@ function Profile(props) {
         console.log(JSON.stringify(profile));
 
         try {
-            await API.put(
-                "updateUserProfile",
-                "/updateUserProfile",
-                {
-                    response: true,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: profile
-                }
-            );
+            const {tokens} = await fetchAuthSession({forceRefresh: true});
+            if(tokens && tokens !== undefined) {
+                await put({
+                    apiName: "updateUserProfile",
+                    path: "/updateUserProfile",
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: profile
+                    }
+                }).response;
+                alert("Your profile is successfully updated");
+            }
             setIsLoading(false);
-            alert("Your profile is successfully updated");
         } catch (error) {
             onError(error);
             setIsLoading(false);

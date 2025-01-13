@@ -2,7 +2,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { API } from "aws-amplify";
+import { post } from "aws-amplify/api";
+import {MONTH_SHORT_NAMES, MONTH_NAMES} from "./constants";
 
 library.add(far, fab, faFacebookF, faGoogle, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp);
 
@@ -78,15 +79,67 @@ export const getQuoteOfTheDay = (capturedQuote) => {
     return str.substring(0, str.length - 3);
 }
 
+export const groupBy = (arr, key) => {
+    return arr.reduce(function(rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
+};
+
+export const dateDifference = (date1, date2) => {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    return d1.getTime() === d2.getTime()
+}
+export const dateFormatWithShortMonthToString = (date) => {
+    const mm = date.getMonth(); // getMonth() is zero-based
+    const dd = date.getDate();
+
+    return [dd,
+        '-',
+        MONTH_SHORT_NAMES[mm],
+        '-',
+        date.getFullYear()
+    ].join('');
+}
+
+export const dateFormatWithLongMonthToString = (date) => {
+    const mm = date.getMonth(); // getMonth() is zero-based
+    const dd = date.getDate();
+
+    return [dd,
+        ' ',
+        MONTH_NAMES[mm],
+        ' ',
+        date.getFullYear()
+    ].join('');
+}
+
 export const dateFormatToString = (date) => {
-    var mm = date.getMonth() + 1; // getMonth() is zero-based
-    var dd = date.getDate();
+    const mm = date.getMonth() + 1; // getMonth() is zero-based
+    const dd = date.getDate();
 
     return [date.getFullYear(),
         '-',
         (mm > 9 ? '' : '0') + mm,
         '-',
         (dd > 9 ? '' : '0') + dd
+    ].join('');
+};
+
+export const yearFormatToString = (date) => {
+    return date.getFullYear();
+};
+
+export const timeFormatToString = (date) => {
+    const hh = date.getHours() + 1; // getMonth() is zero-based
+    const mi = date.getMinutes();
+
+    return [
+        (hh > 9 ? '' : '0') + hh,
+        ':',
+        (mi > 9 ? '' : '0') + mi
     ].join('');
 };
 
@@ -107,6 +160,34 @@ export const dateTimeFormatToString = (date) => {
         (mi > 9 ? '' : '0') + mi
     ].join('');
 };
+
+export const dateTimeFullFormatToString = (date) => {
+    var mm = date.getMonth() + 1; // getMonth() is zero-based
+    var dd = date.getDate();
+    var hh = date.getHours();
+    var mi = date.getMinutes();
+    var ss = date.getSeconds();
+
+    return [date.getFullYear(),
+        '-',
+        (mm > 9 ? '' : '0') + mm,
+        '-',
+        (dd > 9 ? '' : '0') + dd,
+        'T',
+        (hh > 9 ? '' : '0') + hh,
+        ':',
+        (mi > 9 ? '' : '0') + mi,
+        ':',
+        (ss > 9 ? '' : '0') + ss
+    ].join('');
+};
+
+export const capitalizeFirstLetters = (str) => {
+    const words = str.split(" ");
+    return words.map((word) => {
+        return word[0].toUpperCase() + word.substring(1);
+    }).join(" ");
+}
 
 export const base64ToBlob = (b64Data, contentType='', sliceSize= 512) => {
     const byteCharacters = atob(b64Data);
@@ -129,17 +210,16 @@ export const base64ToBlob = (b64Data, contentType='', sliceSize= 512) => {
 }
 
 export const postAuditEntry = async (data) => {
-    const init = {
-        response: true,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: data,
-    }
-    await API.post(
-        'createAuditEntry',
-        '/auditEntry',
-        init
-    )
+    return await post({
+        apiName: 'createAuditEntry',
+        path: '/auditEntry',
+        options: {
+            response: true,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: data,
+        }
+    })
 }

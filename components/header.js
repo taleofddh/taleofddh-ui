@@ -5,7 +5,7 @@ import Icon from "../common/icon";
 
 function Header({country, menus, onLogout}) {
     const { isAuthenticated, userHasAuthenticated } = useSessionContext();
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    /*const ddhomeCountry = getSessionCookie('ddhomeCountry');
     let countryCode;
     if(country.country_code !== undefined) {
         countryCode = country.country_code;
@@ -14,7 +14,7 @@ function Header({country, menus, onLogout}) {
     } else {
         let geolocationData = getSessionStorage('geolocation');
         countryCode = geolocationData.country_code;
-    }
+    }*/
 
     const handleLogout = async () => {
         userHasAuthenticated(false);

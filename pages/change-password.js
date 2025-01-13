@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { API, Auth } from "aws-amplify";
+import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {get} from "aws-amplify/api/server";
+import {updatePassword} from "aws-amplify/auth";
 import {useIndex, useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
@@ -49,14 +51,12 @@ function ChangePassword({ menuList, handleLogout }) {
         event.preventDefault();
         setIsChanging(true);
         try {
-            const currentUser = await Auth.currentAuthenticatedUser();
-            await Auth.changePassword(
-                currentUser,
-                fields.oldPassword,
-                fields.password
-            );
+            await updatePassword({
+                oldPassword: fields.oldPassword,
+                newPassword: fields.password
+            });
             alert("Password has been successfully changed");
-            await router.push("/userprofile",
+            await router.push("/user-profile",
                 "/user-profile"
             );
             setIsChanging(true);
@@ -145,18 +145,27 @@ function ChangePassword({ menuList, handleLogout }) {
 // This function gets called at build time
 export const getStaticProps = async (context) => {
     // Call an external API endpoint to get data
-    const res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
     // return the data
     return {

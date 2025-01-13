@@ -20,21 +20,21 @@ function LoaderButton({id, name, ref, title, type, icon, label, className, disab
     let iconSymbol
     if(icon) {
         iconSymbol =
-            <>
+            <React.Fragment>
                 <FontAwesomeIcon icon={['fab', icon]} />&nbsp;&nbsp;
-            </>
+            </React.Fragment>
     }
 
     return (
         <div
             tabIndex={0}
             id={id}
-            name={name}
             ref={ref}
             defaultValue={label}
             className={`loaderbutton ${className}`}
             title={title}>
             <button type={type}
+                    name={name}
                     disabled={disabled || isLoading}
                     onFocus={onFocus}
                     onBlur={onBlur}

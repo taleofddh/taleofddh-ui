@@ -1,5 +1,11 @@
 import React, { useContext, createContext } from "react";
+import {cognitoUserPoolsTokenProvider} from "aws-amplify/auth/cognito";
+import {CookieStorage} from "aws-amplify/utils";
 import { Cookies } from "react-cookie-consent";
+
+export const setCookieStorage = () =>{
+    cognitoUserPoolsTokenProvider.setKeyValueStorage(new CookieStorage());
+}
 
 export const setSessionCookie = (name, value) => {
     Cookies.remove(name);
@@ -23,6 +29,7 @@ export const removeSessionCookie = (name) => {
     Cookies.remove(name);
 }
 
+/*
 export const setSessionStorage = (name, value) => {
     sessionStorage.removeItem(name);
     sessionStorage.setItem(name, JSON.stringify(value));
@@ -36,6 +43,7 @@ export const getSessionStorage = (name, value) => {
         return JSON.parse(sessionStore);
     }
 }
+*/
 
 export const SessionContext = createContext(getSessionCookie());
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {API} from 'aws-amplify';
+import {post} from "aws-amplify/api";
 import {onError} from "../common/error";
 import {useFormFields} from "../common/hook";
 import TypeInput from "./typeInput";
@@ -140,27 +140,27 @@ function StayConnected(props) {
         console.log("email", fields.email);
         if(validateForm()) {
             setIsLoading(true);
-            const init = {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: {
-                    email: fields.email,
-                    subscribed: true
-                },
+            try {
+                const res = await post({
+                    apiName: "updateSubscription",
+                    path: "/updateSubscription",
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            email: fields.email,
+                            subscribed: true
+                        },
+                    }
+                }).response;
+                setNewSubscription((await res.body.json()));
+                setIsLoading(false);
+            } catch (e) {
+                onError(e);
+                setIsLoading(false);
             }
-            await API.post('updateSubscription', '/updateSubscription', init)
-                .then(response => {
-                    setIsLoading(false);
-                    setNewSubscription(response.data);
-                })
-                .catch(error => {
-                    onError(error);
-                    setIsLoading(false);
-                });
-
         } else {
             alert('Please complete mandatory field(s) correctly marked with *')
         }

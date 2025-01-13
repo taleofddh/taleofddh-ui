@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
-import {API, Auth} from "aws-amplify";
+import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {get} from "aws-amplify/api/server";
 import {useIndex} from '../common/hook'
 import {getSessionCookie, setSessionStorage, useSessionContext} from "../common/session";
 import {onError} from "../common/error";
@@ -12,6 +13,7 @@ import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
+import {fetchAuthSession} from "aws-amplify/auth";
 
 const pagetitle = 'Gallery'
 const source = 'gallery';
@@ -41,7 +43,7 @@ function Gallery({ menuList, handleLogout, data }) {
         }
         const onLoad = async () => {
             try {
-                await Auth.currentSession();
+                await fetchAuthSession({ forceRefresh: true });
                 userHasAuthenticated(true);
             }
             catch(e) {
@@ -106,31 +108,49 @@ function Gallery({ menuList, handleLogout, data }) {
 // This function gets called at build time
 export const getStaticProps = async (context) => {
     // Call an external API endpoint to get data
-    let res = await API.get(
-        'findMenuList',
-        '/menuList/true',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const menuList = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findMenuList',
+                    path: '/menuList/true',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const menuList = await res.data;
+    });
 
-    res = await API.get(
-        'findAlbumList',
-        '/albumList',
-        {
-            response: true,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+    const data = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findAlbumList',
+                    path: '/albumList',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
         }
-    );
-    const data = await res.data;
+    });
 
     // return the data
     return {

@@ -5,6 +5,7 @@ import TypeInput from "./typeInput";
 import TextArea from "./textarea";
 import Loader from "./loader";
 import LoaderButton from "./loaderbutton";
+import {post} from "aws-amplify/api";
 
 function Comment({blogName, type, messages}) {
     const [comments, setComments] = useState(messages);
@@ -17,18 +18,18 @@ function Comment({blogName, type, messages}) {
 
     useEffect( () => {
         const getComments = async () => {
-            const res = await API.post('findArticleCommentList',
-                '/articleCommentList',
-                {
-                    response: true,
+            const res = await post({
+                apiName: "findArticleCommentList",
+                path: "/articleCommentList",
+                options: {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                     },
                     body: {blogName: blogName}
                 }
-            );
-            const result = await res.data;
+            }).response;
+            const result = await res.body.json();
             setComments([...result]);
             setIsLoading(false);
         }
@@ -38,33 +39,33 @@ function Comment({blogName, type, messages}) {
     const submitComment = async (submitEvent) => {
         submitEvent.preventDefault();
         setIsLoading(true);
-        console.log(form.name, form.comment);
+        console.log(feilds.name, feilds.comment);
 
         let comment = {
             blogName: blogName,
-            name: form.name,
-            comment: form.comment,
+            name: fields.name,
+            comment: fields.comment,
             date: JSON.stringify(new Date())
         }
 
-        const response = await API.post(
-            "addArticleComment",
-            "/articleComment",
-            {
-                response: true,
+        const res = await post({
+            apiName: "addArticleComment",
+            path: "/articleComment",
+            options: {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: comment,
+                body: comment
             }
-        );
+        }).response;
+        const result = await res.body.json();
 
         //comment.date = response.data.ops[0].date;
         setComments(comments => [comment, ...comments]);
 
-        setForm({
-            ...form,
+        handleFieldChange({
+            ...fields,
             comment: ''
         });
 
