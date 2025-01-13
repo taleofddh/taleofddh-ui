@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { slide as Menu } from 'react-burger-menu';
 import Icon from "../common/icon";
 import {useSessionContext} from "../common/session";
-import {Auth} from "aws-amplify";
+import {signOut} from "aws-amplify/auth";
 
 function ResponsiveNavigation({menus}) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -79,7 +79,7 @@ function HamnburgerMenuItem({menu}) {
 
     const handleLogout = async (clickEvent) => {
         clickEvent.preventDefault();
-        await Auth.signOut();
+        await signOut();
         userHasAuthenticated(false);
         await router.push("sign-in",
             "/sign-in"
