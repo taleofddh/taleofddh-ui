@@ -2,10 +2,10 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.7.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-6.0.0-blue.svg?cacheSeconds=2592000)
 ![Node Version](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg)
-![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black.svg)
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB.svg)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black.svg)
+![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg)
 ![Private](https://img.shields.io/badge/repository-private-red.svg)
 
 **🌟 The official user interface for Tale of DDH community organization**
