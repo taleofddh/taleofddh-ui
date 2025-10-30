@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function CheckBox({type, id, name, ref, label, note, className, disabled, required, initialState, value, specialText, onChange}) {
+function CheckBox({type = 'checkbox', id, name, ref, label = '', note, className = '', disabled, required = false, initialState = false,
+                      value = false, specialText = {}, onChange = () => {}}) {
     const [focused, setFocused] = useState(false);
     const [checked, setChecked] = useState(!!initialState);
 
@@ -87,17 +88,6 @@ CheckBox.propTypes = {
     specialText: PropTypes.object,
     checked: PropTypes.bool,
     onChange: PropTypes.func
-};
-
-CheckBox.defaultProps = {
-    type: 'checkbox',
-    label: '',
-    className: '',
-    required: false,
-    value: false,
-    specialText: {},
-    checked: false,
-    onChange: () => {}
 };
 
 export default CheckBox;

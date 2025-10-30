@@ -1,4 +1,4 @@
-@import "../common/common";
+@use "../common/common" as *;
 
 .errorframe {
     border-width: 0px;

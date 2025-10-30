@@ -1,4 +1,4 @@
-@import "styles/common/common";
+@use "../common/common" as *;
 
 .check {
     width: auto;

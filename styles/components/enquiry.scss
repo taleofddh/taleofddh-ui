@@ -1,4 +1,4 @@
-@import "../common/common";
+@use "../common/common" as *;
 
 .enquirycontainer {
   width: calc(100% - 30px);

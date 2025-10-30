@@ -1,4 +1,4 @@
-@import "../common/common";
+@use "../common/common" as *;
 
 .select {
     display: inline-block;

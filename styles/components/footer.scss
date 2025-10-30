@@ -1,4 +1,4 @@
-@import "../common/common";
+@use "../common/common" as *;
 
 .footerbar {
     background-color: $color-abbey;

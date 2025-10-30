@@ -1,4 +1,4 @@
-@import "../common/common";
+@use "../common/common" as *;
 
 .countryframe {
     border-width: 0px;

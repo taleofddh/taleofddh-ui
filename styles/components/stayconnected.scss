@@ -1,4 +1,4 @@
-@import "../common/common";
+@use "../common/common" as *;
 
 .stayconnected {
     width: calc(100% - 40px);

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function Select({id, name, ref, label, className, disabled, required, defaultOption, options, initialValue, onChange}) {
+function Select({id, name, ref, label = '', value, note, className = '', disabled, required = false, defaultOption, options = [], initialValue, onChange = () => {}}) {
     const [focused, setFocused] = useState(false);
-    const [value, setValue] = useState(initialValue ? initialValue : defaultOption.value);
+    //const [value, setValue] = useState(initialValue ? initialValue : defaultOption.choice);
 
     const onBlur = () => {
         setFocused(false);
@@ -15,7 +15,7 @@ function Select({id, name, ref, label, className, disabled, required, defaultOpt
 
     const handleChange = (event) => {
         onChange && onChange(event);
-        setValue(event.target.value);
+        //setValue(event.target.value);
     }
 
     let reqdText;
@@ -23,6 +23,13 @@ function Select({id, name, ref, label, className, disabled, required, defaultOpt
         reqdText = '*';
     } else {
         reqdText = '';
+    }
+
+    let noteText;
+    if(note) {
+        noteText = <label className="selectnote">{'(' + note + ')'}</label>;
+    } else {
+        noteText = <></>
     }
 
     let defaultChoice;
@@ -56,15 +63,15 @@ function Select({id, name, ref, label, className, disabled, required, defaultOpt
         <p className={`select ${className}`}>
             <label className="selectlabel">
                 {label}
-                <span className="required">{reqdText}</span>
+                <span className="required"> {reqdText}</span>
             </label>
+            {noteText}
             <select
                 tabIndex={0}
                 id={id}
                 name={name}
                 ref={ref}
                 disabled={disabled}
-                required={reqdText}
                 value={value}
                 onFocus={onFocus}
                 onBlur={onBlur}
@@ -81,6 +88,7 @@ Select.propTypes = {
     name: PropTypes.string.isRequired,
     ref: PropTypes.string,
     label: PropTypes.string,
+    note: PropTypes.string,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     required: PropTypes.bool,
@@ -89,15 +97,6 @@ Select.propTypes = {
     defaultOption: PropTypes.object,
     options: PropTypes.array,
     onChange: PropTypes.func
-};
-
-Select.defaultProps = {
-    label: '',
-    className: '',
-    required: false,
-    value: '',
-    options: [],
-    onChange: () => {}
 };
 
 export default Select;

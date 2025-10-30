@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function TypeInput({id, name, className, countryCode, disabled, initialValue, label, max, maxLength, min, note, onChange, onKeyDown, onSelect,
-                       pattern, placeHolder, ref, required, size, type, title}) {
+function TypeInput({id, name, className = '', countryCode, disabled, initialValue = '', label = '', value, max, maxLength, min, note, onChange = () => {}, onKeyDown, onSelect,
+                       pattern, placeHolder = '', ref, required = true, size = 50, type, inputMode, title = 'Please match the requested format'}) {
     const [focused, setFocused] = useState(false);
-    const [value, setValue] = useState(initialValue);
+    //const [value, setValue] = useState(initialValue);
 
     const [keyDown, setKeyDown] = useState(true);
 
@@ -24,7 +24,7 @@ function TypeInput({id, name, className, countryCode, disabled, initialValue, la
 
     const handleChange = (event) => {
         onChange && onChange(event);
-        setValue(event.target.value);
+        //setValue(event.target.value);
     }
 
     let reqdText;
@@ -45,11 +45,12 @@ function TypeInput({id, name, className, countryCode, disabled, initialValue, la
         <p className={`type ${className}`}>
             <label>
                 {label}
-                <span className="required">{reqdText}</span>
+                <span className="required"> {reqdText}</span>
             </label>
             {noteText}
             <input
                 type={type}
+                inputMode={inputMode}
                 id={id}
                 name={name}
                 ref={ref}
@@ -73,6 +74,7 @@ function TypeInput({id, name, className, countryCode, disabled, initialValue, la
 
 TypeInput.propTypes = {
     type: PropTypes.string,
+    inputMode: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string.isRequired,
     ref: PropTypes.string,
@@ -82,8 +84,8 @@ TypeInput.propTypes = {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     required: PropTypes.bool,
-    min: PropTypes.string,
-    max: PropTypes.string,
+    min: PropTypes.number,
+    max: PropTypes.number,
     maxLength: PropTypes.number,
     initialValue: PropTypes.string,
     value: PropTypes.string,
@@ -91,18 +93,6 @@ TypeInput.propTypes = {
     title: PropTypes.string,
     size: PropTypes.string,
     onChange: PropTypes.func
-};
-
-TypeInput.defaultProps = {
-    label: '',
-    placeHolder: '',
-    className: '',
-    required: true,
-    initialValue: '',
-    value: '',
-    title: 'Please match the requested format',
-    size: '50',
-    onChange: () => {}
 };
 
 export default TypeInput;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BsArrowRepeat } from "react-icons/bs";
 
-function LoaderButton({id, name, ref, title, type, icon, label, className, disabled, onClick, isLoading}) {
+function LoaderButton({id, name, ref, title = '', type, icon, label ='', className = '', disabled = false, onClick = () => {}, isLoading}) {
     const [focused, setFocused] = useState(false);
 
     const onBlur = () => {
@@ -20,21 +20,21 @@ function LoaderButton({id, name, ref, title, type, icon, label, className, disab
     let iconSymbol
     if(icon) {
         iconSymbol =
-            <React.Fragment>
+            <>
                 <FontAwesomeIcon icon={['fab', icon]} />&nbsp;&nbsp;
-            </React.Fragment>
+            </>
     }
 
     return (
         <div
             tabIndex={0}
             id={id}
+            name={name}
             ref={ref}
             defaultValue={label}
             className={`loaderbutton ${className}`}
             title={title}>
             <button type={type}
-                    name={name}
                     disabled={disabled || isLoading}
                     onFocus={onFocus}
                     onBlur={onBlur}
@@ -56,14 +56,6 @@ LoaderButton.propTypes = {
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
     isLoading: PropTypes.bool
-};
-
-LoaderButton.defaultProps = {
-    label: '',
-    title: '',
-    onClick: () => {},
-    className: '',
-    disabled: false
 };
 
 export default LoaderButton;

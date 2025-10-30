@@ -140,7 +140,7 @@ function App({ Component, pageProps }) {
             }
         }
         getLocationData();
-    }, [router]);
+    }, []);
 
     useEffect(() => {
         const onLoad = async () => {
@@ -188,7 +188,7 @@ function App({ Component, pageProps }) {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json'
                             },
-                            body: {email: email, identityId: credentials.identityId, updatedAt: new Date(), lastLogin: new Date()},
+                            body: {email: email, identityId: identityId, updatedAt: new Date(), lastLogin: new Date()},
                         }
                     }).response;
                     //console.log(await res.body.json());
@@ -204,7 +204,7 @@ function App({ Component, pageProps }) {
         }
 
         onLoad();
-    }, [router]);
+    }, []);
 
     const getDdhomeCountry = (ddhomeCountryCallBack) => {
         if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {
@@ -247,7 +247,7 @@ function App({ Component, pageProps }) {
                         buttonClasses="cookieconsentbutton"
                         declineButtonClasses="cookiedeclinebutton"
                         expires={30}
-                        enableDeclineButton={false}
+                        enableDeclineButton={true}
                         onDecline={() => {
                             console.log("User has declined to cookies");
                         }}>
@@ -267,6 +267,7 @@ function App({ Component, pageProps }) {
                 countryName={ddhomeCountry.country_name}
                 countryCode={ddhomeCountry.country_code}
                 handleLogout={handleLogout}
+                authenticated={isAuthenticated}
             />
         </React.Fragment>
     )

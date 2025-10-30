@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function Radio({type, id, name, checked, className, ref, label, disabled, required, value, onChange}) {
+function Radio({type = 'radio', id, name, checked = false, className = '', ref, label = '', disabled, required = false, value = '', onChange = () => {}}) {
     const [focused, setFocused] = useState(false);
 
     const onBlur = () => {
@@ -58,16 +58,6 @@ Radio.propTypes = {
     value: PropTypes.string,
     checked: PropTypes.bool,
     onChange: PropTypes.func
-};
-
-Radio.defaultProps = {
-    label: '',
-    type: 'radio',
-    className: '',
-    required: false,
-    value: '',
-    checked: false,
-    onChange: () => {}
 };
 
 export default Radio;

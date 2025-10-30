@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function TextArea({id, name, className, cols, disabled, initialValue, label, maxLength, onChange, placeHolder, ref,
-                      required, rows, title}) {
+function TextArea({id, name, className = '', cols = 70, disabled, initialValue = '', label, value, maxLength, note = '', onChange = () => {}, placeHolder ='', ref,
+                      required = true, rows = 3, title =''}) {
     const [focused, setFocused] = useState(false);
-    const [value, setValue] = useState(initialValue);
+    //const [value, setValue] = useState(initialValue);
 
     const onBlur = () => {
         setFocused(false);
@@ -16,7 +16,7 @@ function TextArea({id, name, className, cols, disabled, initialValue, label, max
 
     const handleChange = (event) => {
         onChange && onChange(event);
-        setValue(event.target.value);
+        //setValue(event.target.value);
     }
 
     let reqdText;
@@ -26,12 +26,20 @@ function TextArea({id, name, className, cols, disabled, initialValue, label, max
         reqdText = '';
     }
 
+    let noteText;
+    if(note) {
+        noteText = <label className="textnote">{'(' + note + ')'}</label>;
+    } else {
+        noteText = <></>
+    }
+
     return (
         <p className={`text ${className}`}>
             <label>
                 {label}
                 <span className="required">{reqdText}</span>
             </label>
+            {noteText}
             <textarea
                 id={id}
                 name={name}
@@ -67,19 +75,6 @@ TextArea.propTypes = {
     initialValue: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func
-};
-
-TextArea.defaultProps = {
-    label: '',
-    title: '',
-    placeHolder: '',
-    className: '',
-    required: true,
-    rows: 5,
-    cols: 70,
-    initialValue: '',
-    value: '',
-    onChange: () => {}
 };
 
 export default TextArea;

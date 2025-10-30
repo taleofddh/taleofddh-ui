@@ -1,4 +1,4 @@
-@import "common/common";
+@use "common/common" as *;
 
 body {
     font-family: Open Sans, Roboto, Calibri, Verdana, Arial, SunSans-Regular, Sans-Serif;
