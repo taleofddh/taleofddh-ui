@@ -1,0 +1,157 @@
+@use "../common/common" as *;
+
+.albumdetailsframe {
+  border-width: 0px;
+  border-style: solid;
+  border-color: $color-tan;
+  width: 100%;
+  height: auto;
+  margin: 10px 0px;
+  line-height: 22px;
+  padding: 0px;
+  position: relative;
+  background-color: $color-abbey;
+  float: left;
+}
+
+.albumdetailsheader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $color-abbey;
+  border-bottom: 3px solid $color-shark;
+  padding: 5px 0px;
+  width: calc(100% - 20px);
+  margin: 0px 10px;
+}
+
+.albumdetailsgroup {
+  margin-top: 5px;
+  width: 100%;
+  margin-left: 0%;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.albumdetailsimagecontainer {
+  background-color: $color-white;
+  padding: 0px 10px;
+  width:calc(33.33333333% - 30px);
+  margin: 10px 0px 10px 10px;
+  text-align:center;
+  cursor:pointer;
+  border: 0px solid $color-shark;
+}
+
+.albumdetailsimage {
+  width: 100% ;
+  float: left;
+  margin: 0 auto;
+  padding: 10px 0px;
+  text-align: justify;
+  img {
+    margin: 5px 0px 10px 0px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    height: 300px;
+  }
+}
+
+.albumdetailstextcontainer {
+  background-color: $color-white;
+  padding: 0px 10px;
+  width:calc(66.66666667% - 30px);
+  margin: 10px 10px 10px 0px;
+  text-align:center;
+  cursor:pointer;
+  border: 0px solid $color-shark;
+}
+
+.albumdetailstext {
+  width: calc(100% - 10px);
+  float: left;
+  color: $color-abbey;
+  font-size: 0.95rem;
+  font-weight: normal;
+  margin: 0 auto;
+  padding: 10px 5px;
+  text-align: left;
+  p {
+    margin: 5px 0px 10px 0px;
+  }
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.albumdetailsdescription {
+  width: calc(100% - 10px);
+  float: left;
+  color: $color-abbey;
+  font-size: 0.9rem;
+  font-weight: normal;
+  margin: 0 auto;
+  padding: 10px 5px;
+  text-align: left;
+  p {
+    margin: 5px 0px 10px 0px;
+  }
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.albumdetailsgallerycontainer {
+  background-color: $color-white;
+  padding: 0px 10px;
+  width:calc(100% - 40px);
+  margin: 10px;
+  text-align:center;
+  cursor:pointer;
+  border: 0px solid $color-shark;
+}
+
+.albumdetailspiccontrol, .albumdetailstext {
+  margin: 0 auto;
+  padding: 0px;
+  color: $color-shark;
+  font-size: 1rem;
+  text-align: left;
+  a {
+    text-decoration: none;
+    color: $color-hot-cinnamon;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .albumdetailsimagecontainer {
+    width: calc(50% - 15px);
+    margin: 10px 0px 10px 5px;
+    padding:5px 5px;
+  }
+  .albumdetailstextcontainer {
+    width: calc(50% - 15px);
+    margin: 10px 5px 10px 0px;
+    padding:5px 5px;
+  }
+  .albumdetailstitle, .albumdetailsdate, .albumdetailsimage, .albumdetailslocation {
+    width: calc(100% - 10px);
+    padding: 5px 5px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .albumdetailsimagecontainer, .albumdetailstextcontainer {
+    width: calc(100% - 20px);
+    margin: 10px 5px;
+    padding:5px 5px;
+  }
+}

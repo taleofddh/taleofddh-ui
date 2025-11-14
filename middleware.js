@@ -34,6 +34,6 @@ export const config = {
          * Match all request paths except for the public ones starting with:
          * - All publicly available pages
          */
-        //'/((?!about-us|blog|link|travel-guide|gallery|contact-us|sign-in|sign-up|reset-password|change-password|terms-and-conditions|privacy-policy|frequently-asked-questions).*)'
+        //'/((?!about-us|blog|blogs|link|travel-guide|gallery|albums|contact-us|sign-in|sign-up|reset-password|change-password|terms-and-conditions|privacy-policy|frequently-asked-questions).*)'
     ]
 }

@@ -1,0 +1,139 @@
+@use "../common/common" as *;
+
+.listmoduleframe {
+  border-width: 0px;
+  border-style: solid;
+  border-color: $color-tan;
+  width: 100%;
+  height: auto;
+  margin: 10px 0px;
+  line-height: 22px;
+  padding: 0px;
+  position: relative;
+  background-color: $color-nevada;
+  float: left;
+}
+
+.listmoduleheader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $color-abbey;
+  border-bottom: 3px solid $color-abbey;
+  padding: 5px 0px;
+  width: calc(100% - 20px);
+  margin: 0px 10px;
+}
+
+.listmodulegroup {
+  margin-top: 5px;
+  width: 100%;
+  margin-left: 0%;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding-left: 0;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.listmoduleitem {
+  background-color: $color-white;
+  padding: 0px 10px;
+  width:calc(33.3333333% - 40px);
+  margin: 10px;
+  text-align:center;
+  cursor:pointer;
+  border: 0px solid $color-abbey;
+}
+
+.listmoduletitle {
+  width: calc(100% - 10px);
+  float: left;
+  color: $color-shark;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 10px 5px;
+  text-align: center;
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.listmoduledate {
+  width: calc(20% - 10px);
+  float: left;
+  color: $color-abbey;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 10px 5px;
+  text-align: left;
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.listmoduleimage {
+  width: 100% ;
+  float: left;
+  margin: 0 auto;
+  padding: 10px 0px;
+  text-align: justify;
+  img {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+}
+
+.listmodulelocation {
+  width: calc(25% - 10px);
+  float: left;
+  color: $color-abbey;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 10px 5px;
+  text-align: left;
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.listmodulepiccontrol, .listmoduletext {
+  margin: 0 auto;
+  padding: 0px;
+  color: $color-shark;
+  font-size: 1rem;
+  text-align: left;
+  a {
+    text-decoration: none;
+    color: $color-hot-cinnamon;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .listmoduleitem {
+    width: calc(50% - 20px);
+    margin: 10px 5px;
+    padding:5px 5px;
+  }
+  .listmoduletitle, .listmoduledate, .listmoduleimage, .listmodulelocation {
+    width: calc(100% - 10px);
+    padding: 5px 5px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .listmoduleitem {
+    width: calc(100% - 20px);
+    margin: 10px 5px;
+    padding:5px 5px;
+  }
+}

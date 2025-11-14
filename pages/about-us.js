@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import Image from 'next/image';
 import { get } from 'aws-amplify/api/server';
+import { getUrl } from "aws-amplify/storage/server";
 import { runWithAmplifyServerContext } from '../common/serverconfig';
-import {HOST_NAME, INDEX_FLAG, MEDIA_HOST} from "../common/constants";
+import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MEDIA_PROTECTED_HOST, PAGE_REVALIDATE_PERIOD} from "../common/constants";
 import {useIndex, useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
@@ -65,7 +66,8 @@ function AboutUs({ menuList, handleLogout, data }) {
 function Story({story, index, mobile}) {
     let image =
         <div className="storyimage">
-            <Image src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} layout='responsive' width={1} height={1}/>
+            {/*<Image src={MEDIA_HOST + '/images/' + source + '/' + story.image} alt={story.header} layout='responsive' width={1} height={1}/>*/}
+            <img src={story.signedUrl} alt={story.image} />
         </div>
 
     let text =
@@ -145,6 +147,7 @@ export const getStaticProps = async (context) => {
             }
         }
     });
+    console.log(data);
 
     // return the data
     return {
@@ -152,6 +155,7 @@ export const getStaticProps = async (context) => {
             menuList,
             data
         },
+        revalidate: PAGE_REVALIDATE_PERIOD * 2, // In seconds
     }
 }
 

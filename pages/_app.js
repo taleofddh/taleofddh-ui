@@ -23,6 +23,7 @@ import '../styles/globals.scss';
 //Common Styles
 import '../styles/common/icon.scss';
 //Component Styles
+import '../styles/components/albumdetails.scss'
 import '../styles/components/banner.scss';
 import '../styles/components/blogsection.scss';
 import '../styles/components/button.scss';
@@ -38,6 +39,7 @@ import '../styles/components/flagselect.scss';
 import '../styles/components/footer.scss';
 import '../styles/components/header.scss';
 import '../styles/components/label.scss';
+import '../styles/components/listmodule.scss'
 import '../styles/components/loader.scss';
 import '../styles/components/loaderbutton.scss';
 import '../styles/components/login.scss';
@@ -81,6 +83,9 @@ import '../styles/pages/travelguide.scss';
 import '../styles/pages/userprofile.scss';
 //Third Party Styles
 import 'react-tabs/style/react-tabs.css';
+import "react-photo-album/columns.css";
+import "react-photo-album/rows.css";
+import "react-photo-album/styles.css";
 
 configureAmplify();
 

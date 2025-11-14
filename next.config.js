@@ -23,6 +23,11 @@ module.exports = {
         hostname: process.env.NEXT_PUBLIC_MEDIA_DOMAIN,
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: process.env.NEXT_PUBLIC_MEDIA_PROTECTED_DOMAIN,
+        port: '',
+      },
     ],
   },
   async redirects() {

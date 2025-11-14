@@ -5,6 +5,7 @@ export const FUNNY_QUOTE_URL = process.env.NEXT_PUBLIC_FUNNY_QUOTE_URL;
 export const GEOLOCATION_URL = process.env.NEXT_PUBLIC_GEOLOCATION_URL;
 export const GTAG_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTAG_MEASUREMENT_ID;
 export const MEDIA_HOST = process.env.NEXT_PUBLIC_MEDIA_HOST;
+export const MEDIA_PROTECTED_HOST = process.env.NEXT_PUBLIC_MEDIA_PROTECTED_HOST;
 export const GOOGLE_MAP_API_URL = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_URL;
 export const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY
 export const FACEBOOK_APP_URL= process.env.NEXT_PUBLIC_FACEBOOK_APP_URL;
@@ -48,19 +49,18 @@ export const MONTH_SHORT_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul
     "Sep", "Oct", "Nov", "Dec"];
 export const INDEX_FLAG = process.env.NEXT_PUBLIC_INDEX_FLAG.toUpperCase() === 'TRUE'
 export const HOST_NAME = process.env.NEXT_PUBLIC_HOST_NAME;
-export const MEASUREMENT_FLAG = process.env.NEXT_PUBLIC_MEASUREMENT_FLAG.toUpperCase() == 'TRUE'
+export const MEASUREMENT_FLAG = process.env.NEXT_PUBLIC_MEASUREMENT_FLAG.toUpperCase() === 'TRUE'
 export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION
 export const PROTECTED_ROUTES = [
     "/my-account",
     "/my-account/user-profile",
-    "/my-account/event-management",
-    "/my-account/event-attendance",
+    "/my-account/album-management",
     "/my-account/user-management",
     "/my-account/sponsor-management",
     "/my-account/media-upload"
 ]
 
-export const EVENT_REVALIDATE_PERIOD = parseInt(process.env.NEXT_PUBLIC_EVENT_REVALIDATE_PERIOD);
+export const PAGE_REVALIDATE_PERIOD = parseInt(process.env.NEXT_PUBLIC_PAGE_REVALIDATE_PERIOD);
 
 export const AMPLIFY_RESOURCE_CONFIG = {
     Auth: {
@@ -165,6 +165,42 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 region: AWS_CONFIG.apiGateway.REGION
             },
             updatePhotoViewCount: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findHistoricalAlbumCategories: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumCategories: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findHistoricalAlbumSubCategories: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumCategorySubCategories: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findHistoricalAlbumCollections: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumCategorySubCategoryCollections: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumHistoricalNames: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumCategorySubCategoryCollectionNames: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbum: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },

@@ -20,6 +20,10 @@
     line-height: 1.67rem;
 }
 
+.thumbnaillink {
+  text-decoration: none;
+}
+
 .thumbnailstats {
     width: calc(100% - 20px);
     color: $color-white;

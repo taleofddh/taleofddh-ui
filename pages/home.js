@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { get, post } from 'aws-amplify/api/server';
 import { runWithAmplifyServerContext } from '../common/serverconfig';
-import {INDEX_FLAG, HOST_NAME, EVENT_REVALIDATE_PERIOD} from '../common/constants';
+import {INDEX_FLAG, HOST_NAME, PAGE_REVALIDATE_PERIOD} from '../common/constants';
 import Link from "next/link";
 import { useIndex } from '../common/hook';
 import { getSessionCookie } from "../common/session";
