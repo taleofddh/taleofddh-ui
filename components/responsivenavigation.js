@@ -102,10 +102,11 @@ function HamnburgerMenuItem({menu}) {
                 </a>
             ) : (
                 <Link href={menu.link} as={menu.link}>
-                    <span className={router.pathname === menu.link ? 'item ' + activeClassName : 'item'}>
-                        <p className="menuitem">
+                    <p className="menuitem">
+                        <span className={menu.link === '/' && router.asPath === menu.link ||
+                    menu.link !== '/' && router.asPath.startsWith(menu.link) ? 'item ' + activeClassName : 'item'}>
                             <span className="menuitemicon">
-                                <Icon name={menu.icon} fill="#431C5D" />
+                                <Icon name={menu.icon} fill="#FFFFFF" />
                             </span>
                             {menu.name === 'Sign-out' ? (
                                 <span className="menuitemname" onClick={handleLogout}>
@@ -118,8 +119,8 @@ function HamnburgerMenuItem({menu}) {
                                     {menu.name}
                                 </span>
                             )}
-                        </p>
-                    </span>
+                        </span>
+                    </p>
                 </Link>
             )}
         </>)

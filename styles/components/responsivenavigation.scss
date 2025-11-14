@@ -47,7 +47,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .cross {
-  background: $color-blackboard;
+  background: $color-white-dark;
   width: 5px;
   height: 36px;
 }
@@ -58,7 +58,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .menu {
-  background-color: $color-white-dark;
+  background-color: $color-abbey;
   padding: 2.5rem 0rem 0rem;
   font-size: 1rem;
 }
@@ -79,18 +79,19 @@ Note: Beware of modifying this element as it can break the animations - you shou
   -moz-outline-style: none;
 }
 
-.item {
+.menuitem {
+  margin: 0 auto;
   display: block;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: bold;
   line-height: 1.67rem;
   padding: 1rem 1.8rem;
-  color: $color-grape;
+  color: $color-white;
   &:hover {
     background-color: $color-hot-cinnamon;
     color: $color-white;
-    p {
+    /*p {
       span {
         svg {
           path {
@@ -102,14 +103,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
           fill: $color-white;
         }
       }
-    }
+    }*/
   }
-}
-
-.menuitem {
-  margin: 0 auto;
-  padding: 0;
-  line-height: 1.8rem;
 }
 
 .menuitemicon {
@@ -129,8 +124,8 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .activeitem {
-  color: $color-grape;
-  background-color: $color-atlantis;
+  color: $color-white;
+  border-bottom: 2px solid $color-atlantis;
 }
 
 .overlay {

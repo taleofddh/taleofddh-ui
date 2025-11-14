@@ -48,7 +48,7 @@ function MenuItem({menu}) {
                 </a>
             ) : (
                 <Link href={menu.link} as={menu.link}>
-                    <span className={router.asPath === menu.link ? activeClassName : ''}>
+                    <span className={router.asPath.startsWith(menu.link) ? activeClassName : ''}>
                         <p className="menuicon">
                             <Icon name={menu.icon} fill="#FFFFFF" />
                         </p>
