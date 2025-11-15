@@ -2,10 +2,6 @@ version: 1
 settings:
   name: taleofddh-ui
   nodeVersion: 22
-env:
-  variables:
-    NODE_ENV: production
-    NEXT_TELEMETRY_DISABLED: 1
 frontend:
   phases:
     preBuild:
@@ -13,7 +9,7 @@ frontend:
         - nvm install 22
         - nvm use 22
         - node -v
-        - npm install --force
+        - npm install
     build:
       commands:
         - npm run build
