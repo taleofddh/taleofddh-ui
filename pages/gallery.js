@@ -10,9 +10,9 @@ import Footer from "../components/footer";
 import {postAuditEntry} from "../common/common";
 import HistoricalAlbum from "../components/historicalalbum";
 
-const pagetitle = "Albums";
+const pagetitle = "Gallery";
 
-function Albums({menuList, handleLogout, authenticated, historicalAlbumData, source, index, url}) {
+function Gallery({menuList, handleLogout, authenticated, historicalAlbumData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -24,7 +24,7 @@ function Albums({menuList, handleLogout, authenticated, historicalAlbumData, sou
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
                 page: 'albums',
-                message: 'Albums Page Accessed'
+                message: 'Gallery Page Accessed'
             }
         );
     }, [ddhomeCountry]);
@@ -46,7 +46,7 @@ function Albums({menuList, handleLogout, authenticated, historicalAlbumData, sou
 
 // This function gets called at build time
 export const getStaticProps = async ({context}) => {
-    const source = 'albums';
+    const source = 'gallery';
     const index = INDEX_FLAG;
     const url = HOST_NAME;
 
@@ -109,4 +109,4 @@ export const getStaticProps = async ({context}) => {
     }
 }
 
-export default Albums;
+export default Gallery;

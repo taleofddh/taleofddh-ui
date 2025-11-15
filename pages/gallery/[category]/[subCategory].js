@@ -1,25 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../../../../../common/serverconfig";
+import React, {useEffect} from 'react';
+import {runWithAmplifyServerContext} from "../../../common/serverconfig";
 import {get} from "aws-amplify/api/server";
-import {
-    PAGE_REVALIDATE_PERIOD,
-    HOST_NAME,
-    INDEX_FLAG
-} from "../../../../../common/constants";
-import {capitalizeFirstLetters} from "../../../../../common/common";
-import { getSessionCookie } from "../../../../../common/session";
-import Header from '../../../../../components/header';
-import Navigation from '../../../../../components/navigation';
-import ResponsiveNavigation from "../../../../../components/responsivenavigation";
-import Footer from "../../../../../components/footer";
-import {postAuditEntry} from "../../../../../common/common";
-import AlbumDetails from "../../../../../components/albumdetails";
+import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../../../common/constants";
+import {capitalizeFirstLetters} from "../../../common/common";
+import { getSessionCookie } from "../../../common/session";
+import Header from '../../../components/header';
+import Navigation from '../../../components/navigation';
+import ResponsiveNavigation from "../../../components/responsivenavigation";
+import Footer from "../../../components/footer";
+import {postAuditEntry} from "../../../common/common";
+import HistoricalAlbum from "../../../components/historicalalbum";
 
-const pagetitle = "Albums"
+const pagetitle = "Gallery";
 
-function AlbumName({menuList, handleLogout, authenticated, albumData, category, subCategory, collection, name, source, index, url}) {
+function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ historicalAlbumData, category, subCategory, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const path = (category + '/' + subCategory + '/' + collection + '/' + name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase();
 
     useEffect(() => {
         postAuditEntry(
@@ -29,10 +24,10 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
                 page: 'albums',
-                message: name + ' Album Page Accessed'
+                message: subCategory + ' Gallery Page Accessed'
             }
         );
-    }, [ddhomeCountry, name]);
+    }, [ddhomeCountry, subCategory]);
 
     return (
         <>
@@ -41,7 +36,8 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <AlbumDetails source={source} path={path} type={name} album={albumData} photos={albumData.photoList} videos={albumData.videoList}/>
+                    {/*<UpcomingEvent eventType='Upcoming' events={upcomingEventData} subCategory={subCategory} />*/}
+                    <HistoricalAlbum source={source} path={category + '/' + subCategory} type={subCategory} albums={historicalAlbumData} />
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -52,13 +48,13 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
 // This function gets called at build time
 export const getStaticPaths = async ({context}) => {
     // Call an external API endpoint to get data
-    const categorySubCategoryCollectionNames = await runWithAmplifyServerContext({
+    const categorySubCategories = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
                 const { body } = await get(contextSpec, {
-                    apiName: 'findAlbumCategorySubCategoryCollectionNames',
-                    path: '/albumCategorySubCategoryCollectionNames',
+                    apiName: 'findAlbumCategorySubCategories',
+                    path: '/albumCategorySubCategories',
                     options: {
                         headers: {
                             'Accept': 'application/json',
@@ -73,23 +69,17 @@ export const getStaticPaths = async ({context}) => {
             }
         }
     });
-    //console.log("categorySubCategoryCollectionNames", JSON.stringify(categorySubCategoryCollectionNames));
+    //console.log("categorySubCategories", categorySubCategories);
 
     let paths = []
-    for(let i = 0; i < categorySubCategoryCollectionNames.length; i++) {
-        for (let j = 0; j < categorySubCategoryCollectionNames[i].length; j++) {
-            for (let k = 0; k < categorySubCategoryCollectionNames[i][j].length; k++) {
-                for (let l = 0; l < categorySubCategoryCollectionNames[i][j][k].names.length; l++) {
-                    paths = [...paths, {
-                        params: {
-                            category: categorySubCategoryCollectionNames[i][j][k].category.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
-                            subCategory: categorySubCategoryCollectionNames[i][j][k].subCategory.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
-                            collection: categorySubCategoryCollectionNames[i][j][k].collection.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
-                            name: categorySubCategoryCollectionNames[i][j][k].names[l].replace(/&/g, 'and').replace(/ /g, '-').toLowerCase()
-                        }
-                    }]
+    for(let i = 0; i < categorySubCategories.length; i++) {
+        for (let j = 0; j < categorySubCategories[i].subCategories.length; j++) {
+            paths = [...paths, {
+                params: {
+                    category: categorySubCategories[i].category.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
+                    subCategory: categorySubCategories[i].subCategories[j].replace(/&/g, 'and').replace(/ /g, '-').toLowerCase()
                 }
-            }
+            }]
         }
     }
     //console.log("paths", paths);
@@ -103,7 +93,7 @@ export const getStaticPaths = async ({context}) => {
 
 // This function gets called at build time
 export const getStaticProps = async ({ context, params }) => {
-    const source = 'albums';
+    const source = 'gallery';
     const index = INDEX_FLAG;
     const url = HOST_NAME;
 
@@ -132,19 +122,16 @@ export const getStaticProps = async ({ context, params }) => {
 
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     const subCategory = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
-    const collection = capitalizeFirstLetters(`${params.collection}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
-    const name = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
-    //console.log(category, subCategory, collection, name);
-    //console.log(('images/albums/' + category + '/' + subCategory + '/' + collection + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
+    //console.log("category-subCategory", category + "-" + subCategory);
 
     // Call an external API endpoint to get data
-    const albumData = await runWithAmplifyServerContext({
+    const historicalAlbumData = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
                 const { body } = await get(contextSpec, {
-                    apiName: 'findAlbum',
-                    path: '/album/' + encodeURI(category) + '/' + encodeURI(subCategory) + '/' + encodeURI(collection) + '/' + encodeURI(name),
+                    apiName: 'findHistoricalAlbumCollections',
+                    path: '/albumHistoricalCollections/' + encodeURI(category) + '/' + encodeURI(subCategory),
                     options: {
                         headers: {
                             'Accept': 'application/json',
@@ -159,29 +146,23 @@ export const getStaticProps = async ({ context, params }) => {
             }
         }
     });
-    //console.log(JSON.stringify(albumData));
-    const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' | taleofddh';
-    const desc = albumData.description;
-    const img = albumData.signedUrl;
+    //console.log(historicalEventData);
+    const hdr = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Galleries | taleofddh';
 
     // return the data
     return {
         props: {
             menuList,
-            albumData,
+            historicalAlbumData,
             category,
             subCategory,
-            collection,
-            name,
             source,
             index,
             url,
-            hdr,
-            desc,
-            img
+            hdr
         },
         revalidate: PAGE_REVALIDATE_PERIOD * 48, // In seconds
     }
 }
 
-export default AlbumName;
+export default AlbumSubCategories;
