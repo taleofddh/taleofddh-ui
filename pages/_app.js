@@ -18,6 +18,7 @@ import {
 } from "../common/session";
 //import { useFetch, useGet } from "../common/hook";
 import { onError } from '../common/error';
+import MetaTag from "../components/metatag";
 //Global Styles
 import '../styles/globals.scss';
 //Common Styles
@@ -240,6 +241,7 @@ function App({ Component, pageProps }) {
 
     return (
         <React.Fragment>
+            <MetaTag page={pageProps.source} index={pageProps.index} url={pageProps.url} hdr={pageProps.hdr} desc={pageProps.desc} img={pageProps.img} />
             {!isAuthenticating && (
                 <SessionContext.Provider value={{session, isAuthenticated, userHasAuthenticated}}>
                     <CookieConsent

@@ -3,26 +3,23 @@ import { useRouter } from "next/router";
 import {runWithAmplifyServerContext} from "../common/serverconfig";
 import {get} from "aws-amplify/api/server";
 import {updatePassword} from "aws-amplify/auth";
-import {useIndex, useFormFields} from "../common/hook";
+import {useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import { onError } from "../common/error";
 import TypeInput from "../components/typeInput";
-import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import LoaderButton from "../components/loaderbutton";
 import Footer from "../components/footer";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Change Password';
-const source = 'change-password';
 
-function ChangePassword({ menuList, handleLogout }) {
+function ChangePassword({ menuList, handleLogout, source, index, url }) {
     const router = useRouter();
-    const index = useIndex();
-    const [url, setUrl] = useState('');
     const [fields, handleFieldChange] = useFormFields({
         oldPassword: '',
         password: '',
@@ -32,9 +29,6 @@ function ChangePassword({ menuList, handleLogout }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         postAuditEntry(
             {
                 date: new Date(),
@@ -79,7 +73,6 @@ function ChangePassword({ menuList, handleLogout }) {
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="changepasswordframe">
@@ -144,6 +137,10 @@ function ChangePassword({ menuList, handleLogout }) {
 
 // This function gets called at build time
 export const getStaticProps = async (context) => {
+    const source = 'change-password';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -171,6 +168,9 @@ export const getStaticProps = async (context) => {
     return {
         props: {
             menuList,
+            source,
+            index,
+            url
         },
     }
 }

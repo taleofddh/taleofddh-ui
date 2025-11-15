@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {runWithAmplifyServerContext} from "../../../common/serverconfig";
 import { get, post } from 'aws-amplify/api/server';
 import {put} from "aws-amplify/api";
-import {MONTH_NAMES} from "../../../common/constants";
+import {HOST_NAME, INDEX_FLAG, MONTH_NAMES} from "../../../common/constants";
 import {useIndex} from '../../../common/hook'
 import {getSessionCookie, useSessionContext} from "../../../common/session";
 import {onError} from "../../../common/error";
@@ -10,7 +10,7 @@ import Markdown from "../../../components/markdown";
 import Title from "../../../components/title";
 import Loader from "../../../components/loader";
 import MetaTag from "../../../components/metatag";
-import {postAuditEntry} from "../../../common/common";
+import {capitalizeFirstLetters, postAuditEntry} from "../../../common/common";
 import Share from "../../../components/share";
 import Comment from "../../../components/comment";
 import ResponsiveNavigation from "../../../components/responsivenavigation";
@@ -20,18 +20,12 @@ import Footer from "../../../components/footer";
 import marked from "marked";
 
 const pagetitle = 'Blog'
-const source = 'article';
 
-function Article({ menuList, handleLogout, data, category, blogName }) {
-    const index = useIndex();
-    const [url, setUrl] = useState('');
+function Article({ menuList, handleLogout, data, category, blogName, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [countUpdateLoading, setCountUpdateLoading] = useState(true);
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         postAuditEntry(
             {
                 date: new Date(),
@@ -82,14 +76,13 @@ function Article({ menuList, handleLogout, data, category, blogName }) {
                 <ResponsiveNavigation menus={menuList} />
                 <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
-                <MetaTag page={source} index={index} url={url} desc={data.title} img={data.titlePhoto}/>
                 <div className="boxouter">
                     <div className="container">
                         <div className="articleframe">
                             <Title message={data.header} />
                             <div className="articlettitle">{pagetitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
                             <div className="articleshare">
-                                <Share name={blogName} subject={data.header} url={'https://www.taleofddh.com/articles/' + blogName} image={data.titlePhoto}/>
+                                <Share name={blogName} subject={data.header} url={HOST_NAME + '/articles/' + blogName} image={data.titlePhoto}/>
                             </div>
                             <div className="articlecontainer">
                                 {data.contents.map((item, index) => (
@@ -143,6 +136,10 @@ export const getStaticPaths = async () => {
 
 // This function gets called at build time
 export const getStaticProps = async ({ params }) => {
+    const source = 'article';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -195,13 +192,20 @@ export const getStaticProps = async ({ params }) => {
         }
     });
 
+    const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' | taleofddh';
+    const desc = data.title;
+    const img = data.titlePhoto;
+
     // return the data
     return {
         props: {
             menuList,
             data,
             category,
-            blogName
+            blogName,
+            source,
+            index,
+            url
         },
     }
 }

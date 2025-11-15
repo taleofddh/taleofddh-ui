@@ -1,14 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Image from 'next/image';
 import { get } from 'aws-amplify/api/server';
-import { getUrl } from "aws-amplify/storage/server";
 import { runWithAmplifyServerContext } from '../common/serverconfig';
 import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MEDIA_PROTECTED_HOST, PAGE_REVALIDATE_PERIOD} from "../common/constants";
-import {useIndex, useMediaQuery} from '../common/hook';
+import {useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
-import MetaTag from "../components/metatag";
 import StayConnected from "../components/stayconnected";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
@@ -16,19 +14,13 @@ import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 
 const pagetitle = 'About Us'
-const source = 'about-us';
 
-function AboutUs({ menuList, handleLogout, data }) {
-    const index = useIndex();
-    const [url, setUrl] = useState('');
+function AboutUs({ menuList, handleLogout, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const matches = useMediaQuery('screen and (max-width: 820px)');
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         postAuditEntry(
             {
                 date: new Date(),
@@ -46,7 +38,6 @@ function AboutUs({ menuList, handleLogout, data }) {
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="aboutusframe">
@@ -103,6 +94,10 @@ function Story({story, index, mobile}) {
 
 // This function gets called at build time
 export const getStaticProps = async (context) => {
+    const source = 'about-us';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -153,7 +148,10 @@ export const getStaticProps = async (context) => {
     return {
         props: {
             menuList,
-            data
+            data,
+            source,
+            index,
+            url
         },
         revalidate: PAGE_REVALIDATE_PERIOD * 2, // In seconds
     }

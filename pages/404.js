@@ -1,11 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { get } from 'aws-amplify/api/server';
 import { runWithAmplifyServerContext } from '../common/serverconfig';
 import {APP_LONG_NAME, HOST_NAME, INDEX_FLAG} from "../common/constants";
-import {useIndex} from '../common/hook'
 import Title from "../components/title";
-import MetaTag from "../components/metatag";
 import Footer from "../components/footer";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
@@ -13,24 +11,15 @@ import Navigation from "../components/navigation";
 import {getSessionCookie} from "../common/session";
 
 const pagetitle = APP_LONG_NAME + ' Page Not Found';
-const source = 'error';
 
-function Error({menuList, handleLogout}) {
-    const index = useIndex();
-    const [url, setUrl] = useState('');
+function Error({menuList, handleLogout, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    useEffect( () => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
-    }, []);
 
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="errorframe">
@@ -50,6 +39,10 @@ function Error({menuList, handleLogout}) {
 
 // This function gets called at build time
 export const getStaticProps = async ({context}) => {
+    const source = 'error';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -77,6 +70,9 @@ export const getStaticProps = async ({context}) => {
     return {
         props: {
             menuList,
+            source,
+            index,
+            url
         },
     }
 }

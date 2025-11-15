@@ -1,29 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Enquiry from "../components/enquiry";
-import MetaTag from "../components/metatag";
-import {useIndex} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
-import {HOST_NAME, INDEX_FLAG, MEDIA_HOST} from "../common/constants";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 import Footer from "../components/footer";
 import {runWithAmplifyServerContext} from "../common/serverconfig";
 import {get} from "aws-amplify/api/server";
 
 const pagetitle = 'Contact Us';
-const source = 'contact-us';
 
-function ContactUs({handleLogout, menuList}) {
-    const index = useIndex();
-    const [url, setUrl] = useState('');
+function ContactUs({handleLogout, menuList, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         postAuditEntry(
             {
                 date: new Date(),
@@ -41,7 +33,6 @@ function ContactUs({handleLogout, menuList}) {
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="contactusframe">
@@ -64,6 +55,10 @@ function ContactUs({handleLogout, menuList}) {
 
 // This function gets called at build time
 export const getStaticProps = async (context) => {
+    const source = 'contact-us';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -90,7 +85,10 @@ export const getStaticProps = async (context) => {
     // return the data
     return {
         props: {
-            menuList
+            menuList,
+            source,
+            index,
+            url
         },
     }
 }

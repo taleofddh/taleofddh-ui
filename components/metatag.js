@@ -1,14 +1,15 @@
 import React from "react";
 import Head from 'next/head';
+import {MEDIA_HOST} from "../common/constants";
 
-function MetaTag({ page, index, url, desc, img }) {
+function MetaTag({ page, index, url, hdr, desc, img }) {
     let indexMeta;
     if(!index || page === 'error') {
         indexMeta = <meta name="robots" content="noindex" />
     }
     let title;
     let description;
-    let image = url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg';
+    let image = img ? img : MEDIA_HOST + '/images/taleofddh-banner.png';
     switch(page) {
         case 'home':
             title = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal\'s Home | taleofddh';
@@ -17,21 +18,17 @@ function MetaTag({ page, index, url, desc, img }) {
         case 'about-us':
             title = 'The Tale of DDH story, Our mission, journey and background';
             description = 'Meet the team behind taleofddh. We are on a mission to make the delivery of cross-border and local professional-services hassle-free and simple.';
-            image = url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg'
+            image = MEDIA_HOST + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg'
             break;
         case 'contact-us':
             title = 'Contact Us - Service, Support and Enquiries | taleofddh';
             description = 'Contact the taleofddh team for related queries. ' +
                 'Email us for travel blogs, gallery, cooking, technical matters.';
             break;
-        case 'gallery':
-            title = 'Album Galleries - from Vacation, Outing, Celebration and Residence | taleofddh';
-            description = 'Album Galleries - from Vacation, Outing, Celebration and Residence';
-            break;
-        case 'album':
-            title = 'Album Collection - ' + desc + ' | taleofddh';
+        case 'albums':
+            title = hdr ? hdr : 'Albums | taleofddh';
             description = 'Album Collection - ' + desc;
-            image = url + '/images/' + img;
+            image = img? img : image;
             break;
         case 'blog':
             title = 'Blog Articles - for Travel, Recipes & Technology | taleofddh';
@@ -40,7 +37,7 @@ function MetaTag({ page, index, url, desc, img }) {
         case 'article':
             title = 'Blog Article - ' + desc + ' | taleofddh';
             description = 'Blog Article - ' + desc;
-            image = url + '/images/' + img;
+            image = MEDIA_HOST + '/images/' + img;
             break;
         case 'request':
             title = 'Track Request Status | taleofddh';
@@ -55,7 +52,7 @@ function MetaTag({ page, index, url, desc, img }) {
         default:
             title = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal\'s Home | taleofddh';
             description = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
-            image = url + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg';
+            image = MEDIA_HOST + '/images/taleofddh-banner.png';
             break;
     }
     return (

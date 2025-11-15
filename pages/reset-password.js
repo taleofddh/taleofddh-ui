@@ -3,11 +3,10 @@ import Link from 'next/link';
 import {runWithAmplifyServerContext} from "../common/serverconfig";
 import {get} from "aws-amplify/api/server";
 import {resetPassword, confirmResetPassword} from "aws-amplify/auth";
-import {useIndex, useFormFields} from "../common/hook";
+import {useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import { onError } from "../common/error";
 import TypeInput from "../components/typeInput";
-import MetaTag from "../components/metatag";
 import Title from "../components/title";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import LoaderButton from "../components/loaderbutton";
@@ -16,13 +15,11 @@ import ResponsiveNavigation from "../components/responsivenavigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Reset Password';
-const source = 'reset-password';
 
-function ResetPassword({menuList, handleLogout}) {
-    const index = useIndex();
-    const [url, setUrl] = useState('');
+function ResetPassword({menuList, handleLogout, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [fields, handleFieldChange] = useFormFields({
         username: '',
@@ -36,9 +33,6 @@ function ResetPassword({menuList, handleLogout}) {
     const [isSendingCode, setIsSendingCode] = useState(false);
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         postAuditEntry(
             {
                 date: new Date(),
@@ -200,7 +194,6 @@ function ResetPassword({menuList, handleLogout}) {
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="resetpasswordframe">
@@ -220,6 +213,10 @@ function ResetPassword({menuList, handleLogout}) {
 
 // This function gets called at build time
 export const getStaticProps = async ({context}) => {
+    const source = 'reset-password';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -246,7 +243,10 @@ export const getStaticProps = async ({context}) => {
     // return the data
     return {
         props: {
-            menuList
+            menuList,
+            source,
+            index,
+            url
         },
     }
 }

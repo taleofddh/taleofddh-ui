@@ -3,10 +3,8 @@ import {runWithAmplifyServerContext} from "../common/serverconfig";
 import {get} from "aws-amplify/api/server";
 import {get as clientGet} from "aws-amplify/api";
 import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
-import {useIndex} from "../common/hook";
 import {getSessionCookie, useSessionContext} from "../common/session";
 import Title from "../components/title";
-import MetaTag from "../components/metatag";
 import Profile from "../components/profile";
 import Loader from "../components/loader";
 import {postAuditEntry} from "../common/common";
@@ -15,14 +13,12 @@ import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import {onError} from "../common/error";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'My Profile';
-const source = 'my-profile';
 
-function UserProfile({menuList, handleLogout}) {
+function UserProfile({menuList, handleLogout, source, index, url}) {
     const { userHasAuthenticated } = useSessionContext();
-    const index = useIndex();
-    const [url, setUrl] = useState('');
     const [data, setData] = useState({});
     const [loading, isLoading] = useState(true);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -41,9 +37,6 @@ function UserProfile({menuList, handleLogout}) {
     }, [ddhomeCountry]);
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         const onLoad = async () => {
             try {
                 const {identityId} = await fetchAuthSession({ forceRefresh: true });
@@ -79,7 +72,6 @@ function UserProfile({menuList, handleLogout}) {
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <div className="userprofileframe">
@@ -99,6 +91,10 @@ function UserProfile({menuList, handleLogout}) {
 
 // This function gets called at build time
 export const getStaticProps = async ({ params }) => {
+    const source = 'user-profile';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -125,7 +121,10 @@ export const getStaticProps = async ({ params }) => {
     // return the data
     return {
         props: {
-            menuList
+            menuList,
+            source,
+            index,
+            url
         },
     }
 }

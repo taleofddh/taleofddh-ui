@@ -10,7 +10,6 @@ import ResponsiveNavigation from "../../components/responsivenavigation";
 import Footer from "../../components/footer";
 import {postAuditEntry} from "../../common/common";
 import HistoricalAlbum from "../../components/historicalalbum";
-import MetaTag from "../../components/metatag";
 
 const pagetitle = "Albums";
 
@@ -35,7 +34,6 @@ function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEvent
             <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="boxouter">
                 <div className="container">
                     <HistoricalAlbum source={source} path={category} type={category} albums={historicalAlbumData}/>

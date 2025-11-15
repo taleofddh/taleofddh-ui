@@ -1,30 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { get, post } from 'aws-amplify/api/server';
 import { runWithAmplifyServerContext } from '../common/serverconfig';
 import {INDEX_FLAG, HOST_NAME, PAGE_REVALIDATE_PERIOD} from '../common/constants';
-import Link from "next/link";
-import { useIndex } from '../common/hook';
 import { getSessionCookie } from "../common/session";
 import Header from '../components/header';
 import Navigation from '../components/navigation';
 import ResponsiveNavigation from "../components/responsivenavigation";
 import Footer from "../components/footer";
-import MetaTag from "../components/metatag";
-import Collapse from "../components/collapse";
-import StayConnected from '../components/stayconnected';
 import BlogSection from "../components/blogsection";
 import Banner from "../components/banner";
 
-const source = 'home';
-
-function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, promotionData, technicalBlogData, travelBlogData, recipeBlogData}) {
-    const index = useIndex();
-    const [url, setUrl] = useState('');
-    useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
-    }, []);
+function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     /*const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
     const message2 = 'If you have any particular service requirement, that is not currently covered, please ';
@@ -47,7 +33,6 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
             <ResponsiveNavigation menus={menuList} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
-            <MetaTag page={source} index={index} url={url} />
             <div className="promotionbar">
                 <div className="container">
                     <Banner data={promotionData}/>
@@ -70,6 +55,10 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
 
 // This function gets called at build time
 export const getStaticProps = async (context) => {
+    const source = 'home';
+    const index = INDEX_FLAG;
+    const url = HOST_NAME;
+
     // Call an external API endpoint to get data
     const menuList = await runWithAmplifyServerContext({
         nextServerContext: null,
@@ -200,8 +189,12 @@ export const getStaticProps = async (context) => {
             promotionData,
             technicalBlogData,
             travelBlogData,
-            recipeBlogData
+            recipeBlogData,
+            source,
+            index,
+            url
         },
+        revalidate: PAGE_REVALIDATE_PERIOD, // In seconds
     }
 }
 
