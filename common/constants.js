@@ -42,6 +42,8 @@ export const AWS_CONFIG = {
         REDIRECT_SIGN_OUT: process.env.NEXT_PUBLIC_AWS_OATH_REDIRECT_SIGN_OUT
     }
 };
+export const PREPOSITION_LIST = ["of", "for", "on", "in", "to", "with"];
+
 export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ];

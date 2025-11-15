@@ -3,7 +3,7 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab, faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { post } from "aws-amplify/api";
-import {MONTH_SHORT_NAMES, MONTH_NAMES} from "./constants";
+import {MONTH_SHORT_NAMES, MONTH_NAMES, PREPOSITION_LIST} from "./constants";
 
 library.add(far, fab, faFacebookF, faGoogle, faHome, faKey, faDollarSign, faPoundSign, faRupeeSign, faHandshake, faThumbsUp);
 
@@ -185,7 +185,11 @@ export const dateTimeFullFormatToString = (date) => {
 export const capitalizeFirstLetters = (str) => {
     const words = str.split(" ");
     return words.map((word) => {
-        return word[0].toUpperCase() + word.substring(1);
+        if(PREPOSITION_LIST.includes(word.toLowerCase())) {
+            return word;
+        } else {
+            return word[0].toUpperCase() + word.substring(1);
+        }
     }).join(" ");
 }
 

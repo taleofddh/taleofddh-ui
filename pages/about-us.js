@@ -147,7 +147,7 @@ export const getStaticProps = async (context) => {
             }
         }
     });
-    console.log(data);
+    //console.log(data);
 
     // return the data
     return {

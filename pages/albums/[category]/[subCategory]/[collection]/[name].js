@@ -134,7 +134,7 @@ export const getStaticProps = async ({ context, params }) => {
     const subCategory = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     const collection = capitalizeFirstLetters(`${params.collection}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     const name = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
-    console.log(category, subCategory, collection, name);
+    //console.log(category, subCategory, collection, name);
     //console.log(('images/albums/' + category + '/' + subCategory + '/' + collection + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
     // Call an external API endpoint to get data
