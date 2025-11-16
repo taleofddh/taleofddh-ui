@@ -10,12 +10,12 @@
     line-height: 22px;
     padding: 0px 0px 10px;
     position: relative;
-    background-color: $color-shark;
+    background-color: $color-transparent;
     float: left;
 }
 
 .articlecontainer {
-    background-color: $color-white-dark;
+    background-color: $color-nero;
     width: calc(100% - 40px);
     height: auto;
     font-family: Open Sans, Sans-Serif;
@@ -59,7 +59,7 @@
     font-weight: normal;
     font-size: 1rem;
     line-height: 1.67rem;
-    color: $color-abbey;
+    color: $color-white;
     text-align: justify;
     margin: 5px auto;
 }
@@ -74,27 +74,28 @@
 
 .articlemarkdown {
     padding: 0px 10px;
+    color: $color-white;
     table {
         border: 0px solid $color-shark;
         th {
             font-weight: bold;
             color: $color-white-dark;
-            border: 1px solid $color-shark;
+            border: 1px solid $color-white;
             text-align: center;
-            background-color: $color-athens-grey;
+            background-color: $color-transparent;
             padding: 3px 5px;
             img {
                 display: inline-block;
                 width: 2rem;
                 height: 2rem;
-                fill: $color-shark;
+                fill: $color-white;
             }
         }
         td {
-            border: 1px solid $color-shark;
+            border: 1px solid $color-white-darker;
             text-align: center;
             font-weight: normal;
-            color: $color-abbey;
+            color: $color-white;
             padding: 3px 5px;
         }
     }
@@ -102,7 +103,7 @@
         font-family: Open Sans, Lucida Calligraphy, Sans-Serif;
         font-size: 1.1rem;
         font-weight: bold;
-        color: $color-crete;
+        color: $color-atlantis;
         padding: 5px 0px;
         margin: 0 auto;
         font-size-adjust: none;
@@ -113,7 +114,7 @@
         font-family: Open Sans, Lucida Calligraphy, Sans-Serif;
         font-size: 1rem;
         font-weight: bold;
-        color: $color-abbey;
+        color: $color-white-dark;
         padding: 10px 0px;
         margin: 0 0 0 5px;
         font-size-adjust: none;
@@ -127,7 +128,7 @@
             font-family: Open Sans, Sans-Serif;
             font-size: 1rem;
             font-weight: normal;
-            color: $color-abbey;
+            color: $color-white-dark;
         }
     }
     pre {
@@ -155,6 +156,9 @@
         white-space: -o-pre-wrap;    /* Opera 7 */
         word-wrap: break-word;       /* Internet Explorer 5.5+ */
         color: $color-metallic-yellow;
+    }
+    a {
+        color: $color-amber;
     }
 }
 

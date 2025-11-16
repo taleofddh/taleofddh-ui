@@ -49,10 +49,11 @@
 .listmoduletitle {
   width: calc(100% - 10px);
   float: left;
-  color: $color-shark;
+  color: $color-white;
+  background-color: $color-nero;
   font-size: 1.1rem;
   font-weight: bold;
-  margin: 0 auto;
+  margin: 0px 0px 10px 0px;
   padding: 10px 5px;
   text-align: center;
   svg {

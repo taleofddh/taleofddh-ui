@@ -485,7 +485,7 @@
 .promotionbar {
     width: 100%;
     height: auto;
-    background-color: $color-shark;
+    background-color: $color-transparent;
     clear: both;
     float: left;
 }
@@ -497,9 +497,10 @@
     width: 90%;
     height: auto;
     position: relative;
-    margin: 10px 5%;
+    margin: 10px 0%;
+    padding: 0px 5%;
     display: inline-block;
-    background-color: $color-transparent;
+    background-color: $color-nero;
 }
 
 .promotiongroup {

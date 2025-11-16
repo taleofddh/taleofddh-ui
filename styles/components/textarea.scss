@@ -12,7 +12,7 @@
         display: block;
         text-align: left;
         float: left;
-        color: $color-shark;
+        color: $color-white;
         font-family: Open Sans, Sans-Serif;
         font-size: 1rem;
         font-weight: normal;
@@ -23,14 +23,15 @@
         display: block;
         text-align: left;
         float: left;;
-        border: 0px solid $color-tan;
+        border: 1px solid $color-abbey;
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
         -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
         -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
-        color: $color-abbey;
+        background-color: $color-transparent;
+        color: $color-white;
         font-family: Open Sans, Sans-Serif;
         font-size: 1rem;
         font-weight: normal;

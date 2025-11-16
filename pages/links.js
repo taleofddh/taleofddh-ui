@@ -49,13 +49,13 @@ function Links({ menuList, handleLogout, data, source, index, url }) {
                                     {item.external ? (
                                         <a href={item.link} target="_blank" rel="noreferrer">
                                             <p className="linktitle">{item.name}</p>
-                                            <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(97, 137, 47)"/></p>
+                                            <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(134, 194, 50)"/></p>
                                             <p className="linktext">{item.summary}</p>
                                         </a>
                                     ) : (
                                         <Link href={item.link} as={item.link}>
                                             <p className="linktitle">{item.name}</p>
-                                            <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(97, 137, 47)"/></p>
+                                            <p className="linkpiccontrol"><Icon name={item.icon} fill="rgb(134, 194, 50)"/></p>
                                             <p className="linktext">{item.summary}</p>
                                         </Link>
                                     )}

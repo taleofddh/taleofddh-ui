@@ -18,7 +18,7 @@
     font-family: Open Sans, Sans-Serif;
     font-size: 1rem;
     font-weight: normal;
-    color: $color-shark;
+    color: $color-white;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -30,7 +30,7 @@
     font-family: Open Sans, Sans-Serif;
     font-size: 1rem;
     font-weight: normal;
-    color: $color-shark;
+    color: $color-white;
 }
 
 .required {
@@ -82,5 +82,5 @@
 }
 
 .checkboxunchecked {
-    background: $color-white;
+    background: $color-transparent;
 }

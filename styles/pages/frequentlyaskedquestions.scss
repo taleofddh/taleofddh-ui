@@ -9,7 +9,7 @@
     margin: 10px 0px;
     line-height: 22px;
     position: relative;
-    background-color: $color-shark;
+    background-color: $color-transparent;
     float: left;
 }
 
@@ -28,17 +28,21 @@
 }
 
 .faqsection {
+    color: $color-white;
     width: calc(100% - 10px);
     padding: 10px 5px;
     height: auto;
     margin-bottom: 10px;
-    background-color: $color-white-dark;
+    background-color: $color-nero;
     float: left;
+    a {
+        color: $color-amber
+    }
 }
 
 .faqtitle {
     font-weight: bold;
-    color: $color-crete;
+    color: $color-atlantis;
 }
 
 .faq {
@@ -49,7 +53,7 @@
 
 .faqdescription {
     font-weight: normal;
-    color: $color-abbey;
+    color: $color-white;
 }
 
 @media screen and (max-width: 400px) {

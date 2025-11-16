@@ -1,7 +1,7 @@
 @use "../common/common" as *;
 
 .commentcontainer {
-  background-color: $color-white-dark;
+  background-color: $color-nero;
   width: calc(100% - 40px);
   height: auto;
   font-family: Open Sans, Sans-Serif;
@@ -22,17 +22,21 @@
   height: auto;
   margin: 0px 0px 5px;
   padding: 10px 0px;
-  background-color: $color-white-dark;
+  background-color: $color-nero;
   border: 0px solid $color-tan;
   text-align: center;
   float: left;
+}
+
+.commentList {
+  color: $color-white-darker;
 }
 
 .commentheader {
   font-family: Open Sans, Sans-Serif;
   font-size: 1.1rem;
   font-weight: bold;
-  color: $color-shark;
+  color: $color-white-darker;
   padding: 5px 5px;
   margin: 0 auto;
 }

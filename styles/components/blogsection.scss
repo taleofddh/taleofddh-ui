@@ -3,7 +3,7 @@
 .blogsectionheader {
   font-size: 1.3rem;
   font-weight: bold;
-  color: $color-abbey;
+  color: $color-white-darker;
   border-bottom: 3px solid $color-atlantis;
   padding: 5px 0px;
   width: calc(100% - 20px);
@@ -22,7 +22,7 @@
 }
 
 .blogsectionitem {
-  background-color: $color-white;
+  background-color: $color-nero;
   padding:10px;
   width:calc(33.333333% - 40px);
   margin: 10px;
@@ -33,7 +33,7 @@
 }
 
 .blogsectiontitle {
-  color: $color-crete;
+  color: $color-atlantis;
   font-size: 1.1rem;
   font-weight: bold;
   margin: 0 auto;
@@ -44,12 +44,12 @@
 .blogsectionpiccontrol, .blogsectiontext {
   margin: 0 auto;
   padding: 0px;
-  color: $color-shark;
+  color: $color-white;
   font-size: 1rem;
   text-align: left;
   a {
     text-decoration: none;
-    color: $color-hot-cinnamon;
+    color: $color-amber;
   }
 }
 

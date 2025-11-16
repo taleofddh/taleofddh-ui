@@ -9,12 +9,12 @@
     margin: 10px 0px;
     line-height: 22px;
     position: relative;
-    background-color: $color-shark;
+    background-color: $color-transparent;
     float: left;
 }
 
 .policycontainer {
-    background-color: $color-white-dark;
+    background-color: $color-nero;
     width: calc(100% - 40px);
     height: auto;
     color: $color-black;
@@ -35,12 +35,12 @@
 
 .policyheader {
     font-weight: bold;
-    color: $color-crete;
+    color: $color-atlantis;
 }
 
 .policydescription {
     font-weight: normal;
-    color: $color-abbey;
+    color: $color-white;
 }
 
 @media screen and (max-width: 400px) {

@@ -10,7 +10,7 @@
   line-height: 22px;
   padding: 0px;
   position: relative;
-  background-color: $color-abbey;
+  background-color: $color-transparent;
   float: left;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .albumdetailsimagecontainer {
-  background-color: $color-white;
+  background-color: $color-nero;
   padding: 0px 10px;
   width:calc(33.33333333% - 30px);
   margin: 10px 0px 10px 10px;
@@ -64,19 +64,19 @@
 }
 
 .albumdetailstextcontainer {
-  background-color: $color-white;
+  background-color: $color-nero;
   padding: 0px 10px;
   width:calc(66.66666667% - 30px);
   margin: 10px 10px 10px 0px;
   text-align:center;
   cursor:pointer;
-  border: 0px solid $color-shark;
+  border: 0px solid $color-white-darker;
 }
 
 .albumdetailstext {
   width: calc(100% - 10px);
   float: left;
-  color: $color-abbey;
+  color: $color-white;
   font-size: 0.95rem;
   font-weight: normal;
   margin: 0 auto;
@@ -94,7 +94,7 @@
 .albumdetailsdescription {
   width: calc(100% - 10px);
   float: left;
-  color: $color-abbey;
+  color: $color-white;
   font-size: 0.9rem;
   font-weight: normal;
   margin: 0 auto;
@@ -110,7 +110,7 @@
 }
 
 .albumdetailsgallerycontainer {
-  background-color: $color-white;
+  background-color: $color-nero;
   padding: 0px 10px;
   width:calc(100% - 40px);
   margin: 10px;
