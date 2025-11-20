@@ -1,18 +1,18 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../../common/serverconfig";
 import {get} from "aws-amplify/api/server";
 import {get as clientGet} from "aws-amplify/api";
-import {getSessionCookie} from "../common/session";
-import {base64ToBlob, postAuditEntry} from "../common/common";
-import Title from "../components/title";
-import Collapse from "../components/collapse";
-import Visit from "../components/visit";
-import ResponsiveNavigation from "../components/responsivenavigation";
-import Header from "../components/header";
-import Navigation from "../components/navigation";
-import Footer from "../components/footer";
-import {onError} from "../common/error";
-import {HOST_NAME, INDEX_FLAG} from "../common/constants";
+import {getSessionCookie} from "../../common/session";
+import {base64ToBlob, postAuditEntry} from "../../common/common";
+import Title from "../../components/title";
+import Collapse from "../../components/collapse";
+import Visit from "../../components/visit";
+import ResponsiveNavigation from "../../components/responsivenavigation";
+import Header from "../../components/header";
+import Navigation from "../../components/navigation";
+import Footer from "../../components/footer";
+import {onError} from "../../common/error";
+import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 
 const pagetitle = 'Travel Guides - Itinerary, Estimate & Forms';
 

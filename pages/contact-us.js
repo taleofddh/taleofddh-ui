@@ -52,7 +52,6 @@ function ContactUs({handleLogout, menuList, source, index, url}) {
     )
 }
 
-
 // This function gets called at build time
 export const getStaticProps = async (context) => {
     const source = 'contact-us';

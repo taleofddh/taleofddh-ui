@@ -33,18 +33,8 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: '/gallery/photo/:path*',
-        destination: '/albums/:path*',
-        permanent: true,
-      },
-      {
         source: '/blog/article/:path*',
         destination: '/articles/:path*',
-        permanent: true,
-      },
-      {
-        source: '/links/travel-guides',
-        destination: '/travel-guides',
         permanent: true,
       },
     ]
