@@ -1,32 +1,31 @@
 @use "../common/common" as *;
 
 .errorframe {
-    border-width: 0px;
+    border-width: 0;
     border-style: solid;
     border-color: $color-tan;
     width: 100%;
     height: auto;
-    margin: 10px 0px;
+    margin: 10px 0;
     line-height: 1.67rem;
     position: relative;
-    background-color: $color-shark;
+    background-color: $color-transparent;
     float: left;
 }
 
 .errormessage {
-    background-color: $color-white-dark;
-    margin: auto;
-    color: $color-black;
-    font-family: Open Sans, Sans-Serif;
+    background-color: $color-nero;
+    margin: 0 10px 10px;
+    color: $color-white;
+    font-family: Open Sans, Sans-Serif, serif;
     font-size: 1rem;
     font-weight: normal;
     line-height: 1.67rem;
     padding: 0 10px;
-    margin: 0px 10px 10px;
     text-align: justify;
     a {
         text-decoration: underline;
-        color: $color-crete;
+        color: $color-amber;
     }
 }
 

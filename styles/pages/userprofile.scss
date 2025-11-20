@@ -1,7 +1,7 @@
 @use "../common/common" as *;
 
 .userprofileframe {
-    border-width: 0px;
+    border-width: 0;
     border-style: solid;
     border-color: $color-tan;
     width: 60%;
@@ -18,20 +18,20 @@
     width: calc(100% - 30px);
     height: auto;
     line-height: 1.67rem;
-    margin: 0px 10px;
-    padding: 5px 5px 0px;
+    margin: 0 10px;
+    padding: 5px 5px 0;
     background-color: $color-nero;
     float: left;
 }
 
 .userprofile {
-    font-family: Open Sans, Sans-Serif;
+    font-family: Open Sans, Sans-Serif, serif;
     font-size: 1rem;
     font-weight: normal;
     color: $color-white;
     line-height: 1.67rem;
     text-align: justify-all;
-    padding: 5px 0px;
+    padding: 5px 0;
     margin: 0;
 }
 
@@ -45,6 +45,6 @@
 @media screen and (max-width: 400px) {
     .userprofileframe {
         width: 100%;
-        margin-left: 0%;
+        margin-left: 0;
     }
 }
