@@ -4,7 +4,7 @@
   "description": "Tale of DDH Main User Interface",
   "repository": {
     "type": "git",
-    "url": "git@github.com:devadyuti/taleofddh-ui.git"
+    "url": "git@github.com:taleofddh/taleofddh-ui.git"
   },
   "keywords": [
     "web",
@@ -16,7 +16,7 @@
   "author": "Devadyuti Das",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/devadyuti/taleofddh-ui/issues"
+    "url": "https://github.com/taleofddh/taleofddh-ui/issues"
   },
   "homepage": "https://taleofddh.com/",
   "scripts": {

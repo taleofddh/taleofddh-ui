@@ -214,7 +214,7 @@ export const base64ToBlob = (b64Data, contentType='', sliceSize= 512) => {
 }
 
 export const postAuditEntry = async (data) => {
-    return await post({
+    return post({
         apiName: 'createAuditEntry',
         path: '/auditEntry',
         options: {
@@ -225,5 +225,5 @@ export const postAuditEntry = async (data) => {
             },
             body: data,
         }
-    })
+    });
 }

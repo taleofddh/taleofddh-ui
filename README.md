@@ -6,7 +6,7 @@
 ![Node Version](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg)
-![Private](https://img.shields.io/badge/repository-private-red.svg)
+![License](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)
 
 **🌟 The official user interface for Tale of DDH community organization**
 
@@ -22,23 +22,23 @@ Tale of DDH UI is a modern, responsive web application built with Next.js that s
 
 ### ✨ Key Features
 
-- 🎪 **Event Management** - Browse and register for community events
-- 💝 **Charity Initiatives** - Support and track charitable causes
-- 👥 **Member Portal** - Personalized user accounts and profiles
-- 📱 **Responsive Design** - Optimized for all devices
-- 🔐 **Secure Authentication** - AWS Amplify integration
-- 📊 **Media Gallery** - Community photos and videos
-- 🎯 **Sponsorship Management** - Corporate partnership features
-- 📧 **Contact & Enquiry** - Direct communication channels
+- 📝 **Blog Platform** - Technical, Travel, and Recipe blogs with categories
+- 🖼️ **Photo Gallery** - Community photo albums with historical collections
+- 🗺️ **Travel Guides** - Itineraries, estimates, and downloadable travel documents
+- 👥 **User Profiles** - Personalized accounts with authentication
+- 📱 **Responsive Design** - Optimized for all devices and screen sizes
+- 🔐 **Secure Authentication** - AWS Amplify Cognito integration with OAuth
+- 📧 **Contact & Enquiry** - Direct communication forms
+- ℹ️ **About Us** - Community information and stories
 
 ## 🛠️ Built With
 
 This project leverages modern web technologies for optimal performance and user experience:
 
-- **Framework:** [Next.js 15.5.4](https://nextjs.org/) - React framework with SSR/ISR
-- **Frontend:** [React 19.2.0](https://reactjs.org/) - Component-based UI library
-- **Styling:** [Sass](https://sass-lang.com/) - Enhanced CSS with variables and mixins (using modern `@use` syntax)
-- **Authentication:** [AWS Amplify](https://aws.amazon.com/amplify/) - Secure user management
+- **Framework:** [Next.js 15.5.6](https://nextjs.org/) - React framework with SSR/ISR
+- **Frontend:** [React 18.3.1](https://reactjs.org/) - Component-based UI library
+- **Styling:** [Sass 1.93.2](https://sass-lang.com/) - Enhanced CSS with variables and mixins (using modern `@use` syntax)
+- **Authentication:** [AWS Amplify 6.15.7](https://aws.amazon.com/amplify/) - Secure user management
 - **Icons:** [FontAwesome](https://fontawesome.com/) & [React Icons](https://react-icons.github.io/react-icons/)
 - **UI Components:** Various React libraries for enhanced functionality
 
@@ -56,8 +56,8 @@ Ensure you have the following installed on your system:
 
 1. **Clone the repository**
    ```bash
-   git clone git@github.com:addaslough/addaslough-ui.git
-   cd addaslough-ui
+   git clone git@github.com:taleofddh/taleofddh-ui.git
+   cd taleofddh-ui
    ```
 
 2. **Install dependencies**
@@ -68,12 +68,13 @@ Ensure you have the following installed on your system:
    ```
 
 3. **Set up environment variables**
-   ```bash
-   # Copy environment files and configure as needed
-   cp .env.local.example .env.local
-   cp .env.development.local.example .env.development.local
-   cp .env.production.local.example .env.production.local
-   ```
+   
+   Create the following environment files in the project root and configure them with your specific values:
+   - `.env.local` - Shared configuration for all environments
+   - `.env.development.local` - Development-specific settings
+   - `.env.production.local` - Production-specific settings
+   
+   Refer to the [Environment Variables](#️-environment-variables) section below for required configuration values.
 
 4. **Start the development server**
    ```bash
@@ -84,7 +85,7 @@ Ensure you have the following installed on your system:
 
 5. **Open your browser**
 
-   Navigate to [http://localhost:18401](http://localhost:18401) to see the application.
+   Navigate to [http://localhost:19401](http://localhost:19401) to see the application.
 
 ## ⚙️ Environment Variables
 
@@ -98,7 +99,7 @@ The application uses environment variables for configuration across different en
 
 | Variable | Description |
 |----------|-------------|
-| `PORT` | Development server port (18401) |
+| `PORT` | Development server port (19401) |
 | `NEXT_PUBLIC_APP_NAME` | Application identifier |
 | `NEXT_PUBLIC_DOMAIN_NAME` | Primary domain name |
 | `NEXT_PUBLIC_MEDIA_HOST` | Media CDN host URL |
@@ -158,63 +159,10 @@ The application uses environment variables for configuration across different en
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | 🔧 Starts development server on port 18401 |
+| `npm run dev` | 🔧 Starts development server on port 19401 |
 | `npm run build` | 🏗️ Creates optimized production build |
 | `npm run start` | 🚀 Starts production server |
 | `npm run lint` | 🔍 Runs ESLint for code quality checks |
-| `npm run analyze` | 📊 Generates bundle analysis reports |
-| `npm run size-check` | 📏 Validates bundle sizes against budgets |
-| `npm run compress-assets` | 🗜️ Compresses production assets |
-| `npm run build:production` | 🚀 Full optimized production build with compression |
-
-## ⚡ Build Optimization
-
-Advanced optimization system for optimal performance and fast loading times.
-
-### 🎯 Key Achievements
-- **14% Bundle Reduction:** 4.69MB → 4.01MB total size
-- **Dynamic Loading:** Heavy components load on-demand
-- **75% Compression:** Brotli compression for modern browsers
-- **Smart Code Splitting:** 200KB max chunks with intelligent grouping
-
-### 🛠️ Features
-- **Lazy Loading:** React Player, Carousel, PDF Viewer dynamically imported
-- **Bundle Monitoring:** Automated size checks with `npm run size-check`
-- **Asset Compression:** Gzip/Brotli compression in production builds
-- **CI/CD Integration:** Size budget enforcement in GitHub Actions
-
-### 📊 Size Budgets
-| Asset Type | Limit | Purpose |
-|------------|-------|---------|
-| Total JS | 1.2MB | Overall JavaScript budget |
-| Chunks | 200KB | Individual chunk limit |
-| CSS | 100KB | Stylesheet budget |
-| Images | 800KB | Media asset limit |
-
-### 🚀 Production Build
-```bash
-npm run build:production  # Optimized build + compression + validation
-```
-
-### 🔧 Configuration Files
-
-All optimization settings are in the `config/` directory:
-
-| File | Purpose | Usage |
-|------|---------|-------|
-| `size-budget.config.js` | Bundle size limits and thresholds | Used by `npm run size-check` |
-| `bundle-monitoring.yml` | CI/CD monitoring template | Reference for build pipelines |
-
-**Modify Size Budgets:**
-```bash
-# Edit size limits
-nano config/size-budget.config.js
-
-# Test new budgets  
-npm run size-check
-```
-
-> 💡 Configuration files are automatically loaded by build scripts - no manual setup required.
 
 ## 📁 Project Structure
 
@@ -238,6 +186,46 @@ taleofddh-ui/
 - **Media:** Photo galleries and video content
 - **Forms:** Contact, enquiry, membership, and sponsorship forms
 - **Navigation:** Responsive header and navigation components
+
+### 🔐 Middleware & Authentication
+
+The project uses **Next.js middleware** for route protection and authentication management:
+
+**middleware.js** - Handles authentication checks for protected routes
+
+- **Cookie-based Authentication:** Uses the `credential` cookie to verify user authentication status
+- **Protected Routes:** Defined in `common/constants.js` via the `PROTECTED_ROUTES` constant
+- **Redirect Logic:** Unauthenticated users attempting to access protected routes are automatically redirected to `/sign-in`
+
+**Protected Routes:**
+```javascript
+[
+  "/my-account",
+  "/my-account/user-profile",
+  "/my-account/album-management",
+  "/my-account/user-management",
+  "/my-account/sponsor-management",
+  "/my-account/media-upload"
+]
+```
+
+**Authentication Flow:**
+
+1. **Request Interception:** Middleware intercepts all requests matching the configured matcher pattern
+2. **Cookie Verification:** Checks for the presence of the `credential` cookie
+3. **Route Protection:** If the requested path is in `PROTECTED_ROUTES`:
+   - **Authenticated:** User has valid cookie → Request proceeds normally
+   - **Unauthenticated:** No valid cookie → User redirected to `/sign-in` page
+4. **Public Routes:** All other routes allow access without authentication
+
+**Matcher Configuration:**
+
+The middleware applies to all routes except:
+- API routes (`/api/*`)
+- Static files (`/_next/static/*`, `/_next/image/*`)
+- Public assets (`/images/*`, `/videos/*`, `/fonts/*`)
+
+This ensures authentication checks only occur for user-facing pages while allowing unrestricted access to static resources and API endpoints.
 
 ### 🎨 Styling Architecture
 
@@ -271,16 +259,13 @@ The application is hosted on **AWS Amplify** with automatic deployments configur
 
 ### 🏗️ Build Configuration
 
+The `amplify.yml` file defines the build process for AWS Amplify deployments:
+
 ```yaml
-# amplify.yml
 version: 1
 settings:
   name: taleofddh-ui
   nodeVersion: 22
-env:
-  variables:
-    NODE_ENV: production
-    NEXT_TELEMETRY_DISABLED: 1
 frontend:
   phases:
     preBuild:
@@ -291,11 +276,7 @@ frontend:
         - npm install
     build:
       commands:
-        - echo "🚀 Starting optimized production build..."
-        - npm run build:production
-        - echo "📊 Running bundle size check..."
-        - npm run size-check
-        - echo "✅ Production build complete with optimizations!"
+        - npm run build
   artifacts:
     baseDirectory: .next
     files:
@@ -346,10 +327,10 @@ aws amplify get-app --app-id <app-id>
 
 ### 🚨 Deployment Notes
 
-- **Node.js 22:** Required for optimal performance and compatibility
+- **Node.js 22:** Required for optimal performance and compatibility (configured in both `package.json` engines and `amplify.yml`)
 - **Build Time:** Approximately 3-5 minutes depending on changes
 - **Cache Optimization:** Node modules cached for faster subsequent builds
-- **Optimized Build:** Production builds include compression and size validation
+- **Standard Build:** Uses `npm run build` for production-optimized Next.js builds
 
 ## 🤝 Contributing
 
@@ -423,7 +404,22 @@ Found a bug or have a feature idea? We'd love to hear from you!
 
 ## 📄 License
 
-This is a **private repository** owned by Tale of DDH organization. All rights reserved.
+This project is licensed under the **GNU General Public License v3.0 or later (GPL-3.0-or-later)**.
+
+This means you are free to:
+- ✅ **Use** the software for any purpose
+- 📖 **Study** and modify the source code
+- 🤝 **Share** the software with others
+- 📦 **Distribute** modified versions
+
+Under the conditions that:
+- 📝 You must **disclose the source code** when distributing
+- 🔄 You must **license derivative works** under GPL-3.0-or-later
+- ©️ You must **include the original copyright and license notices**
+
+See the [LICENSE](LICENSE) file for full details.
+
+> 🔐 **Repository Access:** This is a private repository. Contact the Tale of DDH organization for access permissions.
 
 ## 👨‍💻 Author
 
