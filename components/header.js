@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import {getSessionCookie, getSessionStorage, removeSessionCookie, useSessionContext} from "../common/session";
+import {APP_LONG_NAME} from "../common/constants";
 import Icon from "../common/icon";
 
-function Header({country, menus, onLogout}) {
-    const { isAuthenticated, userHasAuthenticated } = useSessionContext();
+function Header({country, menus, isAuthenticated, onLogout}) {
     /*const ddhomeCountry = getSessionCookie('ddhomeCountry');
     let countryCode;
     if(country.country_code !== undefined) {
@@ -17,7 +16,6 @@ function Header({country, menus, onLogout}) {
     }*/
 
     const handleLogout = async () => {
-        userHasAuthenticated(false);
         onLogout();
     }
 
@@ -27,7 +25,7 @@ function Header({country, menus, onLogout}) {
                 <div className="header">
                     <div className="taleofddhlogo">
                         <Link href='/home' as='/'>
-                            <img src="/images/taleofddh-banner.png" alt="TaleofDDH Banner"/>
+                            <img src="/images/taleofddh-banner.png" alt={{APP_LONG_NAME} + 'Banner'}/>
                         </Link>
                     </div>
                     <Links menus={menus} isAuthenticated={isAuthenticated} onLogout={handleLogout}/>

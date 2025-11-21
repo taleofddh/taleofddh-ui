@@ -12,7 +12,7 @@ import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Terms & Conditions';
 
-function TermsAndConditions({ menuList, handleLogout, data, source, index, url }) {
+function TermsAndConditions({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {

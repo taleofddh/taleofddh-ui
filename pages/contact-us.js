@@ -13,7 +13,7 @@ import {get} from "aws-amplify/api/server";
 
 const pagetitle = 'Contact Us';
 
-function ContactUs({handleLogout, menuList, source, index, url}) {
+function ContactUs({handleLogout, authenticated, menuList, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     useEffect(() => {
         postAuditEntry(
@@ -31,7 +31,7 @@ function ContactUs({handleLogout, menuList, source, index, url}) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

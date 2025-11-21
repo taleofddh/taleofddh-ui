@@ -19,7 +19,7 @@ import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Reset Password';
 
-function ResetPassword({menuList, handleLogout, source, index, url}) {
+function ResetPassword({menuList, handleLogout, authenticated, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [fields, handleFieldChange] = useFormFields({
         username: '',
@@ -192,7 +192,7 @@ function ResetPassword({menuList, handleLogout, source, index, url}) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

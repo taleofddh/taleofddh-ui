@@ -17,7 +17,7 @@ import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'My Profile';
 
-function UserProfile({menuList, handleLogout, source, index, url}) {
+function UserProfile({menuList, handleLogout, authenticated, source, index, url}) {
     const { userHasAuthenticated } = useSessionContext();
     const [data, setData] = useState({});
     const [loading, isLoading] = useState(true);
@@ -70,7 +70,7 @@ function UserProfile({menuList, handleLogout, source, index, url}) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

@@ -10,7 +10,7 @@ import Footer from "../components/footer";
 import BlogSection from "../components/blogsection";
 import Banner from "../components/banner";
 
-function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
+function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, authenticated, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     /*const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
     const message2 = 'If you have any particular service requirement, that is not currently covered, please ';
@@ -29,27 +29,27 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
     const text = 'Looking for something else?';*/
 
     return (
-        <>
-            <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
-            <Navigation menus={menuList} />
-            <div className="promotionbar">
-                <div className="container">
-                    <Banner data={promotionData}/>
+            <>
+                <ResponsiveNavigation menus={menuList} />
+                <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
+                <Navigation menus={menuList} />
+                <div className="promotionbar">
+                    <div className="container">
+                        <Banner data={promotionData}/>
+                    </div>
                 </div>
-            </div>
-            <div className="boxouter">
-                <div className="container">
-                    <BlogSection category='Technical' blogs={technicalBlogData} />
-                    <BlogSection category='Travel' blogs={travelBlogData} />
-                    <BlogSection category='Recipe' blogs={recipeBlogData} />
-                    {/*<div className="collapseframe">
+                <div className="boxouter">
+                    <div className="container">
+                        <BlogSection category='Technical' blogs={technicalBlogData} />
+                        <BlogSection category='Travel' blogs={travelBlogData} />
+                        <BlogSection category='Recipe' blogs={recipeBlogData} />
+                        {/*<div className="collapseframe">
                         <Collapse header={text} content={defaultMessage} />
                     </div>*/}
+                    </div>
                 </div>
-            </div>
-            <Footer menus={menuList} />
-        </>
+                <Footer menus={menuList} />
+            </>
     )
 }
 

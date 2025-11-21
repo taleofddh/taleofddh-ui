@@ -12,7 +12,7 @@ import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Privacy Policy';
 
-function PrivacyPolicy({ menuList, handleLogout, data, source, index, url }) {
+function PrivacyPolicy({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function PrivacyPolicy({ menuList, handleLogout, data, source, index, url }) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

@@ -12,13 +12,13 @@ import {getSessionCookie} from "../common/session";
 
 const pagetitle = APP_LONG_NAME + ' Page Not Found';
 
-function Error({menuList, handleLogout, source, index, url}) {
+function Error({menuList, handleLogout, authenticated, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

@@ -15,7 +15,7 @@ import Footer from "../components/footer";
 
 const pagetitle = 'Blog'
 
-function Blog({ menuList, handleLogout, data, source, index, url }) {
+function Blog({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const router = useRouter();
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
@@ -50,7 +50,7 @@ function Blog({ menuList, handleLogout, data, source, index, url }) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

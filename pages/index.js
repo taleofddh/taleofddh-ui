@@ -10,7 +10,7 @@ import Footer from "../components/footer";
 import BlogSection from "../components/blogsection";
 import Banner from "../components/banner";
 
-function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
+function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, authenticated, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     /*const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
     const message2 = 'If you have any particular service requirement, that is not currently covered, please ';
@@ -31,7 +31,7 @@ function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, p
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="promotionbar">
                 <div className="container">

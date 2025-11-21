@@ -21,7 +21,7 @@ import marked from "marked";
 
 const pagetitle = 'Blog'
 
-function Article({ menuList, handleLogout, data, category, blogName, source, index, url }) {
+function Article({ menuList, handleLogout, authenticated, data, category, blogName, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [countUpdateLoading, setCountUpdateLoading] = useState(true);
 
@@ -74,7 +74,7 @@ function Article({ menuList, handleLogout, data, category, blogName, source, ind
         ) : (
             <>
                 <ResponsiveNavigation menus={menuList} />
-                <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+                <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
                 <div className="boxouter">
                     <div className="container">

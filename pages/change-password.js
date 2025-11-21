@@ -18,7 +18,7 @@ import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Change Password';
 
-function ChangePassword({ menuList, handleLogout, source, index, url }) {
+function ChangePassword({ menuList, handleLogout, authenticated, source, index, url }) {
     const router = useRouter();
     const [fields, handleFieldChange] = useFormFields({
         oldPassword: '',
@@ -71,7 +71,7 @@ function ChangePassword({ menuList, handleLogout, source, index, url }) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

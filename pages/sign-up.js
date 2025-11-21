@@ -13,7 +13,7 @@ import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
 const pagetitle = 'Sign up';
 
-function SignUp({ menuList, handleLogout, source, index, url }) {
+function SignUp({ menuList, handleLogout, authenticated, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -32,7 +32,7 @@ function SignUp({ menuList, handleLogout, source, index, url }) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

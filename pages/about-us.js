@@ -15,7 +15,7 @@ import Footer from "../components/footer";
 
 const pagetitle = 'About Us'
 
-function AboutUs({ menuList, handleLogout, data, source, index, url }) {
+function AboutUs({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const matches = useMediaQuery('screen and (max-width: 820px)');
@@ -36,7 +36,7 @@ function AboutUs({ menuList, handleLogout, data, source, index, url }) {
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
