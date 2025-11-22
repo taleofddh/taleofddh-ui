@@ -54,12 +54,12 @@ export const HOST_NAME = process.env.NEXT_PUBLIC_HOST_NAME;
 export const MEASUREMENT_FLAG = process.env.NEXT_PUBLIC_MEASUREMENT_FLAG.toUpperCase() === 'TRUE'
 export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION
 export const PROTECTED_ROUTES = [
+    "/gallery",
     "/my-account",
     "/my-account/user-profile",
     "/my-account/album-management",
     "/my-account/user-management",
-    "/my-account/sponsor-management",
-    "/my-account/media-upload"
+    "/my-account/blog-management"
 ]
 
 export const PAGE_REVALIDATE_PERIOD = parseInt(process.env.NEXT_PUBLIC_PAGE_REVALIDATE_PERIOD);
