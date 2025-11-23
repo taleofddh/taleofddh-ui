@@ -3,15 +3,15 @@ import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Enquiry from "../components/enquiry";
 import {getSessionCookie} from "../common/session";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 import Footer from "../components/footer";
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 
-const pagetitle = 'Contact Us';
+const pageTitle = 'Contact Us';
 
 function ContactUs({handleLogout, authenticated, menuList, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -36,7 +36,7 @@ function ContactUs({handleLogout, authenticated, menuList, source, index, url}) 
             <div className="boxouter">
                 <div className="container">
                     <div className="contactusframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <div className="contactuscontainer">
                             <div className="fieldcontainer">
                                 <p className="contactus"><label>Want to get in touch?</label></p>

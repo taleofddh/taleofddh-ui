@@ -4,7 +4,7 @@ import {fetchAuthSession} from "aws-amplify/auth";
 import {post} from "aws-amplify/api";
 import {onError} from "../common/error";
 import Loader from "./loader";
-import LoaderButton from "./loaderbutton";
+import LoaderButton from "./loader-button";
 import {dateTimeFormatToString} from '../common/common';
 
 function EmailAdmin(props) {

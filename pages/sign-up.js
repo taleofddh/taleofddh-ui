@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
 import Registration from "../components/registration";
 import {getSessionCookie} from "../common/session";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
-const pagetitle = 'Sign up';
+const pageTitle = 'Sign up';
 
 function SignUp({ menuList, handleLogout, authenticated, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -37,7 +37,7 @@ function SignUp({ menuList, handleLogout, authenticated, source, index, url }) {
             <div className="boxouter">
                 <div className="container">
                     <div className="signupframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <Registration source={source} />
                     </div>
                 </div>

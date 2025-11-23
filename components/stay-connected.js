@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {post} from "aws-amplify/api";
 import {onError} from "../common/error";
 import {useFormFields} from "../common/hook";
-import TypeInput from "./typeInput";
-import LoaderButton from "./loaderbutton";
+import TypeInput from "./type-input";
+import LoaderButton from "./loader-button";
 import Label from "./label";
 import Radio from "./radio";
 

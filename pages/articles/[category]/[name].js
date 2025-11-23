@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../../../common/serverconfig";
+import {runWithAmplifyServerContext} from "../../../common/server-config";
 import { get, post } from 'aws-amplify/api/server';
 import {put} from "aws-amplify/api";
 import {HOST_NAME, INDEX_FLAG, MONTH_NAMES} from "../../../common/constants";
@@ -13,13 +13,13 @@ import MetaTag from "../../../components/metatag";
 import {capitalizeFirstLetters, postAuditEntry} from "../../../common/common";
 import Share from "../../../components/share";
 import Comment from "../../../components/comment";
-import ResponsiveNavigation from "../../../components/responsivenavigation";
+import ResponsiveNavigation from "../../../components/responsive-navigation";
 import Header from "../../../components/header";
 import Navigation from "../../../components/navigation";
 import Footer from "../../../components/footer";
 import marked from "marked";
 
-const pagetitle = 'Blog'
+const pageTitle = 'Blog'
 
 function Article({ menuList, handleLogout, authenticated, data, category, blogName, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -80,7 +80,7 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
                     <div className="container">
                         <div className="articleframe">
                             <Title message={data.header} />
-                            <div className="articlettitle">{pagetitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
+                            <div className="articlettitle">{pageTitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
                             <div className="articleshare">
                                 <Share name={blogName} subject={data.header} url={HOST_NAME + '/articles/' + blogName} image={data.titlePhoto}/>
                             </div>
@@ -88,7 +88,7 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
                                 {data.contents.map((item, index) => (
                                     <Markdown section={item} key={index} />
                                 ))}
-                                <Comment type={pagetitle.toLowerCase()} blogName={data.name}/>
+                                <Comment type={pageTitle.toLowerCase()} blogName={data.name}/>
                             </div>
                         </div>
                     </div>

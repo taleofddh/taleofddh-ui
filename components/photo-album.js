@@ -5,7 +5,7 @@ import Title from './title';
 import Carousel from "./carousel";
 import ReactPlayer from "react-player";
 
-function AlbumDetails({ source, path, type, album, photos, videos }) {
+function PhotoAlbum({ source, path, type, album, photos, videos }) {
     return (
         <div className="albumdetailsframe">
             <Title message={album.name} />
@@ -37,4 +37,4 @@ function AlbumDetails({ source, path, type, album, photos, videos }) {
     )
 }
 
-export default AlbumDetails;
+export default PhotoAlbum;

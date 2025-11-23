@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../../../common/serverconfig";
+import {runWithAmplifyServerContext} from "../../../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../../../common/constants";
 import {capitalizeFirstLetters} from "../../../common/common";
 import { getSessionCookie } from "../../../common/session";
 import Header from '../../../components/header';
 import Navigation from '../../../components/navigation';
-import ResponsiveNavigation from "../../../components/responsivenavigation";
+import ResponsiveNavigation from "../../../components/responsive-navigation";
 import Footer from "../../../components/footer";
 import {postAuditEntry} from "../../../common/common";
-import HistoricalAlbum from "../../../components/historicalalbum";
+import HistoricalAlbum from "../../../components/historical-album";
 
-const pagetitle = "Gallery";
+const pageTitle = "Gallery";
 
 function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ historicalAlbumData, category, subCategory, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');

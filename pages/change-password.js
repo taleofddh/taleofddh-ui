@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {updatePassword} from "aws-amplify/auth";
 import {useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import { onError } from "../common/error";
-import TypeInput from "../components/typeInput";
+import TypeInput from "../components/type-input";
 import Title from "../components/title";
-import LoaderButton from "../components/loaderbutton";
+import LoaderButton from "../components/loader-button";
 import Footer from "../components/footer";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
-const pagetitle = 'Change Password';
+const pageTitle = 'Change Password';
 
 function ChangePassword({ menuList, handleLogout, authenticated, source, index, url }) {
     const router = useRouter();
@@ -76,7 +76,7 @@ function ChangePassword({ menuList, handleLogout, authenticated, source, index, 
             <div className="boxouter">
                 <div className="container">
                     <div className="changepasswordframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <form key="ChangePasswordForm" name="ChangePasswordForm" onSubmit={handleChangeClick}>
                             <div className="changepasswordcontainer">
                                 <div className="changepasswordfieldcontainer">

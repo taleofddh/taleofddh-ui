@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../../../../../common/serverconfig";
+import {runWithAmplifyServerContext} from "../../../../../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {
     PAGE_REVALIDATE_PERIOD,
@@ -10,12 +10,12 @@ import {capitalizeFirstLetters} from "../../../../../common/common";
 import { getSessionCookie } from "../../../../../common/session";
 import Header from '../../../../../components/header';
 import Navigation from '../../../../../components/navigation';
-import ResponsiveNavigation from "../../../../../components/responsivenavigation";
+import ResponsiveNavigation from "../../../../../components/responsive-navigation";
 import Footer from "../../../../../components/footer";
 import {postAuditEntry} from "../../../../../common/common";
-import AlbumDetails from "../../../../../components/albumdetails";
+import PhotoAlbum from "../../../../../components/photo-album";
 
-const pagetitle = "Gallery"
+const pageTitle = "Gallery"
 
 function AlbumName({menuList, handleLogout, authenticated, albumData, category, subCategory, collection, name, source, index, url, }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -41,7 +41,7 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <AlbumDetails source={source} path={path} type={name} album={albumData} photos={albumData.photoList} videos={albumData.videoList}/>
+                    <PhotoAlbum source={source} path={path} type={name} album={albumData} photos={albumData.photoList} videos={albumData.videoList}/>
                 </div>
             </div>
             <Footer menus={menuList} />

@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
 import Image from 'next/image';
 import { get } from 'aws-amplify/api/server';
-import { runWithAmplifyServerContext } from '../common/serverconfig';
+import { runWithAmplifyServerContext } from '../common/server-config';
 import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MEDIA_PROTECTED_HOST, PAGE_REVALIDATE_PERIOD} from "../common/constants";
 import {useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
-import StayConnected from "../components/stayconnected";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import StayConnected from "../components/stay-connected";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 
-const pagetitle = 'About Us'
+const pageTitle = 'About Us'
 
 function AboutUs({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -41,7 +41,7 @@ function AboutUs({ menuList, handleLogout, authenticated, data, source, index, u
             <div className="boxouter">
                 <div className="container">
                     <div className="aboutusframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         {data.map((item, i) => (
                             <Story key={i} story={item} index={i} mobile={matches} />
                         ))}

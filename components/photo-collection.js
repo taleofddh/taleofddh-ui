@@ -5,7 +5,7 @@ import {RowsPhotoAlbum} from 'react-photo-album';
 import Icon from "../common/icon";
 import Title from "./title";
 
-function PhotoAlbum({ source, path, type, albums, onClick }) {
+function PhotoCollection({ source, path, type, albums, onClick }) {
     const photos = albums.map((item, index) => {
         return {
             src: item.signedUrl,
@@ -26,6 +26,7 @@ function PhotoAlbum({ source, path, type, albums, onClick }) {
     return (
         <div className="galleryframe">
             <Title message={type + ' ' + source} />
+            <div className="gallerycontainer">
             <RowsPhotoAlbum photos={photos}
                             spacing={0}
                             padding={5}
@@ -40,6 +41,7 @@ function PhotoAlbum({ source, path, type, albums, onClick }) {
 
                             }}
                             onClick={handleAlbumClick} />
+            </div>
         </div>
     )
 }
@@ -86,4 +88,4 @@ const Caption = ({ photo, index }) => {
 };
 
 
-export default PhotoAlbum;
+export default PhotoCollection;

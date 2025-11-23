@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {API} from "aws-amplify";
 import {useFormFields} from "../common/hook";
-import TypeInput from "./typeInput";
+import TypeInput from "./type-input";
 import TextArea from "./textarea";
 import Loader from "./loader";
-import LoaderButton from "./loaderbutton";
+import LoaderButton from "./loader-button";
 import {post} from "aws-amplify/api";
 
 function Comment({blogName, type, messages}) {

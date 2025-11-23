@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { signInWithRedirect } from "aws-amplify/auth";
-import LoaderButton from "./loaderbutton";
+import LoaderButton from "./loader-button";
 
 function FacebookButton({onLogin, route}) {
     const [isLoading, setIsLoading] = useState(false);

@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
 import Link from 'next/link';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {getSessionCookie} from "../common/session";
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
-const pagetitle = 'Frequently Asked Questions'
+const pageTitle = 'Frequently Asked Questions'
 
 function FrequentlyAskedQuestions({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -37,7 +37,7 @@ function FrequentlyAskedQuestions({ menuList, handleLogout, authenticated, data,
             <div className="boxouter">
                 <div className="container">
                     <div className="faqframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <div className="faqcontainer">
                             {data.map((item, index) => (
                                 <FAQ key={index} faq={item} />

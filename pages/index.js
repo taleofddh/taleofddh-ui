@@ -1,13 +1,13 @@
 import React from 'react';
 import { get, post } from 'aws-amplify/api/server';
-import { runWithAmplifyServerContext } from '../common/serverconfig';
+import { runWithAmplifyServerContext } from '../common/server-config';
 import {INDEX_FLAG, HOST_NAME, PAGE_REVALIDATE_PERIOD} from '../common/constants';
 import { getSessionCookie } from "../common/session";
 import Header from '../components/header';
 import Navigation from '../components/navigation';
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Footer from "../components/footer";
-import BlogSection from "../components/blogsection";
+import BlogSection from "../components/blog-section";
 import Banner from "../components/banner";
 
 function Home({geolocationData, ddhomeCountryCallBack, menuList, handleLogout, authenticated, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {

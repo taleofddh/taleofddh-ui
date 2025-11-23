@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {getSessionCookie} from "../common/session";
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
-const pagetitle = 'Terms & Conditions';
+const pageTitle = 'Terms & Conditions';
 
 function TermsAndConditions({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -36,7 +36,7 @@ function TermsAndConditions({ menuList, handleLogout, authenticated, data, sourc
             <div className="boxouter">
                 <div className="container">
                     <div className="termsandconditionsframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <div className="termcontainer">
                             {data.map((item, index) => {
                                 return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from './title';
-import ListModule from "./listmodule";
+import ListModule from "./list-module";
 import ReactHtmlParser from "react-html-parser";
 import {marked} from "marked";
 

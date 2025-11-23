@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import { useRouter } from 'next/router';
 import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
-import TypeInput from "./typeInput";
+import TypeInput from "./type-input";
 import TextArea from "./textarea";
-import LoaderButton from "./loaderbutton";
+import LoaderButton from "./loader-button";
 import { post } from "aws-amplify/api";
 import {onError} from "../common/error";
 

@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
 import {useRouter} from "next/router";
 import Image from 'next/image';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MONTH_NAMES} from "../common/constants";
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
 import Icon from "../common/icon";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 
-const pagetitle = 'Blog'
+const pageTitle = 'Blog'
 
 function Blog({ menuList, handleLogout, authenticated, data, source, index, url }) {
     const router = useRouter();
@@ -55,7 +55,7 @@ function Blog({ menuList, handleLogout, authenticated, data, source, index, url 
             <div className="boxouter">
                 <div className="container">
                     <div className="blogframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <ul className="bloggroup">
                             {data.map((item, index) => (
                                 <li key={index} className="blogitem" onClick={(e) => handleClick(e, item)}>

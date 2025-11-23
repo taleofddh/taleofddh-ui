@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {get as clientGet} from "aws-amplify/api";
 import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
@@ -8,14 +8,14 @@ import Title from "../components/title";
 import Profile from "../components/profile";
 import Loader from "../components/loader";
 import {postAuditEntry} from "../common/common";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import {onError} from "../common/error";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
-const pagetitle = 'My Profile';
+const pageTitle = 'My Profile';
 
 function UserProfile({menuList, handleLogout, authenticated, source, index, url}) {
     const { userHasAuthenticated } = useSessionContext();
@@ -75,7 +75,7 @@ function UserProfile({menuList, handleLogout, authenticated, source, index, url}
             <div className="boxouter">
                 <div className="container">
                     <div className="userprofileframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         {loading ? (
                             <Loader loading={loading} />
                         ) : (

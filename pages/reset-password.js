@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Link from 'next/link';
-import {runWithAmplifyServerContext} from "../common/serverconfig";
+import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {resetPassword, confirmResetPassword} from "aws-amplify/auth";
 import {useFormFields} from "../common/hook";
 import {postAuditEntry} from "../common/common";
 import { onError } from "../common/error";
-import TypeInput from "../components/typeInput";
+import TypeInput from "../components/type-input";
 import Title from "../components/title";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import LoaderButton from "../components/loaderbutton";
+import LoaderButton from "../components/loader-button";
 import {getSessionCookie} from "../common/session";
-import ResponsiveNavigation from "../components/responsivenavigation";
+import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 
-const pagetitle = 'Reset Password';
+const pageTitle = 'Reset Password';
 
 function ResetPassword({menuList, handleLogout, authenticated, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -197,7 +197,7 @@ function ResetPassword({menuList, handleLogout, authenticated, source, index, ur
             <div className="boxouter">
                 <div className="container">
                     <div className="resetpasswordframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         {!codeSent
                             ? renderRequestCodeForm()
                             : !confirmed

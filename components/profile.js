@@ -6,10 +6,10 @@ import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import countries from "../common/countries";
-import TypeInput from "./typeInput";
+import TypeInput from "./type-input";
 import TextArea from "./textarea";
 import CheckBox from "./checkbox";
-import LoaderButton from "./loaderbutton";
+import LoaderButton from "./loader-button";
 import Select from "./select";
 import Radio from "./radio";
 

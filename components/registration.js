@@ -5,10 +5,10 @@ import {fetchAuthSession, signUp, confirmSignUp, signIn} from 'aws-amplify/auth'
 import { useFormFields } from "../common/hook";
 import { getSessionCookie, setSessionCookie } from "../common/session";
 import { onError } from "../common/error";
-import TypeInput from "./typeInput";
-import LoaderButton from "./loaderbutton";
-import FacebookButton from "./facebookbutton";
-import GoogleButton from "./googlebutton";
+import TypeInput from "./type-input";
+import LoaderButton from "./loader-button";
+import FacebookButton from "./facebook-button";
+import GoogleButton from "./google-button";
 
 function Registration() {
     const router = useRouter();

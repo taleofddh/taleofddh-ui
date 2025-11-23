@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../../../../common/serverconfig";
+import {runWithAmplifyServerContext} from "../../../../common/server-config";
 import {useRouter} from "next/router";
 import {get} from "aws-amplify/api/server";
 import {
@@ -11,13 +11,13 @@ import {capitalizeFirstLetters} from "../../../../common/common";
 import { getSessionCookie } from "../../../../common/session";
 import Header from '../../../../components/header';
 import Navigation from '../../../../components/navigation';
-import ResponsiveNavigation from "../../../../components/responsivenavigation";
+import ResponsiveNavigation from "../../../../components/responsive-navigation";
 import Footer from "../../../../components/footer";
 import {postAuditEntry} from "../../../../common/common";
-import HistoricalAlbum from "../../../../components/historicalalbum";
-import PhotoAlbum from "../../../../components/photoalbum";
+import HistoricalAlbum from "../../../../components/historical-album";
+import PhotoCollection from "../../../../components/photo-collection";
 
-const pagetitle = "Gallery"
+const pageTitle = "Gallery"
 
 function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbumData, category, subCategory, collection, source, index, url}) {
     const router = useRouter();
@@ -60,7 +60,7 @@ function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbu
             <div className="boxouter">
                 <div className="container">
                     {/*<HistoricalAlbum source={source} path={category + '/' + subCategory + '/' + collection} type={collection} albums={historicalAlbumData} />*/}
-                    <PhotoAlbum albums={historicalAlbumData} source={source} path={category + '/' + subCategory + '/' + collection} type={collection} />
+                    <PhotoCollection albums={historicalAlbumData} source={source} path={category + '/' + subCategory + '/' + collection} type={collection} />
                 </div>
             </div>
             <Footer menus={menuList} />

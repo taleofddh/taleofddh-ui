@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../../common/serverconfig";
+import {runWithAmplifyServerContext} from "../../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {get as clientGet} from "aws-amplify/api";
 import {getSessionCookie} from "../../common/session";
@@ -7,14 +7,14 @@ import {base64ToBlob, postAuditEntry} from "../../common/common";
 import Title from "../../components/title";
 import Collapse from "../../components/collapse";
 import Visit from "../../components/visit";
-import ResponsiveNavigation from "../../components/responsivenavigation";
+import ResponsiveNavigation from "../../components/responsive-navigation";
 import Header from "../../components/header";
 import Navigation from "../../components/navigation";
 import Footer from "../../components/footer";
 import {onError} from "../../common/error";
 import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 
-const pagetitle = 'Travel Guides - Itinerary, Estimate & Forms';
+const pageTitle = 'Travel Guides - Itinerary, Estimate & Forms';
 
 function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
@@ -102,7 +102,7 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData, s
             <div className="boxouter">
                 <div className="container">
                     <div className="travelguideframe">
-                        <Title message={pagetitle} />
+                        <Title message={pageTitle} />
                         <div className="travelguidecontainer">
                             <Visit data={visitData} />
                             {/*<CollapseFolder items={items} />*/}

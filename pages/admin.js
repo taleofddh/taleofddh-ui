@@ -15,9 +15,9 @@ import MetaTag from "../components/metatag";
 import Loader from "../components/loader";
 import Title from "../components/title";
 import {onError} from "../common/error";
-import EmailAdmin from "../components/emailadmin";
+import EmailAdmin from "../components/email-admin";
 
-const pagetitle = 'Administration';
+const pageTitle = 'Administration';
 const source = 'admin';
 
 function Admin(props) {
@@ -95,7 +95,7 @@ function Admin(props) {
                         {isAuthenticated && isAdmin ? (
                             <div className="container" style={{width: '100%'}}>
                                 <div className="adminframe">
-                                    <Title message={pagetitle} />
+                                    <Title message={pageTitle} />
                                     <div className="admincontainer">
                                         <Tabs>
                                             <TabList>
@@ -119,7 +119,7 @@ function Admin(props) {
                         ) : (
                             <div className="container">
                                 <div className="adminframe">
-                                    <Title message={pagetitle + ' Not Found'} />
+                                    <Title message={pageTitle + ' Not Found'} />
                                     <div className="errormessage">
                                         <p>Your are not authorised to access the page. This page is only available for selected users.</p>
                                         <p>Please visit <NavLink to="/">Taleofddh Home Page</NavLink>  or <NavLink to="/sign-in">Sign-in</NavLink> to search for features</p>
