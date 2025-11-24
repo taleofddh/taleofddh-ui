@@ -73,7 +73,7 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
             <Loader loading={countUpdateLoading} />
         ) : (
             <>
-                <ResponsiveNavigation menus={menuList} />
+                <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
                 <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
                 <Navigation menus={menuList} />
                 <div className="boxouter">

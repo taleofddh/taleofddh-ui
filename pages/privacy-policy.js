@@ -30,7 +30,7 @@ function PrivacyPolicy({ menuList, handleLogout, authenticated, data, source, in
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">

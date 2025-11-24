@@ -6,7 +6,7 @@ import Icon from "../common/icon";
 import {useSessionContext} from "../common/session";
 import {signOut} from "aws-amplify/auth";
 
-function ResponsiveNavigation({menus}) {
+function ResponsiveNavigation({menus, isAuthenticated}) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleStateChange = (state) => {
@@ -41,7 +41,7 @@ function ResponsiveNavigation({menus}) {
                     {menus.map((item, index) => {
                         return (
                             <label key={index} className="itemwrapper" onClick={closeMenu}>
-                                <HamnburgerMenuItem menu={item} onClick={closeMenu}/>
+                                <HamburgerMenuItem menu={item} isAuthenticated={isAuthenticated} onClick={closeMenu}/>
                             </label>
                         )
                     })}
@@ -52,8 +52,7 @@ function ResponsiveNavigation({menus}) {
 
 }
 
-function HamnburgerMenuItem({menu}) {
-    const { isAuthenticated, userHasAuthenticated } = useSessionContext();
+function HamburgerMenuItem({menu, isAuthenticated}) {
     const router = useRouter();
     //var isActive = this.props.location.pathname === this.props.menu.link;
     var activeClassName;
@@ -67,7 +66,9 @@ function HamnburgerMenuItem({menu}) {
         exact = {"exact": true};
     }
     let visible = false;
-    if(menu.condition === 'NA') {
+    if(menu.type === 'NA') {
+        visible = false;
+    } else if(menu.condition === 'NA') {
         visible = true;
     } else if (menu.condition === 'No Auth' && !isAuthenticated) {
         visible = true;
@@ -80,7 +81,6 @@ function HamnburgerMenuItem({menu}) {
     const handleLogout = async (clickEvent) => {
         clickEvent.preventDefault();
         await signOut();
-        userHasAuthenticated(false);
         await router.push("sign-in",
             "/sign-in"
         );

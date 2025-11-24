@@ -30,7 +30,7 @@ function TermsAndConditions({ menuList, handleLogout, authenticated, data, sourc
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
             <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">

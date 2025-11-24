@@ -17,7 +17,7 @@ function Error({menuList, handleLogout, authenticated, source, index, url}) {
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">

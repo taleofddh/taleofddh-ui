@@ -96,7 +96,7 @@ function TravelGuides({ menuList, handleLogout, authenticated, visitData, travel
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
