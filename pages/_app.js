@@ -24,19 +24,16 @@ import '../styles/globals.scss';
 //Common Styles
 import '../styles/common/icon.scss';
 //Component Styles
-import '../styles/components/photo-album.scss'
 import '../styles/components/banner.scss';
 import '../styles/components/blog-section.scss';
 import '../styles/components/button.scss';
 import '../styles/components/carousel.scss';
 import '../styles/components/checkbox.scss';
 import '../styles/components/collapse.scss';
-import '../styles/components/photo-collection.scss';
 import '../styles/components/comment.scss';
 import '../styles/components/email-admin.scss';
 import '../styles/components/enquiry.scss';
 import '../styles/components/file-upload.scss';
-import '../styles/components/flagselect.scss';
 import '../styles/components/footer.scss';
 import '../styles/components/header.scss';
 import '../styles/components/label.scss';
@@ -45,6 +42,8 @@ import '../styles/components/loader.scss';
 import '../styles/components/loader-button.scss';
 import '../styles/components/login.scss';
 import '../styles/components/navigation.scss';
+import '../styles/components/photo-album.scss'
+import '../styles/components/photo-collection.scss';
 import '../styles/components/popup.scss';
 import '../styles/components/profile.scss';
 import '../styles/components/responsive-navigation.scss';
@@ -63,7 +62,6 @@ import '../styles/components/type-input.scss';
 import '../styles/components/visit.scss';
 //Page Styles
 import '../styles/pages/admin.scss';
-import '../styles/pages/album.scss';
 import '../styles/pages/about-us.scss';
 import '../styles/pages/acknowledgement.scss';
 import '../styles/pages/article.scss';

@@ -16,7 +16,7 @@ import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 
 const pageTitle = 'Travel Guides - Itinerary, Estimate & Forms';
 
-function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData, source, index, url }) {
+function TravelGuides({ menuList, handleLogout, authenticated, visitData, travelDocumentData, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -97,7 +97,7 @@ function TravelGuides({ menuList, handleLogout, visitData, travelDocumentData, s
     return (
         <>
             <ResponsiveNavigation menus={menuList} />
-            <Header country={ddhomeCountry} menus={menuList} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
