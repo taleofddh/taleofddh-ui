@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
 import { post } from 'aws-amplify/api';
-import {fetchAuthSession, signUp, confirmSignUp, signIn} from 'aws-amplify/auth';
+import {fetchAuthSession, signUp, confirmSignUp, signIn, fetchUserAttributes} from 'aws-amplify/auth';
 import { useFormFields } from "../common/hook";
 import { getSessionCookie, setSessionCookie } from "../common/session";
 import { onError } from "../common/error";
@@ -68,9 +68,10 @@ function Registration() {
                 username: fields.username,
                 password: fields.password
             });
-            const {tokens, identityId} = await fetchAuthSession({ forceRefresh: true });
+            const {tokens, identityId} = await fetchAuthSession({ forceRefresh: true })
+            const attributes = await fetchUserAttributes();
             if(tokens && tokens !== undefined) {
-                setSessionCookie("credential", {identityId: credentials.identityId});
+                setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
                 await post({
                     apiName: "createUserProfile",
                     path: "/createUserProfile",

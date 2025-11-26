@@ -1,4 +1,5 @@
 import React from 'react';
+import {useRouter} from 'next/router';
 import Link from 'next/link';
 import {APP_LONG_NAME} from "../common/constants";
 import Icon from "../common/icon";
@@ -47,6 +48,7 @@ function DDHomeLanguage({country}) {
 }
 
 function Links({menus, isAuthenticated, onLogout}) {
+    const router = useRouter();
     let count = 0;
     let separator;
 
@@ -65,12 +67,14 @@ function Links({menus, isAuthenticated, onLogout}) {
                 if(item.name === 'Sign-in') {
                     menu =
                         <></>
-                } else if (item.name === 'My Profile') {
+                } else if (item.name === 'My Account') {
                     menu =
                         <span key={index} className="headericon">
                             {separator}
                             <Link href={item.link.replace(/-/g, '')} as={item.link}>
-                                <Icon name={item.icon} fill="#FFFFFF" />
+                                <span>
+                                    <Icon name={item.icon} fill={router.asPath.startsWith(item.link) ? 'rgb(134, 194, 50)' : 'rgb(255, 255, 255)'} />
+                                </span>
                             </Link>
                         </span>
 

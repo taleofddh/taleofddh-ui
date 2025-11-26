@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as gtag from '../common/gtag';
 import {Hub} from 'aws-amplify/utils';
-import {put} from 'aws-amplify/api';
+import {get} from 'aws-amplify/api';
 import {fetchAuthSession, getCurrentUser, signOut, fetchUserAttributes} from 'aws-amplify/auth';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { configureAmplify } from '../common/config'
@@ -33,6 +33,7 @@ import '../styles/components/collapse.scss';
 import '../styles/components/comment.scss';
 import '../styles/components/email-admin.scss';
 import '../styles/components/enquiry.scss';
+import '../styles/components/family.scss';
 import '../styles/components/file-upload.scss';
 import '../styles/components/footer.scss';
 import '../styles/components/header.scss';
@@ -73,6 +74,7 @@ import '../styles/pages/frequently-asked-questions.scss';
 import '../styles/pages/gallery.scss';
 import '../styles/pages/home.scss';
 import '../styles/pages/links.scss';
+import '../styles/pages/my-account.scss';
 import '../styles/pages/privacy-policy.scss';
 import "../styles/pages/reset-password.scss";
 import '../styles/pages/sign-in.scss';
@@ -98,7 +100,8 @@ function App({ Component, pageProps }) {
     const [error, setError] = useState(null);
     const [customState, setCustomState] = useState(null);
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
-    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [isAuthenticating, setIsAuthenticating] = useState(true)
+    const [family, setFamily] = useState({});
     const [session] = useState(getSessionCookie);
     const router = useRouter();
 
@@ -180,22 +183,28 @@ function App({ Component, pageProps }) {
                 if (tokens && tokens !== undefined) {
                     await getUser();
                     const attributes = await fetchUserAttributes();
-                    //console.log('attributes: ', attributes);
+                    console.log('attributes: ', attributes);
                     const email = attributes.email;
                     userHasAuthenticated(true);;
-                    setSessionCookie("credential", {identityId: identityId});
-                    let res = await put({
-                        apiName: 'updateUserProfile',
-                        path: '/updateUserProfile',
-                        options: {
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            body: {email: email, identityId: identityId, updatedAt: new Date(), lastLogin: new Date()},
-                        }
-                    }).response;
-                    //console.log(await res.body.json());
+                    setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
+
+                    if(pageProps.hasOwnProperty('family') && pageProps.family && pageProps.family.hasOwnProperty('members')) {
+                        setFamily({...family, ...pageProps.family});
+                    } else {
+                        let res = await get({
+                            apiName: 'findFamilyByEmail',
+                            path: '/familyByEmail/' + encodeURI(email) + '/true',
+                            options: {
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            }
+                        }).response;
+                        //console.log(await res.body.json());
+                        const familyData = await res.body.json();
+                        setFamily({...family, ...familyData});
+                    }
                 }
             }
             catch(e) {
@@ -209,14 +218,6 @@ function App({ Component, pageProps }) {
 
         onLoad();
     }, []);
-
-    const getDdhomeCountry = (ddhomeCountryCallBack) => {
-        if(ddhomeCountryCallBack.country_code !== ddhomeCountry.country_code) {
-            setDdhomeCountry({...ddhomeCountry, country_code: ddhomeCountryCallBack.country_code, country_name: ddhomeCountryCallBack.country_name});
-
-            setSessionCookie('ddhomeCountry', ddhomeCountryCallBack);
-        }
-    }
 
     const getUser = async () => {
         try {
@@ -267,12 +268,12 @@ function App({ Component, pageProps }) {
             )}
             <Component
                 {...pageProps}
-                ddhomeCountryCallBack={getDdhomeCountry}
                 geolocationData={geolocationData}
                 countryName={ddhomeCountry.country_name}
                 countryCode={ddhomeCountry.country_code}
                 handleLogout={handleLogout}
                 authenticated={isAuthenticated}
+                family={family}
             />
         </React.Fragment>
     )

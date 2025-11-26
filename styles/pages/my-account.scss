@@ -1,0 +1,101 @@
+@use "../common/common" as *;
+
+.myaccountframe {
+    border-width: 0px;
+    border-style: solid;
+    border-color: $color-tan;
+    width: 100%;
+    height: auto;
+    margin: 10px 0px;
+    line-height: 22px;
+    position: relative;
+    background-color: $color-transparent;
+    float: left;
+}
+
+.myaccountcontainer {
+    background-color: $color-nero;
+    width: calc(100% - 40px);
+    height: auto;
+    color: $color-white;
+    font-family: Open Sans, Sans-Serif;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.67rem;
+    padding: 0px 10px;
+    margin: 0px 10px 10px;
+    float: left;
+}
+
+.myaccountgroup {
+    margin-top: 5px;
+    width: 100%;
+    margin-left: 0%;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.myaccountitem {
+    background-color: $color-nero;
+    padding: 0px 10px;
+    width:calc(33.3333333% - 40px);
+    margin: 10px;
+    text-align: center;
+    cursor:pointer;
+    border: 0px solid $color-blackboard;
+}
+
+.myaccountmenu {
+    font-weight: normal;
+    color: $color-crete;
+    svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        display: inline-block;
+    }
+    a {
+        color: $color-atlantis;
+        text-decoration: none;
+        border-bottom: 1px solid $color-atlantis;
+    }
+}
+
+.myaccount {
+    width: 100%;
+    text-align: justify;
+    float: left;
+}
+
+.myaccountheader {
+    font-weight: bold;
+    color: $color-white;
+}
+
+.myaccountdescription {
+    font-weight: normal;
+    color: $color-white-darker;
+}
+
+@media screen and (max-width: 800px) {
+    .myaccountitem {
+        width: calc(50% - 20px);
+        margin: 10px 5px;
+        padding:5px 5px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .myaccountitem {
+        width: calc(100% - 20px);
+        margin: 10px 5px;
+        padding:5px 5px;
+        text-align: justify;
+    }
+    .myaccount {
+        text-align: left;
+    }
+}

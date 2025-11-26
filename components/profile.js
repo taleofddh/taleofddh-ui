@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
-import {put} from "aws-amplify/api";
+import {post} from "aws-amplify/api";
+import {fetchAuthSession} from 'aws-amplify/auth';
 import {dateFormatToString} from "../common/common";
 import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
@@ -64,10 +65,10 @@ function Profile(props) {
 
     const submitProfileUpdate = async (submitEvent) => {
         submitEvent.preventDefault();
-        console.log(fields.gender)
         setIsLoading(true);
         let profile = {
-            identityId: getSessionCookie("credential").identityId,
+            userId: getSessionCookie("credential").sub,
+            identityId: getSessionCookie("identityId"),
             firstName : fields.firstName,
             lastName: fields.lastName,
             dateOfBirth: new Date(fields.dateOfBirth),
@@ -88,9 +89,9 @@ function Profile(props) {
         try {
             const {tokens} = await fetchAuthSession({forceRefresh: true});
             if(tokens && tokens !== undefined) {
-                await put({
-                    apiName: "updateUserProfile",
-                    path: "/updateUserProfile",
+                await post({
+                    apiName: "createOrUpdateUserProfile",
+                    path: "/createOrUpdateUserProfile",
                     options: {
                         headers: {
                             'Accept': 'application/json',
@@ -170,7 +171,7 @@ function Profile(props) {
                                    onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
-                        <p style={{margin: '0 auto', paddingBottom: '5px'}}>Gender</p>
+                        <p style={{margin: '0 auto', paddingBottom: '5px', color: 'rgb(255, 255, 255)'}}>Gender</p>
                         <ul style={{listStyle: 'none', margin: '0 auto', padding: '0px'}}>
                             {genders.map((item, index) => (
                                 <li key={index} style={{display: 'inline'}}>
@@ -289,7 +290,7 @@ function Profile(props) {
                                   onChange={handleFieldChange} />
                     </div>
                     <div className="profilefieldcontainer">
-                        <p style={{margin: '0 auto', paddingBottom: '5px'}}>Community</p>
+                        <p style={{margin: '0 auto', paddingBottom: '5px', color: 'rgb(255, 255, 255)'}}>Community</p>
                         <ul style={{listStyle: 'none', margin: '0 auto', padding: '0px'}}>
                             {form.communityList.map((item, index) => (
                                 <li key={index} style={{display: 'inline'}}>

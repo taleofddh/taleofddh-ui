@@ -102,10 +102,6 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/core',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findAboutUsList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/core',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
             findTermsAndConditionsList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/core',
                 region: AWS_CONFIG.apiGateway.REGION
@@ -254,6 +250,10 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
             },
+            createOrUpdateUserProfile: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
             findUserProfile: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
@@ -296,6 +296,22 @@ export const AMPLIFY_RESOURCE_CONFIG = {
             },
             processStoredMessage: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAboutUsList: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/org',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findRoleBasedMenuList: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/org',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findPeopleList: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/org',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findFamilyByEmail: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/org',
                 region: AWS_CONFIG.apiGateway.REGION
             }
         }

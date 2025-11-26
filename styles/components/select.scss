@@ -12,7 +12,7 @@
         display: block;
         position: relative;
         cursor: pointer;
-        font-family: Open Sans, Sans-Serif;
+        font-family: Open Sans, Sans-Serif, serif;
         font-size: 1rem;
         font-weight: normal;
         color: $color-white;
@@ -23,7 +23,7 @@
     }
     select {
         width: 100%;
-        border: 1px solid $color-white-darker;
+        border: 1px solid $color-nevada;
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
@@ -31,9 +31,9 @@
         -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .6);
         font-size: 1rem;
-        color: $color-white;
+        color: $color-nevada;
         background-color: $color-transparent;
-        font-family: Open Sans, Sans-Serif;
+        font-family: Open Sans, Sans-Serif, serif;
         font-weight: normal;
         line-height: 1.67rem;
         text-align: justify-all;

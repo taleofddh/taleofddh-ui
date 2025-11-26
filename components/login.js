@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
 import Link from 'next/link';
 import { put } from 'aws-amplify/api';
-import {fetchAuthSession, signIn} from 'aws-amplify/auth';
+import {fetchAuthSession, fetchUserAttributes, signIn} from 'aws-amplify/auth';
 import {useFormFields} from "../common/hook";
 import {getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
@@ -18,7 +18,6 @@ function Login() {
     const [signUpProp, setSignUpProp] = useState({});
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [isLoading, setIsLoading] = useState(false);
-    const [newUser, setNewUser] = useState(null);
     const [fields, handleFieldChange] = useFormFields({
         username : '',
         password : '',
@@ -93,9 +92,10 @@ function Login() {
                 credentials,
                 userSub,
                 tokens
-            } = await fetchAuthSession({ forceRefresh: true });
+            } = await fetchAuthSession({ forceRefresh: true })
+            const attributes = await fetchUserAttributes();
             if(tokens && tokens !== undefined) {
-                setSessionCookie("credential", {identityId: identityId});
+                setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
                 await put({
                     apiName: "updateUserProfile",
                     path: "/updateUserProfile",

@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../common/server-config";
+import {runWithAmplifyServerContext} from "../../common/server-config";
 import {get} from "aws-amplify/api/server";
 import {get as clientGet} from "aws-amplify/api";
 import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
-import {getSessionCookie, useSessionContext} from "../common/session";
-import Title from "../components/title";
-import Profile from "../components/profile";
-import Loader from "../components/loader";
-import {postAuditEntry} from "../common/common";
-import ResponsiveNavigation from "../components/responsive-navigation";
-import Header from "../components/header";
-import Navigation from "../components/navigation";
-import Footer from "../components/footer";
-import {onError} from "../common/error";
-import {HOST_NAME, INDEX_FLAG} from "../common/constants";
+import {getSessionCookie, useSessionContext} from "../../common/session";
+import Title from "../../components/title";
+import Profile from "../../components/profile";
+import Loader from "../../components/loader";
+import {postAuditEntry} from "../../common/common";
+import ResponsiveNavigation from "../../components/responsive-navigation";
+import Header from "../../components/header";
+import Navigation from "../../components/navigation";
+import Footer from "../../components/footer";
+import {onError} from "../../common/error";
+import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 
 const pageTitle = 'My Profile';
 
@@ -31,7 +31,7 @@ function UserProfile({menuList, handleLogout, authenticated, source, index, url}
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
                 page: 'user profile',
-                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
+                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").sub
             }
         );
     }, [ddhomeCountry]);
