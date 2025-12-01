@@ -30,13 +30,13 @@ function MetaTag({ page, index, url, hdr, desc, img }) {
             description = desc ? desc : 'Find out recent and historical photo and video galleries of Take of DDH - Vacations, Short Trips & Celebrations';
             image = img ? img : image;
             break;
-        case 'blog':
-            title = 'Blog Articles - for Travel, Recipes & Technology | taleofddh';
-            description = 'Blog Articles - for Travel, Recipes & Technology | taleofddh';
+        case 'blogs':
+            title = 'Blogs - for Travel, Recipes & Technology | taleofddh';
+            description = 'Blogs - for Travel, Recipes & Technology | taleofddh';
             break;
         case 'article':
-            title = 'Blog Article - ' + desc + ' | taleofddh';
-            description = 'Blog Article - ' + desc;
+            title = 'Blogs Article - ' + desc + ' | taleofddh';
+            description = 'Blogs Article - ' + desc;
             image = MEDIA_HOST + '/images/' + img;
             break;
         case 'request':

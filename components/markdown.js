@@ -6,7 +6,7 @@ import { MEDIA_HOST} from "../common/constants";
 import Logo from "../common/logo";
 import {useMediaQuery} from "../common/hook";
 
-function Markdown({section}) {
+function Markdown({source, category, section}) {
     const [markDown, setMarkDown] = useState([]);
     const isMobile = useMediaQuery('(max-width: 600px)');
     const isTablet = useMediaQuery('(max-width: 1200px)');
@@ -25,8 +25,8 @@ function Markdown({section}) {
                             'Content-Type': 'application/json',
                         },
                         body: {
-                            prefix: key.substring(0, key.lastIndexOf('/')),
-                            file: key.substring(key.lastIndexOf('/') + 1)
+                            prefix: category,
+                            file: key
                         }
                     }
                 }).response;
@@ -75,7 +75,7 @@ function Markdown({section}) {
     if(section.type === 'Logo') {
         const arr = section.content.split(',');
         content = arr.map((item, index) => {
-            return (<img key={index} className={section.styleClass} src={MEDIA_HOST + "/images/" + item} alt={item} />)
+            return (<img key={index} className={section.styleClass} src={MEDIA_HOST + "/images/" + (source + '/' + category).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase() + '/' + item} alt={item} />)
         });
     } else if (section.type === 'Markdown') {
         content = <div className={section.styleClass}>{ReactHtmlParser(markDown)}</div>;

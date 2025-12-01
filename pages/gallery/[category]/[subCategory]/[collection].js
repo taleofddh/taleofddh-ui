@@ -14,7 +14,7 @@ import Navigation from '../../../../components/navigation';
 import ResponsiveNavigation from "../../../../components/responsive-navigation";
 import Footer from "../../../../components/footer";
 import {postAuditEntry} from "../../../../common/common";
-import HistoricalAlbum from "../../../../components/historical-album";
+import HistoricalList from "../../../../components/historical-list";
 import PhotoCollection from "../../../../components/photo-collection";
 
 const pageTitle = "Gallery"
@@ -59,7 +59,7 @@ function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbu
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    {/*<HistoricalAlbum source={source} path={category + '/' + subCategory + '/' + collection} type={collection} albums={historicalAlbumData} />*/}
+                    {/*<HistoricalList source={source} path={category + '/' + subCategory + '/' + collection} type={collection} data={historicalAlbumData} />*/}
                     <PhotoCollection albums={historicalAlbumData} source={source} path={category + '/' + subCategory + '/' + collection} type={collection} />
                 </div>
             </div>

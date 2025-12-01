@@ -1,42 +1,45 @@
 import React, {useEffect, useState} from 'react';
 import {runWithAmplifyServerContext} from "../../../common/server-config";
-import { get, post } from 'aws-amplify/api/server';
-import {put} from "aws-amplify/api";
-import {HOST_NAME, INDEX_FLAG, MONTH_NAMES} from "../../../common/constants";
-import {useIndex} from '../../../common/hook'
-import {getSessionCookie, useSessionContext} from "../../../common/session";
-import {onError} from "../../../common/error";
-import Markdown from "../../../components/markdown";
-import Title from "../../../components/title";
-import Loader from "../../../components/loader";
-import MetaTag from "../../../components/metatag";
-import {capitalizeFirstLetters, postAuditEntry} from "../../../common/common";
-import Share from "../../../components/share";
-import Comment from "../../../components/comment";
+import {get} from "aws-amplify/api/server";
+import {
+    PAGE_REVALIDATE_PERIOD,
+    HOST_NAME,
+    INDEX_FLAG, MONTH_NAMES
+} from "../../../common/constants";
+import {capitalizeFirstLetters} from "../../../common/common";
+import { getSessionCookie } from "../../../common/session";
+import Header from '../../../components/header';
+import Navigation from '../../../components/navigation';
 import ResponsiveNavigation from "../../../components/responsive-navigation";
-import Header from "../../../components/header";
-import Navigation from "../../../components/navigation";
 import Footer from "../../../components/footer";
-import marked from "marked";
+import {postAuditEntry} from "../../../common/common";
+import {put} from "aws-amplify/api";
+import {onError} from "../../../common/error";
+import Loader from "../../../components/loader";
+import Title from "../../../components/title";
+import Share from "../../../components/share";
+import Markdown from "../../../components/markdown";
+import Comment from "../../../components/comment";
 
-const pageTitle = 'Blogs'
+const pageTitle = "Blogs"
 
-function Article({ menuList, handleLogout, authenticated, data, category, blogName, source, index, url }) {
+function BlogName({menuList, handleLogout, authenticated, blogData, category, name, source, index, url, }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [countUpdateLoading, setCountUpdateLoading] = useState(true);
+    const path = (category + '/' + name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase();
 
     useEffect(() => {
         postAuditEntry(
-            {
-                date: new Date(),
-                hostName: window.location.hostname,
-                countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
-                page: 'user profile',
-                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
-            }
+                {
+                    date: new Date(),
+                    hostName: window.location.hostname,
+                    countryCode: ddhomeCountry.country_code,
+                    ipAddress: ddhomeCountry.ip_address,
+                    page: 'blogs',
+                    message: name + ' Blog Page Accessed'
+                }
         );
-    }, [ddhomeCountry]);
+    }, [ddhomeCountry, name]);
 
     useEffect(() => {
         const onLoad = async () => {
@@ -52,8 +55,8 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
                         }
                     },
                     body: {
-                        name: blogName,
-                        category: category
+                        name: name,
+                        startDateTime: blogData.startDateTime
                     },
                 }).response;
                 setCountUpdateLoading(false);
@@ -66,7 +69,7 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
             }
         }
         onLoad();
-    }, [blogName, category])
+    }, [name, category]);
 
     return (
         countUpdateLoading ? (
@@ -79,16 +82,16 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
                 <div className="boxouter">
                     <div className="container">
                         <div className="articleframe">
-                            <Title message={data.header} />
-                            <div className="articlettitle">{pageTitle + ' by ' + data.author + ' on ' + new Date(data.endDate).getDate() + " " + MONTH_NAMES[new Date(data.endDate).getMonth()] + ", " + new Date(data.endDate).getFullYear()}</div>
+                            <Title message={blogData.header} />
+                            <div className="articlettitle">{pageTitle + ' by ' + blogData.author + ' on ' + new Date(blogData.endDateTime).getDate() + " " + MONTH_NAMES[new Date(blogData.endDateTime).getMonth()] + ", " + new Date(blogData.endDateTime).getFullYear()}</div>
                             <div className="articleshare">
-                                <Share name={blogName} subject={data.header} url={HOST_NAME + '/articles/' + blogName} image={data.titlePhoto}/>
+                                <Share name={name} subject={blogData.header} url={HOST_NAME + '/articles/' + name} image={blogData.titlePhoto}/>
                             </div>
                             <div className="articlecontainer">
-                                {data.contents.map((item, index) => (
-                                    <Markdown section={item} key={index} />
+                                {blogData.contents.map((item, index) => (
+                                        <Markdown section={item} source={source} category={category} key={index} />
                                 ))}
-                                <Comment type={pageTitle.toLowerCase()} blogName={data.name}/>
+                                <Comment type={pageTitle.toLowerCase()} blogName={blogData.name}/>
                             </div>
                         </div>
                     </div>
@@ -100,15 +103,15 @@ function Article({ menuList, handleLogout, authenticated, data, category, blogNa
 }
 
 // This function gets called at build time
-export const getStaticPaths = async () => {
+export const getStaticPaths = async ({context}) => {
     // Call an external API endpoint to get data
-    const blogs = await runWithAmplifyServerContext({
+    const categoryNames = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
                 const { body } = await get(contextSpec, {
-                    apiName: 'findBlogList',
-                    path: '/blogList',
+                    apiName: 'findBlogCategoryNames',
+                    path: '/blogCategoryNames',
                     options: {
                         headers: {
                             'Accept': 'application/json',
@@ -123,20 +126,31 @@ export const getStaticPaths = async () => {
             }
         }
     });
+    //console.log("categorySubCategoryCollectionNames", JSON.stringify(categorySubCategoryCollectionNames));
 
-    // Get the paths we want to pre-render based on posts
-    const paths = blogs.map((blog) => ({
-        params: { category: blog.category, name: blog.name },
-    }))
+    let paths = []
+    for(let i = 0; i < categoryNames.length; i++) {
+        for (let j = 0; j < categoryNames[i].names.length; j++) {
+            paths = [...paths, {
+                params: {
+                    category: categoryNames[i].category.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
+                    name: categoryNames[i].names[j].replace(/&/g, 'and').replace(/ /g, '-').toLowerCase()
+                }
+            }]
+        }
+    }
+    //console.log("paths", paths);
 
     // We'll pre-render only these paths at build time.
     // { fallback: false } means other routes should 404.
-    return { paths, fallback: false }
+    // { fallback: 'blocking' } will server-render pages
+    // on-demand if the path doesn't exist.
+    return { paths, fallback: 'blocking' }
 }
 
 // This function gets called at build time
-export const getStaticProps = async ({ params }) => {
-    const source = 'article';
+export const getStaticProps = async ({ context, params }) => {
+    const source = 'blogs';
     const index = INDEX_FLAG;
     const url = HOST_NAME;
 
@@ -163,25 +177,24 @@ export const getStaticProps = async ({ params }) => {
         }
     });
 
-    const category = `${params.category}`;
-    const blogName = `${params.name}`;
+    const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
+    const name = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
+    //console.log(category, name);
+    //console.log(('images/blogs/' + category + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
-    const data = await runWithAmplifyServerContext({
+    // Call an external API endpoint to get data
+    const blogData = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
-                const { body } = await post(contextSpec, {
-                    apiName: 'findBlogArticleList',
-                    path: '/blogArticleList',
+                const { body } = await get(contextSpec, {
+                    apiName: 'findBlog',
+                    path: '/blog/' + encodeURI(category) + '/' + encodeURI(name),
                     options: {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
                         },
-                        body: {
-                            category: category,
-                            blogName: blogName
-                        }
                     }
                 }).response;
                 return body.json();
@@ -191,23 +204,27 @@ export const getStaticProps = async ({ params }) => {
             }
         }
     });
-
-    const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' | taleofddh';
-    const desc = data.title;
-    const img = data.titlePhoto;
+    //console.log(JSON.stringify(blogData));
+    const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Blog | taleofddh';
+    const desc = blogData.title;
+    const img = blogData.signedUrl;
 
     // return the data
     return {
         props: {
             menuList,
-            data,
+            blogData,
             category,
-            blogName,
+            name,
             source,
             index,
-            url
+            url,
+            hdr,
+            desc,
+            img
         },
+        revalidate: PAGE_REVALIDATE_PERIOD * 48, // In seconds
     }
 }
 
-export default Article;
+export default BlogName;

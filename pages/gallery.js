@@ -8,7 +8,7 @@ import Navigation from '../components/navigation';
 import ResponsiveNavigation from "../components/responsive-navigation";
 import Footer from "../components/footer";
 import {postAuditEntry} from "../common/common";
-import HistoricalAlbum from "../components/historical-album";
+import HistoricalList from "../components/historical-list";
 
 const pageTitle = "Gallery";
 
@@ -36,7 +36,7 @@ function Gallery({menuList, handleLogout, authenticated, historicalAlbumData, so
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <HistoricalAlbum source={source} type='Historical' albums={historicalAlbumData}/>
+                    <HistoricalList source={source} type='Historical' data={historicalAlbumData}/>
                 </div>
             </div>
             <Footer menus={menuList} />

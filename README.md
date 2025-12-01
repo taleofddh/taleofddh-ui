@@ -22,7 +22,7 @@ Tale of DDH UI is a modern, responsive web application built with Next.js that s
 
 ### ✨ Key Features
 
-- 📝 **Blog Platform** - Technical, Travel, and Recipe blogs with categories
+- 📝 **Blogs Platform** - Technical, Travel, and Recipe blogs with categories
 - 🖼️ **Photo Gallery** - Community photo albums with historical collections
 - 🗺️ **Travel Guides** - Itineraries, estimates, and downloadable travel documents
 - 👥 **User Profiles** - Personalized accounts with authentication

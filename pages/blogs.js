@@ -1,21 +1,19 @@
 import React, {useEffect} from 'react';
 import {useRouter} from "next/router";
-import Image from 'next/image';
 import {runWithAmplifyServerContext} from "../common/server-config";
 import {get} from "aws-amplify/api/server";
-import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MONTH_NAMES} from "../common/constants";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
-import Title from "../components/title";
-import Icon from "../common/icon";
 import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
+import HistoricalList from "../components/historical-list";
 
-const pageTitle = 'Blog'
+const pageTitle = 'Blogs'
 
-function Blog({ menuList, handleLogout, authenticated, data, source, index, url }) {
+function Blogs({ menuList, handleLogout, authenticated, historicalBlogData, source, index, url }) {
     const router = useRouter();
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
@@ -27,25 +25,10 @@ function Blog({ menuList, handleLogout, authenticated, data, source, index, url 
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
                 page: 'blog',
-                message: 'Blog Page Accessed'
+                message: 'Blogs Page Accessed'
             }
         );
-    }, [ddhomeCountry])
-
-    const handleClick = async (clickEvent, object) => {
-        clickEvent.preventDefault();
-        let blogName = object.name;
-        let blogCategory = object.category;
-        await router.push(object.link + '/' + blogCategory + '/' + blogName,
-            object.link + '/' + blogCategory + '/'  + blogName,
-    {
-                index: index,
-                blog: {
-                    category: blogCategory,
-                    name: blogName
-            }
-        });
-    }
+    }, [ddhomeCountry]);
 
     return (
         <>
@@ -54,26 +37,7 @@ function Blog({ menuList, handleLogout, authenticated, data, source, index, url 
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <div className="blogframe">
-                        <Title message={pageTitle} />
-                        <ul className="bloggroup">
-                            {data.map((item, index) => (
-                                <li key={index} className="blogitem" onClick={(e) => handleClick(e, item)}>
-                                    <div>
-                                        <p className="blogheader">{item.header}</p>
-                                        <div className="blogpiccontrol">
-                                            <Image src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
-                                        </div>
-                                        <div className="blogsummary">
-                                            <p className="blogauthor">{item.category +' ' + source + ' by ' + item.author + ' on ' + new Date(item.endDate).getDate() + " " + MONTH_NAMES[new Date(item.endDate).getMonth()] + ", " + new Date(item.endDate).getFullYear()}</p>
-                                            <p className="blogtitle">{item.title}</p>
-                                            <p className="blogshare"><Icon name="view" width="1rem" height="1rem" fill="rgb(255, 255, 255)"/>&nbsp;&nbsp;{item.viewCount}&nbsp;&nbsp;<Icon name="share" width="1rem" height="1rem" fill="rgb(255, 255, 255)"/></p>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <HistoricalList source={source} type='Historical' data={historicalBlogData}/>
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -83,7 +47,7 @@ function Blog({ menuList, handleLogout, authenticated, data, source, index, url 
 
 // This function gets called at build time
 export const getStaticProps = async (context) => {
-    const source = 'blog';
+    const source = 'blogs';
     const index = INDEX_FLAG;
     const url = HOST_NAME;
 
@@ -110,13 +74,13 @@ export const getStaticProps = async (context) => {
         }
     });
 
-    const data = await runWithAmplifyServerContext({
+    const historicalBlogData = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
                 const { body } = await get(contextSpec, {
-                    apiName: 'findBlogList',
-                    path: '/blogList',
+                    apiName: 'findHistoricalBlogCategories',
+                    path: '/blogHistoricalCategories',
                     options: {
                         headers: {
                             'Accept': 'application/json',
@@ -129,6 +93,7 @@ export const getStaticProps = async (context) => {
                 console.log(error);
                 return [];
             }
+
         }
     });
 
@@ -136,7 +101,7 @@ export const getStaticProps = async (context) => {
     return {
         props: {
             menuList,
-            data,
+            historicalBlogData,
             source,
             index,
             url
@@ -145,4 +110,4 @@ export const getStaticProps = async (context) => {
 }
 
 
-export default Blog;
+export default Blogs;

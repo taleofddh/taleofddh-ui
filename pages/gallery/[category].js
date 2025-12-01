@@ -9,7 +9,7 @@ import Navigation from '../../components/navigation';
 import ResponsiveNavigation from "../../components/responsive-navigation";
 import Footer from "../../components/footer";
 import {postAuditEntry} from "../../common/common";
-import HistoricalAlbum from "../../components/historical-album";
+import HistoricalList from "../../components/historical-list";
 
 const pageTitle = "Gallery";
 
@@ -36,7 +36,7 @@ function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEvent
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <HistoricalAlbum source={source} path={category} type={category} albums={historicalAlbumData}/>
+                    <HistoricalList source={source} path={category} type={category} data={historicalAlbumData}/>
                 </div>
             </div>
             <Footer menus={menuList} />

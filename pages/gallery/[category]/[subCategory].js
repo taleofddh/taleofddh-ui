@@ -9,7 +9,7 @@ import Navigation from '../../../components/navigation';
 import ResponsiveNavigation from "../../../components/responsive-navigation";
 import Footer from "../../../components/footer";
 import {postAuditEntry} from "../../../common/common";
-import HistoricalAlbum from "../../../components/historical-album";
+import HistoricalList from "../../../components/historical-list";
 
 const pageTitle = "Gallery";
 
@@ -37,7 +37,7 @@ function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEv
             <div className="boxouter">
                 <div className="container">
                     {/*<UpcomingEvent eventType='Upcoming' events={upcomingEventData} subCategory={subCategory} />*/}
-                    <HistoricalAlbum source={source} path={category + '/' + subCategory} type={subCategory} albums={historicalAlbumData} />
+                    <HistoricalList source={source} path={category + '/' + subCategory} type={subCategory} data={historicalAlbumData} />
                 </div>
             </div>
             <Footer menus={menuList} />

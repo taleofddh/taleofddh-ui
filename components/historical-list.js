@@ -4,7 +4,7 @@ import ListModule from "./list-module";
 import ReactHtmlParser from "react-html-parser";
 import {marked} from "marked";
 
-function HistoricalAlbum({ source, path, type, albums, intro }) {
+function HistoricalList({ source, path, type, data, intro }) {
     return (
         <div className="galleryframe">
             <Title message={type + ' ' + source} />
@@ -17,9 +17,9 @@ function HistoricalAlbum({ source, path, type, albums, intro }) {
             ) : (
                 <></>
             )}
-            <ListModule source={source} path={path} list={albums} />
+            <ListModule source={source} path={path} list={data} />
         </div>
     )
 }
 
-export default HistoricalAlbum;
+export default HistoricalList;
