@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {post} from "aws-amplify/api";
+import {get} from "aws-amplify/api";
 import { marked }  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
 import { MEDIA_HOST} from "../common/constants";
@@ -14,19 +14,15 @@ function Markdown({source, category, section}) {
 
     useEffect(() => {
         const loadMdText = async () => {
-            const key = section.content;
+            const file = section.content;
             if (section.type === 'Markdown') {
-                const res = await post({
-                    apiName: "getArticleDocument",
-                    path: "/articleDocument",
+                const res = await get({
+                    apiName: "getBlogDocument",
+                    path: "/blogDocument/" + category + "/" + file,
                     options: {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                        },
-                        body: {
-                            prefix: category,
-                            file: key
                         }
                     }
                 }).response;
@@ -41,8 +37,8 @@ function Markdown({source, category, section}) {
                 setMarkDown(marked(text.toString()));
 
                 /*await API.post(
-                    'getArticleDocument',
-                    '/articleDocument',
+                    'getBlogDocument',
+                    '/blogDocument',
                     {
                         response: true,
                         headers: {

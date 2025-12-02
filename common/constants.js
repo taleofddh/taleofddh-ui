@@ -138,27 +138,7 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/request',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findAlbumList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            findRestrictedAlbumList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
             updateAlbumViewCount: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            findAlbumPhotoList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            findPhotoList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            findRestrictedPhotoList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },
@@ -202,10 +182,6 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findBlogList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
             findCategorizedBlogList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
@@ -214,23 +190,15 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findBlogArticleList: {
+            findBlogCommentList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findArticleList: {
+            addBlogComment: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findArticleCommentList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            addArticleComment: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            getArticleDocument: {
+            getBlogDocument: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
             },
@@ -258,35 +226,11 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
             },
-            findUser: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            updateUser: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            createUser: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
             createOrUpdateUserProfile: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
             },
             findUserProfile: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            createUserProfile: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            updateUserProfile: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            findUserRole: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/auth',
                 region: AWS_CONFIG.apiGateway.REGION
             },

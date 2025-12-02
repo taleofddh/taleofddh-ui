@@ -95,7 +95,7 @@ function Links({menus, isAuthenticated, onLogout}) {
                 }
 
             } else {
-                if (item.name === 'My Profile') {
+                if (item.name === 'My Account') {
                     menu =
                         <></>
                 } else if (item.name === 'Sign-out') {

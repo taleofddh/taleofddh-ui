@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {API} from "aws-amplify";
+import {get, post} from "aws-amplify/api";
 import {useFormFields} from "../common/hook";
 import TypeInput from "./type-input";
 import TextArea from "./textarea";
 import Loader from "./loader";
 import LoaderButton from "./loader-button";
-import {post} from "aws-amplify/api";
 
 function Comment({blogName, type, messages}) {
     const [comments, setComments] = useState(messages);
@@ -18,15 +17,14 @@ function Comment({blogName, type, messages}) {
 
     useEffect( () => {
         const getComments = async () => {
-            const res = await post({
-                apiName: "findArticleCommentList",
-                path: "/articleCommentList",
+            const res = await get({
+                apiName: "findBlogCommentList",
+                path: "/blogCommentList/" + blogName,
                 options: {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                    },
-                    body: {blogName: blogName}
+                    }
                 }
             }).response;
             const result = await res.body.json();
@@ -45,13 +43,14 @@ function Comment({blogName, type, messages}) {
             blogName: blogName,
             name: fields.name,
             comment: fields.comment,
-            date: JSON.stringify(new Date())
+            date: new Date()
         }
 
         const res = await post({
-            apiName: "addArticleComment",
-            path: "/articleComment",
+            apiName: "addBlogComment",
+            path: "/blogComment",
             options: {
+                response: true,
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

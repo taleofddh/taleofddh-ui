@@ -1,5 +1,5 @@
 import React from 'react';
-import { get, post } from 'aws-amplify/api/server';
+import { get } from 'aws-amplify/api/server';
 import { runWithAmplifyServerContext } from '../common/server-config';
 import {INDEX_FLAG, HOST_NAME, PAGE_REVALIDATE_PERIOD} from '../common/constants';
 import { getSessionCookie } from "../common/session";
@@ -12,21 +12,6 @@ import Banner from "../components/banner";
 
 function Home({geolocationData, menuList, handleLogout, authenticated, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    /*const message = 'We are currently offering select services in the United Kingdom and India. Over the coming months we aim to include more services and countries. ';
-    const message2 = 'If you have any particular service requirement, that is not currently covered, please ';
-    const message3 = 'We\'d be delighted to keep you informed about our roadmap and plan of launching new services. Please stay in touch with us.';
-
-    const defaultMessage =
-        <div className="messagecontainer">
-            <div className="defaultmessage">
-                <p>{message}</p>
-                <p>{message2}<Link href="/contact-us">Contact Us</Link>.</p>
-                <p>{message3}</p>
-            </div>
-            <StayConnected />
-        </div>
-
-    const text = 'Looking for something else?';*/
 
     return (
         <>
@@ -43,9 +28,6 @@ function Home({geolocationData, menuList, handleLogout, authenticated, promotion
                     <BlogSection category='Technical' blogs={technicalBlogData} />
                     <BlogSection category='Travel' blogs={travelBlogData} />
                     <BlogSection category='Recipe' blogs={recipeBlogData} />
-                    {/*<div className="collapseframe">
-                        <Collapse header={text} content={defaultMessage} />
-                    </div>*/}
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -108,17 +90,13 @@ export const getStaticProps = async (context) => {
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
-                const { body } = await post(contextSpec, {
+                const { body } = await get(contextSpec, {
                     apiName: 'findCategorizedBlogList',
-                    path: '/blogListCategorized',
+                    path: '/blogListCategorized/Travel/true',
                     options: {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                        },
-                        body: {
-                            category: 'Technical',
-                            homePageFlag: true
                         },
                     }
                 }).response;
@@ -134,17 +112,13 @@ export const getStaticProps = async (context) => {
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
-                const { body } = await post(contextSpec, {
+                const { body } = await get(contextSpec, {
                     apiName: 'findCategorizedBlogList',
-                    path: '/blogListCategorized',
+                    path: '/blogListCategorized/Technical/true',
                     options: {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                        },
-                        body: {
-                            category: 'Travel',
-                            homePageFlag: true
                         },
                     }
                 }).response;
@@ -160,17 +134,13 @@ export const getStaticProps = async (context) => {
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
-                const { body } = await post(contextSpec, {
+                const { body } = await get(contextSpec, {
                     apiName: 'findCategorizedBlogList',
-                    path: '/blogListCategorized',
+                    path: '/blogListCategorized/Recipe/true',
                     options: {
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                        },
-                        body: {
-                            category: 'Recipe',
-                            homePageFlag: true
                         },
                     }
                 }).response;

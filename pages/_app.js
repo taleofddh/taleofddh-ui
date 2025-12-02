@@ -107,7 +107,7 @@ function App({ Component, pageProps }) {
 
     useEffect(() => {
         const handleRouteChange = (url) => {
-            console.log(router);
+            //console.log(router);
             if (MEASUREMENT_FLAG) gtag.pageview(url);
         }
         router.events.on('routeChangeComplete', handleRouteChange)
@@ -157,7 +157,7 @@ function App({ Component, pageProps }) {
                 switch (payload.event) {
                     case "signInWithRedirect" || 'signedIn':
                         getUser();
-                        console.log('user: ', user);
+                        //console.log('user: ', user);
                         break;
                     case "signInWithRedirect_failure":
                         setError("An error has occurred during the OAuth flow.");
@@ -180,10 +180,10 @@ function App({ Component, pageProps }) {
                     tokens,
                     identityId
                 } = await fetchAuthSession({ forceRefresh: true });
-                if (tokens && tokens !== undefined) {
+                if (tokens) {
                     await getUser();
                     const attributes = await fetchUserAttributes();
-                    console.log('attributes: ', attributes);
+                    //console.log('attributes: ', attributes);
                     const email = attributes.email;
                     userHasAuthenticated(true);;
                     setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});

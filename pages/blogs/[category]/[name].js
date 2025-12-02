@@ -25,8 +25,8 @@ const pageTitle = "Blogs"
 
 function BlogName({menuList, handleLogout, authenticated, blogData, category, name, source, index, url, }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const [countUpdateLoading, setCountUpdateLoading] = useState(true);
     const path = (category + '/' + name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase();
+    //console.log("blogData", blogData);
 
     useEffect(() => {
         postAuditEntry(
@@ -52,53 +52,47 @@ function BlogName({menuList, handleLogout, authenticated, blogData, category, na
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
+                        },
+                        body: {
+                            name: name,
+                            startDateTime: blogData.startDateTime
                         }
-                    },
-                    body: {
-                        name: name,
-                        startDateTime: blogData.startDateTime
-                    },
+                    }
                 }).response;
-                setCountUpdateLoading(false);
             }
             catch(e) {
                 if (e !== 'No current user') {
                     onError(e);
                 }
-                setCountUpdateLoading(false);
             }
         }
         onLoad();
-    }, [name, category]);
+    }, [name, blogData]);
 
     return (
-        countUpdateLoading ? (
-            <Loader loading={countUpdateLoading} />
-        ) : (
-            <>
-                <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
-                <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
-                <Navigation menus={menuList} />
-                <div className="boxouter">
-                    <div className="container">
-                        <div className="articleframe">
-                            <Title message={blogData.header} />
-                            <div className="articlettitle">{pageTitle + ' by ' + blogData.author + ' on ' + new Date(blogData.endDateTime).getDate() + " " + MONTH_NAMES[new Date(blogData.endDateTime).getMonth()] + ", " + new Date(blogData.endDateTime).getFullYear()}</div>
-                            <div className="articleshare">
-                                <Share name={name} subject={blogData.header} url={HOST_NAME + '/articles/' + name} image={blogData.titlePhoto}/>
-                            </div>
-                            <div className="articlecontainer">
-                                {blogData.contents.map((item, index) => (
-                                        <Markdown section={item} source={source} category={category} key={index} />
-                                ))}
-                                <Comment type={pageTitle.toLowerCase()} blogName={blogData.name}/>
-                            </div>
+        <>
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
+            <Navigation menus={menuList} />
+            <div className="boxouter">
+                <div className="container">
+                    <div className="articleframe">
+                        <Title message={blogData.header} />
+                        <div className="articlettitle">{pageTitle + ' by ' + blogData.author + ' on ' + new Date(blogData.endDateTime).getDate() + " " + MONTH_NAMES[new Date(blogData.endDateTime).getMonth()] + ", " + new Date(blogData.endDateTime).getFullYear()}</div>
+                        <div className="articleshare">
+                            <Share name={name} subject={blogData.header} url={HOST_NAME + '/articles/' + name} image={blogData.titlePhoto}/>
+                        </div>
+                        <div className="articlecontainer">
+                            {blogData.contents.map((item, index) => (
+                                    <Markdown section={item} source={source} category={category} key={index} />
+                            ))}
+                            <Comment type={pageTitle.toLowerCase()} blogName={blogData.name}/>
                         </div>
                     </div>
                 </div>
-                <Footer menus={menuList} />
-            </>
-        )
+            </div>
+            <Footer menus={menuList} />
+        </>
     )
 }
 

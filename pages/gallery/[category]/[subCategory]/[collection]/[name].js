@@ -14,6 +14,8 @@ import ResponsiveNavigation from "../../../../../components/responsive-navigatio
 import Footer from "../../../../../components/footer";
 import {postAuditEntry} from "../../../../../common/common";
 import PhotoAlbum from "../../../../../components/photo-album";
+import {put} from "aws-amplify/api";
+import {onError} from "../../../../../common/error";
 
 const pageTitle = "Gallery"
 
@@ -33,6 +35,34 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
             }
         );
     }, [ddhomeCountry, name]);
+
+    useEffect(() => {
+        const onLoad = async () => {
+            try {
+                await put({
+                    apiName: 'updateAlbumViewCount',
+                    path: '/albumViewCount',
+                    options: {
+                        response: true,
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: {
+                            name: name,
+                            startDateTime: albumData.startDateTime
+                        }
+                    }
+                }).response;
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+            }
+        }
+        onLoad();
+    }, [name, albumData]);
 
     return (
         <>
