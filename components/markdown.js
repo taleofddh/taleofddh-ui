@@ -1,85 +1,34 @@
 import React, {useState, useEffect} from 'react';
-import {get} from "aws-amplify/api";
 import { marked }  from "marked";
 import ReactHtmlParser  from 'react-html-parser';
 import { MEDIA_HOST} from "../common/constants";
-import Logo from "../common/logo";
 import {useMediaQuery} from "../common/hook";
 
-function Markdown({source, category, section}) {
-    const [markDown, setMarkDown] = useState([]);
+function Markdown({data, text, source, path}) {
+    const [markDown, setMarkDown] = useState('');
     const isMobile = useMediaQuery('(max-width: 600px)');
     const isTablet = useMediaQuery('(max-width: 1200px)');
     const originalPath = '/desktop/'
+    console.log(data);
 
     useEffect(() => {
-        const loadMdText = async () => {
-            const file = section.content;
-            if (section.type === 'Markdown') {
-                const res = await get({
-                    apiName: "getBlogDocument",
-                    path: "/blogDocument/" + category + "/" + file,
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        }
-                    }
-                }).response;
-
-                let text = await res.body.json();
-
-                if (isMobile) {
-                    text = text.toString().replace(originalPath, '/mobile/');
-                } else if (isTablet) {
-                    text = text.toString().replace(originalPath, '/tablet/');
-                }
-                setMarkDown(marked(text.toString()));
-
-                /*await API.post(
-                    'getBlogDocument',
-                    '/blogDocument',
-                    {
-                        response: true,
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: {
-                            prefix: key.substring(0, key.lastIndexOf('/')),
-                            file: key.substring(key.lastIndexOf('/') + 1)
-                        }
-                    }
-                )
-                    .then(async res => {
-                        return await res.response.body.json()
-                    })
-                    .then(async text => {
-                        if (isMobile) {
-                            text = text.toString().replace(originalPath, '/mobile/');
-                        } else if (isTablet) {
-                            text = text.toString().replace(originalPath, '/tablet/');
-                        }
-                        setMarkDown(marked(text.toString()));
-                    });*/
-            }
+        if (isMobile) {
+            text = text.toString().replace(originalPath, '/mobile/');
+        } else if (isTablet) {
+            text = text.toString().replace(originalPath, '/tablet/');
+        } else {
+            text = text.toString();
         }
-        loadMdText();
-    }, [isMobile, isTablet, section])
+        setMarkDown(marked.parse(text).toString());
 
-    let content;
-    if(section.type === 'Logo') {
-        const arr = section.content.split(',');
-        content = arr.map((item, index) => {
-            return (<img key={index} className={section.styleClass} src={MEDIA_HOST + "/images/" + (source + '/' + category).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase() + '/' + item} alt={item} />)
-        });
-    } else if (section.type === 'Markdown') {
-        content = <div className={section.styleClass}>{ReactHtmlParser(markDown)}</div>;
-    }
+    }, [isMobile, isTablet, text])
 
     return (
         <>
-            {content}
+            {data.images.map((item, index) => (
+                <img key={index} className="articlelogocontrol" src={MEDIA_HOST + "/images/" + source + '/' + path + '/' + item} alt={item} />
+            ))}
+            <div className="articlemarkdown">{ReactHtmlParser(markDown)}</div>
         </>
     )
 }

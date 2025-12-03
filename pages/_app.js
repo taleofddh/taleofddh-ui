@@ -24,6 +24,7 @@ import '../styles/globals.scss';
 //Common Styles
 import '../styles/common/icon.scss';
 //Component Styles
+import '../styles/components/article.scss';
 import '../styles/components/banner.scss';
 import '../styles/components/blog-section.scss';
 import '../styles/components/button.scss';
@@ -65,8 +66,7 @@ import '../styles/components/visit.scss';
 import '../styles/pages/admin.scss';
 import '../styles/pages/about-us.scss';
 import '../styles/pages/acknowledgement.scss';
-import '../styles/pages/article.scss';
-import '../styles/pages/blog.scss';
+import '../styles/pages/blogs.scss';
 import "../styles/pages/change-password.scss";
 import '../styles/pages/contact-us.scss';
 import '../styles/pages/error.scss';

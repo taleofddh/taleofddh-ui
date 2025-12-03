@@ -15,7 +15,6 @@ import Footer from "../../../components/footer";
 import {postAuditEntry} from "../../../common/common";
 import {put} from "aws-amplify/api";
 import {onError} from "../../../common/error";
-import Loader from "../../../components/loader";
 import Title from "../../../components/title";
 import Share from "../../../components/share";
 import Markdown from "../../../components/markdown";
@@ -23,10 +22,9 @@ import Comment from "../../../components/comment";
 
 const pageTitle = "Blogs"
 
-function BlogName({menuList, handleLogout, authenticated, blogData, category, name, source, index, url, }) {
+function BlogName({menuList, handleLogout, authenticated, blogData, blogText, category, name, source, index, url, }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const path = (category + '/' + name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase();
-    //console.log("blogData", blogData);
 
     useEffect(() => {
         postAuditEntry(
@@ -83,9 +81,7 @@ function BlogName({menuList, handleLogout, authenticated, blogData, category, na
                             <Share name={name} subject={blogData.header} url={HOST_NAME + '/articles/' + name} image={blogData.titlePhoto}/>
                         </div>
                         <div className="articlecontainer">
-                            {blogData.contents.map((item, index) => (
-                                    <Markdown section={item} source={source} category={category} key={index} />
-                            ))}
+                            <Markdown data={blogData} text={blogText} source={source} path={path} />
                             <Comment type={pageTitle.toLowerCase()} blogName={blogData.name}/>
                         </div>
                     </div>
@@ -177,7 +173,7 @@ export const getStaticProps = async ({ context, params }) => {
     //console.log(('images/blogs/' + category + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
     // Call an external API endpoint to get data
-    const blogData = await runWithAmplifyServerContext({
+    let blogData = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
             try {
@@ -201,13 +197,37 @@ export const getStaticProps = async ({ context, params }) => {
     //console.log(JSON.stringify(blogData));
     const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Blog | taleofddh';
     const desc = blogData.title;
-    const img = blogData.signedUrl;
+    const img = blogData.signedUrl
+    const content = blogData.content.toString();
+    // Call an external API endpoint to get data
+    const blogText = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'getBlogDocument',
+                    path: '/blogDocument/' + encodeURI(category) + '/' + encodeURI(content),
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        }
+    });
 
     // return the data
     return {
         props: {
             menuList,
             blogData,
+            blogText,
             category,
             name,
             source,
