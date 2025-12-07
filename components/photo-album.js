@@ -6,7 +6,7 @@ import Carousel from "./carousel";
 import ReactPlayer from "react-player";
 
 function PhotoAlbum({ source, path, type, album, photos, videos }) {
-    console.log(videos);
+    //console.log(videos);
     return (
         <div className="photoalbumframe">
             <Title message={album.name} />
