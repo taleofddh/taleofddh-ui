@@ -8,11 +8,12 @@ import Navigation from '../components/navigation';
 import ResponsiveNavigation from "../components/responsive-navigation";
 import Footer from "../components/footer";
 import {postAuditEntry} from "../common/common";
+import PhotoCollection from "../components/photo-collection";
 import HistoricalList from "../components/historical-list";
 
 const pageTitle = "Gallery";
 
-function Gallery({menuList, handleLogout, authenticated, historicalAlbumData, source, index, url}) {
+function Gallery({menuList, handleLogout, authenticated, recentAlbumData, historicalAlbumData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -36,6 +37,7 @@ function Gallery({menuList, handleLogout, authenticated, historicalAlbumData, so
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
+                    <PhotoCollection albums={recentAlbumData} source={source} type='Recent' />
                     <HistoricalList source={source} type='Historical' data={historicalAlbumData}/>
                 </div>
             </div>
@@ -73,6 +75,29 @@ export const getStaticProps = async ({context}) => {
         }
     });
 
+    const recentAlbumData = await runWithAmplifyServerContext({
+        nextServerContext: null,
+        operation: async (contextSpec) => {
+            try {
+                const { body } = await get(contextSpec, {
+                    apiName: 'findRecentAlbumNames',
+                    path: '/albumRecentNames',
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                }).response;
+                return body.json();
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+
+        }
+    });
+
     const historicalAlbumData = await runWithAmplifyServerContext({
         nextServerContext: null,
         operation: async (contextSpec) => {
@@ -100,6 +125,7 @@ export const getStaticProps = async ({context}) => {
     return {
         props: {
             menuList,
+            recentAlbumData,
             historicalAlbumData,
             source,
             index,

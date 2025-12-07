@@ -6,6 +6,7 @@ import Carousel from "./carousel";
 import ReactPlayer from "react-player";
 
 function PhotoAlbum({ source, path, type, album, photos, videos }) {
+    console.log(videos);
     return (
         <div className="photoalbumframe">
             <Title message={album.name} />
@@ -28,7 +29,7 @@ function PhotoAlbum({ source, path, type, album, photos, videos }) {
                 <li className="photoalbumgallerycontainer">
                     <div className="photoalbumdescription">
                         {videos.map((item, index) => (
-                            <ReactPlayer key={index} src={item}  width='100%' height='100%' controls={true}/>
+                            <ReactPlayer key={index} src={item.signedVideoUrl}  width='100%' height='100%' controls={true}/>
                         ))}
                     </div>
                 </li>

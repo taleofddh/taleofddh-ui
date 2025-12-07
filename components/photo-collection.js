@@ -5,7 +5,7 @@ import {RowsPhotoAlbum} from 'react-photo-album';
 import Icon from "../common/icon";
 import Title from "./title";
 
-function PhotoCollection({ source, path, type, albums, onClick }) {
+function PhotoCollection({ source, type, albums, onClick }) {
     const photos = albums.map((item, index) => {
         return {
             src: item.signedUrl,
@@ -13,7 +13,7 @@ function PhotoCollection({ source, path, type, albums, onClick }) {
             height: 2,
             title: item.name,
             alt: item.name,
-            href: '/' + source + (path ? '/' + path.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase() : '') + '/' + item.name.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
+            href: '/' + source + '/' + (item.category + '/' + item.subCategory + '/' + item.collection + '/' + item.name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase(),
             count: item.photoCount,
             views: item.viewCount
         };

@@ -60,7 +60,7 @@ function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbu
             <div className="boxouter">
                 <div className="container">
                     {/*<HistoricalList source={source} path={category + '/' + subCategory + '/' + collection} type={collection} data={historicalAlbumData} />*/}
-                    <PhotoCollection albums={historicalAlbumData} source={source} path={category + '/' + subCategory + '/' + collection} type={collection} />
+                    <PhotoCollection albums={historicalAlbumData} source={source} type={collection} />
                 </div>
             </div>
             <Footer menus={menuList} />
