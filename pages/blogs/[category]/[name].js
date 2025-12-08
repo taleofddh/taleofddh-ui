@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../../../common/server-config";
-import {get} from "aws-amplify/api/server";
+import {serverGet} from "../../../common/server-config";
 import {
     PAGE_REVALIDATE_PERIOD,
     HOST_NAME,
@@ -95,28 +94,8 @@ function BlogName({menuList, handleLogout, authenticated, blogData, blogText, ca
 // This function gets called at build time
 export const getStaticPaths = async ({context}) => {
     // Call an external API endpoint to get data
-    const categoryNames = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findBlogCategoryNames',
-                    path: '/blogCategoryNames',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
-    //console.log("categorySubCategoryCollectionNames", JSON.stringify(categorySubCategoryCollectionNames));
+    const categoryNames = await serverGet('findBlogCategoryNames', '/blogCategoryNames');
+    //console.log("categoryNames", JSON.stringify(categoryNames));
 
     let paths = []
     for(let i = 0; i < categoryNames.length; i++) {
@@ -145,82 +124,22 @@ export const getStaticProps = async ({ context, params }) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     const name = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     //console.log(category, name);
     //console.log(('images/blogs/' + category + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
-    // Call an external API endpoint to get data
-    let blogData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findBlog',
-                    path: '/blog/' + encodeURI(category) + '/' + encodeURI(name),
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
-    //console.log(JSON.stringify(blogData));
+    const blogData = await serverGet('findBlog', '/blog', [category, name]);
+    //console.log(blogData);
+
     const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Blog | taleofddh';
     const desc = blogData.title;
     const img = blogData.signedUrl
     const content = blogData.content.toString();
     // Call an external API endpoint to get data
-    const blogText = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'getBlogDocument',
-                    path: '/blogDocument/' + encodeURI(category) + '/' + encodeURI(content),
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const blogText = await serverGet('getBlogDocument', '/blogDocument', [category, content]);
 
     // return the data
     return {

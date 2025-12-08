@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
-import {runWithAmplifyServerContext} from "../common/server-config";
-import {get as serverGet} from 'aws-amplify/api/server';
+import {serverGet} from "../common/server-config";
 import {get, post} from 'aws-amplify/api';
 import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
 import {getSessionCookie} from "../common/session";
@@ -150,27 +149,7 @@ export const getStaticProps = async ({context}) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await serverGet(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
     // return the data
     return {

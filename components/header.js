@@ -25,7 +25,7 @@ function Header({country, menus, isAuthenticated, onLogout}) {
             <div className="container">
                 <div className="header">
                     <div className="taleofddhlogo">
-                        <Link href='/home' as='/'>
+                        <Link href='/' as='/'>
                             <img src="/images/taleofddh-banner.png" alt={{APP_LONG_NAME} + 'Banner'}/>
                         </Link>
                     </div>

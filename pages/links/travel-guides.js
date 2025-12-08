@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../../common/server-config";
-import {get} from "aws-amplify/api/server";
+import {serverGet} from "../../common/server-config";
 import {get as clientGet} from "aws-amplify/api";
 import {getSessionCookie} from "../../common/session";
 import {base64ToBlob, postAuditEntry} from "../../common/common";
@@ -131,71 +130,11 @@ export const getStaticProps = async (context) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
-    const visitData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findCountryVisitStatus',
-                    path: '/countryVisitStatus',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const visitData = await serverGet('findCountryVisitStatus', '/countryVisitStatus');
 
-    const travelDocumentData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findTravelDocuments',
-                    path: '/documentList/Travel',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const travelDocumentData = await serverGet('findTravelDocuments', '/documentList', ['Travel']);
 
     // return the data
     return {

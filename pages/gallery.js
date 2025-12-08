@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../common/server-config";
-import {get} from "aws-amplify/api/server";
+import React, {useEffect} from 'react';
+import {serverGet} from "../common/server-config";
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../common/constants";
 import { getSessionCookie } from "../common/session";
 import Header from '../components/header';
@@ -53,73 +52,11 @@ export const getStaticProps = async ({context}) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
-    const recentAlbumData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findRecentAlbumNames',
-                    path: '/albumRecentNames',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
+    const recentAlbumData = await serverGet('findRecentAlbumNames', '/albumRecentNames');
 
-        }
-    });
-
-    const historicalAlbumData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findHistoricalAlbumCategories',
-                    path: '/albumHistoricalCategories',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-
-        }
-    });
+    const historicalAlbumData = await serverGet('findHistoricalAlbumCategories', '/albumHistoricalCategories');
 
     // return the data
     return {

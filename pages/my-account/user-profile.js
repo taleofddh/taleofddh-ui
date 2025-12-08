@@ -91,7 +91,7 @@ function UserProfile({menuList, handleLogout, authenticated, source, index, url}
 
 // This function gets called at build time
 export const getStaticProps = async ({ params }) => {
-    const source = 'user-profile';
+    const source = 'my-account';
     const index = INDEX_FLAG;
     const url = HOST_NAME;
 

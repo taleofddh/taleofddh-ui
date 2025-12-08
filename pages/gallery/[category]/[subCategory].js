@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
-import {runWithAmplifyServerContext} from "../../../common/server-config";
-import {get} from "aws-amplify/api/server";
+import {serverGet} from "../../../common/server-config";
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../../../common/constants";
 import {capitalizeFirstLetters} from "../../../common/common";
 import { getSessionCookie } from "../../../common/session";
@@ -48,27 +47,7 @@ function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEv
 // This function gets called at build time
 export const getStaticPaths = async ({context}) => {
     // Call an external API endpoint to get data
-    const categorySubCategories = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findAlbumCategorySubCategories',
-                    path: '/albumCategorySubCategories',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const categorySubCategories = await serverGet('findAlbumCategorySubCategories', '/albumCategorySubCategories');
     //console.log("categorySubCategories", categorySubCategories);
 
     let paths = []
@@ -98,54 +77,13 @@ export const getStaticProps = async ({ context, params }) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     const subCategory = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     //console.log("category-subCategory", category + "-" + subCategory);
 
-    // Call an external API endpoint to get data
-    const historicalAlbumData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findHistoricalAlbumCollections',
-                    path: '/albumHistoricalCollections/' + encodeURI(category) + '/' + encodeURI(subCategory),
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const historicalAlbumData = await serverGet('findHistoricalAlbumCollections', '/albumHistoricalCollections', [category, subCategory]);
     //console.log(historicalEventData);
     const hdr = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Galleries | taleofddh';
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { get } from 'aws-amplify/api/server';
-import { runWithAmplifyServerContext } from '../common/server-config';
+import {serverGet} from '../common/server-config';
 import {INDEX_FLAG, HOST_NAME, PAGE_REVALIDATE_PERIOD} from '../common/constants';
 import { getSessionCookie } from "../common/session";
 import Header from '../components/header';
@@ -42,115 +41,15 @@ export const getStaticProps = async (context) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
-    const promotionData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findPromotionList',
-                    path: '/promotionList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const promotionData = await serverGet('findPromotionList', '/promotionList', [true]);
 
-    const technicalBlogData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findCategorizedBlogList',
-                    path: '/blogListCategorized/Travel/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const technicalBlogData = await serverGet('findCategorizedBlogList', '/blogListCategorized', ['Technical', true]);
 
-    const travelBlogData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findCategorizedBlogList',
-                    path: '/blogListCategorized/Technical/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const travelBlogData = await serverGet('findCategorizedBlogList', '/blogListCategorized', ['Travel', true]);
 
-    const recipeBlogData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findCategorizedBlogList',
-                    path: '/blogListCategorized/Recipe/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const recipeBlogData = await serverGet('findCategorizedBlogList', '/blogListCategorized', ['Recipe', true]);
 
     // return the data
     return {

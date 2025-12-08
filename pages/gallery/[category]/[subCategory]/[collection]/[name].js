@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {runWithAmplifyServerContext} from "../../../../../common/server-config";
-import {get} from "aws-amplify/api/server";
+import {serverGet} from "../../../../../common/server-config";
 import {
     PAGE_REVALIDATE_PERIOD,
     HOST_NAME,
@@ -82,27 +81,7 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
 // This function gets called at build time
 export const getStaticPaths = async ({context}) => {
     // Call an external API endpoint to get data
-    const categorySubCategoryCollectionNames = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findAlbumCategorySubCategoryCollectionNames',
-                    path: '/albumCategorySubCategoryCollectionNames',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const categorySubCategoryCollectionNames = await serverGet('findAlbumCategorySubCategoryCollectionNames', '/albumCategorySubCategoryCollectionNames');
     //console.log("categorySubCategoryCollectionNames", JSON.stringify(categorySubCategoryCollectionNames));
 
     let paths = []
@@ -138,27 +117,7 @@ export const getStaticProps = async ({ context, params }) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     const subCategory = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
@@ -167,28 +126,7 @@ export const getStaticProps = async ({ context, params }) => {
     //console.log(category, subCategory, collection, name);
     //console.log(('images/albums/' + category + '/' + subCategory + '/' + collection + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
-    // Call an external API endpoint to get data
-    const albumData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findAlbum',
-                    path: '/album/' + encodeURI(category) + '/' + encodeURI(subCategory) + '/' + encodeURI(collection) + '/' + encodeURI(name),
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const albumData = await serverGet('findAlbum', '/album', [category, subCategory, collection, name]);
     //console.log(JSON.stringify(albumData));
     const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Gallery | taleofddh';
     const desc = albumData.description;

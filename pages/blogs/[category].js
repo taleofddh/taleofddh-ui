@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
 import Link from "next/link";
-import {runWithAmplifyServerContext} from "../../common/server-config";
-import {get} from "aws-amplify/api/server";
+import {serverGet} from "../../common/server-config";
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG, MEDIA_HOST, MONTH_NAMES} from "../../common/constants";
 import {capitalizeFirstLetters} from "../../common/common";
 import { getSessionCookie } from "../../common/session";
@@ -86,27 +85,7 @@ function BlogCategories({menuList, handleLogout, authenticated, /*upcomingEventD
 // This function gets called at build time
 export const getStaticPaths = async ({context}) => {
     // Call an external API endpoint to get data
-    const historicalEventCategories = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findBlogCategories',
-                    path: '/blogCategories',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const historicalEventCategories = await serverGet('findBlogCategories', '/blogCategories');
 
     // Get the paths we want to pre-render based on posts
     const paths = historicalEventCategories.map((category) => ({
@@ -128,54 +107,12 @@ export const getStaticProps = async ({ context, params }) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
-    //console.log("category", category);
 
-    // Call an external API endpoint to get data
-    const historicalBlogData = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findHistoricalBlogNames',
-                    path: '/blogHistoricalNames/' + encodeURI(category),
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
-    //console.log(historicalAlbumData);
+    const historicalBlogData = await serverGet('findHistoricalBlogNames', '/blogHistoricalNames', [category]);
+    //console.log(historicalBlogData);
     const hdr = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Blogs | taleofddh';
 
     // return the data

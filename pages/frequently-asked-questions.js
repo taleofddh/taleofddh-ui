@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import Link from 'next/link';
-import {runWithAmplifyServerContext} from "../common/server-config";
-import {get} from "aws-amplify/api/server";
+import {serverGet} from "../common/server-config";
 import {getSessionCookie} from "../common/session";
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
@@ -138,49 +137,9 @@ export const getStaticProps = async (context) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
-    const data = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findFrequentlyAskedQuestionList',
-                    path: '/frequentlyAskedQuestionList',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const data = await serverGet('findFrequentlyAskedQuestionList', '/frequentlyAskedQuestionList');
 
     // return the data
     return {

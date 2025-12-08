@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
-import Image from 'next/image';
-import { get } from 'aws-amplify/api/server';
-import { runWithAmplifyServerContext } from '../common/server-config';
-import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MEDIA_PROTECTED_HOST, PAGE_REVALIDATE_PERIOD} from "../common/constants";
+import {serverGet} from '../common/server-config';
+import {HOST_NAME, INDEX_FLAG, PAGE_REVALIDATE_PERIOD} from "../common/constants";
 import {useMediaQuery} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
@@ -99,49 +97,9 @@ export const getStaticProps = async (context) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
-    const data = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findAboutUsList',
-                    path: '/aboutUsList',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const data = await serverGet('findAboutUsList', '/aboutUsList');
     //console.log(data);
 
     // return the data

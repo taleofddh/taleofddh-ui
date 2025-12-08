@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { get } from 'aws-amplify/api/server';
-import { runWithAmplifyServerContext } from '../common/server-config';
+import {runWithAmplifyServerContext, serverGet} from '../common/server-config';
 import {APP_LONG_NAME, HOST_NAME, INDEX_FLAG} from "../common/constants";
 import Title from "../components/title";
 import Footer from "../components/footer";
@@ -26,8 +26,8 @@ function Error({menuList, handleLogout, authenticated, source, index, url}) {
                         <Title message={pageTitle} />
                         <div className="errormessage">
                             <p>Your requested page is not available or the application has generated an error.</p>
-                            <p>Please visit <Link href="/home" as="/">Tale of DDH Home Page</Link> to search for services</p>
-                            <p>If you have any specific query please <Link href="/contact-us" as="/contactus">Contact Us</Link>.</p>
+                            <p>Please visit <Link href="/" as="/">Tale of DDH Home Page</Link> to search for services</p>
+                            <p>If you have any specific query please <Link href="/contact-us" as="/contact-us">Contact Us</Link>.</p>
                         </div>
                     </div>
                 </div>
@@ -44,27 +44,7 @@ export const getStaticProps = async ({context}) => {
     const url = HOST_NAME;
 
     // Call an external API endpoint to get data
-    const menuList = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: async (contextSpec) => {
-            try {
-                const { body } = await get(contextSpec, {
-                    apiName: 'findMenuList',
-                    path: '/menuList/true',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                }).response;
-                return body.json();
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        }
-    });
+    const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
     // return the data
     return {
