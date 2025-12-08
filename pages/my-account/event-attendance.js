@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {runWithAmplifyServerContext, serverGet} from "../../common/server-config";
-import {get} from "aws-amplify/api/server";
-import {get as clientGet} from "aws-amplify/api";
-import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
-import {getSessionCookie, useSessionContext} from "../../common/session";
+import {serverGet} from "../../common/server-config";
+import {get} from 'aws-amplify/api';
+import {fetchAuthSession} from "aws-amplify/auth";
+import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
+import {getSessionCookie} from "../../common/session";
 import Title from "../../components/title";
-import Profile from "../../components/profile";
 import Loader from "../../components/loader";
 import {postAuditEntry} from "../../common/common";
 import ResponsiveNavigation from "../../components/responsive-navigation";
@@ -13,48 +12,45 @@ import Header from "../../components/header";
 import Navigation from "../../components/navigation";
 import Footer from "../../components/footer";
 import {onError} from "../../common/error";
-import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
+import AttendanceForm from "../../components/attendance-form";
 
-const pageTitle = 'My Profile';
+const pagetitle = 'Event Attendance';
 
-function UserProfile({menuList, handleLogout, authenticated, source, index, url}) {
-    const { userHasAuthenticated } = useSessionContext();
+function EventAttendance({menuList, handleLogout, authenticated, member, source, index, url}) {
     const [data, setData] = useState({});
     const [loading, isLoading] = useState(true);
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    const addaSloughCountry = getSessionCookie('addaSloughCountry');
 
     useEffect(() => {
         postAuditEntry(
             {
                 date: new Date(),
                 hostName: window.location.hostname,
-                countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
-                page: 'my-account/user-profile',
-                message: 'User Profile Page Accessed by ' + getSessionCookie("credential").sub
+                countryCode: addaSloughCountry.country_code,
+                ipAddress: addaSloughCountry.ip_address,
+                page: 'my-account/event-attendance',
+                message: pagetitle + ' Page Accessed by ' + getSessionCookie("credential").sub
             }
         );
-    }, [ddhomeCountry]);
+    }, [addaSloughCountry]);
 
     useEffect(() => {
         const onLoad = async () => {
             try {
-                const {identityId} = await fetchAuthSession({ forceRefresh: true });
-                const attributes = await fetchUserAttributes();
-                const email = attributes.email;
-
-                const res = await clientGet({
-                    apiName: 'findUserProfile',
-                    path: '/findUserProfile',
-                    options: {
-                        response: true,
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
+                const {tokens} = await fetchAuthSession({ forceRefresh: true });
+                if(tokens && tokens !== undefined) {
+                    const res = await get({
+                        apiName: 'findUpcomingTicketedEvents',
+                        path: '/upcomingTicketedEvents',
+                        options: {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            }
                         }
-                    }
-                }).response;
-                setData(await res.body.json());
+                    }).response;
+                    setData(await res.body.json());
+                }
                 isLoading(false);
             }
             catch(e) {
@@ -70,16 +66,16 @@ function UserProfile({menuList, handleLogout, authenticated, source, index, url}
     return (
         <>
             <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
-            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
+            <Header country={addaSloughCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
                     <div className="userprofileframe">
-                        <Title message={pageTitle} />
+                        <Title message={pagetitle} />
                         {loading ? (
                             <Loader loading={loading} />
                         ) : (
-                            <Profile data={data} source={source}/>
+                            <AttendanceForm data={data} member={member} />
                         )}
                     </div>
                 </div>
@@ -90,7 +86,7 @@ function UserProfile({menuList, handleLogout, authenticated, source, index, url}
 }
 
 // This function gets called at build time
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps = async ({context}) => {
     const source = 'my-account';
     const index = INDEX_FLAG;
     const url = HOST_NAME;
@@ -108,4 +104,5 @@ export const getStaticProps = async ({ params }) => {
         },
     }
 }
-export default UserProfile;
+
+export default EventAttendance;

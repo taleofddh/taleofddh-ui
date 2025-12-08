@@ -22,7 +22,7 @@ function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEvent
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
-                page: 'albums',
+                page: 'gallery',
                 message: category + ' Gallery Page Accessed'
             }
         );

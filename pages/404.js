@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { get } from 'aws-amplify/api/server';
-import {runWithAmplifyServerContext, serverGet} from '../common/server-config';
+import {serverGet} from '../common/server-config';
 import {APP_LONG_NAME, HOST_NAME, INDEX_FLAG} from "../common/constants";
 import Title from "../components/title";
 import Footer from "../components/footer";
@@ -12,7 +11,7 @@ import {getSessionCookie} from "../common/session";
 
 const pageTitle = APP_LONG_NAME + ' Page Not Found';
 
-function Error({menuList, handleLogout, authenticated, source, index, url}) {
+function PageNotFound({menuList, handleLogout, authenticated, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     return (
@@ -58,4 +57,4 @@ export const getStaticProps = async ({context}) => {
 }
 
 
-export default Error;
+export default PageNotFound;

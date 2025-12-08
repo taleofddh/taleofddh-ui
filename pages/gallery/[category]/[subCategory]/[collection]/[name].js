@@ -29,7 +29,7 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
-                page: 'albums',
+                page: 'gallery',
                 message: name + ' Gallery Page Accessed'
             }
         );

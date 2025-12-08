@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {serverGet} from "../../../../common/server-config";
-import {useRouter} from "next/router";
 import {
     PAGE_REVALIDATE_PERIOD,
     HOST_NAME,
@@ -13,13 +12,11 @@ import Navigation from '../../../../components/navigation';
 import ResponsiveNavigation from "../../../../components/responsive-navigation";
 import Footer from "../../../../components/footer";
 import {postAuditEntry} from "../../../../common/common";
-import HistoricalList from "../../../../components/historical-list";
 import PhotoCollection from "../../../../components/photo-collection";
 
 const pageTitle = "Gallery"
 
 function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbumData, category, subCategory, collection, source, index, url}) {
-    const router = useRouter();
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -29,7 +26,7 @@ function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbu
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
                 ipAddress: ddhomeCountry.ip_address,
-                page: 'albums',
+                page: 'gallery',
                 message: collection + ' Gallery Page Accessed'
             }
         );

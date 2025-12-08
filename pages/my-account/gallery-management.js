@@ -32,6 +32,36 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
         );
     }, [ddhomeCountry]);
 
+
+    useEffect(() => {
+        const onLoad = async () => {
+            try {
+                const {tokens} = await fetchAuthSession({ forceRefresh: true });
+                if(tokens) {
+                    const res = await get({
+                        apiName: 'findAlbumCategorySubCategoryCollectionNames',
+                        path: '/albumCategorySubCategoryCollectionNames',
+                        options: {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            }
+                        }
+                    }).response;
+                    setData(await res.body.json());
+                }
+                isLoading(false);
+            }
+            catch(e) {
+                if (e !== 'No current user') {
+                    onError(e);
+                }
+                isLoading(false);
+            }
+        }
+        onLoad();
+    }, []);
+
     return (
             <>
                 <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
