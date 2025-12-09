@@ -37,12 +37,12 @@ function ContactUs({handleLogout, authenticated, menuList, source, index, url}) 
                     <div className="contactusframe">
                         <Title message={pageTitle} />
                         <div className="contactuscontainer">
-                            <div className="fieldcontainer">
+                            <div className="enquirycontainer">
                                 <p className="contactus"><label>Want to get in touch?</label></p>
                                 <p className="contactus"><label>Please use the form below or you can email us at <a href="mailto:helpdesk@taleofddh.com" target="blank">helpdesk@taleofddh.com</a></label></p>
                             </div>
+                            <Enquiry type="GEQ" source={source} />
                         </div>
-                        <Enquiry type="GEQ" source={source} />
                     </div>
                 </div>
             </div>

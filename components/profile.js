@@ -3,7 +3,7 @@ import Link from 'next/link';
 import {post} from "aws-amplify/api";
 import {fetchAuthSession} from 'aws-amplify/auth';
 import {dateFormatToString} from "../common/common";
-import {useIndex, useFormFields} from "../common/hook";
+import {useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import countries from "../common/countries";
@@ -14,7 +14,7 @@ import LoaderButton from "./loader-button";
 import Select from "./select";
 import Radio from "./radio";
 
-function Profile(props) {
+function Profile({data, source}) {
     const [isLoading, setIsLoading] = useState(false);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const countryEntries = Object.entries(countries);
@@ -30,7 +30,7 @@ function Profile(props) {
         {sequence: 2, value: 'Female', label: 'Female'},
         {sequence: 3, value: 'Preferred not to say', label: 'Preferred not to say'}
     ]
-    const profile = props.data;
+    const profile = data;
 
     const [fields, handleFieldChange] = useFormFields({
         firstName : profile.firstName,

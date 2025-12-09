@@ -24,7 +24,9 @@ import '../styles/globals.scss';
 //Common Styles
 import '../styles/common/icon.scss';
 //Component Styles
+import '../styles/components/architecture.scss';
 import '../styles/components/article.scss';
+import '../styles/components/autocomplete-input.scss';
 import '../styles/components/banner.scss';
 import '../styles/components/blog-section.scss';
 import '../styles/components/button.scss';

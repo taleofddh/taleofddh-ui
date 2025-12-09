@@ -1,0 +1,41 @@
+@use "../common/common" as *;
+
+.text {
+    fill: #E5E7EB;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1rem;
+}
+
+.architecture-title {
+    fill: $color-white-darker;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.service-label {
+    fill: $color-white-dark;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1.1rem;
+    text-anchor: middle;
+}
+
+.arrow {
+    stroke: #9CA3AF;
+    stroke-width: 2;
+    fill: none;
+    marker-end:
+    url(#arrowhead);
+}
+
+.group-box {
+    fill: $color-shark;
+    stroke: #4B5563;
+    stroke-width: 3;
+}
+
+.client-box {
+    fill: $color-abbey;
+    stroke: #4B5563;
+    stroke-width: 2;
+}

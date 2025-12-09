@@ -15,19 +15,19 @@ import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 
 const pageTitle = 'Travel Guides - Itinerary, Estimate & Forms';
 
-function TravelGuides({ menuList, handleLogout, authenticated, visitData, travelDocumentData, source, index, url }) {
+function TravelGuides({menuList, handleLogout, authenticated, visitData, travelDocumentData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
         postAuditEntry(
-            {
-                date: new Date(),
-                hostName: window.location.hostname,
-                countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
-                page: 'travel guides',
-                message: 'Travel Guides Page Accessed'
-            }
+                {
+                    date: new Date(),
+                    hostName: window.location.hostname,
+                    countryCode: ddhomeCountry.country_code,
+                    ipAddress: ddhomeCountry.ip_address,
+                    page: 'travel guides',
+                    message: 'Travel Guides Page Accessed'
+                }
         );
     }, [ddhomeCountry]);
 
@@ -65,25 +65,27 @@ function TravelGuides({ menuList, handleLogout, authenticated, visitData, travel
 
     const getContent = (folder, files) => {
         return (
-            <ul className="traveldocumentsgroup">
-                {files.map((file, idx) => (
-                    file === '' ? (
-                        <li key={idx} className="traveldocumentblank">
-                        </li>
-                    ) : (
-                        <li key={idx} className="traveldocumentitem" onClick={(e) => handleDownload(folder, file, e)}>
-                            <p className="traveldocumenttitle">
+                <ul className="traveldocumentsgroup">
+                    {files.map((file, idx) => (
+                            file === '' ? (
+                                    <li key={idx} className="traveldocumentblank">
+                                    </li>
+                            ) : (
+                                    <li key={idx} className="traveldocumentitem"
+                                        onClick={(e) => handleDownload(folder, file, e)}>
+                                        <p className="traveldocumenttitle">
                                 <span className="travelguidedocumentlogo">
-                                    <img src={"/images/logo-" + file.substring(file.lastIndexOf('.') + 1) + ".svg"} alt={file} />
+                                    <img src={"/images/logo-" + file.substring(file.lastIndexOf('.') + 1) + ".svg"}
+                                         alt={file}/>
                                 </span>
-                                <span className="travelguidedocumenttext">
+                                            <span className="travelguidedocumenttext">
                                     {file}
                                 </span>
-                            </p>
-                        </li>
-                    )
-                ))}
-            </ul>
+                                        </p>
+                                    </li>
+                            )
+                    ))}
+                </ul>
         )
     }
 
@@ -94,32 +96,36 @@ function TravelGuides({ menuList, handleLogout, authenticated, visitData, travel
     });*/
 
     return (
-        <>
-            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
-            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
-            <Navigation menus={menuList} />
-            <div className="boxouter">
-                <div className="container">
-                    <div className="travelguideframe">
-                        <Title message={pageTitle} />
-                        <div className="travelguidecontainer">
-                            <Visit data={visitData} />
-                            {/*<CollapseFolder items={items} />*/}
-                            <ul className="travelguidegroup">
-                                {travelDocumentData.map((item, index) => (
-                                    <li key={index} className="travelguideitem">
-                                        <div className="travelguidetitle">
-                                            <Collapse header={item.folder} content={getContent(item.folder, item.files)} iconOpen="folderopen" iconClose="folderclose" onChange={handleChange}/>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+            <>
+                <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated}/>
+                <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated}
+                        onLogout={handleLogout}/>
+                <Navigation menus={menuList}/>
+                <div className="boxouter">
+                    <div className="container">
+                        <div className="travelguideframe">
+                            <Title message={pageTitle}/>
+                            <div className="travelguidecontainer">
+                                <Visit data={visitData}/>
+                                {/*<CollapseFolder items={items} />*/}
+                                <ul className="travelguidegroup">
+                                    {travelDocumentData.map((item, index) => (
+                                            <li key={index} className="travelguideitem">
+                                                <div className="travelguidetitle">
+                                                    <Collapse header={item.folder}
+                                                              content={getContent(item.folder, item.files)}
+                                                              iconOpen="folderopen" iconClose="folderclose"
+                                                              onChange={handleChange}/>
+                                                </div>
+                                            </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <Footer menus={menuList} />
-        </>
+                <Footer menus={menuList}/>
+            </>
     )
 }
 
