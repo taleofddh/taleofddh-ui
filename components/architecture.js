@@ -203,7 +203,7 @@ function Architecture(props) {
                 <text x="602" y="1350" className="service-label" fontSize="12">google-drive</text>
 
                 {/* SES */}
-                <image x="790" y="1250" width="64" height="64" xlinkHref="/images/Arch_Amazon-Simple-Notification-Service_64.svg"/>
+                <image x="790" y="1250" width="64" height="64" xlinkHref="/images/Arch_Amazon-Simple-Email-Service_64.svg"/>
                 <text x="822" y="1330" className="service-label" fontWeight="bold">Amazon SES</text>
                 <text x="822" y="1350" className="service-label" fontSize="12">Email Service</text>
 
