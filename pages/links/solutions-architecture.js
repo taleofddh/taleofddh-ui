@@ -8,7 +8,8 @@ import Header from "../../components/header";
 import Navigation from "../../components/navigation";
 import Footer from "../../components/footer";
 import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
-import Architecture from "../../components/architecture";
+import BackendArchitecture from "../../components/backend-architecture";
+import FrontendArchitecture from "../../components/frontend-architecture";
 
 const pageTitle = 'Solutions Architecture';
 
@@ -44,7 +45,8 @@ function SolutionsArchitecture({ menuList, handleLogout, authenticated, source, 
                         <div className="travelguideframe">
                             <Title message={pageTitle} />
                             <div className="travelguidecontainer">
-                                <Architecture />
+                                <BackendArchitecture />
+                                <FrontendArchitecture />
                             </div>
                         </div>
                     </div>
