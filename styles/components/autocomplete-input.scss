@@ -1,0 +1,199 @@
+@use "../common/common" as *;
+
+// Autocomplete container - maintains TypeInput structure
+.autocomplete-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    
+    // Ensure the TypeInput styling is preserved
+    .type {
+        margin-bottom: 0; // Remove bottom margin to prevent gap with dropdown
+    }
+}
+
+// Dropdown positioning and appearance
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: $color-white-darker;
+    border: 1px solid $color-abbey;
+    border-top: none; // Connect visually with input field
+    -webkit-border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+    -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+    -moz-box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+    
+    // Ensure dropdown appears above other elements
+    box-sizing: border-box;
+}
+
+// Individual suggestion styling
+.autocomplete-suggestion {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: $color-blackboard;
+    font-family: Open Sans, Sans-Serif, serif;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    font-weight: normal;
+    border-bottom: 1px solid $color-athens-grey;
+    transition: background-color 0.15s ease-in-out;
+    
+    // Remove border from last suggestion
+    &:last-child {
+        border-bottom: none;
+        -webkit-border-radius: 0 0 5px 5px;
+        -moz-border-radius: 0 0 5px 5px;
+        border-radius: 0 0 5px 5px;
+    }
+    
+    // First suggestion styling for visual consistency
+    &:first-child {
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+    
+    // Hover state styling
+    &:hover {
+        background-color: $color-ziggurat;
+        color: $color-blackboard;
+    }
+    
+    // Selected/highlighted state styling (keyboard navigation)
+    &.highlighted {
+        background-color: $color-san-marino;
+        color: $color-white;
+    }
+    
+    // Active state for click feedback
+    &:active {
+        background-color: $color-blue-jay;
+        color: $color-white;
+    }
+}
+
+// Scrollbar styling for dropdown
+.autocomplete-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-track {
+    background: $color-athens-grey;
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb {
+    background: $color-nevada;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.autocomplete-dropdown::-webkit-scrollbar-thumb:hover {
+    background: $color-abbey;
+}
+
+// Ensure input field styling consistency when dropdown is open
+.autocomplete-container .type input:focus {
+    // Modify border radius when dropdown is visible to connect visually
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    border-bottom-color: $color-abbey;
+}
+
+// Handle case when dropdown is not visible - restore normal input styling
+.autocomplete-container:not(:focus-within) .type input,
+.autocomplete-container .type input:not(:focus) {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+// Responsive design considerations
+@media (max-width: 768px) {
+    .autocomplete-dropdown {
+        max-height: 150px; // Reduce height on smaller screens
+        font-size: 0.9rem; // Slightly smaller text on mobile
+    }
+    
+    .autocomplete-suggestion {
+        padding: 6px 10px; // Reduce padding on mobile
+        font-size: 0.9rem;
+        line-height: 1.3rem;
+    }
+}
+
+// High contrast mode support for accessibility
+@media (prefers-contrast: high) {
+    .autocomplete-dropdown {
+        border-width: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
+    }
+    
+    .autocomplete-suggestion {
+        border-bottom-width: 2px;
+        
+        &.highlighted {
+            background-color: $color-black;
+            color: $color-white;
+            border-color: $color-white;
+        }
+        
+        &:hover {
+            background-color: $color-blackboard;
+            color: $color-white;
+        }
+    }
+}
+
+// Reduced motion support for accessibility
+@media (prefers-reduced-motion: reduce) {
+    .autocomplete-suggestion {
+        transition: none;
+    }
+}
+
+// Focus management for accessibility
+.autocomplete-container {
+    // Ensure proper focus outline for keyboard navigation
+    &:focus-within .autocomplete-dropdown {
+        outline: 2px solid $color-san-marino;
+        outline-offset: -2px;
+    }
+}
+
+// Loading state styling (for future enhancement)
+.autocomplete-dropdown.loading {
+    &::after {
+        content: "Loading...";
+        display: block;
+        padding: 8px 12px;
+        color: $color-nevada;
+        font-style: italic;
+        text-align: center;
+    }
+}
+
+// Empty state styling
+.autocomplete-dropdown.empty {
+    &::after {
+        content: "No suggestions found";
+        display: block;
+        padding: 8px 12px;
+        color: $color-nevada;
+        font-style: italic;
+        text-align: center;
+    }
+}

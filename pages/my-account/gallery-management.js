@@ -11,6 +11,7 @@ import Navigation from "../../components/navigation";
 import Loader from "../../components/loader";
 import {postAuditEntry} from "../../common/common";
 import Footer from "../../components/footer";
+import GalleryForm from "../../components/gallery-form";
 
 const pageTitle = 'Gallery Management';
 
@@ -69,8 +70,15 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
                 <Navigation menus={menuList} />
                 <div className="boxouter">
                     <div className="container">
-                        <div className="userprofileframe">
+                        <div className="contactusframe">
                             <Title message={pageTitle} />
+                            {loading ? (
+                                    <Loader loading={loading} />
+                            ) : (
+                                <div className="contactuscontainer">
+                                    <GalleryForm data={data}  source={source} />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
