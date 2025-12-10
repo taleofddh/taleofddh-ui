@@ -7,7 +7,7 @@ import {
     formatMoney
 } from "../common/common";
 import {onError} from "../common/error";
-import TypeInput from "./type-Input";
+import TypeInput from "./type-input";
 import CheckBox from "./checkbox";
 import LoaderButton from "./loader-button";
 import Select from "./select";
