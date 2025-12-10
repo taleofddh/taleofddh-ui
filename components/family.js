@@ -1,5 +1,5 @@
 import React from 'react';
-import {MEDIA_HOST_PUBLIC} from "../common/constants";
+import {MEDIA_PROTECTED_HOST} from "../common/constants";
 import {yearFormatToString} from "../common/common";
 
 function Family({ source, path, type, family }) {
@@ -7,7 +7,7 @@ function Family({ source, path, type, family }) {
             <ul className="familygroup">
                 <li className="familyimagecontainer" style={{cursor: 'auto'}}>
                     <div className="familyimage">
-                        <img src={MEDIA_HOST_PUBLIC + '/images/org/' + type.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase() + '/' + family.image} alt={family.image} />
+                        <img src={MEDIA_PROTECTED_HOST + '/images/org/' + type.replace(/&/g, 'and').replace(/ /g, '-').toLowerCase() + '/' + family.image} alt={family.image} />
                     </div>
                 </li>
                 <li className="familytextcontainer" style={{cursor: 'auto'}}>

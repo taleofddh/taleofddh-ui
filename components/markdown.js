@@ -9,7 +9,7 @@ function Markdown({data, text, source, path}) {
     const isMobile = useMediaQuery('(max-width: 600px)');
     const isTablet = useMediaQuery('(max-width: 1200px)');
     const originalPath = '/desktop/'
-    console.log(data);
+    //console.log(data);
 
     useEffect(() => {
         if (isMobile) {
