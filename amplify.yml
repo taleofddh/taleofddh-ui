@@ -9,6 +9,8 @@ frontend:
         - nvm install 22
         - nvm use 22
         - node -v
+        - npm set "//${NPM_REGISTRY}/:_authToken" "${GITHUB_TOKEN}"
+        - npm set "@${PACKAGE_SCOPE}:registry" "https://${NPM_REGISTRY}"
         - npm install
     build:
       commands:
