@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
-function TypeInput({id, name, className = '', countryCode, disabled, initialValue = '', label = '', value, max, maxLength, min, note, onChange = () => {}, onKeyDown, onSelect,
+function TypeInput({id, name, className = '', countryCode, disabled, initialValue = '', label = '', value, max, maxLength, min, note, onChange = event => {}, onKeyDown, onSelect,
                        pattern, placeHolder = '', ref, required = true, size = 50, type, inputMode, title = 'Please match the requested format'}) {
     const [focused, setFocused] = useState(false);
     //const [value, setValue] = useState(initialValue);

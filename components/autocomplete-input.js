@@ -15,7 +15,7 @@ function AutocompleteInput({
     maxLength, 
     min, 
     note, 
-    onChange = () => {}, 
+    onChange = event => {},
     onKeyDown, 
     onSelect,
     pattern, 
@@ -32,7 +32,7 @@ function AutocompleteInput({
     debounceMs = 300,
     maxSuggestions = 5,
     minCharacters = 3,
-    onSuggestionSelect = () => {},
+    onSuggestionSelect = (suggestion, index) => {},
     filterFunction = null
 }) {
     // TypeInput state (following same patterns)

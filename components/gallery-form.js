@@ -66,19 +66,19 @@ function GalleryForm({data, source}) {
 
     // Suggestion selection handlers
     const handleCategorySuggestionSelect = (suggestion) => {
-        //console.log('Category selected:', suggestion);
+        console.log('Category selected:', suggestion);
     };
 
     const handleSubcategorySuggestionSelect = (suggestion) => {
-        //console.log('Subcategory selected:', suggestion);
+        console.log('Subcategory selected:', suggestion);
     };
 
     const handleCollectionSuggestionSelect = (suggestion) => {
-        //console.log('Collection selected:', suggestion);
+        console.log('Collection selected:', suggestion);
     };
 
     const handleNameSuggestionSelect = (suggestion) => {
-        //console.log('Name selected:', suggestion);
+        console.log('Name selected:', suggestion);
     };
 
     const handleFieldChange = (event) => {
