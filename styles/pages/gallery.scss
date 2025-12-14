@@ -15,17 +15,41 @@
     a {
       text-decoration: none;
     }
-
 }
 
 .gallerycontainer {
+  width: calc(100% - 30px);
+  height: auto;
+  line-height: 1.67rem;
   background-color: $color-transparent;
+  padding: 5px 5px 0px;
+  margin: 0px 10px;
+  float: left;
+}
+
+.galleryfieldcontainer {
+  margin: 0px;
+  padding: 5px 10px;
+}
+
+.gallerybuttoncontainer {
   width: calc(100% - 20px);
   height: auto;
-  font-family: Open Sans, Sans-Serif;
-  font-weight: normal;
-  margin: 0px 10px 10px;
+  margin: 0px 10px;
+  padding: 10px 0px;
+  background-color: $color-nero;
+  border: 0px solid $color-tan;
+  text-align: center;
   float: left;
+}
+
+.gallerylink {
+    font-weight: normal;
+    font-size: 0.9rem;
+    color: $color-atlantis;
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: right;
 }
 
 .galleryintro {

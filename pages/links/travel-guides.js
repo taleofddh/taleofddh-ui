@@ -24,7 +24,7 @@ function TravelGuides({menuList, handleLogout, authenticated, visitData, travelD
                     date: new Date(),
                     hostName: window.location.hostname,
                     countryCode: ddhomeCountry.country_code,
-                    ipAddress: ddhomeCountry.ip_address,
+                    ipAddress: ddhomeCountry.ip,
                     page: 'travel guides',
                     message: 'Travel Guides Page Accessed'
                 }

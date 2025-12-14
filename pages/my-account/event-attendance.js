@@ -27,7 +27,7 @@ function EventAttendance({menuList, handleLogout, authenticated, member, source,
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: addaSloughCountry.country_code,
-                ipAddress: addaSloughCountry.ip_address,
+                ipAddress: addaSloughCountry.ip,
                 page: 'my-account/event-attendance',
                 message: pagetitle + ' Page Accessed by ' + getSessionCookie("credential").sub
             }

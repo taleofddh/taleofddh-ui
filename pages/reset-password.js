@@ -37,7 +37,7 @@ function ResetPassword({menuList, handleLogout, authenticated, source, index, ur
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'reset password',
                 message: 'Reset Password Page Accessed'
             }

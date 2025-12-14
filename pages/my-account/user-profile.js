@@ -29,7 +29,7 @@ function UserProfile({menuList, handleLogout, authenticated, source, index, url}
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'my-account/user-profile',
                 message: 'User Profile Page Accessed by ' + getSessionCookie("credential").sub
             }

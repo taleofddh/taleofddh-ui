@@ -29,7 +29,7 @@ function MyAccount({menuList, handleLogout, authenticated, family, source, index
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'my-account',
                 message: 'My Account Page Accessed by ' + getSessionCookie("credential").sub
             }

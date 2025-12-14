@@ -25,7 +25,7 @@ function AlbumCollections({menuList, handleLogout, authenticated, historicalAlbu
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'gallery',
                 message: collection + ' Gallery Page Accessed'
             }

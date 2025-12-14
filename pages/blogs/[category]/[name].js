@@ -31,7 +31,7 @@ function BlogName({menuList, handleLogout, authenticated, blogData, blogText, ca
                     date: new Date(),
                     hostName: window.location.hostname,
                     countryCode: ddhomeCountry.country_code,
-                    ipAddress: ddhomeCountry.ip_address,
+                    ipAddress: ddhomeCountry.ip,
                     page: 'blogs',
                     message: name + ' Blog Page Accessed'
                 }

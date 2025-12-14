@@ -66,6 +66,8 @@ function FrontendArchitecture() {
                 <text x="1200" y="620" className="service-label" fontSize="12">Asia Edge</text>
 
                 {/* Caching Info */}
+                <rect x="1585" y="550" width="240" height="100" className="client-box"/>
+
                 <text x="1600" y="580" className="text" fontSize="14" fontWeight="bold">Caching Strategy:</text>
                 <text x="1600" y="600" className="text" fontSize="12">Static Assets: 1 year TTL</text>
                 <text x="1600" y="615" className="text" fontSize="12">Dynamic Content: 5 min TTL</text>
@@ -270,11 +272,11 @@ function FrontendArchitecture() {
                 <text x="460" y="1630" className="text" fontSize="12">Next.js - React Framework</text>
 
                 {/* Flow Indicators Legend */}
-                <circle cx="420" cy="1660" r="8" fill="#10B981"/>
-                <text x="440" y="1665" className="text" fontSize="12">Edge Locations</text>
+                <circle cx="435" cy="1665" r="8" fill="#10B981"/>
+                <text x="460" y="1670" className="text" fontSize="12">Edge Locations</text>
 
-                <circle cx="420" cy="1690" r="8" fill="#374151" stroke="#6B7280" strokeWidth="2"/>
-                <text x="440" y="1695" className="text" fontSize="12">Global User Regions</text>
+                <circle cx="435" cy="1705" r="8" fill="#374151" stroke="#6B7280" strokeWidth="2"/>
+                <text x="460" y="1710" className="text" fontSize="12">Global User Regions</text>
 
                 {/* Architecture Features */}
                 <rect x="750" y="1490" width="400" height="240" className="client-box"/>

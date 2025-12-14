@@ -20,7 +20,7 @@ function ContactUs({handleLogout, authenticated, menuList, source, index, url}) 
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'contact us',
                 message: 'Contact Us Page Accessed'
             }

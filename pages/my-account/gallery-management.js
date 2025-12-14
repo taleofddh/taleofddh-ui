@@ -26,7 +26,7 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
                     date: new Date(),
                     hostName: window.location.hostname,
                     countryCode: ddhomeCountry.country_code,
-                    ipAddress: ddhomeCountry.ip_address,
+                    ipAddress: ddhomeCountry.ip,
                     page: 'user profile',
                     message: 'Gallery Management Page Accessed by ' + getSessionCookie("credential").sub
                 }
@@ -40,8 +40,8 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
                 const {tokens} = await fetchAuthSession({ forceRefresh: true });
                 if(tokens) {
                     const res = await get({
-                        apiName: 'findAlbumCategorySubCategoryCollectionNames',
-                        path: '/albumCategorySubCategoryCollectionNames',
+                        apiName: 'findAlbums',
+                        path: '/albums',
                         options: {
                             headers: {
                                 'Accept': 'application/json',
@@ -76,7 +76,7 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
                                     <Loader loading={loading} />
                             ) : (
                                 <div className="contactuscontainer">
-                                    <GalleryForm data={data}  source={source} />
+                                    <GalleryForm data={data} source={source} />
                                 </div>
                             )}
                         </div>

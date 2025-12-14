@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {serverGet} from '../common/server-config';
 import {INDEX_FLAG, HOST_NAME, PAGE_REVALIDATE_PERIOD} from '../common/constants';
 import { getSessionCookie } from "../common/session";
@@ -8,9 +8,23 @@ import ResponsiveNavigation from "../components/responsive-navigation";
 import Footer from "../components/footer";
 import BlogSection from "../components/blog-section";
 import Banner from "../components/banner";
+import {postAuditEntry} from "../common/common";
 
 function Home({geolocationData, menuList, handleLogout, authenticated, promotionData, technicalBlogData, travelBlogData, recipeBlogData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
+
+    useEffect(() => {
+        postAuditEntry(
+                {
+                    date: new Date(),
+                    hostName: window.location.hostname,
+                    countryCode: ddhomeCountry.country_code,
+                    ipAddress: ddhomeCountry.ip,
+                    page: 'home',
+                    message: 'Home Page Accessed'
+                }
+        );
+    }, [ddhomeCountry]);
 
     return (
         <>

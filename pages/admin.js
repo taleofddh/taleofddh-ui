@@ -35,7 +35,7 @@ function Admin(props) {
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'user profile',
                 message: 'User Profile Page Accessed by ' + getSessionCookie("credential").identityId
             }

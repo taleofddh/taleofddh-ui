@@ -21,7 +21,7 @@ function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEvent
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'gallery',
                 message: category + ' Gallery Page Accessed'
             }

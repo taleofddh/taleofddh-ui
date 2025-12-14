@@ -21,7 +21,7 @@ function SignUp({ menuList, handleLogout, authenticated, source, index, url }) {
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'sign up',
                 message: 'Sign up Page Accessed'
             }

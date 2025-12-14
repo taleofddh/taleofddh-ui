@@ -20,7 +20,7 @@ function TermsAndConditions({ menuList, handleLogout, authenticated, data, sourc
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'terms and conditions',
                 message: 'Terms and Conditions Page Accessed'
             }

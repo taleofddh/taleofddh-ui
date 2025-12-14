@@ -33,7 +33,7 @@ function ChangePassword({ menuList, handleLogout, authenticated, source, index, 
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'change password',
                 message: 'Change Password Page Accessed by ' + getSessionCookie("credential").identityId
             }

@@ -28,7 +28,7 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'gallery',
                 message: name + ' Gallery Page Accessed'
             }
@@ -126,7 +126,7 @@ export const getStaticProps = async ({ context, params }) => {
     //console.log(category, subCategory, collection, name);
     //console.log(('images/albums/' + category + '/' + subCategory + '/' + collection + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
-    const albumData = await serverGet('findAlbum', '/album', [category, subCategory, collection, name]);
+    const albumData = await serverGet('findAlbumWithMedia', '/albumWithMedia', [category, subCategory, collection, name]);
     //console.log(JSON.stringify(albumData));
     const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Gallery | taleofddh';
     const desc = albumData.description;

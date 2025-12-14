@@ -21,7 +21,7 @@ function FrequentlyAskedQuestions({ menuList, handleLogout, authenticated, data,
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'home',
                 message: 'Frequetly Asked Question Page Accessed'
             }

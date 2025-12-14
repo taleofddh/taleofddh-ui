@@ -22,7 +22,7 @@ function SolutionsArchitecture({ menuList, handleLogout, authenticated, source, 
                     date: new Date(),
                     hostName: window.location.hostname,
                     countryCode: ddhomeCountry.country_code,
-                    ipAddress: ddhomeCountry.ip_address,
+                    ipAddress: ddhomeCountry.ip,
                     page: 'link/solution-architecture',
                     message: 'Solutions Architecture Guides Page Accessed'
                 }

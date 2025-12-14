@@ -22,7 +22,7 @@ function Links({ menuList, handleLogout, authenticated, data, source, index, url
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'links',
                 message: 'Links Page Accessed'
             }

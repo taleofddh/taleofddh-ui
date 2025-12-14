@@ -22,7 +22,7 @@ function Blogs({ menuList, handleLogout, authenticated, historicalBlogData, sour
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'blog',
                 message: 'Blogs Page Accessed'
             }

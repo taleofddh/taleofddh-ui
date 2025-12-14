@@ -24,7 +24,7 @@ function AboutUs({ menuList, handleLogout, authenticated, data, source, index, u
                 date: new Date(),
                 hostName: window.location.hostname,
                 countryCode: ddhomeCountry.country_code,
-                ipAddress: ddhomeCountry.ip_address,
+                ipAddress: ddhomeCountry.ip,
                 page: 'about us',
                 message: 'About Us Page Accessed'
             }
