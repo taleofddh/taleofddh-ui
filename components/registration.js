@@ -26,8 +26,10 @@ function Registration() {
     useEffect(() => {
         if(!router.isReady) return;
         const params = router.query;
-        const redirectValue = params.redirect;
-        setRedirect(redirectValue);
+        const redirectValue = params.redirect ? params.redirect.toString() : '';
+        if(redirectValue && redirectValue.length > 0) {
+            setRedirect(redirectValue);
+        }
     }, [router]);
 
     const submitRegistration = async (submitEvent) => {

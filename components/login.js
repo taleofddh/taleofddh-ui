@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
 import Link from 'next/link';
-import {post} from 'aws-amplify/api';
-import {fetchAuthSession, fetchUserAttributes, signIn} from 'aws-amplify/auth';
+import {signIn} from 'aws-amplify/auth';
 import 'aws-amplify/auth/enable-oauth-listener';
 import {useFormFields} from "../common/hook";
 import {getSessionCookie, setSessionCookie} from "../common/session";
