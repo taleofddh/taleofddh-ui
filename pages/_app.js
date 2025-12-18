@@ -16,7 +16,6 @@ import {
     setSessionCookie,
     removeSessionCookie
 } from "../common/session";
-//import { useFetch, useGet } from "../common/hook";
 import { onError } from '../common/error';
 import MetaTag from "../components/metatag";
 //Global Styles
@@ -98,7 +97,9 @@ function App({ Component, pageProps }) {
         country_code : '',
         country_name : ''
     });
+    const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
+    const [route, setRoute] = useState('');
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
     const [isAuthenticating, setIsAuthenticating] = useState(true)
     const [family, setFamily] = useState({});
@@ -151,8 +152,6 @@ function App({ Component, pageProps }) {
 
     useEffect(() => {
         const onLoad = async () => {
-            let user = null;
-            let route = '';
             Hub.listen('auth', async ({ payload}) => {
                 console.log('payload: ', payload);
                 switch (payload.event) {
@@ -165,13 +164,13 @@ function App({ Component, pageProps }) {
                     case "signedIn":
                         console.log('signedIn successful');
                         if(payload.data) {
-                            user = payload.data;
+                            setUser(payload.data);
                         }
                         await updateUserLoginAndRoute(route);
                         break;
                     case 'customOAuthState':
                         if(payload.data) {
-                            route = JSON.parse(payload.data);
+                            setRoute(JSON.parse(payload.data));
                         }
                         break;
                     case 'signedOut':
@@ -189,6 +188,19 @@ function App({ Component, pageProps }) {
 
         onLoad();
     }, []);
+
+    useEffect(() => {
+        if(user && isAuthenticated) {
+            console.log('route', route);
+            // Check if the user needs to be redirected to a specific route after sign-in.
+            if(route && route.length > 0) {
+                router.push(route, route);
+            } else {
+                router.push('/', '/');
+            }
+            console.log('Redirected to appropriate page successfully');
+        }
+    }, [route, user, isAuthenticated]);
 
     const updateUserLoginAndRoute = async (route) => {
         try {
@@ -242,15 +254,6 @@ function App({ Component, pageProps }) {
                     setFamily({...family, ...familyData});
                 }
                 console.log('Community updated successfully');
-
-                console.log('route', route);
-                // Check if the user needs to be redirected to a specific route after sign-in.
-                if(route && route.length > 0) {
-                    await router.push(route, route);
-                } else {
-                    await router.push('/', '/');
-                }
-                console.log('Redirected to appropriate page successfully');
             }
             setIsAuthenticating(false);
         }
@@ -261,6 +264,8 @@ function App({ Component, pageProps }) {
             }
         }
     }
+
+
 
     const handleLogout = async () => {
         await signOut();
