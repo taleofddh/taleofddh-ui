@@ -6,7 +6,7 @@ import Icon from "../common/icon";
 import {useSessionContext} from "../common/session";
 import {signOut} from "aws-amplify/auth";
 
-function ResponsiveNavigation({menus, isAuthenticated}) {
+function ResponsiveNavigation({menus, isAuthenticated, onLogout}) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleStateChange = (state) => {
@@ -21,6 +21,9 @@ function ResponsiveNavigation({menus, isAuthenticated}) {
         setMenuOpen(!menuOpen);
     }
 
+    const handleLogout = async () => {
+        onLogout();
+    }
 
     return (
         <div className="mobilemenuwrapper" id="outer-container">
@@ -41,7 +44,7 @@ function ResponsiveNavigation({menus, isAuthenticated}) {
                     {menus.map((item, index) => {
                         return (
                             <label key={index} className="itemwrapper" onClick={closeMenu}>
-                                <HamburgerMenuItem menu={item} isAuthenticated={isAuthenticated} onClick={closeMenu}/>
+                                <HamburgerMenuItem menu={item} isAuthenticated={isAuthenticated} onClick={closeMenu} onLogout={handleLogout}/>
                             </label>
                         )
                     })}
@@ -52,7 +55,7 @@ function ResponsiveNavigation({menus, isAuthenticated}) {
 
 }
 
-function HamburgerMenuItem({menu, isAuthenticated}) {
+function HamburgerMenuItem({menu, isAuthenticated, onLogout}) {
     const router = useRouter();
     //var isActive = this.props.location.pathname === this.props.menu.link;
     var activeClassName;
@@ -78,12 +81,9 @@ function HamburgerMenuItem({menu, isAuthenticated}) {
         visible = false;
     }
 
-    const handleLogout = async (clickEvent) => {
-        clickEvent.preventDefault();
-        await signOut();
-        await router.push("sign-in",
-            "/sign-in"
-        );
+    const handleClick = (event) => {
+        event.preventDefault();
+        onLogout() && onLogout(event)
     }
 
     return (
@@ -101,7 +101,35 @@ function HamburgerMenuItem({menu, isAuthenticated}) {
                     </p>
                 </a>
             ) : (
-                <Link href={menu.link} as={menu.link}>
+                <>
+                    {menu.name === 'Sign-out' ? (
+                        <p className="menuitem">
+                            <span className="menuitemicon">
+                                <Icon name={menu.icon} fill="#FFFFFF" />
+                            </span>
+                            <span className="menuitemname" onClick={handleClick}>
+                                &nbsp;&nbsp;&nbsp;
+                                {menu.name}
+                            </span>
+                        </p>
+                    ) : (
+                        <Link href={menu.link} as={menu.link}>
+                            <p className="menuitem">
+                                <span className={menu.link === '/' && router.asPath === menu.link ||
+                                    menu.link !== '/' && router.asPath.startsWith(menu.link) ? activeClassName : ''}>
+                                    <span className="menuitemicon">
+                                        <Icon name={menu.icon} fill="#FFFFFF" />
+                                    </span>
+                                    <span className="menuitemname">
+                                        &nbsp;&nbsp;&nbsp;
+                                        {menu.name}
+                                    </span>
+                                </span>
+                            </p>
+                        </Link>
+                    )}
+
+                {/*<Link href={menu.link} as={menu.link}>
                     <p className="menuitem">
                         <span className={menu.link === '/' && router.asPath === menu.link ||
                     menu.link !== '/' && router.asPath.startsWith(menu.link) ? 'item ' + activeClassName : 'item'}>
@@ -109,7 +137,7 @@ function HamburgerMenuItem({menu, isAuthenticated}) {
                                 <Icon name={menu.icon} fill="#FFFFFF" />
                             </span>
                             {menu.name === 'Sign-out' ? (
-                                <span className="menuitemname" onClick={handleLogout}>
+                                <span className="menuitemname" onClick={handleClick}>
                                     &nbsp;&nbsp;&nbsp;
                                     {menu.name}
                                 </span>
@@ -121,7 +149,8 @@ function HamburgerMenuItem({menu, isAuthenticated}) {
                             )}
                         </span>
                     </p>
-                </Link>
+                </Link>*/}
+                </>
             )}
         </>)
     )

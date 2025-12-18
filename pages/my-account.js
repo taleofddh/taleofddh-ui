@@ -50,7 +50,7 @@ function MyAccount({menuList, handleLogout, authenticated, family, source, index
                             'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         },
-                        body: {userId: attributes.sub, identityId: identityId, email: attributes.email, updatedAt: new Date(), lastLogin: new Date(), family: family},
+                        body: {userId: attributes.sub, identityId: identityId, email: attributes.email, lastLogin: new Date(), family: family},
                     }
                 }).response;
 
@@ -100,7 +100,7 @@ function MyAccount({menuList, handleLogout, authenticated, family, source, index
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">

@@ -33,7 +33,7 @@ function AboutUs({ menuList, handleLogout, authenticated, data, source, index, u
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">

@@ -65,7 +65,7 @@ function EventAttendance({menuList, handleLogout, authenticated, member, source,
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Header country={addaSloughCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">

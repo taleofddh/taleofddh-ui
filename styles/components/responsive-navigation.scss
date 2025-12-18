@@ -88,6 +88,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   line-height: 1.67rem;
   padding: 1rem 1.8rem;
   color: $color-white;
+  cursor: pointer;
   &:hover {
     background-color: $color-hot-cinnamon;
     color: $color-white;

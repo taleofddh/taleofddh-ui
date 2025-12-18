@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {serverGet} from "../common/server-config";
+import 'aws-amplify/auth/enable-oauth-listener';
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../common/constants";
 import { getSessionCookie } from "../common/session";
 import Header from '../components/header';
@@ -31,7 +32,7 @@ function Gallery({menuList, handleLogout, authenticated, recentAlbumData, histor
 
     return (
         <>
-            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
