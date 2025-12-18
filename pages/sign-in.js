@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {serverGet} from "../common/server-config";
 import {postAuditEntry} from "../common/common";
 import Title from "../components/title";
-import LoginForm from "../components/login-form";
+import Login from "../components/login";
 import {getSessionCookie} from "../common/session";
 import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
@@ -37,7 +37,7 @@ function SignIn({ menuList, handleLogout, authenticated, source, index, url }) {
                 <div className="container">
                     <div className="signinframe">
                         <Title message={pageTitle} />
-                        <LoginForm />
+                        <Login />
                     </div>
                 </div>
             </div>

@@ -93,14 +93,12 @@ function Registration() {
 
     const renderForm = () => {
         return (
-            <form key="LoginForm" name="LoginForm" onSubmit={submitRegistration}>
+            <form key="RegistrationForm" name="RegistrationForm" onSubmit={submitRegistration}>
                 <div className="registrationbuttoncontainer">
-                    <FacebookButton
-                        onLogin={handleFederatedLogin} />
+                    <FacebookButton route={redirect && redirect.length > 0 ? redirect : '/'} />
                 </div>
                 <div className="registrationbuttoncontainer">
-                    <GoogleButton
-                        onLogin={handleFederatedLogin} />
+                    <GoogleButton route={redirect && redirect.length > 0 ? redirect : '/'} />
                 </div>
                 <hr />
                 <div className="registrationcontainer">

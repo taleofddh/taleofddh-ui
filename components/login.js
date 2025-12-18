@@ -12,7 +12,7 @@ import LoaderButton from "./loader-button";
 import FacebookButton from "./facebook-button";
 import GoogleButton from "./google-button";
 
-function LoginForm() {
+function Login() {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const router = useRouter();
     const [redirect, setRedirect] = useState('');
@@ -105,7 +105,7 @@ function LoginForm() {
 
     return (
         <>
-            <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
+            <form key="Login" name="LoginForm" onSubmit={submitLogin}>
                 <div className="loginbuttoncontainer">
                     <FacebookButton route={redirect && redirect.length > 0 ? redirect : '/'} />
                 </div>
@@ -174,4 +174,4 @@ function LoginForm() {
     )
 }
 
-export default LoginForm;
+export default Login;

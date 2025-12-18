@@ -91,7 +91,7 @@ function EmailAdmin(props) {
                 <Loader loading={isLoading} />
             ) : (
                 <>
-                    <form key="LoginForm" name="EmailForm" onSubmit={loadEmail}>
+                    <form key="Login" name="EmailForm" onSubmit={loadEmail}>
                         <div style={{width: '100%', float: 'left'}}>
                             <LoaderButton
                                 name="ProcessMessageButton"
