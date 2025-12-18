@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
-import { post } from 'aws-amplify/api';
-import {fetchAuthSession, signUp, confirmSignUp, signIn, fetchUserAttributes} from 'aws-amplify/auth';
+import { signUp, confirmSignUp, signIn } from 'aws-amplify/auth';
 import { useFormFields } from "../common/hook";
-import { getSessionCookie, setSessionCookie } from "../common/session";
+import { getSessionCookie } from "../common/session";
 import { onError } from "../common/error";
 import TypeInput from "./type-input";
 import LoaderButton from "./loader-button";
@@ -68,36 +67,7 @@ function Registration() {
                 username: fields.username,
                 password: fields.password
             });
-            const {tokens, identityId} = await fetchAuthSession({ forceRefresh: true })
-            const attributes = await fetchUserAttributes();
-            if(tokens && tokens !== undefined) {
-                setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
-                await post({
-                    apiName: "createUserProfile",
-                    path: "/createUserProfile",
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: {
-                            email: fields.username,
-                            identityId: identityId,
-                            updatedAt: new Date(),
-                            lastLogin: new Date()
-                        },
-                    }
-                });
-            }
-            if(redirect && redirect !== undefined && redirect.length > 0) {
-                await router.push(redirect,
-                    redirect
-                );
-            } else {
-                await router.push('/home',
-                    '/'
-                );
-            }
+            setIsLoading(false);
         } catch (e) {
             onError(e);
             setIsLoading(false);

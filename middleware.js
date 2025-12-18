@@ -11,7 +11,7 @@ export const middleware = async (request) => {
         if (currentUser) {
             return NextResponse.next();
         } else {
-            return NextResponse.redirect(new URL('/sign-in', request.url));
+            return NextResponse.redirect(new URL('/sign-in' + '?redirect=' + path, request.url));
         }
     } else {
         return NextResponse.next();

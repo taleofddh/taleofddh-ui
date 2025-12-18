@@ -88,7 +88,7 @@ function Profile({data, source}) {
 
         try {
             const {tokens} = await fetchAuthSession({forceRefresh: true});
-            if(tokens && tokens !== undefined) {
+            if(tokens) {
                 await post({
                     apiName: "createOrUpdateUserProfile",
                     path: "/createOrUpdateUserProfile",

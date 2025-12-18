@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import * as gtag from '../common/gtag';
 import {Hub} from 'aws-amplify/utils';
-import {get} from 'aws-amplify/api';
+import {get, post} from 'aws-amplify/api';
 import {fetchAuthSession, getCurrentUser, signOut, fetchUserAttributes} from 'aws-amplify/auth';
 import 'aws-amplify/auth/enable-oauth-listener';
 import { configureAmplify } from '../common/config'
@@ -98,9 +98,7 @@ function App({ Component, pageProps }) {
         country_code : '',
         country_name : ''
     });
-    const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-    const [customState, setCustomState] = useState(null);
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
     const [isAuthenticating, setIsAuthenticating] = useState(true)
     const [family, setFamily] = useState({});
@@ -153,83 +151,116 @@ function App({ Component, pageProps }) {
 
     useEffect(() => {
         const onLoad = async () => {
-            Hub.listen('auth', ({ payload}) => {
-                let route = '';
-                let user = '';
+            let user = null;
+            let route = '';
+            Hub.listen('auth', async ({ payload}) => {
+                console.log('payload: ', payload);
                 switch (payload.event) {
-                    case "signInWithRedirect" || 'signedIn':
-                        getUser();
-                        //console.log('user: ', user);
+                    case "signInWithRedirect":
+                        console.log('signInWithRedirect inside OAuth flow.');
                         break;
                     case "signInWithRedirect_failure":
-                        setError("An error has occurred during the OAuth flow.");
+                        setError("signInWithRedirect error has occurred during the OAuth flow.");
+                        break;
+                    case "signedIn":
+                        console.log('signedIn successful');
+                        if(payload.data) {
+                            user = payload.data;
+                        }
+                        await updateUserLoginAndRoute(route);
                         break;
                     case 'customOAuthState':
-                        setCustomState(payload.data);
-                        /*route = JSON.parse(data);
-                        //console.log('route: ', route);
-                        if(route && route !== undefined)
-                            router.push(route.replace(/-/g, ''), route);*/
+                        if(payload.data) {
+                            route = JSON.parse(payload.data);
+                        }
+                        break;
+                    case 'signedOut':
+                        console.log('signedOut successful');
+                        break;
+                    case 'tokenRefresh':
+                        console.log('Auth Token Refreshed');
                         break;
                     default:
                         console.log('No Sign in Event');
                         break;
-                        //router.push('/home', '/');
                 }
             });
-            try {
-                const {
-                    tokens,
-                    identityId
-                } = await fetchAuthSession({ forceRefresh: true });
-                if (tokens) {
-                    await getUser();
-                    const attributes = await fetchUserAttributes();
-                    //console.log('attributes: ', attributes);
-                    const email = attributes.email;
-                    userHasAuthenticated(true);;
-                    setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
-
-                    if(pageProps.hasOwnProperty('family') && pageProps.family && pageProps.family.hasOwnProperty('members')) {
-                        setFamily({...family, ...pageProps.family});
-                    } else {
-                        let res = await get({
-                            apiName: 'findFamilyByEmail',
-                            path: '/familyByEmail/' + encodeURI(email) + '/true',
-                            options: {
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                }
-                            }
-                        }).response;
-                        //console.log(await res.body.json());
-                        const familyData = await res.body.json();
-                        setFamily({...family, ...familyData});
-                    }
-                }
-            }
-            catch(e) {
-                //console.error(e);
-                if (e !== undefined && e !== 'No current user') {
-                    onError(e);
-                }
-            }
-            setIsAuthenticating(false);
         }
 
         onLoad();
     }, []);
 
-    const getUser = async () => {
+    const updateUserLoginAndRoute = async (route) => {
         try {
-            const currentUser = await getCurrentUser();
-            setUser(currentUser);
-        } catch (error) {
-            console.error(error);
-            console.log("Not signed in");
+            console.log('Inside updateUserLoginAndRoute');
+            const {
+                tokens,
+                identityId
+            } = await fetchAuthSession({ forceRefresh: true });
+            if (tokens) {
+                const attributes = await fetchUserAttributes();
+                //console.log('attributes: ', attributes);
+                const email = attributes.email;
+                userHasAuthenticated(true);
+                setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
+
+                //update or create a user profile after sign-in
+                const profile = {
+                    identityId: identityId,
+                    useId: attributes.sub,
+                    email: email,
+                    lastLogin: new Date()
+                }
+                await post({
+                    apiName: "createOrUpdateUserProfile",
+                    path: "/createOrUpdateUserProfile",
+                    options: {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: profile,
+                    }
+                }).response;
+                console.log('Profile updated successfully');
+
+                if(pageProps.hasOwnProperty('family') && pageProps.family && pageProps.family.hasOwnProperty('members')) {
+                    setFamily({...family, ...pageProps.family});
+                } else {
+                    let res = await get({
+                        apiName: 'findFamilyByEmail',
+                        path: '/familyByEmail/' + encodeURI(email) + '/true',
+                        options: {
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    }).response;
+                    //console.log(await res.body.json());
+                    const familyData = await res.body.json();
+                    setFamily({...family, ...familyData});
+                }
+                console.log('Community updated successfully');
+
+                console.log('route', route);
+                // Check if the user needs to be redirected to a specific route after sign-in.
+                if(route && route.length > 0) {
+                    await router.push(route, route);
+                } else {
+                    await router.push('/', '/');
+                }
+                console.log('Redirected to appropriate page successfully');
+            }
+            setIsAuthenticating(false);
         }
-    };
+        catch(e) {
+            //console.error(e);
+            if (e !== undefined && e !== 'No current user') {
+                onError(e);
+            }
+        }
+    }
 
     const handleLogout = async () => {
         await signOut();

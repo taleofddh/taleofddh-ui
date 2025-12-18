@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
 import Link from 'next/link';
-import { put } from 'aws-amplify/api';
+import {post} from 'aws-amplify/api';
 import {fetchAuthSession, fetchUserAttributes, signIn} from 'aws-amplify/auth';
+import 'aws-amplify/auth/enable-oauth-listener';
 import {useFormFields} from "../common/hook";
 import {getSessionCookie, setSessionCookie} from "../common/session";
 import {onError} from "../common/error";
@@ -11,12 +12,12 @@ import LoaderButton from "./loader-button";
 import FacebookButton from "./facebook-button";
 import GoogleButton from "./google-button";
 
-function Login() {
+function LoginForm() {
+    const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const router = useRouter();
     const [redirect, setRedirect] = useState('');
     const [resetPwdProp, setResetPwdProp] = useState({});
     const [signUpProp, setSignUpProp] = useState({});
-    const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const [isLoading, setIsLoading] = useState(false);
     const [fields, handleFieldChange] = useFormFields({
         username : '',
@@ -27,8 +28,9 @@ function Login() {
     useEffect(() => {
         if(!router.isReady) return;
         const params = router.query;
-        const redirectValue = params.redirect;
-        if(redirectValue !== undefined && redirectValue.length > 0) {
+        const redirectValue = params.redirect ? params.redirect.toString() : '';
+        //console.log(redirectValue);
+        if(redirectValue && redirectValue.length > 0) {
             setRedirect(redirectValue);
             const resetPwdValue = {
                 href: {
@@ -76,8 +78,6 @@ function Login() {
 
     const submitLogin = async (submitEvent) => {
         submitEvent.preventDefault();
-        console.log(fields.username);
-
         setIsLoading(true);
         try {
             const {
@@ -87,37 +87,7 @@ function Login() {
                 username: fields.username,
                 password: fields.password
             });
-            const {
-                identityId,
-                credentials,
-                userSub,
-                tokens
-            } = await fetchAuthSession({ forceRefresh: true })
-            const attributes = await fetchUserAttributes();
-            if(tokens && tokens !== undefined) {
-                setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
-                await put({
-                    apiName: "updateUserProfile",
-                    path: "/updateUserProfile",
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: {identityId: identityId, lastLogin: new Date()},
-                    }
-                });
-            }
             setIsLoading(false);
-            if(redirect && redirect !== undefined && redirect.length > 0) {
-                await router.push(redirect,
-                    redirect
-                );
-            } else {
-                await router.push('/home',
-                    '/'
-                );
-            }
         } catch (e) {
             onError(e);
             setIsLoading(false);
@@ -137,12 +107,10 @@ function Login() {
         <>
             <form key="LoginForm" name="LoginForm" onSubmit={submitLogin}>
                 <div className="loginbuttoncontainer">
-                    <FacebookButton
-                        onLogin={handleFederatedLogin} route={redirect.length > 0 ? redirect : '/'} />
+                    <FacebookButton route={redirect && redirect.length > 0 ? redirect : '/'} />
                 </div>
                 <div className="loginbuttoncontainer">
-                    <GoogleButton
-                        onLogin={handleFederatedLogin} route={redirect.length > 0 ? redirect : '/'} />
+                    <GoogleButton route={redirect && redirect.length > 0 ? redirect : '/'} />
                 </div>
                 <div className="logincontainer">
                     <div className="loginfieldcontainer">
@@ -206,4 +174,4 @@ function Login() {
     )
 }
 
-export default Login;
+export default LoginForm;

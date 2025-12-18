@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { signInWithRedirect } from "aws-amplify/auth";
 import LoaderButton from "./loader-button";
 
-function GoogleButton({onLogin, route}) {
+function GoogleButton({route}) {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleClick = async () => {
@@ -13,7 +13,6 @@ function GoogleButton({onLogin, route}) {
                 customState: JSON.stringify(route)
             });
             setIsLoading(false);
-            onLogin(response);
         } catch (e) {
             setIsLoading(false);
             console.log(e);
