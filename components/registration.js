@@ -88,11 +88,6 @@ function Registration() {
         return fields.confirmationCode.length > 0;
     }
 
-    const handleFederatedLogin = async (response) => {
-        //userHasAuthenticated(true);
-        console.log(response);
-    };
-
     const renderForm = () => {
         return (
             <form key="RegistrationForm" name="RegistrationForm" onSubmit={submitRegistration}>

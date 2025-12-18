@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {signIn} from 'aws-amplify/auth';
 import 'aws-amplify/auth/enable-oauth-listener';
 import {useFormFields} from "../common/hook";
-import {getSessionCookie, setSessionCookie} from "../common/session";
+import {getSessionCookie} from "../common/session";
 import {onError} from "../common/error";
 import TypeInput from "./type-input";
 import LoaderButton from "./loader-button";
