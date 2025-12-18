@@ -35,7 +35,7 @@ function Profile({data, source}) {
     const [fields, handleFieldChange] = useFormFields({
         firstName : profile.firstName,
         lastName: profile.lastName,
-        dateOfBirth: dateFormatToString(new Date(profile.dateOfBirth)),
+        dateOfBirth: profile.dateOfBirth !== '' ? dateFormatToString(new Date(profile.dateOfBirth)) : '',
         gender: profile.gender,
         email : profile.email,
         address1: profile.address1,
@@ -71,7 +71,7 @@ function Profile({data, source}) {
             identityId: getSessionCookie("identityId"),
             firstName : fields.firstName,
             lastName: fields.lastName,
-            dateOfBirth: new Date(fields.dateOfBirth),
+            dateOfBirth: fields.dateOfBirth !== '' ? dateFormatToString(new Date(fields.dateOfBirth)) : '',
             gender: fields.gender,
             address1: fields.address1,
             address2: fields.address2,
@@ -110,13 +110,35 @@ function Profile({data, source}) {
     }
 
     const validateForm = () => {
-        const nameRegex = RegExp('^[A-Za-z0-9 ]{1,50}$');
+        let valid = false
+        const nameRegex = RegExp('^[A-Za-z0-9 \.)(/\&\\-\']{1,50}$');
+        const dateRegex = RegExp('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
         const emailRegex = RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$');
         const phoneRegex = RegExp('^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]{8,}$');
-        return fields.firstName.match(nameRegex)
+
+        for (const key in fields) {
+            valid = false;
+            //console.log(key + ': ' + fields[key]);
+            if ((key === 'firstName' || key === 'lastName') && (fields[key].length > 0 && fields[key].match(nameRegex) === null)) {
+                break;
+            }
+            if ((key === 'email') && (fields[key].length > 0 && fields[key].match(emailRegex) === null)) {
+                break;
+            }
+            if ((key === 'dateOfBirth') && (fields[key].length > 0 && fields[key].match(dateRegex) === null)) {
+                break;
+            }
+            if ((key === 'phone') && (fields[key].length > 0 && fields[key].match(phoneRegex) === null)) {
+                break;
+            }
+            valid = true;
+        }
+        return valid;
+
+        /*return fields.firstName.match(nameRegex)
             && fields.email.match(emailRegex)
             && (fields.phone.length === 0 || (fields.phone.length > 0 && fields.phone.match(phoneRegex)))
-            && fields.about.length > 0;
+            && fields.about.length > 0;*/
     }
 
     return (
@@ -193,7 +215,7 @@ function Profile({data, source}) {
                                    label="Email"
                                    type="email"
                                    disabled={true}
-                                   required={false}
+                                   required={true}
                                    initialValue={fields.email}
                                    value={fields.email}
                                    placeHolder="e.g. email@domain.com"
