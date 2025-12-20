@@ -10,14 +10,11 @@ import Footer from "../components/footer";
 import {postAuditEntry} from "../common/common";
 import PhotoCollection from "../components/photo-collection";
 import HistoricalList from "../components/historical-list";
-import {getCurrentUser} from "aws-amplify/auth";
-import {onError} from "../common/error";
 
 const pageTitle = "Gallery";
 
 function Gallery({menuList, handleLogout, authenticated, recentAlbumData, historicalAlbumData, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const [isAuthenticated, setIsAuthenticated] = useState(authenticated);
 
     useEffect(() => {
         postAuditEntry(
@@ -32,24 +29,10 @@ function Gallery({menuList, handleLogout, authenticated, recentAlbumData, histor
         );
     }, [ddhomeCountry]);
 
-    useEffect(() => {
-        getUser();
-    })
-
-    const getUser = async () => {
-        try{
-            const user = await getCurrentUser();
-            setIsAuthenticated(true);
-        } catch (e) {
-            onError(e);
-            setIsAuthenticated(false);
-        }
-    }
-
     return (
         <>
-            <ResponsiveNavigation menus={menuList} isAuthenticated={isAuthenticated} onLogout={handleLogout} />
-            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+            <ResponsiveNavigation menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
+            <Header country={ddhomeCountry} menus={menuList} isAuthenticated={authenticated} onLogout={handleLogout} />
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">

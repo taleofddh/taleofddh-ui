@@ -10,7 +10,6 @@ import CookieConsent from "react-cookie-consent";
 import { GEOLOCATION_URL, MEASUREMENT_FLAG } from "../common/constants";
 import countries from "../common/countries";
 import {
-    setCookieStorage,
     SessionContext,
     getSessionCookie,
     setSessionCookie,
@@ -101,7 +100,8 @@ function App({ Component, pageProps }) {
     const [error, setError] = useState(null);
     const [route, setRoute] = useState('');
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
-    const [isAuthenticating, setIsAuthenticating] = useState(true)
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [credentialCookie, setCredentialCookie] = useState(false);
     const [family, setFamily] = useState({});
     const [session] = useState(getSessionCookie);
     const router = useRouter();
@@ -166,7 +166,7 @@ function App({ Component, pageProps }) {
                         if(payload.data) {
                             setUser(payload.data);
                         }
-                        await updateUserLoginAndRoute(route);
+                        await updateUserLogin();
                         break;
                     case 'customOAuthState':
                         if(payload.data) {
@@ -190,9 +190,9 @@ function App({ Component, pageProps }) {
     }, []);
 
     useEffect(() => {
-        if(user && isAuthenticated) {
-            console.log('route', route);
+        if(user && isAuthenticated && credentialCookie) {
             // Check if the user needs to be redirected to a specific route after sign-in.
+            console.log('dependencies', route, user, isAuthenticated, credentialCookie);
             if(route && route.length > 0) {
                 router.push(route, route);
             } else {
@@ -200,9 +200,9 @@ function App({ Component, pageProps }) {
             }
             console.log('Redirected to appropriate page successfully');
         }
-    }, [route, user, isAuthenticated]);
+    }, [route, user, isAuthenticated, credentialCookie]);
 
-    const updateUserLoginAndRoute = async (route) => {
+    const updateUserLogin = async () => {
         try {
             console.log('Inside updateUserLoginAndRoute');
             const {
@@ -256,6 +256,9 @@ function App({ Component, pageProps }) {
                 console.log('Community updated successfully');
             }
             setIsAuthenticating(false);
+            if(getSessionCookie('credential').hasOwnProperty('sub') && getSessionCookie('credential').hasOwnProperty('identityId')) {
+                setCredentialCookie(true);
+            }
         }
         catch(e) {
             //console.error(e);
@@ -271,6 +274,7 @@ function App({ Component, pageProps }) {
         await signOut();
         userHasAuthenticated(false);
         removeSessionCookie("credential");
+        setCredentialCookie(false);
         await router.push("/sign-in",
             "/sign-in"
         );

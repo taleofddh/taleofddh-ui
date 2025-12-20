@@ -9,7 +9,7 @@ export const setCookieStorage = () =>{
 
 export const setSessionCookie = (name, value) => {
     Cookies.remove(name);
-    if(name === 'geolocation' || name === 'identityId') {
+    if(name === 'geolocation' || name === 'credential') {
         Cookies.set(name, value, {sameSite: 'strict'});
     } else {
         Cookies.set(name, value, {expires: 7, sameSite: 'lax'});
