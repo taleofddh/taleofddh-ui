@@ -98,25 +98,13 @@ function App({ Component, pageProps }) {
     });
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-    const pendingOAuthRoute = useRef('');
-    const signInComplete = useRef(false);
+    const routeRef = useRef('');
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
     const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [credentialCookie, setCredentialCookie] = useState(false);
     const [family, setFamily] = useState({});
     const [session] = useState(getSessionCookie);
     const router = useRouter();
-
-    const attemptRedirect = useCallback(() => {
-        if (!signInComplete.current) return;
-        const destination = pendingOAuthRoute.current && pendingOAuthRoute.current.length > 0
-            ? pendingOAuthRoute.current
-            : '/';
-        console.log('attemptRedirect to:', destination);
-        pendingOAuthRoute.current = '';
-        signInComplete.current = false;
-        setTimeout(() => router.replace(destination), 0);
-    }, [router]);
 
     useEffect(() => {
         const handleRouteChange = (url) => {
@@ -202,10 +190,9 @@ function App({ Component, pageProps }) {
                     break;
                 case 'customOAuthState':
                     if (payload.data) {
-                        pendingOAuthRoute.current = JSON.parse(payload.data);
-                        console.log('customOAuthState received, route:', pendingOAuthRoute.current);
+                        routeRef.current = JSON.parse(payload.data);
+                        console.log('customOAuthState received, route:', routeRef.current);
                     }
-                    attemptRedirect();
                     break;
                 case 'signedIn':
                     console.log('signedIn successful');
@@ -224,7 +211,7 @@ function App({ Component, pageProps }) {
             }
         });
         return () => unsubscribe();
-    }, [attemptRedirect]);
+    }, []);
 
     const updateUserLogin = async () => {
         try {
@@ -280,11 +267,13 @@ function App({ Component, pageProps }) {
                 console.log('Community updated successfully');
             }
             setIsAuthenticating(false);
-            if(getSessionCookie('credential').hasOwnProperty('sub') && getSessionCookie('credential').hasOwnProperty('identityId')) {
-                setCredentialCookie(true);
-                signInComplete.current = true;
-                attemptRedirect();
-            }
+            setCredentialCookie(true);
+            const destination = routeRef.current && routeRef.current.length > 0
+                ? routeRef.current
+                : '/';
+            console.log('Redirecting to:', destination);
+            routeRef.current = '';
+            setTimeout(() => router.replace(destination), 0);
         }
         catch(e) {
             //console.error(e);
