@@ -273,7 +273,7 @@ function App({ Component, pageProps }) {
                 : '/';
             console.log('Redirecting to:', destination);
             routeRef.current = '';
-            router.replace(destination);
+            window.location.href = destination;
         }
         catch(e) {
             //console.error(e);
