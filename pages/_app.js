@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import * as gtag from '../common/gtag';
 import {Hub} from 'aws-amplify/utils';
@@ -98,13 +98,25 @@ function App({ Component, pageProps }) {
     });
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-    const [route, setRoute] = useState('');
+    const pendingOAuthRoute = useRef('');
+    const signInComplete = useRef(false);
     const [isAuthenticated, userHasAuthenticated] =  useState(false);
     const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [credentialCookie, setCredentialCookie] = useState(false);
     const [family, setFamily] = useState({});
     const [session] = useState(getSessionCookie);
     const router = useRouter();
+
+    const attemptRedirect = useCallback(() => {
+        if (!signInComplete.current) return;
+        const destination = pendingOAuthRoute.current && pendingOAuthRoute.current.length > 0
+            ? pendingOAuthRoute.current
+            : '/';
+        console.log('attemptRedirect to:', destination);
+        pendingOAuthRoute.current = '';
+        signInComplete.current = false;
+        setTimeout(() => router.replace(destination), 0);
+    }, [router]);
 
     useEffect(() => {
         const handleRouteChange = (url) => {
@@ -150,57 +162,69 @@ function App({ Component, pageProps }) {
         getLocationData();
     }, []);
 
+    // Rehydrate auth state on every page load / hard refresh.
+    // Without this, isAuthenticated stays false until a new sign-in event fires,
+    // causing the header to show the sign-in link even for already-authenticated users,
+    // and triggering UserAlreadyAuthenticatedException if they try to sign in again.
     useEffect(() => {
-        const onLoad = async () => {
-            Hub.listen('auth', async ({ payload}) => {
-                console.log('payload: ', payload);
-                switch (payload.event) {
-                    case "signInWithRedirect":
-                        console.log('signInWithRedirect inside OAuth flow.');
-                        break;
-                    case "signInWithRedirect_failure":
-                        setError("signInWithRedirect error has occurred during the OAuth flow.");
-                        break;
-                    case "signedIn":
-                        console.log('signedIn successful');
-                        if(payload.data) {
-                            setUser(payload.data);
-                        }
-                        await updateUserLogin();
-                        break;
-                    case 'customOAuthState':
-                        if(payload.data) {
-                            setRoute(JSON.parse(payload.data));
-                        }
-                        break;
-                    case 'signedOut':
-                        console.log('signedOut successful');
-                        break;
-                    case 'tokenRefresh':
-                        console.log('Auth Token Refreshed');
-                        break;
-                    default:
-                        console.log('No Sign in Event');
-                        break;
+        const rehydrateSession = async () => {
+            try {
+                const { tokens, identityId } = await fetchAuthSession();
+                if (tokens) {
+                    const attributes = await fetchUserAttributes();
+                    setUser(await getCurrentUser());
+                    userHasAuthenticated(true);
+                    // Only set the credential cookie if it isn't already there
+                    const existing = getSessionCookie('credential');
+                    if (!existing || !existing.sub) {
+                        setSessionCookie('credential', { identityId, sub: attributes.sub });
+                    }
+                    setCredentialCookie(true);
                 }
-            });
-        }
-
-        onLoad();
+            } catch (e) {
+                // No active session — this is fine, user is just not signed in
+            } finally {
+                setIsAuthenticating(false);
+            }
+        };
+        rehydrateSession();
     }, []);
 
     useEffect(() => {
-        if(user && isAuthenticated && credentialCookie) {
-            // Check if the user needs to be redirected to a specific route after sign-in.
-            console.log('dependencies', route, user, isAuthenticated, credentialCookie);
-            if(route && route.length > 0) {
-                router.push(route, route);
-            } else {
-                router.push('/', '/');
+        const unsubscribe = Hub.listen('auth', async ({ payload }) => {
+            console.log('Hub event:', payload.event);
+            switch (payload.event) {
+                case 'signInWithRedirect':
+                    console.log('signInWithRedirect inside OAuth flow.');
+                    break;
+                case 'signInWithRedirect_failure':
+                    setError('signInWithRedirect error has occurred during the OAuth flow.');
+                    break;
+                case 'customOAuthState':
+                    if (payload.data) {
+                        pendingOAuthRoute.current = JSON.parse(payload.data);
+                        console.log('customOAuthState received, route:', pendingOAuthRoute.current);
+                    }
+                    attemptRedirect();
+                    break;
+                case 'signedIn':
+                    console.log('signedIn successful');
+                    if (payload.data) setUser(payload.data);
+                    await updateUserLogin();
+                    break;
+                case 'signedOut':
+                    console.log('signedOut successful');
+                    break;
+                case 'tokenRefresh':
+                    console.log('Auth Token Refreshed');
+                    break;
+                default:
+                    console.log('No Sign in Event');
+                    break;
             }
-            console.log('Redirected to appropriate page successfully');
-        }
-    }, [route, user, isAuthenticated, credentialCookie]);
+        });
+        return () => unsubscribe();
+    }, [attemptRedirect]);
 
     const updateUserLogin = async () => {
         try {
@@ -258,6 +282,8 @@ function App({ Component, pageProps }) {
             setIsAuthenticating(false);
             if(getSessionCookie('credential').hasOwnProperty('sub') && getSessionCookie('credential').hasOwnProperty('identityId')) {
                 setCredentialCookie(true);
+                signInComplete.current = true;
+                attemptRedirect();
             }
         }
         catch(e) {

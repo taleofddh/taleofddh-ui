@@ -36,10 +36,10 @@ export const AWS_CONFIG = {
         DOMAIN: process.env.NEXT_PUBLIC_AWS_COOKIE_DOMAIN,
         SECURED: process.env.NEXT_PUBLIC_AWS_COOKIE_SECURED_FLAG.toUpperCase() === 'TRUE'
     },
-    oath: {
-        DOMAIN: process.env.NEXT_PUBLIC_AWS_OATH_DOMAIN,
-        REDIRECT_SIGN_IN: process.env.NEXT_PUBLIC_AWS_OATH_REDIRECT_SIGN_IN,
-        REDIRECT_SIGN_OUT: process.env.NEXT_PUBLIC_AWS_OATH_REDIRECT_SIGN_OUT
+    oauth: {
+        DOMAIN: process.env.NEXT_PUBLIC_AWS_OAUTH_DOMAIN,
+        REDIRECT_SIGN_IN: process.env.NEXT_PUBLIC_AWS_OAUTH_REDIRECT_SIGN_IN,
+        REDIRECT_SIGN_OUT: process.env.NEXT_PUBLIC_AWS_OAUTH_REDIRECT_SIGN_OUT
     }
 };
 export const PREPOSITION_LIST = ["of", "for", "on", "in", "to", "with"];
@@ -75,13 +75,12 @@ export const AMPLIFY_RESOURCE_CONFIG = {
             signUpVerificationMethod: 'code',
             loginWith: {
                 oauth: {
-                    domain: AWS_CONFIG.oath.DOMAIN,
+                    domain: AWS_CONFIG.oauth.DOMAIN,
                     scopes: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-                    redirectSignIn: [AWS_CONFIG.oath.REDIRECT_SIGN_IN],
-                    redirectSignOut: [AWS_CONFIG.oath.REDIRECT_SIGN_OUT],
+                    redirectSignIn: [AWS_CONFIG.oauth.REDIRECT_SIGN_IN],
+                    redirectSignOut: [AWS_CONFIG.oauth.REDIRECT_SIGN_OUT],
                     responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
                 }
-
             }
         },
     },
