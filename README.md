@@ -2,9 +2,9 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-6.1.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-6.2.0-blue.svg?cacheSeconds=2592000)
 ![Node Version](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg)
-![Next.js](https://img.shields.io/badge/Next.js-15.5.6-black.svg)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.12-black.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg)
 ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)
 
@@ -334,47 +334,67 @@ aws amplify get-app --app-id <app-id>
 
 ## 🤝 Contributing
 
-This is a **private repository** for the Tale of DDH organization. Contributors should follow the established workflow for code changes:
+This is a **public repository** for the Tale of DDH organization. External contributors are welcome via the standard fork and pull request workflow.
 
 ### 🔄 Development Workflow
 
-1. **Create** a feature branch from `development`
+1. **Fork** the repository on GitHub
+   - Click the **Fork** button at the top-right of the repository page
+   - This creates your own copy of the repo under your GitHub account
+
+2. **Clone** your fork locally
+   ```bash
+   git clone git@github.com:<your-username>/taleofddh-ui.git
+   cd taleofddh-ui
+   ```
+
+3. **Add the upstream remote** to keep your fork in sync
+   ```bash
+   git remote add upstream git@github.com:taleofddh/taleofddh-ui.git
+   ```
+
+4. **Create** a feature branch from `development`
    ```bash
    git checkout development
-   git pull origin development
+   git pull upstream development
    git checkout -b feature/your-feature-name
    ```
 
-2. **Develop** and test your changes locally
+5. **Develop** and test your changes locally
    ```bash
    npm run dev
    npm run build
    npm run lint
    ```
 
-3. **Commit** your changes with clear messages
+6. **Commit** your changes with clear messages
    ```bash
    git add .
    git commit -m "feat: add your feature description"
    ```
 
-4. **Push** to the `development` branch
+7. **Push** to your fork
    ```bash
    git push origin feature/your-feature-name
-   # Create PR to development branch
    ```
 
-5. **Integration Testing** - Changes are deployed to [dev.taleofddh.com](https://dev.taleofddh.com/) 🔒
+8. **Open a Pull Request** against the `development` branch of the upstream repo
+   - Go to your fork on GitHub and click **Compare & pull request**
+   - Set the base repository to `taleofddh/taleofddh-ui` and base branch to `development`
+   - Provide a clear title and description of your changes
+   - Submit the PR and wait for a review from the maintainers
+
+9. **Integration Testing** - Once merged, changes are deployed to [dev.taleofddh.com](https://dev.taleofddh.com/) 🔒
     - Automated deployment triggers on development branch
     - Perform thorough testing on staging environment
     - Verify all functionality works as expected
 
-6. **Production Deployment** - After successful integration testing
-   ```bash
-   git checkout production
-   git merge development
-   git push origin production
-   ```
+10. **Production Deployment** - After successful integration testing
+    ```bash
+    git checkout production
+    git merge development
+    git push origin production
+    ```
 
 ### 📋 Contribution Guidelines
 
@@ -393,7 +413,7 @@ This is a **private repository** for the Tale of DDH organization. Contributors 
 - **Production Branch:** Live production site - only merge after successful testing
 - **Feature Branches:** Create from development, merge back to development
 
-> 🔐 **Access Required:** This is a private repository. Contact the organization for access permissions.
+> � **Contributing:** Fork the repository, make your changes on a feature branch, and open a pull request against the `development` branch.
 
 ## 🐛 Bug Reports & Feature Requests
 
@@ -419,7 +439,7 @@ Under the conditions that:
 
 See the [LICENSE](LICENSE) file for full details.
 
-> 🔐 **Repository Access:** This is a private repository. Contact the Tale of DDH organization for access permissions.
+> � **License:** This is an open-source repository licensed under GPL-3.0-or-later. See the [LICENSE](LICENSE) file for full details.
 
 ## 👨‍💻 Author
 
