@@ -283,8 +283,6 @@ function App({ Component, pageProps }) {
         }
     }
 
-
-
     const handleLogout = async () => {
         await signOut();
         userHasAuthenticated(false);
