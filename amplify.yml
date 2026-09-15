@@ -1,14 +1,16 @@
 version: 1
 settings:
   name: taleofddh-ui
-  nodeVersion: 22
+  nodeVersion: 24
 frontend:
   phases:
     preBuild:
       commands:
-        - nvm install 22
-        - nvm use 22
+        - nvm install 24
+        - nvm use 24
+        - npm install -g npm@11
         - node -v
+        - npm -v
         - npm set "//${NPM_REGISTRY}/:_authToken" "${GITHUB_TOKEN}"
         - npm set "@${PACKAGE_SCOPE}:registry" "https://${NPM_REGISTRY}"
         - npm install

@@ -2,8 +2,9 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-6.2.0-blue.svg?cacheSeconds=2592000)
-![Node Version](https://img.shields.io/badge/node-%3E%3D22.0.0-brightgreen.svg)
+![Version](https://img.shields.io/badge/version-7.0.0-blue.svg?cacheSeconds=2592000)
+![Node Version](https://img.shields.io/badge/node-%3E%3D24.0.0-brightgreen.svg)
+![npm Version](https://img.shields.io/badge/npm-%3E%3D11.0.0-CB3837.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.12-black.svg)
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg)
 ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)
@@ -35,10 +36,10 @@ Tale of DDH UI is a modern, responsive web application built with Next.js that s
 
 This project leverages modern web technologies for optimal performance and user experience:
 
-- **Framework:** [Next.js 15.5.6](https://nextjs.org/) - React framework with SSR/ISR
+- **Framework:** [Next.js 15.5.12](https://nextjs.org/) - React framework with SSR/ISR
 - **Frontend:** [React 18.3.1](https://reactjs.org/) - Component-based UI library
-- **Styling:** [Sass 1.93.2](https://sass-lang.com/) - Enhanced CSS with variables and mixins (using modern `@use` syntax)
-- **Authentication:** [AWS Amplify 6.15.7](https://aws.amazon.com/amplify/) - Secure user management
+- **Styling:** [Sass 1.98.0](https://sass-lang.com/) - Enhanced CSS with variables and mixins (using modern `@use` syntax)
+- **Authentication:** [AWS Amplify 6.16.3](https://aws.amazon.com/amplify/) - Secure user management
 - **Icons:** [FontAwesome](https://fontawesome.com/) & [React Icons](https://react-icons.github.io/react-icons/)
 - **UI Components:** Various React libraries for enhanced functionality
 
@@ -48,8 +49,8 @@ This project leverages modern web technologies for optimal performance and user 
 
 Ensure you have the following installed on your system:
 
-- **Node.js** >= 22.0.0
-- **npm** or **yarn** package manager
+- **Node.js** >= 24.0.0
+- **npm** >= 11.0.0 (or **yarn** package manager)
 - **Git** for version control
 
 ### Installation
@@ -265,14 +266,16 @@ The `amplify.yml` file defines the build process for AWS Amplify deployments:
 version: 1
 settings:
   name: taleofddh-ui
-  nodeVersion: 22
+  nodeVersion: 24
 frontend:
   phases:
     preBuild:
       commands:
-        - nvm install 22
-        - nvm use 22
+        - nvm install 24
+        - nvm use 24
+        - npm install -g npm@11
         - node -v
+        - npm -v
         - npm install
     build:
       commands:
@@ -306,7 +309,7 @@ The project uses **branch-based deployments** with automatic change detection:
 
 1. **Code Changes:** Push commits to `development` or `production` branch
 2. **Auto Detection:** Amplify detects changes via Git webhooks
-3. **Build Process:** Runs Node.js 22 environment with optimized build
+3. **Build Process:** Runs Node.js 24 environment with optimized build
 4. **Deployment:** Automatic deployment to respective environment
 5. **Verification:** Build logs and deployment status available in Amplify Console
 
@@ -327,7 +330,7 @@ aws amplify get-app --app-id <app-id>
 
 ### 🚨 Deployment Notes
 
-- **Node.js 22:** Required for optimal performance and compatibility (configured in both `package.json` engines and `amplify.yml`)
+- **Node.js 24 & npm 11:** Required for optimal performance and compatibility (configured in both `package.json` engines and `amplify.yml`)
 - **Build Time:** Approximately 3-5 minutes depending on changes
 - **Cache Optimization:** Node modules cached for faster subsequent builds
 - **Standard Build:** Uses `npm run build` for production-optimized Next.js builds
