@@ -11,7 +11,7 @@ import Header from "../../components/header";
 import Navigation from "../../components/navigation";
 import Footer from "../../components/footer";
 import {onError} from "../../common/error";
-import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
+import {HOST_NAME, INDEX_FLAG, PAGE_REVALIDATE_PERIOD} from "../../common/constants";
 
 const pageTitle = 'Travel Guides - Itinerary, Estimate & Forms';
 
@@ -152,6 +152,7 @@ export const getStaticProps = async (context) => {
             index,
             url
         },
+        revalidate: PAGE_REVALIDATE_PERIOD * 48, // In seconds
     }
 }
 
