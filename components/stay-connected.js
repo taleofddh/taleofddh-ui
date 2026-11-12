@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {post} from "aws-amplify/api";
 import {onError} from "../common/error";
 import {useFormFields} from "../common/hook";
@@ -6,6 +6,8 @@ import TypeInput from "./type-input";
 import LoaderButton from "./loader-button";
 import Label from "./label";
 import Radio from "./radio";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { TURNSTILE_SITE_KEY } from "../common/constants";
 
 function StayConnected(props) {
     let additionalQueryValues = [];
@@ -19,6 +21,8 @@ function StayConnected(props) {
     const [fields, handleFieldChange] = useFormFields({
         email : ''
     });
+    const [turnstileToken, setTurnstileToken] = useState('');
+    const turnstileRef = useRef(null);
     const [stayConnectedEnquiryResponses, setStayConnectedEnquiryResponses] = useState(additionalQueryValues);
 
     useEffect(() => {
@@ -96,6 +100,13 @@ function StayConnected(props) {
                                 pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                 onChange={handleFieldChange} />
                         </div>
+                        <div className="fieldcontainer">
+                            <Turnstile ref={turnstileRef}
+                                siteKey={TURNSTILE_SITE_KEY}
+                                onSuccess={token => setTurnstileToken(token)}
+                                onExpire={() => setTurnstileToken('')}
+                                onError={() => setTurnstileToken('')} />
+                        </div>
                     </div>
                     <div className="connectedbuttoncontainer" style={{marginTop: marginTop}}>
                         <LoaderButton name="StayConnectedButton"
@@ -151,14 +162,18 @@ function StayConnected(props) {
                         },
                         body: {
                             email: fields.email,
-                            subscribed: true
+                            subscribed: true,
+                            turnstileToken: turnstileToken
                         },
                     }
                 }).response;
                 setNewSubscription((await res.body.json()));
+                setTurnstileToken('');
                 setIsLoading(false);
             } catch (e) {
                 onError(e);
+                setTurnstileToken('');          // disables submit until the fresh token arrives
+                turnstileRef.current?.reset();  // runs the challenge again in the background; onSuccess sets the new token
                 setIsLoading(false);
             }
         } else {
@@ -179,7 +194,8 @@ function StayConnected(props) {
             })
         }
         return valid
-            && fields.email.match(emailRegex);
+            && fields.email.match(emailRegex)
+            && turnstileToken.length > 0;
     }
 
     return(

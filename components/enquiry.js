@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import { useRouter } from 'next/router';
 import {useIndex, useFormFields} from "../common/hook";
 import {getSessionCookie} from "../common/session";
@@ -7,6 +7,8 @@ import TextArea from "./textarea";
 import LoaderButton from "./loader-button";
 import { post } from "aws-amplify/api";
 import {onError} from "../common/error";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { TURNSTILE_SITE_KEY } from "../common/constants";
 
 
 function Enquiry({type, source}) {
@@ -14,6 +16,8 @@ function Enquiry({type, source}) {
     const index = useIndex();
     const [isLoading, setIsLoading] = useState(false);
     const [requestId, setRequestId] = useState('');
+    const [turnstileToken, setTurnstileToken] = useState('');
+    const turnstileRef = useRef(null);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     const [fields, handleFieldChange] = useFormFields({
@@ -25,7 +29,8 @@ function Enquiry({type, source}) {
 
     const submitEnquiry = async (submitEvent) => {
         submitEvent.preventDefault();
-        console.log(fields.name, fields.email, fields.phone, fields.enquiry);
+        setIsLoading(true);
+        //console.log(fields.name, fields.email, fields.phone, fields.enquiry);
 
         let request = {
             type: type,
@@ -33,10 +38,11 @@ function Enquiry({type, source}) {
             requestor: fields.name,
             email: fields.email,
             phone: fields.phone,
-            enquiry: fields.enquiry
+            enquiry: fields.enquiry,
+            turnstileToken: turnstileToken
         }
 
-        console.log(request);
+        //console.log(request);
 
         try {
             const res = await post({
@@ -52,10 +58,13 @@ function Enquiry({type, source}) {
             }).response;
             const acknowledgement = await res.body.json();
             setRequestId(acknowledgement.number);
+            setTurnstileToken('');
             setIsLoading(false);
             //alert("Your Enquiry is successfully submitted. The request number is " + acknowledgement.number);
         } catch (error) {
             onError(error);
+            setTurnstileToken('');          // disables submit until the fresh token arrives
+            turnstileRef.current?.reset();  // runs the challenge again in the background; onSuccess sets the new token
             setIsLoading(false);
         }
 
@@ -72,70 +81,78 @@ function Enquiry({type, source}) {
         return fields.name.match(nameRegex)
             && fields.email.match(emailRegex)
             && (fields.phone.length === 0 || (fields.phone.length > 0 && fields.phone.match(phoneRegex) !== null))
-            && fields.enquiry.length > 0;
+            && fields.enquiry.length > 0
+            && turnstileToken.length > 0;
     }
 
     return (
         <>
             {requestId === '' ? (
-                    <>
-                        <form key="EnquiryForm" name="EnquiryForm" onSubmit={submitEnquiry}>
-                            <div className="enquirycontainer">
-                                <div className="enquiryfieldcontainer">
-                                    <TypeInput id="1"
-                                               name="name"
-                                               label="Name"
-                                               type="text"
-                                               disabled={false}
-                                               required={true}
-                                               maxLength={50}
-                                               initialValue=""
-                                               value={fields.name}
-                                               placeHolder="e.g. John Smith"
-                                               onChange={handleFieldChange}/>
-                                </div>
-                                <div className="enquiryfieldcontainer">
-                                    <TypeInput id="2"
-                                               name="email"
-                                               label="Email"
-                                               type="email"
-                                               disabled={false}
-                                               required={true}
-                                               initialValue=""
-                                               value={fields.email}
-                                               placeHolder="e.g. email@domain.com"
-                                               onChange={handleFieldChange}/>
-                                </div>
-                                <div className="enquiryfieldcontainer">
-                                    <TypeInput id="3"
-                                               name="phone"
-                                               type="tel"
-                                               label="Phone"
-                                               disabled={false}
-                                               required={false}
-                                               initialValue=""
-                                               value={fields.phone}
-                                               placeHolder="+XX XXX XXX-XXXX"
-                                               onChange={handleFieldChange}/>
-                                </div>
-                                <div className="enquiryfieldcontainer">
-                                    <TextArea id="4"
-                                              name="enquiry"
-                                              label="Message"
-                                              disabled={false}
-                                              required={true}
-                                              initialValue=""
-                                              value={fields.enquiry}
-                                              placeHolder="Type your query/message"
-                                              onChange={handleFieldChange}/>
-                                </div>
+                <>
+                    <form key="EnquiryForm" name="EnquiryForm" onSubmit={submitEnquiry}>
+                        <div className="enquirycontainer">
+                            <div className="enquiryfieldcontainer">
+                                <TypeInput id="1"
+                                            name="name"
+                                            label="Name"
+                                            type="text"
+                                            disabled={false}
+                                            required={true}
+                                            maxLength={50}
+                                            initialValue=""
+                                            value={fields.name}
+                                            placeHolder="e.g. John Smith"
+                                            onChange={handleFieldChange}/>
+                            </div>
+                            <div className="enquiryfieldcontainer">
+                                <TypeInput id="2"
+                                            name="email"
+                                            label="Email"
+                                            type="email"
+                                            disabled={false}
+                                            required={true}
+                                            initialValue=""
+                                            value={fields.email}
+                                            placeHolder="e.g. email@domain.com"
+                                            onChange={handleFieldChange}/>
+                            </div>
+                            <div className="enquiryfieldcontainer">
+                                <TypeInput id="3"
+                                            name="phone"
+                                            type="tel"
+                                            label="Phone"
+                                            disabled={false}
+                                            required={false}
+                                            initialValue=""
+                                            value={fields.phone}
+                                            placeHolder="+XX XXX XXX-XXXX"
+                                            onChange={handleFieldChange}/>
+                            </div>
+                            <div className="enquiryfieldcontainer">
+                                <TextArea id="4"
+                                            name="enquiry"
+                                            label="Message"
+                                            disabled={false}
+                                            required={true}
+                                            initialValue=""
+                                            value={fields.enquiry}
+                                            placeHolder="Type your query/message"
+                                            onChange={handleFieldChange}/>
+                            </div>
+                            <div className="enquiryfieldcontainer">
+                                <Turnstile ref={turnstileRef}
+                                            siteKey={TURNSTILE_SITE_KEY}
+                                            onSuccess={token => setTurnstileToken(token)}
+                                            onExpire={() => setTurnstileToken('')}
+                                            onError={() => setTurnstileToken('')} />
+                            </div>
                         </div>
                         <div className="enquirybuttoncontainer">
                             <LoaderButton name="SubmitEnquiryButton"
-                                          type="submit"
-                                          label="Submit"
-                                          disabled={!validateForm()}
-                                          isLoading={isLoading} />
+                                        type="submit"
+                                        label="Submit"
+                                        disabled={!validateForm()}
+                                        isLoading={isLoading} />
                         </div>
                     </form>
                 </>

@@ -1,6 +1,6 @@
 {
   "name": "taleofddh-ui",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "Tale of DDH Main User Interface",
   "repository": {
     "type": "git",
@@ -32,7 +32,8 @@
     "@fortawesome/free-regular-svg-icons": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "@fortawesome/react-fontawesome": "^3.2.0",
-    "@taleofddh/array": "^4.0.0",
+    "@marsidev/react-turnstile": "^1.6.2",
+    "@taleofddh/array": "^4.1.1",
     "aws-amplify": "^6.16.3",
     "crypto-api": "^0.8.5",
     "history": "^5.3.0",

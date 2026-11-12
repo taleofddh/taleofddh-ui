@@ -8,6 +8,7 @@ export const MEDIA_HOST = process.env.NEXT_PUBLIC_MEDIA_HOST;
 export const MEDIA_PROTECTED_HOST = process.env.NEXT_PUBLIC_MEDIA_PROTECTED_HOST;
 export const GOOGLE_MAP_API_URL = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_URL;
 export const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY
+export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 export const FACEBOOK_APP_URL= process.env.NEXT_PUBLIC_FACEBOOK_APP_URL;
 export const AWS_CONFIG = {
     region: process.env.NEXT_PUBLIC_AWS_REGION,
