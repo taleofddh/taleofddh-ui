@@ -15,12 +15,20 @@ import {postAuditEntry} from "../../../../../common/common";
 import PhotoAlbum from "../../../../../components/photo-album";
 import {put} from "aws-amplify/api";
 import {onError} from "../../../../../common/error";
+import {useClientGet} from "../../../../../common/hook";
+import Loader from "../../../../../components/loader";
 
 const pageTitle = "Gallery"
 
-function AlbumName({menuList, handleLogout, authenticated, albumData, category, subCategory, collection, name, source, index, url, }) {
+// Protected page: album photos are personal content. Nothing about the album's media is
+// fetched at build time; it is loaded in the browser only once the user is signed in.
+// The route itself is guarded in _app.js via PROTECTED_ROUTES.
+function AlbumName({menuList, handleLogout, authenticated, category, subCategory, collection, name, source, index, url, }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const path = (category + '/' + subCategory + '/' + collection + '/' + name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase();
+    const album = useClientGet('findAlbumWithMedia', '/albumWithMedia', [category, subCategory, collection, name], {}, authenticated);
+    const albumData = album.data;
+    const albumLoaded = !album.loading && albumData && albumData.name;
 
     useEffect(() => {
         postAuditEntry(
@@ -36,6 +44,8 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
     }, [ddhomeCountry, name]);
 
     useEffect(() => {
+        // Only count a view once the album has actually been loaded for a signed-in user
+        if (!albumLoaded) return;
         const onLoad = async () => {
             try {
                 await put({
@@ -61,7 +71,7 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
             }
         }
         onLoad();
-    }, [name, albumData]);
+    }, [name, albumLoaded, albumData.startDateTime]);
 
     return (
         <>
@@ -70,7 +80,13 @@ function AlbumName({menuList, handleLogout, authenticated, albumData, category, 
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <PhotoAlbum source={source} path={path} type={name} album={albumData} photos={albumData.photoList} videos={albumData.videoList}/>
+                    {albumLoaded ? (
+                        <PhotoAlbum source={source} path={path} type={name} album={albumData} photos={albumData.photoList || []} videos={albumData.videoList || []}/>
+                    ) : album.loading ? (
+                        <Loader loading={true} />
+                    ) : (
+                        <p>This album could not be loaded.</p>
+                    )}
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -126,17 +142,15 @@ export const getStaticProps = async ({ context, params }) => {
     //console.log(category, subCategory, collection, name);
     //console.log(('images/albums/' + category + '/' + subCategory + '/' + collection + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
-    const albumData = await serverGet('findAlbumWithMedia', '/albumWithMedia', [category, subCategory, collection, name]);
-    //console.log(JSON.stringify(albumData));
+    // Album media is deliberately NOT fetched here: anything returned from getStaticProps is
+    // written into public HTML/JSON. The page meta only uses the album name; desc/img fall
+    // back to the generic gallery description and site logo in MetaTag.
     const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Gallery | taleofddh';
-    const desc = albumData.description;
-    const img = albumData.signedUrl;
 
     // return the data
     return {
         props: {
             menuList,
-            albumData,
             category,
             subCategory,
             collection,
@@ -144,9 +158,7 @@ export const getStaticProps = async ({ context, params }) => {
             source,
             index,
             url,
-            hdr,
-            desc,
-            img
+            hdr
         },
         revalidate: PAGE_REVALIDATE_PERIOD * 48, // In seconds
     }

@@ -3,17 +3,21 @@ import {serverGet} from "../../../common/server-config";
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../../../common/constants";
 import {capitalizeFirstLetters} from "../../../common/common";
 import { getSessionCookie } from "../../../common/session";
+import {useClientGet} from "../../../common/hook";
 import Header from '../../../components/header';
 import Navigation from '../../../components/navigation';
 import ResponsiveNavigation from "../../../components/responsive-navigation";
 import Footer from "../../../components/footer";
 import {postAuditEntry} from "../../../common/common";
 import HistoricalList from "../../../components/historical-list";
+import Loader from "../../../components/loader";
 
 const pageTitle = "Gallery";
 
-function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ historicalAlbumData, category, subCategory, source, index, url}) {
+function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ category, subCategory, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    // Collection data carries presigned URLs, so it is fetched in the browser on every visit
+    const historical = useClientGet('findHistoricalAlbumCollections', '/albumHistoricalCollections', [category, subCategory]);
 
     useEffect(() => {
         postAuditEntry(
@@ -36,7 +40,11 @@ function AlbumSubCategories({menuList, handleLogout, authenticated, /*upcomingEv
             <div className="boxouter">
                 <div className="container">
                     {/*<UpcomingEvent eventType='Upcoming' events={upcomingEventData} subCategory={subCategory} />*/}
-                    <HistoricalList source={source} path={category + '/' + subCategory} type={subCategory} data={historicalAlbumData} />
+                    {historical.loading ? (
+                        <Loader loading={true} />
+                    ) : (
+                        <HistoricalList source={source} path={category + '/' + subCategory} type={subCategory} data={historical.data} />
+                    )}
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -83,15 +91,12 @@ export const getStaticProps = async ({ context, params }) => {
     const subCategory = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     //console.log("category-subCategory", category + "-" + subCategory);
 
-    const historicalAlbumData = await serverGet('findHistoricalAlbumCollections', '/albumHistoricalCollections', [category, subCategory]);
-    //console.log(historicalEventData);
     const hdr = capitalizeFirstLetters(`${params.subCategory}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Galleries | taleofddh';
 
     // return the data
     return {
         props: {
             menuList,
-            historicalAlbumData,
             category,
             subCategory,
             source,

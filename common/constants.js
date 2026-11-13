@@ -54,9 +54,15 @@ export const INDEX_FLAG = process.env.NEXT_PUBLIC_INDEX_FLAG.toUpperCase() === '
 export const HOST_NAME = process.env.NEXT_PUBLIC_HOST_NAME;
 export const MEASUREMENT_FLAG = process.env.NEXT_PUBLIC_MEASUREMENT_FLAG.toUpperCase() === 'TRUE'
 export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION
+// Matched exactly against Next.js router.pathname (the route pattern, e.g. "[name]"),
+// so one entry protects every page generated from that dynamic route.
+// Gallery browse pages (/gallery, category, sub-category, collection) are public;
+// only individual albums are protected.
 export const PROTECTED_ROUTES = [
-    "/gallery",
+    "/gallery/[category]/[subCategory]/[collection]/[name]",
     "/my-account",
+    "/my-account/gallery-management",
+    "/my-account/event-attendance",
     "/my-account/user-profile",
     "/my-account/album-management",
     "/my-account/user-management",

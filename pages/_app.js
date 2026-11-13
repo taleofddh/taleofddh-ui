@@ -7,7 +7,8 @@ import {fetchAuthSession, getCurrentUser, signOut, fetchUserAttributes} from 'aw
 import 'aws-amplify/auth/enable-oauth-listener';
 import { configureAmplify } from '../common/config'
 import CookieConsent from "react-cookie-consent";
-import { GEOLOCATION_URL, MEASUREMENT_FLAG } from "../common/constants";
+import { GEOLOCATION_URL, MEASUREMENT_FLAG, PROTECTED_ROUTES } from "../common/constants";
+import Loader from "../components/loader";
 import countries from "../common/countries";
 import {
     SessionContext,
@@ -105,6 +106,20 @@ function App({ Component, pageProps }) {
     const [family, setFamily] = useState({});
     const [session] = useState(getSessionCookie);
     const router = useRouter();
+
+    // Client-side route guard. router.pathname is the route pattern
+    // (e.g. /gallery/[category]/[subCategory]/[collection]/[name]), so nested dynamic
+    // routes are matched with a single PROTECTED_ROUTES entry.
+    // This only controls the UI; the protected data must also be locked down at the API.
+    const isProtectedRoute = PROTECTED_ROUTES.includes(router.pathname);
+    const blockProtectedRoute = isProtectedRoute && (isAuthenticating || !isAuthenticated);
+
+    useEffect(() => {
+        if (isAuthenticating) return; // wait for rehydrateSession() to finish
+        if (isProtectedRoute && !isAuthenticated) {
+            router.replace('/sign-in?redirect=' + encodeURIComponent(router.asPath));
+        }
+    }, [isAuthenticating, isAuthenticated, isProtectedRoute, router]);
 
     useEffect(() => {
         const handleRouteChange = (url) => {
@@ -321,15 +336,19 @@ function App({ Component, pageProps }) {
                     </CookieConsent>
                 </SessionContext.Provider>
             )}
-            <Component
-                {...pageProps}
-                geolocationData={geolocationData}
-                countryName={ddhomeCountry.country_name}
-                countryCode={ddhomeCountry.country_code}
-                handleLogout={handleLogout}
-                authenticated={isAuthenticated}
-                family={family}
-            />
+            {blockProtectedRoute ? (
+                <Loader loading={true} />
+            ) : (
+                <Component
+                    {...pageProps}
+                    geolocationData={geolocationData}
+                    countryName={ddhomeCountry.country_name}
+                    countryCode={ddhomeCountry.country_code}
+                    handleLogout={handleLogout}
+                    authenticated={isAuthenticated}
+                    family={family}
+                />
+            )}
         </React.Fragment>
     )
 }

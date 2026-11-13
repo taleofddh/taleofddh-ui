@@ -3,17 +3,21 @@ import {serverGet} from "../../common/server-config";
 import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../../common/constants";
 import {capitalizeFirstLetters} from "../../common/common";
 import { getSessionCookie } from "../../common/session";
+import {useClientGet} from "../../common/hook";
 import Header from '../../components/header';
 import Navigation from '../../components/navigation';
 import ResponsiveNavigation from "../../components/responsive-navigation";
 import Footer from "../../components/footer";
 import {postAuditEntry} from "../../common/common";
 import HistoricalList from "../../components/historical-list";
+import Loader from "../../components/loader";
 
 const pageTitle = "Gallery";
 
-function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ historicalAlbumData, category, source, index, url}) {
+function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ category, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    // Sub-category data carries presigned URLs, so it is fetched in the browser on every visit
+    const historical = useClientGet('findHistoricalAlbumSubCategories', '/albumHistoricalSubCategories', [category]);
 
     useEffect(() => {
         postAuditEntry(
@@ -35,7 +39,11 @@ function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEvent
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    <HistoricalList source={source} path={category} type={category} data={historicalAlbumData}/>
+                    {historical.loading ? (
+                        <Loader loading={true} />
+                    ) : (
+                        <HistoricalList source={source} path={category} type={category} data={historical.data}/>
+                    )}
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -73,15 +81,12 @@ export const getStaticProps = async ({ context, params }) => {
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     //console.log("category", category);
 
-    const historicalAlbumData = await serverGet('findHistoricalAlbumSubCategories', '/albumHistoricalSubCategories', [category]);
-    //console.log(historicalAlbumData);
     const hdr = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Galleries | taleofddh';
 
     // return the data
     return {
         props: {
             menuList,
-            historicalAlbumData,
             category,
             source,
             index,
