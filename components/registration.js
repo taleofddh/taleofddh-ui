@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/router";
 import { signUp, confirmSignUp, signIn } from 'aws-amplify/auth';
 import { useFormFields } from "../common/hook";
-import { getSessionCookie } from "../common/session";
+import { getSessionCookie, safeRedirectPath, savePostLoginRedirect } from "../common/session";
 import { onError } from "../common/error";
 import TypeInput from "./type-input";
 import LoaderButton from "./loader-button";
@@ -26,7 +26,9 @@ function Registration() {
     useEffect(() => {
         if(!router.isReady) return;
         const params = router.query;
-        const redirectValue = params.redirect ? params.redirect.toString() : '';
+        // Only same-site paths are honoured; anything else falls back to no redirect
+        const requested = params.redirect ? params.redirect.toString() : '';
+        const redirectValue = safeRedirectPath(requested) === '/' ? '' : safeRedirectPath(requested);
         if(redirectValue && redirectValue.length > 0) {
             setRedirect(redirectValue);
         }
@@ -65,6 +67,8 @@ function Registration() {
                 username: fields.username,
                 confirmationCode: fields.confirmationCode
             });
+            // Remember where to return to; _app.js reads it once sign-in completes
+            savePostLoginRedirect(redirect);
             await signIn({
                 username: fields.username,
                 password: fields.password

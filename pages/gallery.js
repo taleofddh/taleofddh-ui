@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {serverGet} from "../common/server-config";
 import 'aws-amplify/auth/enable-oauth-listener';
-import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../common/constants";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 import { getSessionCookie } from "../common/session";
 import {useClientGet} from "../common/hook";
 import Header from '../components/header';
@@ -73,7 +73,6 @@ export const getStaticProps = async ({context}) => {
             index,
             url
         },
-        revalidate: PAGE_REVALIDATE_PERIOD, // In seconds
     }
 }
 

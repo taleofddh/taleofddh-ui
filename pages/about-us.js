@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {serverGet} from '../common/server-config';
-import {HOST_NAME, INDEX_FLAG, PAGE_REVALIDATE_PERIOD} from "../common/constants";
+import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 import {useMediaQuery, useClientGet} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
@@ -114,7 +114,6 @@ export const getStaticProps = async (context) => {
             index,
             url
         },
-        revalidate: PAGE_REVALIDATE_PERIOD * 2, // In seconds
     }
 }
 

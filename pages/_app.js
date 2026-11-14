@@ -14,7 +14,9 @@ import {
     SessionContext,
     getSessionCookie,
     setSessionCookie,
-    removeSessionCookie
+    removeSessionCookie,
+    safeRedirectPath,
+    takePostLoginRedirect
 } from "../common/session";
 import { onError } from '../common/error';
 import MetaTag from "../components/metatag";
@@ -283,9 +285,15 @@ function App({ Component, pageProps }) {
             }
             setIsAuthenticating(false);
             setCredentialCookie(true);
-            const destination = routeRef.current && routeRef.current.length > 0
+            // Return to the page the user came from:
+            // - Google/Facebook: route carried in the OAuth customState (routeRef)
+            // - email/password: route saved by the Login/Registration form
+            // Always read the saved value so it is cleared after use.
+            const savedRedirect = takePostLoginRedirect();
+            const requested = routeRef.current && routeRef.current.length > 0
                 ? routeRef.current
-                : '/';
+                : savedRedirect;
+            const destination = safeRedirectPath(requested);
             console.log('Redirecting to:', destination);
             routeRef.current = '';
             window.location.href = destination;

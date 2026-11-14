@@ -1,6 +1,10 @@
 const path = require('path');
 
 module.exports = {
+  // Static export for Amplify static hosting (platform WEB). Output goes to ./out
+  output: 'export',
+  // Keep URLs without a trailing slash (/gallery -> gallery.html).
+  // Amplify redirect rule "/<*>/" -> "/<*>" (301) handles URLs typed with a slash.
   trailingSlash: false,
   reactStrictMode: true,
   sassOptions: {
@@ -17,6 +21,8 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   images: {
+    // No image optimization server in a static export
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -30,13 +36,6 @@ module.exports = {
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: '/blog/article/:path*',
-        destination: '/articles/:path*',
-        permanent: true,
-      },
-    ]
-  },
+  // redirects() is not supported by static export. Moved to an Amplify redirect rule:
+  //   /blog/article/<*>  ->  /articles/<*>  (301)
 }

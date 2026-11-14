@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {serverGet} from "../../common/server-config";
-import {PAGE_REVALIDATE_PERIOD, HOST_NAME, INDEX_FLAG} from "../../common/constants";
+import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 import {capitalizeFirstLetters} from "../../common/common";
 import { getSessionCookie } from "../../common/session";
 import {useClientGet} from "../../common/hook";
@@ -63,10 +63,9 @@ export const getStaticPaths = async ({context}) => {
     //console.log("paths", paths);
 
     // We'll pre-render only these paths at build time.
-    // { fallback: false } means other routes should 404.
-    // { fallback: 'blocking' } will server-render pages
-    // on-demand if the path doesn't exist.
-    return { paths, fallback: 'blocking' }
+    // Static export: only these paths are built. Any other path returns 404
+    // until the next build (rebuilds run on commit or via the Amplify webhook).
+    return { paths, fallback: false }
 }
 
 // This function gets called at build time
@@ -93,7 +92,6 @@ export const getStaticProps = async ({ context, params }) => {
             url,
             hdr
         },
-        revalidate: PAGE_REVALIDATE_PERIOD * 48, // In seconds
     }
 }
 
