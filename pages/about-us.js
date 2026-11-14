@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {serverGet} from '../common/server-config';
 import {HOST_NAME, INDEX_FLAG, PAGE_REVALIDATE_PERIOD} from "../common/constants";
-import {useMediaQuery} from '../common/hook';
+import {useMediaQuery, useClientGet} from '../common/hook';
 import {postAuditEntry} from "../common/common";
 import {getSessionCookie} from "../common/session";
 import Title from "../components/title";
@@ -10,11 +10,14 @@ import ResponsiveNavigation from "../components/responsive-navigation";
 import Header from "../components/header";
 import Navigation from "../components/navigation";
 import Footer from "../components/footer";
+import Loader from "../components/loader";
 
 const pageTitle = 'About Us'
 
-function AboutUs({ menuList, handleLogout, authenticated, data, source, index, url }) {
+function AboutUs({ menuList, handleLogout, authenticated, source, index, url }) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
+    // Story images carry signed URLs, so they are fetched in the browser on every visit
+    const stories = useClientGet('findAboutUsList', '/aboutUsList');
 
     const matches = useMediaQuery('screen and (max-width: 820px)');
 
@@ -40,9 +43,13 @@ function AboutUs({ menuList, handleLogout, authenticated, data, source, index, u
                 <div className="container">
                     <div className="aboutusframe">
                         <Title message={pageTitle} />
-                        {data.map((item, i) => (
-                            <Story key={i} story={item} index={i} mobile={matches} />
-                        ))}
+                        {stories.loading ? (
+                            <Loader loading={true} />
+                        ) : (
+                            stories.data.map((item, i) => (
+                                <Story key={i} story={item} index={i} mobile={matches} />
+                            ))
+                        )}
                         <StayConnected />
                     </div>
                 </div>
@@ -99,14 +106,10 @@ export const getStaticProps = async (context) => {
     // Call an external API endpoint to get data
     const menuList = await serverGet('findMenuList', '/menuList', [true]);
 
-    const data = await serverGet('findAboutUsList', '/aboutUsList');
-    //console.log(data);
-
     // return the data
     return {
         props: {
             menuList,
-            data,
             source,
             index,
             url

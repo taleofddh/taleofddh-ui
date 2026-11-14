@@ -44,7 +44,8 @@ function Blogs({ menuList, handleLogout, authenticated, historicalBlogData, sour
     )
 }
 
-// This function gets called at build time
+// This function gets called at build time.
+// Category covers are public web copies (public/...), so they are safe to build into the page.
 export const getStaticProps = async (context) => {
     const source = 'blogs';
     const index = INDEX_FLAG;
