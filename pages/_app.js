@@ -119,7 +119,7 @@ function App({ Component, pageProps }) {
     useEffect(() => {
         if (isAuthenticating) return; // wait for rehydrateSession() to finish
         if (isProtectedRoute && !isAuthenticated) {
-            router.replace('/sign-in?redirect=' + encodeURIComponent(router.asPath));
+            router.replace('/sign-in/?redirect=' + encodeURIComponent(router.asPath));
         }
     }, [isAuthenticating, isAuthenticated, isProtectedRoute, router]);
 

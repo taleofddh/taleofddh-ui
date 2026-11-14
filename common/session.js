@@ -41,7 +41,8 @@ export const safeRedirectPath = (value) => {
     // must be a path on this site: starts with "/" but not "//" or "/\" (protocol-relative)
     if (!value.startsWith('/') || value.startsWith('//') || value.startsWith('/\\')) return '/';
     // no point returning to an auth page after signing in
-    const pathname = value.split(/[?#]/)[0];
+    // compare without a trailing slash (pages are exported as /sign-in/ etc.)
+    const pathname = value.split(/[?#]/)[0].replace(/\/+$/, '') || '/';
     if (AUTH_PAGES.includes(pathname)) return '/';
     return value;
 };
