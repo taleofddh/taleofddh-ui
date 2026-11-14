@@ -62,7 +62,7 @@ function BlogCategories({menuList, handleLogout, authenticated, /*upcomingEventD
                                             <div>
                                                 <p className="blogheader">{item.header}</p>
                                                 <div className="blogpiccontrol">
-                                                    <Image src={MEDIA_HOST + '/images/mobile/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
+                                                    <Image src={MEDIA_HOST + '/images/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
                                                 </div>
                                                 <div className="blogsummary">
                                                     <p className="blogauthor">{item.category +' ' + source + ' by ' + item.author + ' on ' + new Date(item.endDateTime).getDate() + " " + MONTH_NAMES[new Date(item.endDateTime).getMonth()] + ", " + new Date(item.endDateTime).getFullYear()}</p>

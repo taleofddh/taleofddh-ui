@@ -51,7 +51,7 @@ function Share(props) {
             <div className="socialnetwork">
                 <PinterestShareButton
                     url={props.url}
-                    media={`${MEDIA_HOST}/images/mobile/${props.image}`}
+                    media={`${MEDIA_HOST}/images/${props.image}`}
                     description={props.subject}
                     className="socialnetworksharebutton">
                     <PinterestIcon size={32} round />
