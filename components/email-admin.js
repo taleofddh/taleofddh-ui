@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getSessionCookie} from "../common/session";
-import {fetchAuthSession} from "aws-amplify/auth";
-import {post} from "aws-amplify/api";
+import {adminPost, isForbidden} from "../common/admin-api";
+import {NO_ACCESS_MESSAGE} from "../common/permissions";
 import {onError} from "../common/error";
 import Loader from "./loader";
 import LoaderButton from "./loader-button";
@@ -12,6 +12,7 @@ function EmailAdmin(props) {
     const[inboxData, setInboxData] = useState([]);
     const[sentData, setSentData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [forbidden, setForbidden] = useState(false);
 
     useEffect(() => {
         if(typeof window !== 'undefined'){
@@ -19,46 +20,16 @@ function EmailAdmin(props) {
         }
         const onLoad = async () => {
             try {
-                const {identityId, tokens} = await fetchAuthSession({ forceRefresh: true });
-
-                if(!tokens) {
-                    let res = await post({
-                        apiName: 'findMessageList',
-                        path: '/messageList',
-                        options: {
-                            response: true,
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                            },
-                            body: {
-                                folder: 'Inbox'
-                            },
-                        }
-                    }).response;
-                    setInboxData(await res.body.json());
-
-                    res = await post({
-                        apiName: 'findMessageList',
-                        path: '/messageList',
-                        options: {
-                            response: true,
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                            },
-                            body: {
-                                folder: 'Sent'
-                            },
-                        }
-                    }).response;
-                    setSentData(await res.body.json());
-                }
-
+                let res = await adminPost('findMessageList', '/messageList', {folder: 'Inbox'});
+                setInboxData(await res.body.json());
+                res = await adminPost('findMessageList', '/messageList', {folder: 'Sent'});
+                setSentData(await res.body.json());
                 setIsLoading(false);
             }
             catch(e) {
-                if (e !== 'No current user') {
+                if (isForbidden(e)) {
+                    setForbidden(true);
+                } else if (e !== 'No current user') {
                     onError(e);
                 }
                 setIsLoading(false);
@@ -70,24 +41,23 @@ function EmailAdmin(props) {
     const loadEmail = async (submitEvent) => {
         submitEvent.preventDefault();
         setIsLoading(true);
-        await post({
-            apiName: 'processStoredMessage',
-            path: '/processMessage',
-            options: {
-                response: true,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: {prefix: "Inbox"},
+        try {
+            await adminPost('processStoredMessage', '/processMessage', {prefix: "Inbox"});
+        } catch (e) {
+            if (isForbidden(e)) {
+                setForbidden(true);
+            } else {
+                onError(e);
             }
-        }).response;
+        }
         setIsLoading(false);
     }
 
     return (
         <>
-            {isLoading ? (
+            {forbidden ? (
+                <div className="errormessage"><p>{NO_ACCESS_MESSAGE}</p></div>
+            ) : isLoading ? (
                 <Loader loading={isLoading} />
             ) : (
                 <>

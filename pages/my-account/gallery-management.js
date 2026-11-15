@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {serverGet} from "../../common/server-config";
-import {get} from "aws-amplify/api";
-import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
+import {adminGet, isForbidden} from "../../common/admin-api";
+import {hasPermission} from "../../common/permissions";
+import {onError} from "../../common/error";
+import NoAccess from "../../components/no-access";
 import {getSessionCookie, useSessionContext} from "../../common/session";
 import Title from "../../components/title";
 import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
@@ -15,9 +17,11 @@ import GalleryForm from "../../components/gallery-form";
 
 const pageTitle = 'Gallery Management';
 
-function GalleryManagement({menuList, handleLogout, authenticated, source, index, url}) {
+function GalleryManagement({menuList, handleLogout, authenticated, permissions, source, index, url}) {
     const [data, setData] = useState({});
     const [loading, isLoading] = useState(true);
+    const [forbidden, setForbidden] = useState(false);
+    const allowed = hasPermission(permissions, 'gallery:findAlbums') && !forbidden;
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
     useEffect(() => {
@@ -37,31 +41,23 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
     useEffect(() => {
         const onLoad = async () => {
             try {
-                const {tokens} = await fetchAuthSession({ forceRefresh: true });
-                if(tokens) {
-                    const res = await get({
-                        apiName: 'findAlbums',
-                        path: '/albums',
-                        options: {
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                            }
-                        }
-                    }).response;
+                if (hasPermission(permissions, 'gallery:findAlbums')) {
+                    const res = await adminGet('findAlbums', '/albums');
                     setData(await res.body.json());
                 }
                 isLoading(false);
             }
             catch(e) {
-                if (e !== 'No current user') {
+                if (isForbidden(e)) {
+                    setForbidden(true);
+                } else if (e !== 'No current user') {
                     onError(e);
                 }
                 isLoading(false);
             }
         }
         onLoad();
-    }, []);
+    }, [permissions]);
 
     return (
             <>
@@ -71,13 +67,20 @@ function GalleryManagement({menuList, handleLogout, authenticated, source, index
                 <div className="boxouter">
                     <div className="container">
                         <div className="contactusframe">
-                            <Title message={pageTitle} />
-                            {loading ? (
+                            {!allowed ? (
+                                <NoAccess title={pageTitle} />
+                            ) : loading ? (
+                                <>
+                                    <Title message={pageTitle} />
                                     <Loader loading={loading} />
+                                </>
                             ) : (
+                                <>
+                                <Title message={pageTitle} />
                                 <div className="contactuscontainer">
                                     <GalleryForm data={data} source={source} />
                                 </div>
+                                </>
                             )}
                         </div>
                     </div>

@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
     NavLink
 } from "react-router-dom";
-import {get} from "aws-amplify/api";
-import {fetchAuthSession} from "aws-amplify/auth";
+import {hasPermission} from "../common/permissions";
 import {
     getSessionCookie,
     useSessionContext
@@ -20,14 +19,13 @@ import EmailAdmin from "../components/email-admin";
 const pageTitle = 'Administration';
 const source = 'admin';
 
-function Admin(props) {
-    const { isAuthenticated, userHasAuthenticated } = useSessionContext();
+function Admin({permissions}) {
+    const { isAuthenticated } = useSessionContext();
     const index = useIndex();
     const [url, setUrl] = useState('');
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    const [isAdmin, setAdmin] = useState(false);
-    const [data, setData] = useState([]);
     const [loading, isLoading] = useState(true);
+    const isAdmin = hasPermission(permissions, 'messages:findMessageList');
 
     useEffect(() => {
         postAuditEntry(
@@ -46,43 +44,8 @@ function Admin(props) {
         if(typeof window !== 'undefined'){
             setUrl(window.location.protocol + '//' + window.location.host);
         }
-        const onLoad = async () => {
-            try {
-                let res = await get({
-                    apiName: 'findUserRole',
-                    path: '/findUserRole',
-                    options: {
-                        response: true,
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        }
-                    }
-                }).response;
-                setData(await res.body.json());
-
-                const {identityId} = await fetchAuthSession({ forceRefresh: true });
-                userHasAuthenticated(true);
-                if(isAuthenticated) {
-                    let admin = false;
-                    data.roleList.map((item) => {
-                        if(item.name === 'Administrator') {
-                            admin = true;
-                        }
-                    });
-                    setAdmin(admin);
-                }
-                isLoading(false);
-            }
-            catch(e) {
-                if (e !== 'No current user') {
-                    onError(e);
-                }
-                isLoading(false);
-            }
-        }
-        onLoad();
-    }, [isAuthenticated, userHasAuthenticated]);
+        isLoading(false);
+    }, []);
 
     return (
         <>
@@ -121,7 +84,7 @@ function Admin(props) {
                                 <div className="adminframe">
                                     <Title message={pageTitle + ' Not Found'} />
                                     <div className="errormessage">
-                                        <p>Your are not authorised to access the page. This page is only available for selected users.</p>
+                                        <p>You don&apos;t have access</p>
                                         <p>Please visit <NavLink to="/">Taleofddh Home Page</NavLink>  or <NavLink to="/sign-in">Sign-in</NavLink> to search for features</p>
                                         <p>If you have any specific query please <NavLink to="/contact-us">Contact Us</NavLink>.</p>
                                     </div>

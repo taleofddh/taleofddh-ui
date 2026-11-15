@@ -59,6 +59,7 @@ export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION
 // Gallery browse pages (/gallery, category, sub-category, collection) are public;
 // only individual albums are protected.
 export const PROTECTED_ROUTES = [
+    "/admin",
     "/gallery/[category]/[subCategory]/[collection]/[name]",
     "/my-account",
     "/my-account/gallery-management",
@@ -68,6 +69,15 @@ export const PROTECTED_ROUTES = [
     "/my-account/user-management",
     "/my-account/blog-management"
 ]
+
+// My Account menu. requiredPermission is checked with hasPermission();
+// null means any signed-in user. Add new management entries here with their permission.
+export const MY_ACCOUNT_MENU = [
+    {name: 'User Profile', link: '/my-account/user-profile', icon: 'profile', requiredPermission: null},
+    {name: 'Event Attendance', link: '/my-account/event-attendance', icon: 'attendance', requiredPermission: null},
+    {name: 'Gallery Management', link: '/my-account/gallery-management', icon: 'picture', requiredPermission: 'gallery:findAlbums'},
+    {name: 'Blog Management', link: '/my-account/blog-management', icon: 'blog', requiredPermission: 'blog:write'}
+];
 
 export const PAGE_REVALIDATE_PERIOD = parseInt(process.env.NEXT_PUBLIC_PAGE_REVALIDATE_PERIOD);
 
@@ -145,6 +155,10 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 region: AWS_CONFIG.apiGateway.REGION
             },
             createOrUpdateAlbum: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findGalleryPermissions: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },
@@ -272,6 +286,10 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/link',
                 region: AWS_CONFIG.apiGateway.REGION
             },
+            findAdminPermissions: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
             findMessageList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/admin',
                 region: AWS_CONFIG.apiGateway.REGION
@@ -285,10 +303,6 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 region: AWS_CONFIG.apiGateway.REGION
             },
             findAboutUsList: {
-                endpoint: AWS_CONFIG.apiGateway.URL + '/org',
-                region: AWS_CONFIG.apiGateway.REGION
-            },
-            findRoleBasedMenuList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/org',
                 region: AWS_CONFIG.apiGateway.REGION
             },

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import {serverGet} from "../common/server-config";
-import {get, post} from 'aws-amplify/api';
+import {post} from 'aws-amplify/api';
 import {fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
 import {getSessionCookie} from "../common/session";
 import Header from '../components/header';
@@ -13,13 +13,13 @@ import Title from "../components/title";
 import {onError} from "../common/error";
 import Loader from "../components/loader";
 import Icon from "../common/icon"
-import {HOST_NAME, INDEX_FLAG} from "../common/constants";
+import {HOST_NAME, INDEX_FLAG, MY_ACCOUNT_MENU} from "../common/constants";
+import {hasPermission} from "../common/permissions";
 import Family from "../components/family";
 
 const pagetitle = "My Account"
 
-function MyAccount({menuList, handleLogout, authenticated, family, source, index, url}) {
-    const [data, setData] = useState([]);
+function MyAccount({menuList, handleLogout, authenticated, permissions, family, source, index, url}) {
     const [loading, isLoading] = useState(true);
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
 
@@ -54,37 +54,6 @@ function MyAccount({menuList, handleLogout, authenticated, family, source, index
                     }
                 }).response;
 
-                let res = await get({
-                    apiName: 'findUserProfile',
-                    path: '/findUserProfile',
-                    options: {
-                        response: true,
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        }
-                    }
-                }).response;
-                const profile = await res.body.json();
-                const roles = profile.roles.map((item) => {
-                    return item.code;
-                })
-                //console.log(profile);
-                res = await post({
-                    apiName: 'findRoleBasedMenuList',
-                    path: '/roleBasedMenuList',
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body : {
-                            active: 'true',
-                            roles: roles
-                        }
-                    }
-                }).response;
-                setData(await res.body.json());
                 //console.log(data);
                 isLoading(false);
             }
@@ -117,7 +86,7 @@ function MyAccount({menuList, handleLogout, authenticated, family, source, index
                                     <Family source={source} type="people" family={family} />
                                 )}
                                 <ul className="myaccountgroup">
-                                    {data.map((item, index) => (
+                                    {MY_ACCOUNT_MENU.filter((item) => hasPermission(permissions, item.requiredPermission)).map((item, index) => (
                                         <li key={index} className="myaccountitem">
                                             <div className="myaccountmenu">
                                                 <Link href={{

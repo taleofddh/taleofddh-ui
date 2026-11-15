@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {get, post} from 'aws-amplify/api';
-import {fetchAuthSession} from "aws-amplify/auth";
+import {adminGet, adminPost, isForbidden} from "../common/admin-api";
+import {NO_ACCESS_MESSAGE} from "../common/permissions";
 import {
     dateFormatToString
 } from "../common/common";
@@ -147,21 +147,7 @@ function GalleryForm({data, source}) {
         setIsGalleryLoading(true);
 
         try {
-            const {tokens} = await fetchAuthSession({forceRefresh: true});
-            let res = {};
-            if(tokens) {
-                res = await get({
-                    apiName: "findAlbum",
-                    path: "/album/" + encodeURI(searchFields.name) + '/' + encodeURI(searchFields.startDateTime + 'T00:00:00'),
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        }
-                    }
-                }).response;
-            }
-
+            const res = await adminGet("findAlbum", "/album/" + encodeURI(searchFields.name) + '/' + encodeURI(searchFields.startDateTime + 'T00:00:00'));
             const galleryFound = await res.body.json();
             console.log(galleryFound);
 
@@ -193,7 +179,10 @@ function GalleryForm({data, source}) {
 
             setIsGalleryLoading(false);
         } catch (error) {
-            if (error !== 'No current user') {
+            if (isForbidden(error)) {
+                setMessage(NO_ACCESS_MESSAGE);
+                setSuccess(false);
+            } else if (error !== 'No current user') {
                 setMessage('No gallery found with the matching criteria entered');
                 setSuccess(false);
             }
@@ -228,21 +217,7 @@ function GalleryForm({data, source}) {
             clearResult();
             setMessage('Submitting your gallery for ' + fields.name);
             setSuccess(false);
-            const {tokens} = await fetchAuthSession({forceRefresh: true});
-            let response = {};
-            if(tokens) {
-                response = await post({
-                    apiName: "createOrUpdateAlbum",
-                    path: "/createOrUpdateAlbum",
-                    options: {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: gallery
-                    }
-                }).response;
-            }
+            const response = await adminPost("createOrUpdateAlbum", "/createOrUpdateAlbum", gallery);
             console.log(response);
             const gallerySubmitted = await response.body.json();
             setGalleryId(gallerySubmitted.id);
@@ -251,7 +226,10 @@ function GalleryForm({data, source}) {
             setSuccess(true);
             setIsLoading(false);
         } catch (error) {
-            if (error !== 'No current user') {
+            if (isForbidden(error)) {
+                setMessage(NO_ACCESS_MESSAGE);
+                setSuccess(false);
+            } else if (error !== 'No current user') {
                 setMessage('Your gallery for ' + fields.name + ' has not been successfully submitted');
                 setSuccess(false);
             }

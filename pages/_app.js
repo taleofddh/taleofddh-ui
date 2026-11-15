@@ -19,6 +19,7 @@ import {
     takePostLoginRedirect
 } from "../common/session";
 import { onError } from '../common/error';
+import { fetchPermissions } from '../common/admin-api';
 import MetaTag from "../components/metatag";
 //Global Styles
 import '../styles/globals.scss';
@@ -106,6 +107,7 @@ function App({ Component, pageProps }) {
     const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [credentialCookie, setCredentialCookie] = useState(false);
     const [family, setFamily] = useState({});
+    const [permissions, setPermissions] = useState([]);
     const [session] = useState(getSessionCookie);
     const router = useRouter();
 
@@ -115,6 +117,16 @@ function App({ Component, pageProps }) {
     // This only controls the UI; the protected data must also be locked down at the API.
     const isProtectedRoute = PROTECTED_ROUTES.includes(router.pathname);
     const blockProtectedRoute = isProtectedRoute && (isAuthenticating || !isAuthenticated);
+
+    // Permissions drive the My Account menu and management pages (display only; the API enforces access)
+    const loadPermissions = async () => {
+        try {
+            setPermissions(await fetchPermissions());
+        } catch (e) {
+            setPermissions([]);
+            onError(e);
+        }
+    };
 
     useEffect(() => {
         if (isAuthenticating) return; // wait for rehydrateSession() to finish
@@ -185,6 +197,7 @@ function App({ Component, pageProps }) {
                         setSessionCookie('credential', { identityId, sub: attributes.sub });
                     }
                     setCredentialCookie(true);
+                    await loadPermissions();
                 }
             } catch (e) {
                 // No active session — this is fine, user is just not signed in
@@ -243,6 +256,7 @@ function App({ Component, pageProps }) {
                 const email = attributes.email;
                 userHasAuthenticated(true);
                 setSessionCookie("credential", {identityId: identityId, sub: attributes.sub});
+                await loadPermissions();
 
                 //update or create a user profile after sign-in
                 const profile = {
@@ -309,6 +323,7 @@ function App({ Component, pageProps }) {
     const handleLogout = async () => {
         await signOut();
         userHasAuthenticated(false);
+        setPermissions([]);
         removeSessionCookie("credential");
         setCredentialCookie(false);
         await router.push("/sign-in",
@@ -354,6 +369,7 @@ function App({ Component, pageProps }) {
                     countryCode={ddhomeCountry.country_code}
                     handleLogout={handleLogout}
                     authenticated={isAuthenticated}
+                    permissions={permissions}
                     family={family}
                 />
             )}
