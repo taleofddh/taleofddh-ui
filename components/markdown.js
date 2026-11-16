@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { marked }  from "marked";
+import {renderMarkdown} from "../common/markdown-render";
 import ReactHtmlParser  from 'react-html-parser';
 import { MEDIA_HOST} from "../common/constants";
 
@@ -9,7 +9,7 @@ function Markdown({data, text, source, path}) {
 
     useEffect(() => {
         // One standard image per file: no mobile/tablet/desktop variants to swap in
-        setMarkDown(marked.parse(text.toString()).toString());
+        setMarkDown(renderMarkdown(text));
     }, [text])
 
     return (

@@ -70,6 +70,7 @@ import '../styles/components/visit.scss';
 import '../styles/pages/admin.scss';
 import '../styles/pages/about-us.scss';
 import '../styles/pages/acknowledgement.scss';
+import '../styles/pages/blog-management.scss';
 import '../styles/pages/blogs.scss';
 import "../styles/pages/change-password.scss";
 import '../styles/pages/contact-us.scss';

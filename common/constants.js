@@ -76,7 +76,7 @@ export const MY_ACCOUNT_MENU = [
     {name: 'User Profile', link: '/my-account/user-profile', icon: 'profile', requiredPermission: null},
     {name: 'Event Attendance', link: '/my-account/event-attendance', icon: 'attendance', requiredPermission: null},
     {name: 'Gallery Management', link: '/my-account/gallery-management', icon: 'picture', requiredPermission: 'gallery:findAlbums'},
-    {name: 'Blog Management', link: '/my-account/blog-management', icon: 'blog', requiredPermission: 'blog:write'}
+    {name: 'Blog Management', link: '/my-account/blog-management', icon: 'blog', requiredPermission: 'blog:createOrUpdateBlog'}
 ];
 
 export const PAGE_REVALIDATE_PERIOD = parseInt(process.env.NEXT_PUBLIC_PAGE_REVALIDATE_PERIOD);
@@ -216,6 +216,22 @@ export const AMPLIFY_RESOURCE_CONFIG = {
             },
             findAlbumWithMedia: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findBlogPermissions: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            createOrUpdateBlog: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            blogForEdit: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            blogTitlePhotoUploadUrl: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/blog',
                 region: AWS_CONFIG.apiGateway.REGION
             },
             findCategorizedBlogList: {

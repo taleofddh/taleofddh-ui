@@ -55,8 +55,7 @@ export const adminGet = (apiName, path) => adminRequest('get', apiName, path);
 export const adminPost = (apiName, path, body) => adminRequest('post', apiName, path, body);
 
 // Services that expose GET /permissions (each returns the caller's permissions from its own table).
-// Add the blog service here when the blog management API ships.
-const PERMISSION_APIS = ['findGalleryPermissions', 'findAdminPermissions'];
+const PERMISSION_APIS = ['findGalleryPermissions', 'findAdminPermissions', 'findBlogPermissions'];
 
 // Permissions of the signed-in user across services, e.g. ["gallery:findAlbums", "messages:*"].
 // A service that fails to answer contributes nothing; the others still count.

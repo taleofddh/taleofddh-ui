@@ -1,0 +1,76 @@
+@use "../common/common" as *;
+.blogform {
+    width: 100%;
+    float: left;
+}
+.blogeditor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.blogeditorinput, .blogeditorpreview {
+    flex: 1 1 320px;
+    min-width: 0;
+    textarea {
+        width: 100%;
+        font-family: monospace;
+    }
+}
+.blogeditorpreview {
+    overflow: auto;
+    max-height: 600px;
+}
+.blogformphoto {
+    max-width: 300px;
+    height: auto;
+    margin-top: 10px;
+}
+.blogformmessage.error, .blogformerrors {
+    color: red;
+    font-size: 0.9rem;
+}
+.blogformerrors {
+    text-align: left;
+    list-style: disc;
+    padding-left: 20px;
+}
+.blogmanagementlist {
+    width: 100%;
+    float: left;
+    p {
+        color: $color-white;
+        margin: 5px 10px;
+    }
+    ul {
+        margin: 0 10px;
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        color: $color-white;
+        font-family: Open Sans, Sans-Serif, serif;
+        font-size: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+        border-bottom: 1px solid $color-tan;
+    }
+}
+.blogmanagementedit {
+    cursor: pointer;
+}
+
+// Disabled fields (slug, category, start date on edit) keep a readable colour on the dark background
+.blogform {
+    .type input:disabled,
+    .select select:disabled {
+        color: $color-white-darker;
+        -webkit-text-fill-color: $color-white-darker;
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    input[type="datetime-local"] {
+        color-scheme: dark;
+    }
+}
