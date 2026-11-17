@@ -6,6 +6,7 @@ import {
 } from "../../../common/constants";
 import {capitalizeFirstLetters} from "../../../common/common";
 import {composeDescription, firstParagraph} from "../../../common/seo";
+import {toSlug} from "../../../common/slug";
 import { getSessionCookie } from "../../../common/session";
 import Header from '../../../components/header';
 import Navigation from '../../../components/navigation';
@@ -139,12 +140,18 @@ export const getStaticProps = async ({ context, params }) => {
     // Metadata. header is the short page heading and becomes the page title. title is the longer,
     // keyword-rich line and becomes the description (topped up with the first paragraph when it is
     // short). The API fields summary and titlePhotoAlt take over when they exist.
-    // The hero image is the public titlePhoto path (signedUrl is not used because it can expire).
     const headline = blogData.header || blogData.title || name;
+    // Public hero image. The API's signedUrl is a plain public URL (no query string) with the full path.
+    // Fallback: titlePhoto is relative to blogs/<category>/ unless it already starts with blogs/.
+    const heroImage = blogData.signedUrl && !String(blogData.signedUrl).includes('?')
+        ? blogData.signedUrl
+        : (blogData.titlePhoto
+            ? (blogData.titlePhoto.startsWith('blogs/') ? blogData.titlePhoto : 'blogs/' + toSlug(category) + '/' + blogData.titlePhoto)
+            : null);
     const meta = {
         title: blogData.header || headline,
         description: blogData.summary || composeDescription(blogData.title, firstParagraph(typeof blogText === 'string' ? blogText : '')) || headline,
-        image: blogData.titlePhoto || null,
+        image: heroImage,
         imageAlt: blogData.titlePhotoAlt || headline,
         type: 'article',
         article: {

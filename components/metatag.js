@@ -7,7 +7,7 @@ import {DEFAULT_IMAGE} from "../common/seo";
 const serializeJsonLd = (data) => JSON.stringify(data).replace(/</g, '\\u003c');
 
 function MetaTag({ meta }) {
-    const {title, description, image, imageAlt, type, canonical, robots, noindex, publishedTime, jsonLd} = meta;
+    const {title, description, image, imageAlt, type, canonical, url, robots, publishedTime, jsonLd} = meta;
     return (
         <Head>
             <title>{title}</title>
@@ -18,7 +18,9 @@ function MetaTag({ meta }) {
             <meta name="description" content={description} />
             <meta name="robots" content={robots} />
             {canonical && <link rel="canonical" href={canonical} />}
-            {!noindex && (
+            {/* Share tags are rendered whenever the page has an image, even when it is not indexed (dev, staging),
+                so link previews work there too. Utility pages (sign-in, my-account) have no image and get none. */}
+            {image && (
                 <>
                     <meta name="keywords" content="Devadyuti, Debarati, Deeptanal, TaleofDDH"/>
                     <meta name="author" content="TaleofDDH.com"/>
@@ -44,7 +46,7 @@ function MetaTag({ meta }) {
                     )}
                     <meta property="og:site_name" content="TaleofDDH"/>
                     <meta property="og:type" content={type}/>
-                    <meta property="og:url" content={canonical} />
+                    <meta property="og:url" content={url} />
                     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
                 </>
             )}
