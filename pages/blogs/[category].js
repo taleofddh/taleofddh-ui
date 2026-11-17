@@ -115,7 +115,10 @@ export const getStaticProps = async ({ context, params }) => {
 
     const historicalBlogData = await serverGet('findHistoricalBlogNames', '/blogHistoricalNames', [category]);
     //console.log(historicalBlogData);
-    const hdr = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Blogs | taleofddh';
+    const meta = {
+        title: category + ' Blogs',
+        description: 'Read ' + category + ' blogs from taleofddh, with stories, photos and practical tips from our own experiences. Browse every ' + category + ' post.'
+    };
 
     // return the data
     return {
@@ -126,7 +129,7 @@ export const getStaticProps = async ({ context, params }) => {
             source,
             index,
             url,
-            hdr
+            meta
         },
     }
 }

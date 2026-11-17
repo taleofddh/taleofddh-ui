@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
+import {useRouter} from 'next/router';
 import {serverGet} from "../../../../../common/server-config";
 import {
     HOST_NAME,
     INDEX_FLAG
 } from "../../../../../common/constants";
 import {capitalizeFirstLetters} from "../../../../../common/common";
+import {getAlbumTeaser} from "../../../../../common/gallery/album-teaser.server";
+import {toDescription} from "../../../../../common/seo";
+import AlbumTeaser from "../../../../../components/album-teaser";
 import { getSessionCookie } from "../../../../../common/session";
 import Header from '../../../../../components/header';
 import Navigation from '../../../../../components/navigation';
@@ -19,10 +23,11 @@ import Loader from "../../../../../components/loader";
 
 const pageTitle = "Gallery"
 
-// Protected page: album photos are personal content. Nothing about the album's media is
-// fetched at build time; it is loaded in the browser only once the user is signed in.
-// The route itself is guarded in _app.js via PROTECTED_ROUTES.
-function AlbumName({menuList, handleLogout, authenticated, category, subCategory, collection, name, source, index, url, }) {
+// Public teaser, gated media: the static page carries only public text and the cover image (see
+// getAlbumTeaser). Photos and videos are fetched in the browser once the user is signed in, and
+// signed-out visitors see the teaser with a sign-in button instead of being redirected.
+function AlbumName({menuList, handleLogout, authenticated, authenticating, teaser, category, subCategory, collection, name, source, index, url, }) {
+    const router = useRouter();
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
     const path = (category + '/' + subCategory + '/' + collection + '/' + name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase();
     const album = useClientGet('findAlbumWithMedia', '/albumWithMedia', [category, subCategory, collection, name], {}, authenticated);
@@ -79,7 +84,13 @@ function AlbumName({menuList, handleLogout, authenticated, category, subCategory
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    {albumLoaded ? (
+                    {!authenticated ? (
+                        <AlbumTeaser
+                            name={name}
+                            teaser={teaser}
+                            authenticating={authenticating}
+                            signInHref={'/sign-in/?redirect=' + encodeURIComponent(router.asPath)} />
+                    ) : albumLoaded ? (
                         <PhotoAlbum source={source} path={path} type={name} album={albumData} photos={albumData.photoList || []} videos={albumData.videoList || []}/>
                     ) : album.loading ? (
                         <Loader loading={true} />
@@ -140,11 +151,24 @@ export const getStaticProps = async ({ context, params }) => {
     //console.log(category, subCategory, collection, name);
     //console.log(('images/albums/' + category + '/' + subCategory + '/' + collection + '/' + name + '/').replace(/&/g, 'and').replace(/ /g, '-').toLowerCase());
 
-    // Album media is deliberately NOT fetched here: anything returned from getStaticProps is
-    // written into public HTML/JSON. The page meta only uses the album name; desc/img fall
-    // back to the generic gallery description and site logo in MetaTag.
-    const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Gallery | taleofddh';
-
+    // Only the public teaser is fetched here (explicit allow-list, see getAlbumTeaser). Album media is
+    // deliberately NOT fetched: anything returned from getStaticProps is written into public HTML/JSON.
+    const teaser = await getAlbumTeaser(category, subCategory, collection, name);
+    const meta = {
+        title: name + ' Photo Album: ' + collection + ', ' + subCategory,
+        description: (teaser && (teaser.summary || toDescription(teaser.description)))
+            || name + ' photo and video album from ' + collection + ' in our ' + subCategory + ' ' + category + ' galleries at taleofddh. Sign in to view the full album.',
+        image: teaser ? teaser.coverUrl : null,
+        imageAlt: teaser && teaser.coverAlt ? teaser.coverAlt : name + ' album cover',
+        // An album that is not in the public list is not indexed
+        noindex: !teaser,
+        gallery: {
+            name,
+            dateCreated: teaser ? teaser.dateCreated : null,
+            locationCreated: teaser ? teaser.locationLabel : null,
+            gated: '.photoalbumgated'
+        }
+    };
     // return the data
     return {
         props: {
@@ -153,10 +177,11 @@ export const getStaticProps = async ({ context, params }) => {
             subCategory,
             collection,
             name,
+            teaser,
             source,
             index,
             url,
-            hdr
+            meta
         },
     }
 }

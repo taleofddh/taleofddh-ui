@@ -10,7 +10,6 @@ import {
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import {useIndex} from "../common/hook";
 import {postAuditEntry} from "../common/common";
-import MetaTag from "../components/metatag";
 import Loader from "../components/loader";
 import Title from "../components/title";
 import {onError} from "../common/error";
@@ -54,7 +53,6 @@ function Admin({permissions}) {
                 <Loader loading={loading} />
             ) : (
                 <>
-                    <MetaTag page={source} index={index} url={url} />
                     <div className="boxouter">
                         {isAuthenticated && isAdmin ? (
                             <div className="container" style={{width: '100%'}}>

@@ -56,11 +56,11 @@ export const MEASUREMENT_FLAG = process.env.NEXT_PUBLIC_MEASUREMENT_FLAG.toUpper
 export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION
 // Matched exactly against Next.js router.pathname (the route pattern, e.g. "[name]"),
 // so one entry protects every page generated from that dynamic route.
-// Gallery browse pages (/gallery, category, sub-category, collection) are public;
-// only individual albums are protected.
+// Gallery browse pages (/gallery, category, sub-category, collection) are public.
+// Album pages are public too, but only as a teaser: the album page itself decides what a signed-out
+// visitor sees (no redirect), and loads photos and videos only for signed-in users.
 export const PROTECTED_ROUTES = [
     "/admin",
-    "/gallery/[category]/[subCategory]/[collection]/[name]",
     "/my-account",
     "/my-account/gallery-management",
     "/my-account/event-attendance",
@@ -211,6 +211,14 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 region: AWS_CONFIG.apiGateway.REGION
             },
             findAlbumCategorySubCategoryCollectionNames: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumLevelMeta: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumLevelMetaList: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },

@@ -13,6 +13,13 @@ import TypeInput from "./type-input";
 import TextArea from "./textarea";
 import * as array from '@taleofddh/array';
 
+// Limits match the API (gallery/seo-text.js)
+const DESCRIPTION_MAX = 3000;
+const SUMMARY_MIN = 120;
+const SUMMARY_MAX = 160;
+const ALT_MAX = 125;
+const LOCATION_MAX = 100;
+const wordCount = (text) => (text || '').trim().split(/\s+/).filter(Boolean).length;
 function GalleryForm({data, source}) {
     const initialResult = {};
     const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +44,11 @@ function GalleryForm({data, source}) {
         defaultFlag: false,
         titlePhoto: '',
         photoCount: '0',
+        videoCount: '0',
         description: '',
+        summary: '',
+        coverAlt: '',
+        locationLabel: '',
         viewCount: '0',
         production: false
     }
@@ -94,7 +105,10 @@ function GalleryForm({data, source}) {
         const dateRegex = RegExp('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
         const number1Regex = RegExp('^[0-9]{1,2}$');
         const number2Regex = RegExp('^[0-9]$');
-        const descriptionRegex = RegExp('^.{1,300}$')
+        // Limits match the API (seo-text.js): description up to 3000 characters (Markdown, multi-line),
+        // summary empty or 120 to 160 characters, cover alt text up to 125, location up to 100. No HTML.
+        const descriptionRegex = RegExp('^[\\s\\S]{1,' + DESCRIPTION_MAX + '}$');
+        const htmlRegex = RegExp('<\\s*/?\\s*[a-zA-Z!]');
 
         for (const key in fields) {
             valid = false;
@@ -104,6 +118,18 @@ function GalleryForm({data, source}) {
                 break;
             }
             if (key === 'description' && (fields[key].length === 0 || fields[key].match(descriptionRegex) === null)) {
+                break;
+            }
+            if ((key === 'description' || key === 'summary' || key === 'coverAlt' || key === 'locationLabel') && htmlRegex.test(fields[key])) {
+                break;
+            }
+            if (key === 'summary' && fields[key].trim().length > 0 && (fields[key].trim().length < SUMMARY_MIN || fields[key].trim().length > SUMMARY_MAX)) {
+                break;
+            }
+            if (key === 'coverAlt' && fields[key].trim().length > ALT_MAX) {
+                break;
+            }
+            if (key === 'locationLabel' && fields[key].trim().length > LOCATION_MAX) {
                 break;
             }
             if ((key === 'startDateTime' || key === 'endDateTime') && (fields[key].length === 0 || fields[key].match(dateRegex) === null)) {
@@ -165,7 +191,11 @@ function GalleryForm({data, source}) {
                     defaultFlag: galleryFound.defaultFlag,
                     titlePhoto: galleryFound.titlePhoto,
                     photoCount: galleryFound.photoCount + '',
+                    videoCount: String(galleryFound.videoCount ?? 0),
                     description: galleryFound.description,
+                    summary: galleryFound.summary || '',
+                    coverAlt: galleryFound.coverAlt || '',
+                    locationLabel: galleryFound.locationLabel || '',
                     viewCount: galleryFound.viewCount + '',
                     production: galleryFound.production
                 })
@@ -200,6 +230,9 @@ function GalleryForm({data, source}) {
             subCategory: fields.subCategory,
             name: fields.name,
             description: fields.description,
+            summary: fields.summary.trim(),
+            coverAlt: fields.coverAlt.trim(),
+            locationLabel: fields.locationLabel.trim(),
             titlePhoto: fields.titlePhoto,
             startDateTime: fields.startDateTime + 'T00:00:00',
             endDateTime: fields.endDateTime + 'T23:59:59',
@@ -417,13 +450,58 @@ function GalleryForm({data, source}) {
                                 <div className="galleryfieldcontainer">
                                     <TextArea id="description"
                                               name="description"
-                                              label="Description"
+                                              label="Description (public intro)"
                                               disabled={false}
                                               required={true}
+                                              rows={14}
+                                              maxLength={DESCRIPTION_MAX}
+                                              note={'Markdown. Shown publicly on the album page. Aim for 150 to 300 words: what and where, when (month and year), 2 or 3 highlights, what the album contains. Do not include family member names, exact addresses or private dates. ' + wordCount(fields.description) + ' words, ' + fields.description.length + ' of ' + DESCRIPTION_MAX + ' characters'}
                                               initialValue={fields.description}
                                               value={fields.description}
                                               placeHolder="Description of the gallery."
                                               onChange={handleFieldChange} />
+                                </div>
+                                <div className="galleryfieldcontainer">
+                                    <TextArea id="summary"
+                                              name="summary"
+                                              label="Summary (meta description)"
+                                              disabled={false}
+                                              required={false}
+                                              rows={3}
+                                              maxLength={SUMMARY_MAX}
+                                              note={'Plain text for search results and link previews, 120 to 160 characters. Leave empty to use the start of the description. ' + fields.summary.trim().length + ' of ' + SUMMARY_MAX + ' characters'}
+                                              initialValue={fields.summary}
+                                              value={fields.summary}
+                                              placeHolder="Short summary of the album."
+                                              onChange={handleFieldChange} />
+                                </div>
+                                <div className="galleryfieldcontainer">
+                                    <TypeInput id="coverAlt"
+                                               name="coverAlt"
+                                               label="Cover Alt Text"
+                                               type="text"
+                                               disabled={false}
+                                               required={false}
+                                               maxLength={ALT_MAX}
+                                               note={'Describes the cover image, up to 125 characters. ' + fields.coverAlt.trim().length + ' of ' + ALT_MAX}
+                                               initialValue={fields.coverAlt}
+                                               value={fields.coverAlt}
+                                               placeHolder="e.g. Waterfall pouring off green cliffs into the sea"
+                                               onChange={handleFieldChange} />
+                                </div>
+                                <div className="galleryfieldcontainer">
+                                    <TypeInput id="locationLabel"
+                                               name="locationLabel"
+                                               label="Public Location"
+                                               type="text"
+                                               disabled={false}
+                                               required={false}
+                                               maxLength={LOCATION_MAX}
+                                               note="Town or region only, never a street address"
+                                               initialValue={fields.locationLabel}
+                                               value={fields.locationLabel}
+                                               placeHolder="e.g. Lake District, England"
+                                               onChange={handleFieldChange} />
                                 </div>
                                 <div className="galleryfieldcontainer">
                                     <TypeInput id="titlePhoto"
@@ -468,6 +546,19 @@ function GalleryForm({data, source}) {
                                                value={fields.photoCount+''}
                                                placeHolder="Only numbers 0-99"
                                                onChange={handleFieldChange} />
+                                </div>
+                                <div className="galleryfieldcontainer">
+                                    <TypeInput id="videoCount"
+                                               name="videoCount"
+                                               label="Video Count"
+                                               type="text"
+                                               disabled={true}
+                                               required={false}
+                                               note="Counted automatically from the video folder when the album is saved"
+                                               initialValue={String(fields.videoCount ?? 0)}
+                                               value={String(fields.videoCount ?? 0)}
+                                               placeHolder="0"
+                                               onChange={() => {}} />
                                 </div>
                                 <div className="galleryfieldcontainer">
                                     <CheckBox id="production"

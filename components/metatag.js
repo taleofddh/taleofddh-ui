@@ -1,106 +1,60 @@
 import React from "react";
 import Head from 'next/head';
-import {MEDIA_HOST} from "../common/constants";
+import {DEFAULT_IMAGE} from "../common/seo";
 
-function MetaTag({ page, index, url, hdr, desc, img }) {
-    let indexMeta;
-    if(!index || page === 'error') {
-        indexMeta = <meta name="robots" content="noindex" />
-    }
-    let title;
-    let description;
-    let image = img ? img : MEDIA_HOST + '/images/taleofddh-logo.png';
-    switch(page) {
-        case 'home':
-            title = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal\'s Home | taleofddh';
-            description = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
-            break;
-        case 'about-us':
-            title = 'The Tale of DDH story, Our mission, journey and background';
-            description = 'Meet the team behind taleofddh. We are on a mission to make the delivery of cross-border and local professional-services hassle-free and simple.';
-            image = MEDIA_HOST + '/images/talofddh-devadyuti-debarati-deeptanal-home.jpg'
-            break;
-        case 'contact-us':
-            title = 'Contact Us - Service, Support and Enquiries | taleofddh';
-            description = 'Contact the taleofddh team for related queries. ' +
-                'Email us for travel blogs, gallery, cooking, technical matters.';
-            break;
-        case 'gallery':
-            title = hdr ? hdr : 'Gallery - Photo & Video Albums | taleofddh';
-            description = desc ? desc : 'Find out recent and historical photo and video galleries of Take of DDH - Vacations, Short Trips & Celebrations';
-            image = img ? img : image;
-            break;
-        case 'blogs':
-            title = 'Blogs - for Travel, Recipes & Technology | taleofddh';
-            description = 'Blogs - for Travel, Recipes & Technology | taleofddh';
-            break;
-        case 'article':
-            title = 'Blogs Article - ' + desc + ' | taleofddh';
-            description = 'Blogs Article - ' + desc;
-            image = MEDIA_HOST + '/images/' + img;
-            break;
-        case 'request':
-            title = 'Track Request Status | taleofddh';
-            description = 'Track status of your request. Related queries with taleofddh. ' +
-                'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
-            break;
-        case 'terms-conditions':
-            title = 'Terms and Conditions | taleofddh';
-            description = 'Website Terms and Conditions - Find travel, technology and cooking blogs, galleries, guides with taleofddh. ' +
-                'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
-            break;
-        default:
-            title = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal\'s Home | taleofddh';
-            description = 'Welcome to Tale of Devadyuti, Debarati & Deeptanal. An attempt to build a place on the web for others to know more about us.';
-            image = MEDIA_HOST + '/images/taleofddh-logo.png';
-            break;
-    }
+// Single place where <head> metadata is rendered. `meta` comes from buildMeta() (common/seo.js).
+// JSON-LD is serialised with "<" escaped so page content can never close the script tag.
+const serializeJsonLd = (data) => JSON.stringify(data).replace(/</g, '\\u003c');
+
+function MetaTag({ meta }) {
+    const {title, description, image, imageAlt, type, canonical, robots, noindex, publishedTime, jsonLd} = meta;
     return (
-        <>
-            {page === 'error' ? (
-                <Head>
-                    <title>{title}</title>
-                    <meta charSet="UTF-8" />
-                    <meta name="description" content={description} />
-                    {indexMeta}
-                </Head>
-            ) : (
-                <Head>
-                    <title>{title}</title>
-                    <meta charSet="UTF-8" />
-                    <meta name="description" content={description} />
-                    {indexMeta}
+        <Head>
+            <title>{title}</title>
+            <meta charSet="UTF-8" />
+            <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+            <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+            <meta name="HandheldFriendly" content="true"/>
+            <meta name="description" content={description} />
+            <meta name="robots" content={robots} />
+            {canonical && <link rel="canonical" href={canonical} />}
+            {!noindex && (
+                <>
                     <meta name="keywords" content="Devadyuti, Debarati, Deeptanal, TaleofDDH"/>
                     <meta name="author" content="TaleofDDH.com"/>
-
+                    <meta name="twitter:card" content="summary_large_image"/>
                     <meta name="twitter:title" content={title} />
                     <meta name="twitter:description" content={description} />
                     <meta name="twitter:image" content={image} />
-                    <meta name="twitter:card" content="summary_large_image"/>
+                    <meta name="twitter:image:alt" content={imageAlt} />
                     <meta name="twitter:site" content="@ServEase_io"/>
                     <meta name="twitter:domain" content="https://taleofddh.com"/>
                     <meta name="twitter:creator" content="TaleofDDH_com"/>
-
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={description} />
                     <meta property="og:image" content={image} />
                     <meta property="og:image:secure_url" content={image} />
-                    <meta property="og:image:alt" content={title} />
+                    <meta property="og:image:alt" content={imageAlt} />
+                    {image === DEFAULT_IMAGE && (
+                        <>
+                            <meta property="og:image:type" content="image/png"/>
+                            <meta property="og:image:width" content="1200"/>
+                            <meta property="og:image:height" content="630"/>
+                        </>
+                    )}
                     <meta property="og:site_name" content="TaleofDDH"/>
-                    <meta property="og:type" content="website"/>
-                    <meta property="og:url" content="https://taleofddh.com"/>
-                    <meta property="og:image:type" content="image/png"/>
-                    <meta property="og:image:width" content="1200"/>
-                    <meta property="og:image:height" content="630"/>
-
-                    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-                    <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-                    <meta name="HandheldFriendly" content="true"/>
-                </Head>
+                    <meta property="og:type" content={type}/>
+                    <meta property="og:url" content={canonical} />
+                    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+                </>
             )}
-
-        </>
+            {jsonLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{__html: serializeJsonLd(jsonLd)}}
+                />
+            )}
+        </Head>
     )
 }
-
 export default MetaTag;

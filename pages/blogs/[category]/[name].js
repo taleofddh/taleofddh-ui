@@ -5,6 +5,7 @@ import {
     INDEX_FLAG, MONTH_NAMES
 } from "../../../common/constants";
 import {capitalizeFirstLetters} from "../../../common/common";
+import {composeDescription, firstParagraph} from "../../../common/seo";
 import { getSessionCookie } from "../../../common/session";
 import Header from '../../../components/header';
 import Navigation from '../../../components/navigation';
@@ -132,12 +133,27 @@ export const getStaticProps = async ({ context, params }) => {
     const blogData = await serverGet('findBlog', '/blog', [category, name]);
     //console.log(blogData);
 
-    const hdr = capitalizeFirstLetters(`${params.name}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Blog | taleofddh';
-    const desc = blogData.title;
-    const img = blogData.signedUrl
     const content = blogData.content.toString();
     // Call an external API endpoint to get data
     const blogText = await serverGet('getBlogDocument', '/blogDocument', [category, content]);
+    // Metadata. header is the short page heading and becomes the page title. title is the longer,
+    // keyword-rich line and becomes the description (topped up with the first paragraph when it is
+    // short). The API fields summary and titlePhotoAlt take over when they exist.
+    // The hero image is the public titlePhoto path (signedUrl is not used because it can expire).
+    const headline = blogData.header || blogData.title || name;
+    const meta = {
+        title: blogData.header || headline,
+        description: blogData.summary || composeDescription(blogData.title, firstParagraph(typeof blogText === 'string' ? blogText : '')) || headline,
+        image: blogData.titlePhoto || null,
+        imageAlt: blogData.titlePhotoAlt || headline,
+        type: 'article',
+        article: {
+            headline,
+            author: blogData.author || null,
+            datePublished: blogData.endDateTime ? new Date(blogData.endDateTime).toISOString() : null,
+            dateModified: blogData.updatedDateTime || null
+        }
+    };
 
     // return the data
     return {
@@ -150,9 +166,7 @@ export const getStaticProps = async ({ context, params }) => {
             source,
             index,
             url,
-            hdr,
-            desc,
-            img
+            meta
         },
     }
 }

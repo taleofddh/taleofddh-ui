@@ -3,21 +3,20 @@ import {serverGet} from "../../common/server-config";
 import {HOST_NAME, INDEX_FLAG} from "../../common/constants";
 import {capitalizeFirstLetters} from "../../common/common";
 import { getSessionCookie } from "../../common/session";
-import {useClientGet} from "../../common/hook";
 import Header from '../../components/header';
 import Navigation from '../../components/navigation';
 import ResponsiveNavigation from "../../components/responsive-navigation";
 import Footer from "../../components/footer";
 import {postAuditEntry} from "../../common/common";
 import HistoricalList from "../../components/historical-list";
-import Loader from "../../components/loader";
+import {galleryCoverUrl} from "../../common/gallery/urls";
+import {getLevelMeta, levelMetadata} from "../../common/gallery/level-meta.server";
+import LevelIntro from "../../components/level-intro";
 
 const pageTitle = "Gallery";
 
-function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ category, source, index, url}) {
+function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEventData,*/ category, historical, intro, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    // Sub-category data carries presigned URLs, so it is fetched in the browser on every visit
-    const historical = useClientGet('findHistoricalAlbumSubCategories', '/albumHistoricalSubCategories', [category]);
 
     useEffect(() => {
         postAuditEntry(
@@ -39,11 +38,8 @@ function AlbumCategories({menuList, handleLogout, authenticated, /*upcomingEvent
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    {historical.loading ? (
-                        <Loader loading={true} />
-                    ) : (
-                        <HistoricalList source={source} path={category} type={category} data={historical.data}/>
-                    )}
+                    <LevelIntro text={intro} />
+                    <HistoricalList source={source} path={category} type={category} data={historical}/>
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -80,17 +76,24 @@ export const getStaticProps = async ({ context, params }) => {
     const category = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & '));
     //console.log("category", category);
 
-    const hdr = capitalizeFirstLetters(`${params.category}`.replace(/-/g, ' ').replace(/ and /g, ' & ')) + ' - Galleries | taleofddh';
+    const historical = await serverGet('findHistoricalAlbumSubCategories', '/albumHistoricalSubCategories', [category]);
+    const levelMeta = await getLevelMeta('category', category);
+    const meta = levelMetadata(levelMeta, {
+        title: category + ' Photo and Video Galleries',
+        description: 'Browse ' + category + ' photo and video galleries from taleofddh, from family vacations and short trips to celebrations. Sign in to view each album.'
+    }, galleryCoverUrl(category), category + ' Galleries');
 
     // return the data
     return {
         props: {
             menuList,
             category,
+            historical,
+            intro: levelMeta ? levelMeta.description : null,
             source,
             index,
             url,
-            hdr
+            meta
         },
     }
 }

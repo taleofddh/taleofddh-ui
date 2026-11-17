@@ -3,7 +3,6 @@ import {serverGet} from "../common/server-config";
 import 'aws-amplify/auth/enable-oauth-listener';
 import {HOST_NAME, INDEX_FLAG} from "../common/constants";
 import { getSessionCookie } from "../common/session";
-import {useClientGet} from "../common/hook";
 import Header from '../components/header';
 import Navigation from '../components/navigation';
 import ResponsiveNavigation from "../components/responsive-navigation";
@@ -11,15 +10,11 @@ import Footer from "../components/footer";
 import {postAuditEntry} from "../common/common";
 import PhotoCollection from "../components/photo-collection";
 import HistoricalList from "../components/historical-list";
-import Loader from "../components/loader";
 
 const pageTitle = "Gallery";
 
-function Gallery({menuList, handleLogout, authenticated, source, index, url}) {
+function Gallery({menuList, handleLogout, authenticated, recent, historical, source, index, url}) {
     const ddhomeCountry = getSessionCookie('ddhomeCountry');
-    // Album data carries presigned URLs, so it is fetched in the browser on every visit
-    const recent = useClientGet('findRecentAlbumNames', '/albumRecentNames');
-    const historical = useClientGet('findHistoricalAlbumCategories', '/albumHistoricalCategories');
 
     useEffect(() => {
         postAuditEntry(
@@ -41,14 +36,8 @@ function Gallery({menuList, handleLogout, authenticated, source, index, url}) {
             <Navigation menus={menuList} />
             <div className="boxouter">
                 <div className="container">
-                    {recent.loading || historical.loading ? (
-                        <Loader loading={true} />
-                    ) : (
-                        <>
-                            <PhotoCollection albums={recent.data} source={source} type='Recent' />
-                            <HistoricalList source={source} type='Historical' data={historical.data}/>
-                        </>
-                    )}
+                    <PhotoCollection albums={recent} source={source} type='Recent' />
+                    <HistoricalList source={source} type='Historical' data={historical}/>
                 </div>
             </div>
             <Footer menus={menuList} />
@@ -64,11 +53,16 @@ export const getStaticProps = async ({context}) => {
 
     // Call an external API endpoint to get data
     const menuList = await serverGet('findMenuList', '/menuList', [true]);
+    // Cover images are public, so the lists are built at build time
+    const recent = await serverGet('findRecentAlbumNames', '/albumRecentNames');
+    const historical = await serverGet('findHistoricalAlbumCategories', '/albumHistoricalCategories');
 
     // return the data
     return {
         props: {
             menuList,
+            recent,
+            historical,
             source,
             index,
             url

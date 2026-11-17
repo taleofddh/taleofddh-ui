@@ -21,6 +21,7 @@ import {
 import { onError } from '../common/error';
 import { fetchPermissions } from '../common/admin-api';
 import MetaTag from "../components/metatag";
+import { buildMeta } from "../common/seo";
 //Global Styles
 import '../styles/globals.scss';
 //Common Styles
@@ -111,6 +112,9 @@ function App({ Component, pageProps }) {
     const [permissions, setPermissions] = useState([]);
     const [session] = useState(getSessionCookie);
     const router = useRouter();
+    // Every page gets complete metadata. Pages may pass a `meta` object from getStaticProps;
+    // anything they leave out is filled in by buildMeta().
+    const meta = buildMeta(pageProps.meta, { pathname: router.pathname, asPath: router.asPath });
 
     // Client-side route guard. router.pathname is the route pattern
     // (e.g. /gallery/[category]/[subCategory]/[collection]/[name]), so nested dynamic
@@ -334,7 +338,7 @@ function App({ Component, pageProps }) {
 
     return (
         <React.Fragment>
-            <MetaTag page={pageProps.source} index={pageProps.index} url={pageProps.url} hdr={pageProps.hdr} desc={pageProps.desc} img={pageProps.img} />
+            <MetaTag meta={meta} />
             {!isAuthenticating && (
                 <SessionContext.Provider value={{session, isAuthenticated, userHasAuthenticated}}>
                     <CookieConsent
@@ -370,6 +374,7 @@ function App({ Component, pageProps }) {
                     countryCode={ddhomeCountry.country_code}
                     handleLogout={handleLogout}
                     authenticated={isAuthenticated}
+                    authenticating={isAuthenticating}
                     permissions={permissions}
                     family={family}
                 />
