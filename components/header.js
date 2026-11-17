@@ -49,8 +49,7 @@ function DDHomeLanguage({country}) {
 
 function Links({menus, isAuthenticated, onLogout}) {
     const router = useRouter();
-    let count = 0;
-    let separator;
+    const headerCount = (index) => menus.slice(0, index).filter((m) => m.position === 'Header').length;
 
     const handleClick = (event) => {
         event.preventDefault();
@@ -60,9 +59,7 @@ function Links({menus, isAuthenticated, onLogout}) {
     let menuList = menus.map((item, index) => {
         if(item.position === 'Header') {
             let menu;
-            if(count > 1) {
-                separator =  '   |   ';
-            }
+            const separator = headerCount(index) > 1 ? '   |   ' : undefined;
             if(isAuthenticated) {
                 if(item.name === 'Sign-in') {
                     menu =
@@ -111,7 +108,6 @@ function Links({menus, isAuthenticated, onLogout}) {
                         </span>
                 }
             }
-            count++
             return (
                 <label key={index} style={{display: 'inline'}}>
                     {menu}

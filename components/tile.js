@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ruler } from "../common/common";
 
-function Tile({id, width, size, checked, className, disabled, icon, index, selectedItem, label, margin, onClick,
-                  padding, parent, ref, required, value, sectionIndex}) {
+function Tile({id, width = 'auto', size, checked = false, className = '', disabled = false, icon, index, selectedItem = {}, label = '', margin = '5 0', onClick = () => {},
+                  padding = '10 0', parent, ref, required = false, value = '', sectionIndex}) {
     const [focused, setFocused] = useState(false);
 
     const onBlur = () => {
@@ -89,18 +89,5 @@ Tile.propTypes = {
     selectedItem: PropTypes.object
 };
 
-Tile.defaultProps = {
-    width: 'auto',
-    margin: '5 0',
-    padding: '10 0',
-    label: '',
-    className: '',
-    disabled: false,
-    required: false,
-    value: '',
-    checked: false,
-    onClick: () => {},
-    selectedItem: {}
-};
 
 export default Tile;

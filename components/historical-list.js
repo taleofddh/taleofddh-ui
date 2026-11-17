@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './title';
 import ListModule from "./list-module";
-import ReactHtmlParser from "react-html-parser";
+import ReactHtmlParser from 'html-react-parser';
 import {marked} from "marked";
 
 function HistoricalList({ source, path, type, data, intro }) {

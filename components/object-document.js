@@ -1,15 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {post} from "aws-amplify/api";
 import marked  from "marked";
-import ReactHtmlParser  from 'react-html-parser';
+import ReactHtmlParser  from 'html-react-parser';
 import {onError} from "../common/error";
 
 function ObjectDocument(props) {
     const [markDown, setMarkDown] = useState([]);
-
-    useEffect(() => {
-        loadMdPath('Technical/spring-log4j2-splunk.md');
-    }, []);
 
     async function loadMdPath(key) {
         try {
@@ -30,6 +26,11 @@ function ObjectDocument(props) {
             onError(e);
         }
     }
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- loads the document on mount; state is set after the async fetch
+        loadMdPath('Technical/spring-log4j2-splunk.md');
+    }, []);
 
     return (
         <>

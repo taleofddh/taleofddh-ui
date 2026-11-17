@@ -30,6 +30,7 @@ function Registration() {
         const requested = params.redirect ? params.redirect.toString() : '';
         const redirectValue = safeRedirectPath(requested) === '/' ? '' : safeRedirectPath(requested);
         if(redirectValue && redirectValue.length > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- router.query is only available client-side after isReady
             setRedirect(redirectValue);
         }
     }, [router]);

@@ -209,41 +209,6 @@ function App({ Component, pageProps }) {
         rehydrateSession();
     }, []);
 
-    useEffect(() => {
-        const unsubscribe = Hub.listen('auth', async ({ payload }) => {
-            console.log('Hub event:', payload.event);
-            switch (payload.event) {
-                case 'signInWithRedirect':
-                    console.log('signInWithRedirect inside OAuth flow.');
-                    break;
-                case 'signInWithRedirect_failure':
-                    setError('signInWithRedirect error has occurred during the OAuth flow.');
-                    break;
-                case 'customOAuthState':
-                    if (payload.data) {
-                        routeRef.current = JSON.parse(payload.data);
-                        console.log('customOAuthState received, route:', routeRef.current);
-                    }
-                    break;
-                case 'signedIn':
-                    console.log('signedIn successful');
-                    if (payload.data) setUser(payload.data);
-                    await updateUserLogin();
-                    break;
-                case 'signedOut':
-                    console.log('signedOut successful');
-                    break;
-                case 'tokenRefresh':
-                    console.log('Auth Token Refreshed');
-                    break;
-                default:
-                    console.log('No Sign in Event');
-                    break;
-            }
-        });
-        return () => unsubscribe();
-    }, []);
-
     const updateUserLogin = async () => {
         try {
             console.log('Inside updateUserLoginAndRoute');
@@ -320,6 +285,41 @@ function App({ Component, pageProps }) {
             }
         }
     }
+    useEffect(() => {
+        const unsubscribe = Hub.listen('auth', async ({ payload }) => {
+            console.log('Hub event:', payload.event);
+            switch (payload.event) {
+                case 'signInWithRedirect':
+                    console.log('signInWithRedirect inside OAuth flow.');
+                    break;
+                case 'signInWithRedirect_failure':
+                    setError('signInWithRedirect error has occurred during the OAuth flow.');
+                    break;
+                case 'customOAuthState':
+                    if (payload.data) {
+                        routeRef.current = JSON.parse(payload.data);
+                        console.log('customOAuthState received, route:', routeRef.current);
+                    }
+                    break;
+                case 'signedIn':
+                    console.log('signedIn successful');
+                    if (payload.data) setUser(payload.data);
+                    await updateUserLogin();
+                    break;
+                case 'signedOut':
+                    console.log('signedOut successful');
+                    break;
+                case 'tokenRefresh':
+                    console.log('Auth Token Refreshed');
+                    break;
+                default:
+                    console.log('No Sign in Event');
+                    break;
+            }
+        });
+        return () => unsubscribe();
+    }, []);
+
 
     const handleLogout = async () => {
         await signOut();

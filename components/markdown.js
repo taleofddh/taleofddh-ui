@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {renderMarkdown} from "../common/markdown-render";
-import ReactHtmlParser  from 'react-html-parser';
+import ReactHtmlParser  from 'html-react-parser';
 import { MEDIA_HOST} from "../common/constants";
 
 function Markdown({data, text, source, path}) {
@@ -9,6 +9,7 @@ function Markdown({data, text, source, path}) {
 
     useEffect(() => {
         // One standard image per file: no mobile/tablet/desktop variants to swap in
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- renderMarkdown needs the DOM (DOMPurify); client-only to avoid hydration mismatch
         setMarkDown(renderMarkdown(text));
     }, [text])
 

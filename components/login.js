@@ -32,6 +32,7 @@ function Login() {
         const redirectValue = safeRedirectPath(requested) === '/' ? '' : safeRedirectPath(requested);
         //console.log(redirectValue);
         if(redirectValue && redirectValue.length > 0) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- router.query is only available client-side after isReady
             setRedirect(redirectValue);
             const resetPwdValue = {
                 href: {

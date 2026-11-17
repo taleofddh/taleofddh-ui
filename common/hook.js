@@ -131,6 +131,7 @@ export const useHover = () => {
                 };
             }
         },
+        // eslint-disable-next-line react-hooks/refs -- re-attach listeners when the element changes
         [ref.current] // Recall only if ref changes
     );
 

@@ -7,7 +7,7 @@ const arrowPath = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88' +
     '6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-0.7 5.' +
     '2-2L869 536.2c14.7-12.8 14.7-35.6 0-48.4z';
 
-function Collapse({id, required, header, content, iconOpen, iconClose, className, onChange}) {
+function Collapse({id, required = false, header, content = '', iconOpen = '', iconClose = '', className = '', onChange}) {
     const [expanded, hasExpanded] = useState(false);
     const [focused, setFocused] = useState(false);
 
@@ -80,16 +80,6 @@ Collapse.propTypes = {
     iconClose: PropTypes.string
 };
 
-Collapse.defaultProps = {
-    label: '',
-    className: '',
-    disabled: false,
-    required: false,
-    content: '',
-    onClick: () => {},
-    iconOpen: '',
-    iconClose: ''
-};
 
 
 export default Collapse;

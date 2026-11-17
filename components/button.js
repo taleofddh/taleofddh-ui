@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function Button({id, name, type, ref, label, title, className, disabled, onClick}) {
+function Button({id, name, type, ref, label = '', title = '', className = '', disabled = false, onClick = () => {}}) {
     const [focused, setFocused] = useState(false);
 
     const onBlur = () => {
@@ -45,12 +45,5 @@ Button.propTypes = {
     onClick: PropTypes.func
 };
 
-Button.defaultProps = {
-    label: '',
-    title: '',
-    onClick: () => {},
-    className: '',
-    disabled: false
-};
 
 export default Button;

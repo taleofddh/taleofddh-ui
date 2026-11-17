@@ -153,6 +153,7 @@ function AutocompleteInput({
         } catch (error) {
             console.error('AutocompleteInput: Error setting up debounce effect:', error);
             // Fallback to immediate update if debouncing fails
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- fallback when debounce setup fails
             setDebouncedQuery(value || '');
         }
     }, [value, debounceMs]);
@@ -184,6 +185,7 @@ function AutocompleteInput({
 
     // Effect to handle debounced filtering
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- derived from debounced query; effect-driven by design
         updateSuggestions(debouncedQuery);
     }, [debouncedQuery, updateSuggestions]);
 

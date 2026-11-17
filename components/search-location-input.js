@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-function SearchLocationInput({id, name, className, countryCode, disabled, initialValue, label, max, maxLength, min, note, onChange, onKeyDown, onSelect,
-                                 pattern, placeHolder, ref, required, size, type}) {
+function SearchLocationInput({id, name, className = '', countryCode, disabled, initialValue = '', label = '', max, maxLength, min, note, onChange = () => {}, onKeyDown, onSelect,
+                                 pattern, placeHolder = '', ref, required = true, size = '100', type}) {
     const autoCompleteRef = useRef(null);
     const [focused, setFocused] = useState(false);
     const [value, setValue] = useState(initialValue);
@@ -101,16 +101,5 @@ SearchLocationInput.propTypes = {
     countryCode: PropTypes.string
 };
 
-SearchLocationInput.defaultProps = {
-    label: '',
-    title: '',
-    placeHolder: '',
-    className: '',
-    required: true,
-    initialValue: '',
-    value: '',
-    size: '100',
-    onChange: () => {}
-};
 
 export default SearchLocationInput;

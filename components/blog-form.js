@@ -76,7 +76,9 @@ function BlogForm({target, source, onDone}) {
     const [uploadedFor, setUploadedFor] = useState('');
     const [uploading, setUploading] = useState(false);
     const dirtyRef = useRef(false);
-    dirtyRef.current = dirty;
+    useEffect(() => {
+        dirtyRef.current = dirty;
+    }, [dirty]);
     // Load the record and markdown for edit
     useEffect(() => {
         if (!target) return;

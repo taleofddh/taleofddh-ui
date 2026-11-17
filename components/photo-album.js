@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactHtmlParser  from 'react-html-parser';
+import ReactHtmlParser  from 'html-react-parser';
 import { marked }  from "marked";
 import Title from './title';
 import Carousel from "./carousel";

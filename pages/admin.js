@@ -42,6 +42,7 @@ function Admin({permissions}) {
 
     useEffect(() => {
         if(typeof window !== 'undefined'){
+            // eslint-disable-next-line react-hooks/set-state-in-effect -- window is only available client-side
             setUrl(window.location.protocol + '//' + window.location.host);
         }
         isLoading(false);

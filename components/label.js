@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Label({id, name, label, className, disabled, ref, required}) {
+function Label({id, name, label = '', className = '', disabled, ref, required = true}) {
 
     let reqd;
     if(required) {
@@ -30,10 +30,5 @@ Label.propTypes = {
     disabled: PropTypes.bool
 };
 
-Label.defaultProps = {
-    label: '',
-    className: '',
-    required: true
-};
 
 export default Label;
