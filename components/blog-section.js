@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import {MEDIA_HOST} from "../common/constants";
 
 function BlogSection({ category, blogs }) {
 
@@ -16,7 +15,7 @@ function BlogSection({ category, blogs }) {
                         </div>
                         <div className="blogsectionpiccontrol">
                             <Link href={('/blogs/' + item.category + '/' + item.name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase()} as={('/blogs/' + item.category + '/' + item.name).replace(/&/g, 'and').replace(/ /g, '-').toLowerCase()}>
-                                <Image src={MEDIA_HOST + '/images/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2}/>
+                                <Image src={item.signedUrl} alt={item.titlePhoto} layout='responsive' width={3} height={2}/>
                             </Link>
                         </div>
                         <div className="blogsectiontext">

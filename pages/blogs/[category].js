@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import Link from "next/link";
 import {serverGet} from "../../common/server-config";
-import {HOST_NAME, INDEX_FLAG, MEDIA_HOST, MONTH_NAMES} from "../../common/constants";
+import {HOST_NAME, INDEX_FLAG, MONTH_NAMES} from "../../common/constants";
 import {capitalizeFirstLetters} from "../../common/common";
 import { getSessionCookie } from "../../common/session";
 import Header from '../../components/header';
@@ -62,7 +62,7 @@ function BlogCategories({menuList, handleLogout, authenticated, /*upcomingEventD
                                             <div>
                                                 <p className="blogheader">{item.header}</p>
                                                 <div className="blogpiccontrol">
-                                                    <Image src={MEDIA_HOST + '/images/' + item.titlePhoto} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
+                                                    <Image src={item.signedUrl} alt={item.titlePhoto} layout='responsive' width={3} height={2} />
                                                 </div>
                                                 <div className="blogsummary">
                                                     <p className="blogauthor">{item.category +' ' + source + ' by ' + item.author + ' on ' + new Date(item.endDateTime).getDate() + " " + MONTH_NAMES[new Date(item.endDateTime).getMonth()] + ", " + new Date(item.endDateTime).getFullYear()}</p>

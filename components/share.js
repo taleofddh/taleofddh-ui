@@ -1,5 +1,4 @@
 import React from 'react';
-import {MEDIA_HOST} from "../common/constants";
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -51,7 +50,7 @@ function Share(props) {
             <div className="socialnetwork">
                 <PinterestShareButton
                     url={props.url}
-                    media={`${MEDIA_HOST}/images/${props.image}`}
+                    media={props.image}
                     description={props.subject}
                     className="socialnetworksharebutton">
                     <PinterestIcon size={32} round />

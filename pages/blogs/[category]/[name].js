@@ -78,7 +78,7 @@ function BlogName({menuList, handleLogout, authenticated, blogData, blogText, ca
                         <Title message={blogData.header} />
                         <div className="articlettitle">{pageTitle + ' by ' + blogData.author + ' on ' + new Date(blogData.endDateTime).getDate() + " " + MONTH_NAMES[new Date(blogData.endDateTime).getMonth()] + ", " + new Date(blogData.endDateTime).getFullYear()}</div>
                         <div className="articleshare">
-                            <Share name={name} subject={blogData.header} url={HOST_NAME + '/articles/' + name} image={blogData.titlePhoto}/>
+                            <Share name={name} subject={blogData.header} url={HOST_NAME + '/articles/' + name} image={blogData.signedUrl}/>
                         </div>
                         <div className="articlecontainer">
                             <Markdown data={blogData} text={blogText} source={source} path={path} />
