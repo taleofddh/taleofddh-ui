@@ -1,8 +1,7 @@
 # 🏛️ Tale of DDH UI
 
-<div align="center">
 
-![Version](https://img.shields.io/badge/version-8.0.0-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-8.1.0-blue.svg?cacheSeconds=2592000)
 ![Node Version](https://img.shields.io/badge/node-%3E%3D24.0.0-brightgreen.svg)
 ![npm Version](https://img.shields.io/badge/npm-%3E%3D11.0.0-CB3837.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-16.4.6-black.svg)
@@ -13,7 +12,6 @@
 
 [🌐 Live Website](https://taleofddh.com/) • [🐛 Report Bug](https://github.com/taleofddh/taleofddh-ui/issues) • [✨ Request Feature](https://github.com/taleofddh/taleofddh-ui/issues)
 
-</div>
 
 ---
 
@@ -499,10 +497,8 @@ See the [LICENSE](LICENSE) file for full details.
 
 ---
 
-<div align="center">
 
 **Made with ❤️ for the Tale of DDH Community**
 
 [⬆ Back to Top](#-taleofddh-ui)
 
-</div>
