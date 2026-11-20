@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {adminGet, adminPost, isForbidden} from "../common/admin-api";
-import {NO_ACCESS_MESSAGE} from "../common/permissions";
+import {hasPermission, NO_ACCESS_MESSAGE} from "../common/permissions";
 import {
     dateFormatToString
 } from "../common/common";
@@ -11,6 +11,7 @@ import {useFormFields} from "../common/hook";
 import CheckBox from "./checkbox";
 import TypeInput from "./type-input";
 import TextArea from "./textarea";
+import AlbumTextPanel from "./album-text-panel";
 import * as array from '@taleofddh/array';
 
 // Limits match the API (gallery/seo-text.js)
@@ -19,8 +20,11 @@ const SUMMARY_MIN = 120;
 const SUMMARY_MAX = 160;
 const ALT_MAX = 125;
 const LOCATION_MAX = 100;
+const DESCRIPTION_WORDS_MIN = 150;
+const DESCRIPTION_WORDS_MAX = 300;
 const wordCount = (text) => (text || '').trim().split(/\s+/).filter(Boolean).length;
-function GalleryForm({data, source}) {
+const TEXT_FIELDS = ['summary', 'description', 'coverAlt', 'locationLabel'];
+function GalleryForm({data, source, permissions = []}) {
     const initialResult = {};
     const [isLoading, setIsLoading] = useState(false);
     const [isGalleryLoading, setIsGalleryLoading] = useState(false);
@@ -53,6 +57,38 @@ function GalleryForm({data, source}) {
         production: false
     }
     const [fields, setFields] = useState(initialFields);
+    // Text from before the last generated draft replaced it, so the editor can go back.
+    const [previousText, setPreviousText] = useState(null);
+    const fieldsRef = useRef(fields);
+    useEffect(() => {
+        fieldsRef.current = fields;
+    });
+    const canGenerateText = hasPermission(permissions, 'gallery:generateAlbumText');
+
+    const applyDraft = useCallback((draft) => {
+        const current = fieldsRef.current;
+        setPreviousText(Object.fromEntries(TEXT_FIELDS.map((key) => [key, current[key]])));
+        setFields({
+            ...current,
+            ...Object.fromEntries(TEXT_FIELDS.map((key) => [key, draft[key] ?? current[key]]))
+        });
+    }, []);
+    const restoreText = useCallback(() => {
+        setFields({...fieldsRef.current, ...(previousText || {})});
+        setPreviousText(null);
+    }, [previousText]);
+    const applyPhotoCount = useCallback((count) => {
+        setFields({...fieldsRef.current, photoCount: String(count)});
+    }, []);
+    // After a save the form is replaced by the acknowledgement; this brings the saved album back for editing,
+    // so Generate text can be used on a new album.
+    const continueEditing = () => {
+        setFields({...fields, id: galleryId});
+        setSearchEditAlbum(true);
+        setGalleryId('');
+        setSuccess(false);
+        setMessage('');
+    }
 
     const [searchFields, handleSearchFieldChange] = useFormFields({
         name: '',
@@ -447,6 +483,20 @@ function GalleryForm({data, source}) {
                                                placeHolder="End Date/Time"
                                                onChange={handleFieldChange} />
                                 </div>
+                                {canGenerateText && fields.id !== '' && (
+                                    <AlbumTextPanel album={{
+                                                        category: fields.category,
+                                                        subCategory: fields.subCategory,
+                                                        collection: fields.collection,
+                                                        name: fields.name,
+                                                        startDateTime: fields.startDateTime + 'T00:00:00'
+                                                    }}
+                                                    photoCount={fields.photoCount}
+                                                    onApplyDraft={applyDraft}
+                                                    onRestore={restoreText}
+                                                    canRestore={previousText !== null}
+                                                    onUsePhotoCount={applyPhotoCount} />
+                                )}
                                 <div className="galleryfieldcontainer">
                                     <TextArea id="description"
                                               name="description"
@@ -455,7 +505,7 @@ function GalleryForm({data, source}) {
                                               required={true}
                                               rows={14}
                                               maxLength={DESCRIPTION_MAX}
-                                              note={'Markdown. Shown publicly on the album page. Aim for 150 to 300 words: what and where, when (month and year), 2 or 3 highlights, what the album contains. Do not include family member names, exact addresses or private dates. ' + wordCount(fields.description) + ' words, ' + fields.description.length + ' of ' + DESCRIPTION_MAX + ' characters'}
+                                              note={'Markdown. Shown publicly on the album page. Aim for 150 to 300 words: what and where, when (month and year), 2 or 3 highlights, what the album contains. Do not include family member names, exact addresses or private dates. ' + wordCount(fields.description) + ' words' + (fields.description.trim() !== '' && (wordCount(fields.description) < DESCRIPTION_WORDS_MIN || wordCount(fields.description) > DESCRIPTION_WORDS_MAX) ? ' (outside ' + DESCRIPTION_WORDS_MIN + ' to ' + DESCRIPTION_WORDS_MAX + ')' : '') + ', ' + fields.description.length + ' of ' + DESCRIPTION_MAX + ' characters'}
                                               initialValue={fields.description}
                                               value={fields.description}
                                               placeHolder="Description of the gallery."
@@ -589,6 +639,14 @@ function GalleryForm({data, source}) {
                         <p>
                             {'Thanks for submitting the gallery details. Please note your gallery id # ' + galleryId + '.'}
                         </p>
+                        {canGenerateText && success && (
+                            <p>
+                                <a className="gallerylink" role="button" tabIndex={0} onClick={continueEditing}
+                                   onKeyDown={(event) => { if (event.key === 'Enter') continueEditing(); }}>
+                                    Edit this album and generate its text
+                                </a>
+                            </p>
+                        )}
                     </label>
                 </div>
             )}

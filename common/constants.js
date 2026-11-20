@@ -158,6 +158,14 @@ export const AMPLIFY_RESOURCE_CONFIG = {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION
             },
+            startAlbumText: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
+            findAlbumTextDraft: {
+                endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
+                region: AWS_CONFIG.apiGateway.REGION
+            },
             findGalleryPermissions: {
                 endpoint: AWS_CONFIG.apiGateway.URL + '/gallery',
                 region: AWS_CONFIG.apiGateway.REGION

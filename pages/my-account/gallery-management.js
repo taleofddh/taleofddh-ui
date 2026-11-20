@@ -78,7 +78,7 @@ function GalleryManagement({menuList, handleLogout, authenticated, permissions, 
                                 <>
                                 <Title message={pageTitle} />
                                 <div className="contactuscontainer">
-                                    <GalleryForm data={data} source={source} />
+                                    <GalleryForm data={data} source={source} permissions={permissions} />
                                 </div>
                                 </>
                             )}
