@@ -35,7 +35,7 @@ export const NOINDEX_ROUTES = [
     '/my-account/event-attendance',
     '/my-account/gallery-management',
     '/my-account/user-profile',
-    '/admin',
+    '/my-account/administration',
     '/404'
 ];
 
@@ -95,7 +95,7 @@ const NOINDEX_TITLES = {
     '/sign-up': 'Sign up',
     '/reset-password': 'Reset password',
     '/change-password': 'Change password',
-    '/admin': 'Administration',
+    '/my-account/administration': 'Administration',
     '/404': 'Page not found'
 };
 

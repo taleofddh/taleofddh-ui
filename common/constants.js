@@ -60,8 +60,8 @@ export const RELEASE_VERSION = process.env.NEXT_PUBLIC_RELEASE_VERSION
 // Album pages are public too, but only as a teaser: the album page itself decides what a signed-out
 // visitor sees (no redirect), and loads photos and videos only for signed-in users.
 export const PROTECTED_ROUTES = [
-    "/admin",
     "/my-account",
+    "/my-account/administration",
     "/my-account/gallery-management",
     "/my-account/event-attendance",
     "/my-account/user-profile",
@@ -76,7 +76,8 @@ export const MY_ACCOUNT_MENU = [
     {name: 'User Profile', link: '/my-account/user-profile', icon: 'profile', requiredPermission: null},
     {name: 'Event Attendance', link: '/my-account/event-attendance', icon: 'attendance', requiredPermission: null},
     {name: 'Gallery Management', link: '/my-account/gallery-management', icon: 'picture', requiredPermission: 'gallery:findAlbums'},
-    {name: 'Blog Management', link: '/my-account/blog-management', icon: 'blog', requiredPermission: 'blog:createOrUpdateBlog'}
+    {name: 'Blog Management', link: '/my-account/blog-management', icon: 'blog', requiredPermission: 'blog:createOrUpdateBlog'},
+    {name: 'Administration', link: '/my-account/administration', icon: 'useradmin', requiredPermission: 'messages:findMessageList'}
 ];
 
 export const PAGE_REVALIDATE_PERIOD = parseInt(process.env.NEXT_PUBLIC_PAGE_REVALIDATE_PERIOD);

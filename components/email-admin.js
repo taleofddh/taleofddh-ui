@@ -15,9 +15,6 @@ function EmailAdmin(props) {
     const [forbidden, setForbidden] = useState(false);
 
     useEffect(() => {
-        if(typeof window !== 'undefined'){
-            setUrl(window.location.protocol + '//' + window.location.host);
-        }
         const onLoad = async () => {
             try {
                 let res = await adminPost('findMessageList', '/messageList', {folder: 'Inbox'});
@@ -72,13 +69,13 @@ function EmailAdmin(props) {
                             />
                         </div>
                         <div className="emailcontainer" style={{width: '100%', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
-                            <div style={{width: 'calc(10% - 1px);', float: 'left'}}>
+                            <div style={{width: 'calc(10% - 1px)', float: 'left'}}>
                                 <ul className="emailfoldergroup">
                                     <li className="emailfolderitem">Inbox</li>
                                     <li className="emailfolderitem">Sent</li>
                                 </ul>
                             </div>
-                            <div style={{width: 'calc(30% - 1px);', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
+                            <div style={{width: 'calc(30% - 1px)', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
                                 <ul className="emailpreviewgroup" >
                                     {inboxData.map((item, index) => (
                                         <li key={index} className="emailpreviewitem">
@@ -88,7 +85,7 @@ function EmailAdmin(props) {
                                     ))}
                                 </ul>
                             </div>
-                            <div style={{width: 'calc(60% - 1px);', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
+                            <div style={{width: 'calc(60% - 1px)', float: 'left', borderLeft: '1px solid rgb(71, 75, 79)',  borderTop: '1px solid rgb(71, 75, 79)'}}>
                                 <h2>Message 1 Details</h2>
                             </div>
                         </div>
