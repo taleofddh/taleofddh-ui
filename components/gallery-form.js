@@ -140,7 +140,7 @@ function GalleryForm({data, source, permissions = []}) {
         const nameRegex = RegExp('^[A-Za-z0-9 \.)(/\&\\-\']{1,50}$');
         const dateRegex = RegExp('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
         const number1Regex = RegExp('^[0-9]{1,2}$');
-        const number2Regex = RegExp('^[0-9]$');
+        const number2Regex = RegExp('^[0-9]{1,5}$');
         // Limits match the API (seo-text.js): description up to 3000 characters (Markdown, multi-line),
         // summary empty or 120 to 160 characters, cover alt text up to 125, location up to 100. No HTML.
         const descriptionRegex = RegExp('^[\\s\\S]{1,' + DESCRIPTION_MAX + '}$');
@@ -575,7 +575,7 @@ function GalleryForm({data, source, permissions = []}) {
                                                disabled={false}
                                                required={true}
                                                min={0}
-                                               maxLength={2}
+                                               maxLength={5}
                                                initialValue={fields.viewCount+''}
                                                value={fields.viewCount+''}
                                                placeHolder="Only numbers"
